@@ -50,7 +50,7 @@ bsd:
 	@$(MAKE) CC=gcc CFLAGS="-finput-charset=utf-8 -fPIC -O2 -pipe -I../include -fomit-frame-pointer -Wunused" LDFLAGS="-s -L../lib -ldao" $(EXE)
 
 cygwin:
-	@$(MAKE) CC=gcc CFLAGS="-DCYGWIN -O2 -pipe -I../include -fomit-frame-pointer -Wunused" LDFLAGS="-s -L../lib -ldao -lcygipc" $(EXE)
+	@$(MAKE) CC=gcc CFLAGS="-finput-charset=utf-8 -fPIC -DCYGWIN -O2 -pipe -I../include -fomit-frame-pointer -Wunused" LDFLAGS="-s -L../lib -ldao " $(EXE)
 
 
 

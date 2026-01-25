@@ -52,7 +52,7 @@ bsd:
 	@$(MAKE) CC=gcc CFLAGS="-finput-charset=utf-8 -fPIC -DBSD44 -O2 -pipe -fomit-frame-pointer -Wunused -I../include" LDFLAGS="-s -L../lib -ldao" $(EXE)
 
 cygwin:
-	@$(MAKE) CC=gcc CFLAGS="-finput-charset=utf-8 -fPIC -DLINUX -DCYGWIN -O2 -pipe -fomit-frame-pointer -Wunused -I../include" LDFLAGS="-s -L../lib -ldao -lcrypt -lresolv -lcygipc" $(EXE)
+	@$(MAKE) CC=gcc CFLAGS="-finput-charset=utf-8 -fPIC -DLINUX -DCYGWIN -O2 -pipe -fomit-frame-pointer -Wunused -I../include" LDFLAGS="-s -L../lib -ldao -lcrypt -lresolv " $(EXE)
 
 
 bbsd: $(OBJ)
