@@ -70,7 +70,7 @@ chat_record()
 
   if (fp = frec)
   {
-    fprintf(fp, "%s\n結束：%s\n", msg_seperator, Btime(&now));
+    fprintf(fp, "%s\n結束：%s\n", msg_seperator, Btime(now));
     fclose(fp);
     frec = NULL;
     printchatline("◆ 錄音完畢！");
@@ -99,7 +99,7 @@ chat_record()
     {
       fprintf(fp, "主題: %s\n包廂: %s\n錄音: %s (%s)\n開始: %s\n%s\n",
 	chatopic, chatroom, cuser.userid, cuser.username,
-	Btime(&now), msg_seperator);
+	Btime(now), msg_seperator);
       printchatline("◆ 開始錄音囉！");
       frec = fp;
     }

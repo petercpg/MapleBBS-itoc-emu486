@@ -428,7 +428,7 @@ logattempt(type, content)
 {
   char buf[128], fpath[64];
 
-  sprintf(buf, "%s %c %s\n", Btime(&ap_start), type, content);
+  sprintf(buf, "%s %c %s\n", Btime(ap_start), type, content);
     
   usr_fpath(fpath, cuser.userid, FN_LOG);
   f_cat(fpath, buf);
@@ -436,7 +436,7 @@ logattempt(type, content)
   if (type != ' ')
   {
     usr_fpath(fpath, cuser.userid, FN_BADLOGIN);
-    sprintf(buf, "[%s] %s\n", Btime(&ap_start), fromhost);
+    sprintf(buf, "[%s] %s\n", Btime(ap_start), fromhost);
     f_cat(fpath, buf);
   }
 }
@@ -639,14 +639,14 @@ login_user(content)
 
 	  /* itoc.010820: 記錄保人於保證人及被保人 */
 	  /* itoc.010820.註解: 把對方 log 在行首，在 reaper 時可以方便砍 tree */
-	  sprintf(buf, "%s 於 %s 介紹此人(%s)加入本站\n", parentid, Btime(&ap_start), cuser.userid);
+	  sprintf(buf, "%s 於 %s 介紹此人(%s)加入本站\n", parentid, Btime(ap_start), cuser.userid);
 	  usr_fpath(fpath, cuser.userid, "guarantor");
 	  if (fp = fopen(fpath, "a"))
 	  {
 	    fputs(buf, fp);
 	    fclose(fp);
 	  }
-	  sprintf(buf, "%s 於 %s 被此人(%s)介紹加入本站\n", cuser.userid, Btime(&ap_start), parentid);
+	  sprintf(buf, "%s 於 %s 被此人(%s)介紹加入本站\n", cuser.userid, Btime(ap_start), parentid);
 	  usr_fpath(fpath, parentid, "guarantor");
 	  if (fp = fopen(fpath, "a"))
 	  {

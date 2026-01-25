@@ -363,8 +363,8 @@ main(argc, argv)
   closedir(dirp);
 
   time(&end);
-  fprintf(flog, "# 開始時間：%s\n", Btime(&start));
-  fprintf(flog, "# 結束時間：%s\n", Btime(&end));
+  fprintf(flog, "# 開始時間：%s\n", Btime(start));
+  fprintf(flog, "# 結束時間：%s\n", Btime(end));
   end -= start;
   start = end % 60;
   end /= 60;

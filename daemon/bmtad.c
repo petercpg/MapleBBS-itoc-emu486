@@ -1111,7 +1111,7 @@ mta_memo(ap, mark)
   /* Thor.990915: 顯示 mail from 以便追蹤 */
   fprintf(fp, "MAIL FROM: <%s>\nFrom: %s%s\nSubj: %s\nDate: %s\n"
     "Host: %s\nMemo: %s\nFile: %s\nSize: %d\n%s",
-    ap->from, ap->addr, nick, ap->title, Btime(&hdr.chrono),
+    ap->from, ap->addr, nick, ap->title, Btime(hdr.chrono),
     ap->ident, ap->memo, ap->fpath, ap->used, ap->data);
   fclose(fp);
 
@@ -1181,7 +1181,7 @@ bbs_mail(ap, data, userid)
       sprintf(title, "來自 %.64s", author);
 
     sprintf(buf, "作者: %.72s\n標題: %.72s\n時間: %s\n\n",
-      from, title, Btime(&hdr.chrono));
+      from, title, Btime(hdr.chrono));
 
     write(fd, buf, strlen(buf));
     write(fd, data, ap->data + ap->used - data);
@@ -1257,7 +1257,7 @@ bbs_brd(ap, data, brdname)	/* itoc.030323: 寄信給看板 */
       sprintf(title, "來自 %.64s", author);
 
     sprintf(buf, "發信人: %.50s 看板: %s\n標  題: %.72s\n發信站: %s\n\n",
-      from, brdname, title, Btime(&hdr.chrono));
+      from, brdname, title, Btime(hdr.chrono));
 
     write(fd, buf, strlen(buf));
     write(fd, data, ap->data + ap->used - data);

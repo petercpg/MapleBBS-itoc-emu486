@@ -364,7 +364,7 @@ trans_mail(old)
 	str_ncpy(hdr.xname, new_name, sizeof(hdr.xname));
 	str_ncpy(hdr.owner, strstr(fh.owner, "[備.") ? "[備忘錄]" : fh.owner, sizeof(hdr.owner));	/* [備.忘.錄] */
 	str_ncpy(hdr.title, fh.title, sizeof(hdr.title));
-	str_stamp(hdr.date, &hdr.chrono);
+	str_stamp(hdr.date, hdr.chrono);
 	hdr.xmode = (fh.filemode & 0x2) ? (MAIL_MARKED | MAIL_READ) : MAIL_READ;	/* 設為已讀 */
 
 	rec_add(folder, &hdr, sizeof(HDR));
@@ -424,7 +424,7 @@ trans_man_stamp(folder, token, hdr, fpath, time)
   {
     memset(hdr, 0, sizeof(HDR));
     hdr->chrono = time;
-    str_stamp(hdr->date, &hdr->chrono);
+    str_stamp(hdr->date, hdr->chrono);
     strcpy(hdr->xname, --fname);
     close(rc);
   }

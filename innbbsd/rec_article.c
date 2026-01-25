@@ -191,7 +191,7 @@ bbspost_add(board, addr, nick)
   /* Thor.980825: 防止字串太長蓋過頭 */
   str_ncpy(hdr.owner, addr, sizeof(hdr.owner));
   str_ncpy(hdr.nick, nick, sizeof(hdr.nick));
-  str_stamp(hdr.date, &datevalue);	/* 依 DATE: 欄位的日期，與 hdr.chrono 不同步 */
+  str_stamp(hdr.date, datevalue);	/* 依 DATE: 欄位的日期，與 hdr.chrono 不同步 */
   str_ncpy(hdr.title, SUBJECT, sizeof(hdr.title));
 
   rec_bot(folder, &hdr, sizeof(HDR));
@@ -489,7 +489,7 @@ receive_article()
 
       /* itoc.030218.註解: 處理「發信站」中的時間 */
       parse_date();
-      strcpy(mydate, (char *) Btime(&datevalue));
+      strcpy(mydate, (char *) Btime(datevalue));
       DATE = mydate;
 
       if (*nf->charset == 'g')

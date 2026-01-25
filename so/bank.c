@@ -71,14 +71,14 @@ x_give()
     /* itoc.020831: 加入匯錢記錄 */
     time(&now);
     sprintf(buf, "%-13s轉給 %-13s計 %d %s (%s)\n",
-      cuser.userid, userid, dollar, !way ? "銀" : "金", Btime(&now));
+      cuser.userid, userid, dollar, !way ? "銀" : "金", Btime(now));
     f_cat(FN_RUN_BANK_LOG, buf);
 
     usr_fpath(folder, userid, fn_dir);
     if (fp = fdopen(hdr_stamp(folder, 0, &hdr, fpath), "w"))
     {
       fprintf(fp, "%s %s (%s)\n標題: 轉帳通知\n時間: %s\n\n", 
-	str_author1, cuser.userid, cuser.username, Btime(&now));
+	str_author1, cuser.userid, cuser.username, Btime(now));
       fprintf(fp, "%s\n他的理由是：%s\n\n請您至金融中心將支票兌現", buf, reason);
       fclose(fp);      
 
@@ -215,7 +215,7 @@ x_cash()
       gold = INT_MAX;
 
     fprintf(fp, "%s %s %d 銀 %d 金\n", 
-      Btime(&paycheck.tissue), paycheck.reason, paycheck.money, paycheck.gold);
+      Btime(paycheck.tissue), paycheck.reason, paycheck.money, paycheck.gold);
   }
   close(fd);
   unlink(fpath);

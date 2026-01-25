@@ -55,7 +55,7 @@ void str_ncpy(char *dst, char *src, int n);
 char *genpasswd(char *pw);
 int chkpasswd(char *passwd, char *test);
 /* str_stamp.c */
-void str_stamp(char *str, time_t *chrono);
+void str_stamp(char *str, time32_t chrono);
 /* str_str.c */
 char *str_str(char *str, char *tag);
 /* str_sub.c */
@@ -63,8 +63,8 @@ char *str_sub(char *str, char *tag);
 /* str_tail.c */
 char *str_tail(char *str);
 /* str_time.c */
-char *Atime(time_t *clock);
-char *Btime(time_t *clock);
+char *Atime(time32_t clock);
+char *Btime(time32_t clock);
 char *Now(void);
 /* str_trim.c */
 void str_trim(char *buf);

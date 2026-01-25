@@ -80,7 +80,7 @@ article_parse(fname)
 
   /* fill in chrono/date/xmode/xid/xname */
   hdr.chrono = chrono32(fname);
-  str_stamp(hdr.date, &hdr.chrono);
+  str_stamp(hdr.date, hdr.chrono);
   strcpy(hdr.xname, fname);
   if (type == 'm')
     hdr.xmode = MAIL_READ;

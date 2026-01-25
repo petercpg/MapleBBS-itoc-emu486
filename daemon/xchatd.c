@@ -851,7 +851,7 @@ chat_query(cu, msg)
       acct.userid, acct.username, acct.numlogins, acct.numposts);
     send_to_user(cu, buf, 0, MSG_MESSAGE);
 
-    sprintf(buf, "最近(%s)從(%s)上站", Btime(&acct.lastlogin),
+    sprintf(buf, "最近(%s)從(%s)上站", Btime(acct.lastlogin),
       (acct.lasthost[0] ? acct.lasthost : "外太空"));
     send_to_user(cu, buf, 0, MSG_MESSAGE);
 
@@ -2370,7 +2370,7 @@ static ChatAction party_data[ACTNUM_PARTY] =
     "board", "主機板", "把", "抓去跪主機板"
   },
   {
-    "bokan", "氣功\", "雙掌微合，蓄勢待發……突然間，電光乍現，對", "使出了Ｂｏ--Ｋａｎ"
+    "bokan", "氣功", "雙掌微合，蓄勢待發……突然間，電光乍現，對", "使出了Ｂｏ--Ｋａｎ"
   },
   {
     "bow", "鞠躬", "畢躬畢敬的向", "鞠躬"
@@ -3041,7 +3041,7 @@ static ChatAction condition_data[ACTNUM_CONDITION] =
     "sweat", "流汗", "揮汗如雨！", NULL
   },
   {
-    "tear", "流淚\", "痛哭流涕中.....",	NULL
+    "tear", "流淚", "痛哭流涕中.....",	NULL
   },
   {
     "think", "思考", "歪著頭想了一下", NULL
@@ -4003,7 +4003,7 @@ main(argc, argv)
 #endif
 
 	  fprintf(flog, "CONN\t[%d] %d %s\n",
-	    servo_sno, sock, Btime(&cu->tbegin));
+	    servo_sno, sock, Btime(cu->tbegin));
 	  break;
 	}
 

@@ -82,7 +82,7 @@ trans_man_stamp(folder, token, hdr, fpath, time)
   {
     memset(hdr, 0, sizeof(HDR));
     hdr->chrono = time;
-    str_stamp(hdr->date, &hdr->chrono);
+    str_stamp(hdr->date, hdr->chrono);
     strcpy(hdr->xname, --fname);
     close(rc);
   }

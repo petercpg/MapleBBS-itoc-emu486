@@ -210,7 +210,7 @@ trans_mail(old)
 	if (ptr = strchr(hdr.owner, ' '))
 	  *ptr = '\0';
 	str_ncpy(hdr.title, fh.title + 3, sizeof(hdr.title));
-	str_stamp(hdr.date, &hdr.chrono);
+	str_stamp(hdr.date, hdr.chrono);
 	hdr.xmode = MAIL_READ;	/* ³]¬°¤wÅª */
 
 	rec_add(folder, &hdr, sizeof(HDR));

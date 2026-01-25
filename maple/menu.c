@@ -130,7 +130,7 @@ pad_draw()
     "¢x  \033[1;%dm%-70s\033[m  ¢x\n"
     "¢x  \033[1;%dm%-70s\033[m  ¢x\n"
     "¢¢  \033[1;%dm%-70s\033[m  ¢£\n",
-    Btime(&pad.tpad),
+    Btime(pad.tpad),
     pcolors[color], buf[0],
     pcolors[color], buf[1],
     pcolors[color], buf[2]);

@@ -60,9 +60,9 @@ main(argc, argv)
       _bitmsg(MSG_POSTPERM, STR_PERM, brd.postlevel);
       _bitmsg(MSG_BRDATTR, STR_BATTR, brd.battr);
       printf("文章篇數：%d\n", brd.bpost);
-      printf("開板時間：%s\n", Btime(&brd.bstamp));
-      printf(".DIR時間：%s\n", Btime(&brd.btime));
-      printf("最後一篇：%s\n", Btime(&brd.blast));
+      printf("開板時間：%s\n", Btime(brd.bstamp));
+      printf(".DIR時間：%s\n", Btime(brd.btime));
+      printf("最後一篇：%s\n", Btime(brd.blast));
 
       if (!show_allbrd)
 	break;

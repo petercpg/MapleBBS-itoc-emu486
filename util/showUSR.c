@@ -42,7 +42,7 @@ main()
     /* userid: ID (若是空白表示此人被 reaper 了) */
 
     printf("userno:%d  uptime:%s  userid:%-12.12s\n",
-      n + 1, Btime(&usr[n].uptime), usr[n].userid);
+      n + 1, Btime(usr[n].uptime), usr[n].userid);
 
     if (n % 23 == 22)	/* 每 23 筆按任意鍵繼續 */
     {

@@ -224,7 +224,7 @@ start:
   fp = fdopen(fd, "w");
 
   fprintf(fp, "作者: %.72s\n標題: %.72s\n時間: %s\n\n",
-    sender, title, Btime(&hdr.chrono));
+    sender, title, Btime(hdr.chrono));
 
   while (fgets(buf, sizeof(buf), stdin))
   {

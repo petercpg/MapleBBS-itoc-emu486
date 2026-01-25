@@ -323,9 +323,9 @@ acct_show(u, adm)
 
   prints("  \033[32m郵件信箱：\033[37m%s\n", u->email);
 
-  prints("  \033[32m註冊日期：\033[37m%s\n", Btime(&u->firstlogin));
+  prints("  \033[32m註冊日期：\033[37m%s\n", Btime(u->firstlogin));
 
-  prints("  \033[32m光臨日期：\033[37m%s\n", Btime(&u->lastlogin));
+  prints("  \033[32m光臨日期：\033[37m%s\n", Btime(u->lastlogin));
 
   ulevel = u->userlevel;
 
@@ -346,7 +346,7 @@ acct_show(u, adm)
   }
   else
   {
-    prints("  \033[32m身分認證：\033[37m%s\n", (ulevel & PERM_VALID) ? Btime(&u->tvalid) : "請參考本站公佈欄進行確認，以提昇權限");
+    prints("  \033[32m身分認證：\033[37m%s\n", (ulevel & PERM_VALID) ? Btime(u->tvalid) : "請參考本站公佈欄進行確認，以提昇權限");
   }
 
   usr_fpath(buf, uid, fn_dir);

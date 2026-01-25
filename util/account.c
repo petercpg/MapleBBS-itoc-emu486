@@ -261,7 +261,7 @@ keeplog(fnlog, board, title, mode)
   {
     fp = fdopen(fd, "w");
     fprintf(fp, ": %s (%s)\n夹肈: %s\n丁: %s\n\n",
-      STR_SYSOP, SYSOPNICK, title, Btime(&hdr.chrono));
+      STR_SYSOP, SYSOPNICK, title, Btime(hdr.chrono));
     f_suck(fp, fnlog);
     fclose(fp);
     if (mode)
@@ -361,8 +361,8 @@ draw_vote(brd, fpath, vch)
 
   fprintf(fp, "\n\033[1;34m" MSG_SEPERATOR "\033[m\n\n"
     "\033[1;32m』 [%s] 狾щ布%s\033[m\n\n羭快狾%s\n\n羭快ら戳%s\n\n",
-    bid, vch->title, vch->owner, Btime(&vch->chrono));
-  fprintf(fp, "秨布ら戳%s\n\n\033[1;32m』 щ布肈\033[m\n\n", Btime(&vch->vclose));
+    bid, vch->title, vch->owner, Btime(vch->chrono));
+  fprintf(fp, "秨布ら戳%s\n\n\033[1;32m』 щ布肈\033[m\n\n", Btime(vch->vclose));
 
   *fname = '@';
   f_suck(fp, fpath);

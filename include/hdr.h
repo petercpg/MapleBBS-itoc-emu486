@@ -9,6 +9,7 @@
 
 #ifndef	_HDR_H_
 #define	_HDR_H_
+#include "config.h"
 
 
 #include <sys/types.h>
@@ -21,7 +22,7 @@
 
 typedef struct
 {
-  time_t chrono;		/* timestamp */
+  time32_t chrono;		/* timestamp */
   int xmode;
 
   int xid;			/* reserved */

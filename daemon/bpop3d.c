@@ -336,7 +336,7 @@ mbox_read(cn, phdr, lmax)
   sprintf(pool, "+OK %d octets\r\nFrom: %s\r\nTo: %s%s\r\n"
     "Subject: %s\r\nDate: %s\r\n%s\r\n",
     phdr->psize, phdr->owner, cn->userid, POP3_FQDN,
-    phdr->title, Atime(&phdr->chrono), (phdr->xmode & MAIL_READ ? "Status: RO\r\n" : ""));
+    phdr->title, Atime(phdr->chrono), (phdr->xmode & MAIL_READ ? "Status: RO\r\n" : ""));
 
   head = pool + strlen(pool);
   if (!lmax)

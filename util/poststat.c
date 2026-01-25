@@ -244,7 +244,7 @@ poststat(mytype)
     for (i = cnt = 0; (cnt < max) && (i < j); i++)
     {
       tp = &top[i];
-      strcpy(buf, Btime(&(tp->date)));
+      strcpy(buf, Btime((tp->date)));
       buf[23] = '\0';
       fprintf(fp,
 	"\033[1;31m%3d. \033[33m¬ÝªO : \033[32m%-16s\033[35m¡m%s¡n\033[36m%4d ½g\033[33m%+16s\n"

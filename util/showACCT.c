@@ -105,10 +105,10 @@ showACCT(acct)
 
   strcpy(msg1, _bitmsg(STR_PERM, acct->userlevel));
   strcpy(msg2, _bitmsg(STR_UFO, acct->ufo));
-  strcpy(msg3, Btime(&(acct->firstlogin)));
-  strcpy(msg4, Btime(&(acct->lastlogin)));
-  strcpy(msg5, Btime(&(acct->tcheck)));
-  strcpy(msg6, Btime(&(acct->tvalid)));
+  strcpy(msg3, Btime((acct->firstlogin)));
+  strcpy(msg4, Btime((acct->lastlogin)));
+  strcpy(msg5, Btime((acct->tcheck)));
+  strcpy(msg6, Btime((acct->tvalid)));
 
   printf("> ------------------------------------------------------------------------------------------ \n"
     "½s¸¹: %-15d [ID]: %-15s ©m¦W: %-15s ¼ÊºÙ: %-15s \n" 

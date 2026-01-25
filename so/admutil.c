@@ -380,7 +380,7 @@ a_restore()
 	  acct_save(&acct);
 	}
       }
-      vmsg("還原備份成功\");
+      vmsg("還原備份成功");
       return 0;
     }
   }
@@ -428,7 +428,7 @@ scan_register_form(fd)
   {
     userid = rform.userid;
     move(2, 0);
-    prints("申請代號: %s (申請時間：%s)\n", userid, Btime(&rform.rtime));
+    prints("申請代號: %s (申請時間：%s)\n", userid, Btime(rform.rtime));
     prints("服務單位: %s\n", rform.career);
     prints("目前住址: %s\n", rform.address);
     prints("連絡電話: %s\n%s\n", rform.phone, msg_seperator);

@@ -53,7 +53,7 @@ trans_hdr_stamp(folder, t, hdr, fpath)
     {
       memset(hdr, 0, sizeof(HDR));
       hdr->chrono = t;
-      str_stamp(hdr->date, &hdr->chrono);
+      str_stamp(hdr->date, hdr->chrono);
       strcpy(hdr->xname, --fname);
       break;
     }

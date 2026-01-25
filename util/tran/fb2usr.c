@@ -201,7 +201,7 @@ trans_mail(old)
 	str_ncpy(hdr.xname, new_name, sizeof(hdr.xname));
 	str_ncpy(hdr.owner, fh.owner, sizeof(hdr.owner));
 	str_ncpy(hdr.title, fh.title, sizeof(hdr.title));
-	str_stamp(hdr.date, &chrono);
+	str_stamp(hdr.date, chrono);
 	hdr.xmode = MAIL_READ;	/* ³]¬°¤wÅª */
 
 	rec_add(folder, &hdr, sizeof(HDR));

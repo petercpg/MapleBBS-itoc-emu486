@@ -129,7 +129,7 @@ do_query(acct)
     (m_query(userid) & STATUS_BIFF) ? "有新信件" : "都看過了");
 
   prints("[來源] (%s) %s\n",
-    Btime(&acct->lastlogin), acct->lasthost);
+    Btime(acct->lastlogin), acct->lasthost);
 
   showplans(userid);
   vmsg(NULL);

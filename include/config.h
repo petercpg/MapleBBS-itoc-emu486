@@ -20,6 +20,8 @@
 #ifndef	_CONFIG_H_
 #define	_CONFIG_H_
 
+typedef int time32_t;
+
 
 /* ----------------------------------------------------- */
 /* 定義 BBS 站名位址					 */

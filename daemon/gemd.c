@@ -1056,7 +1056,7 @@ main(argc, argv)
       agent->locus = 0;
       agent->xdata = 0;
 
-      fprintf(flog, "CONN\t[%d] %s\n", servo_sno, Btime(&agent->tbegin));
+      fprintf(flog, "CONN\t[%d] %s\n", servo_sno, Btime(agent->tbegin));
     }
 
     /* ------------------------------------------------- */

@@ -39,7 +39,7 @@ new_class()
   time(&hdr.chrono);
   strcpy(hdr.owner, STR_SYSOP);
   strcpy(hdr.nick, SYSOPNICK);
-  str_stamp(hdr.date, &hdr.chrono);
+  str_stamp(hdr.date, hdr.chrono);
   strcpy(hdr.xname, "@Class");
   strcpy(hdr.title, "Class/     看板精華區");
   hdr.xmode = GEM_FOLDER;
@@ -65,7 +65,7 @@ tran_group(title, fname, flag)
   time(&hdr.chrono);
   strcpy(hdr.owner, STR_SYSOP);
   strcpy(hdr.nick, SYSOPNICK);
-  str_stamp(hdr.date, &hdr.chrono);
+  str_stamp(hdr.date, hdr.chrono);
 
   if (flag == 1)		/* 卷宗 */
   {

@@ -58,7 +58,7 @@ main(argc, argv)
 	c = 0;
       }
     }
-    printf("總共停留時間: %s\n", Btime(&sum));
+    printf("總共停留時間: %s\n", Btime(sum));
   }
 
 

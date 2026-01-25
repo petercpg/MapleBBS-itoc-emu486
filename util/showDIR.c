@@ -40,7 +40,7 @@ showHDR(hdr)
 {
   char msg1[40], msg2[40];
 
-  strcpy(msg1, Btime(&(hdr->chrono)));
+  strcpy(msg1, Btime((hdr->chrono)));
   strcpy(msg2, _bitmsg("0123456789ABCDEFGHIJKLMNOPQRSTUV", hdr->xmode));
   printf("> ------------------------------------------------------------------------------------------ \n"
     "時間: %s\nmode: %s\n檔案: %s\n作者: %s\n暱稱: %s\n日期: %s\n主題: %s\n", 

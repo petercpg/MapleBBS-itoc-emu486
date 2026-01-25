@@ -204,7 +204,7 @@ trans_mail(userid)
 	str_ncpy(hdr.xname, new_name, sizeof(hdr.xname));
 	trans_owner(&hdr, fh.owner);
 	str_ncpy(hdr.title, fh.title, sizeof(hdr.title));
-	str_stamp(hdr.date, &hdr.chrono);
+	str_stamp(hdr.date, hdr.chrono);
 	hdr.xmode = MAIL_READ;
 	if (fh.accessed[0] & 0x8)	/* FILE_MARDKED */
 	  hdr.xmode |= POST_MARKED;

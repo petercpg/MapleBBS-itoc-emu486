@@ -2875,7 +2875,7 @@ cmd_query(ap)
       acct.userid, acct.userid,
       str_html(acct.username, UNLEN),
       (acct.userlevel & PERM_VALID) ? "已" : "未", acct.numlogins, acct.numposts,
-      Btime(&(acct.lastlogin)), acct.lasthost);
+      Btime((acct.lastlogin)), acct.lasthost);
 
     usr_fpath(fpath, acct.userid, FN_PLANS);
     out_article(fpw, fpath);
@@ -3316,7 +3316,7 @@ cmd_addpost(ap)
 	if (hdr.xmode & POST_OUTGO)
 	  outgo_post(&hdr, brdname);
 
-	out_reload(fpw, "您的文章發表成功\");
+	out_reload(fpw, "您的文章發表成功");
 	return HS_OK;
       }
       return HS_ERR_BOARD;
@@ -3369,7 +3369,7 @@ cmd_addmail(ap)
 	strcpy(hdr.nick, ap->username);
 	rec_add(folder, &hdr, sizeof(HDR));
 
-	out_reload(fpw, "您的信件發送成功\");
+	out_reload(fpw, "您的信件發送成功");
 	return HS_OK;
       }
     }

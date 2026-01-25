@@ -12,6 +12,11 @@
 #include <string.h>
 #include <fcntl.h>
 #include <errno.h>
+#include "config.h"
+#include <time.h>
+#include <unistd.h>
+#include <time.h>
+#include <unistd.h>
 
 #if 0	/* itoc.030303.註解: 簡易說明 */
 
@@ -117,7 +122,7 @@ hdr_stamp(folder, token, hdr, fpath)
     {
       memset(hdr, 0, sizeof(HDR));
       hdr->chrono = chrono;
-      str_stamp(hdr->date, &hdr->chrono);
+      str_stamp(hdr->date, hdr->chrono);
       strcpy(hdr->xname, --fname);
       break;
     }

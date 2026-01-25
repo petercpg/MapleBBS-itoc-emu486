@@ -343,7 +343,7 @@ gem_hdr_stamp(folder, token, hdr, fpath)
     {
       memset(hdr, 0, sizeof(HDR));
       hdr->chrono = chrono;
-      str_stamp(hdr->date, &hdr->chrono);
+      str_stamp(hdr->date, hdr->chrono);
       strcpy(hdr->xname, --fname);
       break;
     }
@@ -368,7 +368,7 @@ brd2gem(brd, gem)
 {
   memset(gem, 0, sizeof(HDR));
   time(&gem->chrono);
-  str_stamp(gem->date, &gem->chrono);
+  str_stamp(gem->date, gem->chrono);
   strcpy(gem->xname, brd->brdname);
   sprintf(gem->title, "%-13s%-5s%s", brd->brdname, brd->class, brd->title);
   gem->xmode = GEM_BOARD | GEM_FOLDER;
@@ -503,7 +503,7 @@ gem_add(xo, gtype)
 
       memset(&hdr, 0, sizeof(HDR));
       time(&hdr.chrono);
-      str_stamp(hdr.date, &hdr.chrono);
+      str_stamp(hdr.date, hdr.chrono);
       sprintf(hdr.xname, "@%s", fpath);
       if (gtype == 'c')
       {
@@ -705,7 +705,7 @@ gem_state(xo)
 
     if (!stat(fpath, &st))
     {
-      prints("\nTime: %s", Btime(&st.st_mtime));
+      prints("\nTime: %s", Btime(st.st_mtime));
       prints("\nSize: %d", st.st_size);
     }
 
@@ -1268,7 +1268,7 @@ gem_paste(xo)
 
   case 'e':
     if (gem_extend(xo, num))
-      zmsg("[Extend 檔案附加] 動作並未完全成功\");
+      zmsg("[Extend 檔案附加] 動作並未完全成功");
     return XO_FOOT;
 
   default:

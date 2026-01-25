@@ -179,7 +179,7 @@ vch_edit(vch, item, echo)
   if (num < 1)
     num = 1;
   vch->vclose = vch->chrono + num * 3600;
-  str_stamp(vch->cdate, &vch->vclose);
+  str_stamp(vch->cdate, vch->vclose);
 
   if (vch->vgamble == ' ')	/* 賭盤一定排序、及顯示百分比 */
   {
@@ -427,7 +427,7 @@ vote_query(xo)
     if (cc = atoi(buf))
     {
       vch->vclose = vch->vclose + cc * 3600;
-      str_stamp(vch->cdate, &vch->vclose);
+      str_stamp(vch->cdate, vch->vclose);
       currchrono = vch->chrono;
       rec_put(dir, vch, sizeof(VCH), pos, cmpchrono);
     }
@@ -850,8 +850,8 @@ draw_vote(fpath, folder, vch, preview)	/* itoc.030906: 投票結果 (與 account.c:dr
 
   fprintf(fp, "\n\033[1;34m%s\033[m\n\n"
     "\033[1;32m◆ [%s] 看板投票：%s\033[m\n\n舉辦板主：%s\n\n舉辦日期：%s\n\n",
-    msg_seperator, currboard, vch->title, vch->owner, Btime(&vch->chrono));
-  fprintf(fp, "開票日期：%s\n\n\033[1;32m◆ 投票主題：\033[m\n\n", Btime(&vch->vclose));
+    msg_seperator, currboard, vch->title, vch->owner, Btime(vch->chrono));
+  fprintf(fp, "開票日期：%s\n\n\033[1;32m◆ 投票主題：\033[m\n\n", Btime(vch->vclose));
 
   *fname = '@';
   f_suck(fp, fpath);
@@ -939,7 +939,7 @@ keeplog(fnlog, board, title)
   if (fp = fdopen(hdr_stamp(folder, 'A', &hdr, fpath), "w"))
   {
     fprintf(fp, "作者: %s (%s)\n標題: %s\n時間: %s\n\n",
-      str_sysop, SYSOPNICK, title, Btime(&hdr.chrono));
+      str_sysop, SYSOPNICK, title, Btime(hdr.chrono));
     f_suck(fp, fnlog);
     fclose(fp);
 

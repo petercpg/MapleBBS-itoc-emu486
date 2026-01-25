@@ -760,7 +760,7 @@ input_tools()   /* itoc.000319: 符號輸入工具 */
     {	/* 2.線條表框 */
       "╓╥╖╙╨╜─│═∥"
       "┌┬┐├┼┤└┴┘╳"
-      "╔╦╗╠╬╣╚╩╝﹏\"
+      "╔╦╗╠╬╣╚╩╝﹏"
       "╒╕╞╡╘╛╭╮╰╯"
       "▁▔▏▕╱╲←→↑↓"
     }, 
@@ -1427,7 +1427,7 @@ ve_header(fp)
 	curredit & EDIT_OUTGO ? str_post1 : str_post2, currboard);
     }
   }
-  fprintf(fp, "標題: %s\n時間: %s\n\n", title, Btime(&now));
+  fprintf(fp, "標題: %s\n時間: %s\n\n", title, Btime(now));
 }
 
 

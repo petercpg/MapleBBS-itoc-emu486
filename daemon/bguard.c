@@ -553,7 +553,7 @@ serve_finger(ap)
     sprintf(head, "%s(%s) 共上站 %d 次，發表文章 %d 篇。\n"
       "最近(%s)來自(%s)\n%s通過身分認證 [動態] %s [信箱] %s\n",
       acct.userid, acct.username, acct.numlogins, acct.numposts,
-      Btime(&(acct.lastlogin)), acct.lasthost,
+      Btime((acct.lastlogin)), acct.lasthost,
       acct.userlevel & PERM_VALID ? "已經" : "尚未",
       modestr, mailstr);
 

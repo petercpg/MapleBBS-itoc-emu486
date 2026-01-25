@@ -92,7 +92,7 @@ nbrd_stamp(folder, nbrd, fpath)
 
   rc = open(fpath, O_WRONLY | O_CREAT | O_EXCL, 0600);
   nbrd->btime = token;
-  str_stamp(nbrd->date, &nbrd->btime);
+  str_stamp(nbrd->date, nbrd->btime);
   strcpy(nbrd->xname, fname);
 
   return rc;
@@ -515,7 +515,7 @@ nbrd_start(xo)
   nbrd_fpath(fpath, xo->dir, nbrd);
   etime = time(0) + NBRD_DAY_BRD * 86400;
 
-  str_stamp(tmp, &etime);
+  str_stamp(tmp, etime);
   sprintf(buf, "開始連署：      到期日期：%s\n", tmp);
   f_cat(fpath, buf);
   f_cat(fpath, split_line);
@@ -779,8 +779,8 @@ nbrd_setup(xo)
 
   prints("看板名稱：%s\n看板說明：%4.4s %s\n連署發起：%s\n",
     newnh.brdname, newnh.class, newnh.title, newnh.owner);
-  prints("開始時間：%s\n", Btime(&newnh.btime));
-  prints("結束時間：%s\n", Btime(&newnh.etime));
+  prints("開始時間：%s\n", Btime(newnh.btime));
+  prints("結束時間：%s\n", Btime(newnh.etime));
   prints("還需人數：%d\n", newnh.total);
 
   if (vget(8, 0, "(E)設定 (Q)取消？[Q] ", ans, 3, LCECHO) == 'e')

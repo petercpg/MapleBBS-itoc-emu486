@@ -264,7 +264,7 @@ bsmtp(fpath, title, rcpt, method)
     /* itoc.030411: mail 輸出 RFC 2047 */
     output_rfc2047_qp(fw, "Subject: ", title, MYCHARSET, "\r\n");
 
-    fprintf(fw, "Date: %s\r\nMessage-Id: <%s@%s>\r\n", Atime(&stamp), msgid, str_host);
+    fprintf(fw, "Date: %s\r\nMessage-Id: <%s@%s>\r\n", Atime(stamp), msgid, str_host);
 
     /* itoc.030323: mail 輸出 RFC 2045 */
     fprintf(fw, "Mime-Version: 1.0\r\n"
@@ -321,7 +321,7 @@ bsmtp(fpath, title, rcpt, method)
       prichro = chrono32(buf);
       archiv32(str_hash(msgid, prichro), buf);
       fprintf(fw,"※ X-Sign: %s$%s %s\r\n", 
-	msgid, genpasswd(buf), Btime(&stamp));
+	msgid, genpasswd(buf), Btime(stamp));
     }
 #endif
     fputs("\r\n.\r\n", fw);
@@ -357,7 +357,7 @@ smtp_log:
   /* --------------------------------------------------- */
 
   sprintf(buf, "%s %-13s%c> %s\n%s\t%s\n\t%s\n", 
-    Btime(&stamp), cuser.userid, (method & MQ_JUSTIFY) ? '=' : '-', rcpt, 
+    Btime(stamp), cuser.userid, (method & MQ_JUSTIFY) ? '=' : '-', rcpt, 
     sock >= 0 ? "" : from, title, fpath);
   f_cat(FN_RUN_MAIL_LOG, buf);
 
@@ -533,7 +533,7 @@ m_verify()
   archiv32(str_hash(p, prichro), key);
   p[7 + PASSLEN + 1] = '\0';
 
-  if (chkpasswd(p + 8, key) || strcmp(p + 8 + PASSLEN + 1, Btime(&chrono)))
+  if (chkpasswd(p + 8, key) || strcmp(p + 8 + PASSLEN + 1, Btime(chrono)))
     vmsg("此信並非由本站所發，請查照！");
   else
     vmsg("此信由本站所發出");
@@ -588,7 +588,7 @@ m_quota()
       mail_due = limit - MAIL_DUE * 86400;
       mark_due = limit - MARK_DUE * 86400;
       st.st_mtime = limit + CHECK_PERIOD;
-      str_stamp(date, &st.st_mtime);
+      str_stamp(date, st.st_mtime);
 
       limit = cuser.userlevel;
       limit = (limit & (PERM_ALLADMIN | PERM_MBOX)) ? MAX_BBSMAIL : (limit & PERM_VALID) ? MAX_VALIDMAIL : MAX_NOVALIDMAIL;
@@ -840,7 +840,7 @@ mail_send(rcpt)
     if (fp = fopen(FN_RUN_MAIL_LOG, "a"))
     {
       fprintf(fp, "%s %-13s-> %s\n\t%s\n",
-        Btime(&hdr.chrono), cuser.userid, rcpt, ve_title);
+        Btime(hdr.chrono), cuser.userid, rcpt, ve_title);
       fclose(fp);
     }
 
@@ -1236,7 +1236,7 @@ multi_send(title)
       if (fp = fopen(FN_RUN_MAIL_LOG, "a"))
       {
 	fprintf(fp, "%s %-13s-> %s\n\t%s\n",
-	  Btime(&hdr.chrono), cuser.userid, "群組寄信", title);
+	  Btime(hdr.chrono), cuser.userid, "群組寄信", title);
 	fclose(fp);
       }
 

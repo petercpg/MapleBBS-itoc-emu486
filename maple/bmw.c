@@ -319,7 +319,7 @@ bmw_edit(up, hint, bmw)
     usr_fpath(fpath, userid, fn_amw);
     if (fp = fopen(fpath, "a"))
     {
-      fprintf(fp, BMW_FORMAT2 " %s\n", bmw->userid, bmw->msg, Btime(&bmw->btime));
+      fprintf(fp, BMW_FORMAT2 " %s\n", bmw->userid, bmw->msg, Btime(bmw->btime));
       fclose(fp);
     }
 
@@ -612,7 +612,7 @@ bmw_rqst()
       rec_add(buf, mptr, sizeof(BMW));
 
       /* itoc.020126: ¥[¤J FN_AMW */
-      fprintf(fp, BMW_FORMAT " %s\n", mptr->userid, mptr->msg, Btime(&mptr->btime));
+      fprintf(fp, BMW_FORMAT " %s\n", mptr->userid, mptr->msg, Btime(mptr->btime));
 
       bmw_lslot[locus++] = *mptr;	/* structure copy */
     } while (++i < j);
@@ -865,7 +865,7 @@ bmw_store(fpath)
     while (read(fd, &bmw, sizeof(BMW)) == sizeof(BMW)) 
     {
       fprintf(fp, bmw.sender == cuser.userno ? BMW_FORMAT2 " %s\n" : BMW_FORMAT " %s\n",
-	bmw.userid, bmw.msg, Btime(&bmw.btime));
+	bmw.userid, bmw.msg, Btime(bmw.btime));
     }
     fclose(fp);
   }
@@ -925,7 +925,7 @@ bmw_save_user(xo)
 	  if (bmw.sender == acct.userno || bmw.recver == acct.userno)
 	  {
 	    fprintf(fp, bmw.sender == cuser.userno ? BMW_FORMAT2 " %s\n" : BMW_FORMAT " %s\n",
-	      bmw.userid, bmw.msg, Btime(&bmw.btime));
+	      bmw.userid, bmw.msg, Btime(bmw.btime));
 	  }
 	}
 	fclose(fp);
