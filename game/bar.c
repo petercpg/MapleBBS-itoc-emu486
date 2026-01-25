@@ -1,7 +1,7 @@
 /*-------------------------------------------------------*/
 /* bar.c	( NTHU CS MapleBBS Ver 3.10 )		 */
 /*-------------------------------------------------------*/
-/* target : BAR ¥x¹CÀ¸                                   */
+/* target : BAR å°éŠæˆ²                                   */
 /* create :   /  /                                       */
 /* update : 01/04/27                                     */
 /* author : unknown                                      */
@@ -15,41 +15,49 @@
 
 
 #if 0
-  ¢~¢w¢s¢w¢s¢w¢s¢w¢s¢w¢s¢w¢s¢w¢s¢w¢s¢w¢s¢w¢s¢w¢s¢w¢s¢w¢s¢w¢s¢w¢s¢w¢s¢w¢s¢w¢¡
-  ¢x¡ñ¢x£Y¢x¡º¢x¡À¢x¡¸¢x77¢x¡ğ¢x¡ñ¢x¡µ¢x¡º¢x£Y¢x£[¢x¡º¢x77¢x¡¸¢x¡ñ¢x¡ğ¢x¡º¢x
-  ¢u¢w¢q¢w¢r¢w¢r¢w¢r¢w¢r¢w¢r¢w¢r¢w¢r¢w¢r¢w¢r¢w¢r¢w¢r¢w¢r¢w¢r¢w¢r¢w¢r¢w¢q¢w¢t
-  ¢x£Y¢x                                                              ¢x¡À¢x
-  ¢u¢w¢t                                                              ¢u¢w¢t
-  ¢x¡µ¢x                                                              ¢x¡µ¢x
-  ¢u¢w¢t                                                              ¢u¢w¢t
-  ¢x£[¢x                                                              ¢x£[¢x
-  ¢u¢w¢t                                                              ¢u¢w¢t
-  ¢x£Y¢x                                                              ¢x¡ğ¢x
-  ¢u¢w¢t                                                              ¢u¢w¢t
-  ¢x77¢x                                                              ¢x¡¸¢x
-  ¢u¢w¢t                      ùş¤j           ¡¼¤p                     ¢u¢w¢t
-  ¢x¡º¢x                                                              ¢x£Y¢x
-  ¢u¢w¢q¢w¢s¢w¢s¢w¢s¢w¢s¢w¢s¢w¢s¢w¢s¢w¢s¢w¢s¢w¢s¢w¢s¢w¢s¢w¢s¢w¢s¢w¢s¢w¢q¢w¢t
-  ¢x¡À¢x¡ğ¢x77¢x£Y¢x¡º¢x¡µ¢x¡ñ¢x¡¸¢x¡ğ¢x£Y¢x¡À¢x£[¢x¡º¢x77¢x£Y¢x¡ñ¢x¡µ¢x77¢x
-  ¢¢¢w¢r¢w¢r¢w¢r¢w¢r¢w¢r¢w¢r¢w¢r¢w¢r¢w¢r¢w¢r¢w¢r¢w¢r¢w¢r¢w¢r¢w¢r¢w¢r¢w¢r¢w¢£
+  â•­â”€â”¬â”€â”¬â”€â”¬â”€â”¬â”€â”¬â”€â”¬â”€â”¬â”€â”¬â”€â”¬â”€â”¬â”€â”¬â”€â”¬â”€â”¬â”€â”¬â”€â”¬â”€â”¬â”€â”¬â”€â•®
+  â”‚â™‚â”‚Î§â”‚â—‡â”‚ãŠ£â”‚â˜†â”‚77â”‚â™€â”‚â™‚â”‚â–³â”‚â—‡â”‚Î§â”‚Î©â”‚â—‡â”‚77â”‚â˜†â”‚â™‚â”‚â™€â”‚â—‡â”‚
+  â”œâ”€â”¼â”€â”´â”€â”´â”€â”´â”€â”´â”€â”´â”€â”´â”€â”´â”€â”´â”€â”´â”€â”´â”€â”´â”€â”´â”€â”´â”€â”´â”€â”´â”€â”¼â”€â”¤
+  â”‚Î§â”‚                                                              â”‚ãŠ£â”‚
+  â”œâ”€â”¤                                                              â”œâ”€â”¤
+  â”‚â–³â”‚                                                              â”‚â–³â”‚
+  â”œâ”€â”¤                                                              â”œâ”€â”¤
+  â”‚Î©â”‚                                                              â”‚Î©â”‚
+  â”œâ”€â”¤                                                              â”œâ”€â”¤
+  â”‚Î§â”‚                                                              â”‚â™€â”‚
+  â”œâ”€â”¤                                                              â”œâ”€â”¤
+  â”‚77â”‚                                                              â”‚â˜†â”‚
+  â”œâ”€â”¤                      â–“å¤§           â–¡å°                     â”œâ”€â”¤
+  â”‚â—‡â”‚                                                              â”‚Î§â”‚
+  â”œâ”€â”¼â”€â”¬â”€â”¬â”€â”¬â”€â”¬â”€â”¬â”€â”¬â”€â”¬â”€â”¬â”€â”¬â”€â”¬â”€â”¬â”€â”¬â”€â”¬â”€â”¬â”€â”¬â”€â”¼â”€â”¤
+  â”‚ãŠ£â”‚â™€â”‚77â”‚Î§â”‚â—‡â”‚â–³â”‚â™‚â”‚â˜†â”‚â™€â”‚Î§â”‚ãŠ£â”‚Î©â”‚â—‡â”‚77â”‚Î§â”‚â™‚â”‚â–³â”‚77â”‚
+  â•°â”€â”´â”€â”´â”€â”´â”€â”´â”€â”´â”€â”´â”€â”´â”€â”´â”€â”´â”€â”´â”€â”´â”€â”´â”€â”´â”€â”´â”€â”´â”€â”´â”€â”´â”€â•¯
 #endif
 
-static char *itemlist[10] =  {"  ", "£[", "¡ğ", "¡ñ", "¡À", "¡µ", "¡¸", "77", "¡º", "£Y"};	/* ¶µ¥Ø¦W */
+/* Î© */
+/* â™€ */
+/* â™‚ */
+/* ãŠ£ */
+/* â–³ */
+/* â˜† */
+/* â—‡ */
+/* Î§ */
+static char *itemlist[10] =  {"  ", "\xA3\x5B", "\xA1\xF0", "\xA1\xF1", "\xA1\xC0", "\xA1\xB5", "\xA1\xB8", "77", "\xA1\xBA", "\xA3\x59"};	/* é …ç›®å */
 
-static int bar[49] = 	/* ¤W¹Ï 48 ®æ¤¤(¥Ñ¥ª¤W"¡ñ"¶}©l¶¶®É°wÂ¶)©Ò¹ïÀ³ªº itemlist[] */
+static int bar[49] = 	/* ä¸Šåœ– 48 æ ¼ä¸­(ç”±å·¦ä¸Š"â™‚"é–‹å§‹é †æ™‚é‡ç¹)æ‰€å°æ‡‰çš„ itemlist[] */
 {
   0, 3, 9, 8, 4, 6, 7, 2, 3, 5,
   8, 9, 1, 8, 7, 6, 3, 2, 8, 4,
   5, 1, 2, 6, 9, 7, 5, 3, 9, 7,
   8, 1, 4, 9, 2, 6, 3, 5, 8, 9,
   7, 2, 4, 8, 7, 9, 1, 5, 9
-};				/* ªO­±¦ì§} */
+};				/* æ¿é¢ä½å€ */
 
-static int money[10];		/* ©ãª÷ */
+static int money[10];		/* æŠ¼é‡‘ */
 
 
 static int
-total_money()			/* ¬O§_¦³¤Uª` */
+total_money()			/* æ˜¯å¦æœ‰ä¸‹æ³¨ */
 {
   if (money[1] || money[2] || money[3] || money[4] || money[5] ||
     money[6] || money[7] || money[8] || money[9])
@@ -62,8 +70,8 @@ total_money()			/* ¬O§_¦³¤Uª` */
 
 static int
 run(step, last, freq)
-  int step;		/* ¦ì¸m */
-  int last;		/* 1: ³Ì«á¤@¨B  0: ¤¤¶¡¨B */
+  int step;		/* ä½ç½® */
+  int last;		/* 1: æœ€å¾Œä¸€æ­¥  0: ä¸­é–“æ­¥ */
   int freq;		/* frequency: Hz */
 {
   int x1, y1, x2, y2;
@@ -118,25 +126,34 @@ run(step, last, freq)
   if (last)
     outs(itemlist[bar[step]]);
   else
-    outs("ùş");
+    /* â–“ */
+    outs("\xF9\xFE");
 
   refresh();
-  usleep(1000000 / freq);	/* µ¥«İ */
+  usleep(1000000 / freq);	/* ç­‰å¾… */
 }
 
 
 static inline int
-get_item()		/* ¶Ã¼Æ¿ï¨ú­n¤¤ªº¶µ¥Ø */
+get_item()		/* äº‚æ•¸é¸å–è¦ä¸­çš„é …ç›® */
 {
 
 #if 0
-½s¸¹¡G   1     2     3     4     5     6     7     8     9
-¶µ¥Ø¡G "£[", "¡ğ", "¡ñ", "¡À", "¡µ", "¡¸", "77", "¡º", "£Y"
-¾÷²v¡G  13    16    21    26    32    43    64   127   308    /650
-½ß²v¡G  50    40    30    25    20    15    10     5     2
+ç·¨è™Ÿï¼š   1     2     3     4     5     6     7     8     9
+/* Î© */
+/* â™€ */
+/* â™‚ */
+/* ãŠ£ */
+/* â–³ */
+/* â˜† */
+/* â—‡ */
+/* Î§ */
+é …ç›®ï¼š "\xA3\x5B", "\xA1\xF0", "\xA1\xF1", "\xA1\xC0", "\xA1\xB5", "\xA1\xB8", "77", "\xA1\xBA", "\xA3\x59"
+æ©Ÿç‡ï¼š  13    16    21    26    32    43    64   127   308    /650
+è³ ç‡ï¼š  50    40    30    25    20    15    10     5     2
 #endif
 
-  int randnum = rnd(650);	/* ½ß²v * ¾÷²v = ´Á±æ­È (¨C©ã 1 ¤¸©Ò¦^¦¬ªºª÷ÃB) */
+  int randnum = rnd(650);	/* è³ ç‡ * æ©Ÿç‡ = æœŸæœ›å€¼ (æ¯æŠ¼ 1 å…ƒæ‰€å›æ”¶çš„é‡‘é¡) */
 
   if (randnum < 308)		/* 2 * 308 / 650 = 0.948 */
     return 9;
@@ -159,13 +176,13 @@ get_item()		/* ¶Ã¼Æ¿ï¨ú­n¤¤ªº¶µ¥Ø */
 }
 
 
-static inline int	/* ¶Ç¦^ map ¤Wªº 1~48 ¨ä¤¤¤@­Ó¼Æ¦r */
-get_dst(item)		/* ¶Ç¤J¤¤ªº¶µ¥Ø¿ï¨ú³Ì«á°±¯dªº¦ì¸m */
+static inline int	/* å‚³å› map ä¸Šçš„ 1~48 å…¶ä¸­ä¸€å€‹æ•¸å­— */
+get_dst(item)		/* å‚³å…¥ä¸­çš„é …ç›®é¸å–æœ€å¾Œåœç•™çš„ä½ç½® */
   int item;
 {
   int dst, randnum;
 
-  randnum = rnd(48) + 1;	/* ±q¤¤¶¡©¹«e«á¿ï¨ú¡AÁ×§K¨C¦¸³£±q 1 ¿ï·|³£¤¤¥k¤W¨¤ªº³¡¤À */
+  randnum = rnd(48) + 1;	/* å¾ä¸­é–“å¾€å‰å¾Œé¸å–ï¼Œé¿å…æ¯æ¬¡éƒ½å¾ 1 é¸æœƒéƒ½ä¸­å³ä¸Šè§’çš„éƒ¨åˆ† */
 
   for (dst = randnum; dst <= 48; dst++)
   {
@@ -185,35 +202,54 @@ static inline void
 print_total()
 {
   outs("\n\n");
-  outs("  ¢~¢w¢s¢w¢s¢w¢s¢w¢s¢w¢s¢w¢s¢w¢s¢w¢s¢w¢s¢w¢s¢w¢s¢w¢s¢w¢s¢w¢s¢w¢s¢w¢s¢w¢s¢w¢¡\n");
-  outs("  ¢x¡ñ¢x£Y¢x¡º¢x¡À¢x¡¸¢x77¢x¡ğ¢x¡ñ¢x¡µ¢x¡º¢x£Y¢x£[¢x£Y¢x77¢x¡¸¢x¡ñ¢x¡ğ¢x¡º¢x\n");
-  outs("  ¢u¢w¢q¢w¢r¢w¢r¢w¢r¢w¢r¢w¢r¢w¢r¢w¢r¢w¢r¢w¢r¢w¢r¢w¢r¢w¢r¢w¢r¢w¢r¢w¢r¢w¢q¢w¢t\n");
-  outs("  ¢x£Y¢x                                                              ¢x¡À¢x\n");
-  outs("  ¢u¢w¢t                                                              ¢u¢w¢t\n");
-  outs("  ¢x¡µ¢x                                                              ¢x¡µ¢x\n");
-  outs("  ¢u¢w¢t                                                              ¢u¢w¢t\n");
-  outs("  ¢x£[¢x                                                              ¢x£[¢x\n");
-  outs("  ¢u¢w¢t                                                              ¢u¢w¢t\n");
-  outs("  ¢x£Y¢x                                                              ¢x¡ğ¢x\n");
-  outs("  ¢u¢w¢t                                                              ¢u¢w¢t\n");
-  outs("  ¢x77¢x                                                              ¢x¡¸¢x\n");
-  outs("  ¢u¢w¢t                      ùş¤j           ¡¼¤p                     ¢u¢w¢t\n");
-  outs("  ¢x¡º¢x                                                              ¢x£Y¢x\n");
-  outs("  ¢u¢w¢q¢w¢s¢w¢s¢w¢s¢w¢s¢w¢s¢w¢s¢w¢s¢w¢s¢w¢s¢w¢s¢w¢s¢w¢s¢w¢s¢w¢s¢w¢s¢w¢q¢w¢t\n");
-  outs("  ¢x¡À¢x¡ğ¢x77¢x£Y¢x¡º¢x¡µ¢x¡ñ¢x¡¸¢x¡ğ¢x£Y¢x¡À¢x£[¢x¡º¢x77¢x£Y¢x¡ñ¢x¡µ¢x77¢x\n");
-  outs("  ¢¢¢w¢r¢w¢r¢w¢r¢w¢r¢w¢r¢w¢r¢w¢r¢w¢r¢w¢r¢w¢r¢w¢r¢w¢r¢w¢r¢w¢r¢w¢r¢w¢r¢w¢r¢w¢£\n");
-  outs("    \033[1;31m¢x£[¢x  \033[32m¢x¡ğ¢x  \033[33m¢x¡ñ¢x  \033[34m¢x¡À¢x  \033[35m¢x¡µ¢x  \033[36m¢x¡¸¢x  \033[37m¢x77¢x  \033[0;36m¢x¡º¢x  \033[33m¢x£Y¢x \033[m\n");
-  outs("    \033[1;31m¢x50¢x  \033[32m¢x40¢x  \033[33m¢x30¢x  \033[34m¢x25¢x  \033[35m¢x20¢x  \033[36m¢x15¢x  \033[37m¢x10¢x  \033[0;36m¢x 5¢x  \033[33m¢x 2¢x \033[m");
+  /*   â•­â”€â”¬â”€â”¬â”€â”¬â”€â”¬â”€â”¬â”€â”¬â”€â”¬â”€â”¬â”€â”¬â”€â”¬â”€â”¬â”€â”¬â”€â”¬â”€â”¬â”€â”¬â”€â”¬â”€â”¬â”€â•®\n */
+  outs("  \xA2\x7E\xA2\x77\xA2\x73\xA2\x77\xA2\x73\xA2\x77\xA2\x73\xA2\x77\xA2\x73\xA2\x77\xA2\x73\xA2\x77\xA2\x73\xA2\x77\xA2\x73\xA2\x77\xA2\x73\xA2\x77\xA2\x73\xA2\x77\xA2\x73\xA2\x77\xA2\x73\xA2\x77\xA2\x73\xA2\x77\xA2\x73\xA2\x77\xA2\x73\xA2\x77\xA2\x73\xA2\x77\xA2\x73\xA2\x77\xA2\x73\xA2\x77\xA2\xA1\n");
+  /*   â”‚â™‚â”‚Î§â”‚â—‡â”‚ãŠ£â”‚â˜†â”‚77â”‚â™€â”‚â™‚â”‚â–³â”‚â—‡â”‚Î§â”‚Î©â”‚Î§â”‚77â”‚â˜†â”‚â™‚â”‚â™€â”‚â—‡â”‚\n */
+  outs("  \xA2\x78\xA1\xF1\xA2\x78\xA3\x59\xA2\x78\xA1\xBA\xA2\x78\xA1\xC0\xA2\x78\xA1\xB8\xA2\x78""77\xA2\x78\xA1\xF0\xA2\x78\xA1\xF1\xA2\x78\xA1\xB5\xA2\x78\xA1\xBA\xA2\x78\xA3\x59\xA2\x78\xA3\x5B\xA2\x78\xA3\x59\xA2\x78""77\xA2\x78\xA1\xB8\xA2\x78\xA1\xF1\xA2\x78\xA1\xF0\xA2\x78\xA1\xBA\xA2\x78\n");
+  /*   â”œâ”€â”¼â”€â”´â”€â”´â”€â”´â”€â”´â”€â”´â”€â”´â”€â”´â”€â”´â”€â”´â”€â”´â”€â”´â”€â”´â”€â”´â”€â”´â”€â”´â”€â”¼â”€â”¤\n */
+  outs("  \xA2\x75\xA2\x77\xA2\x71\xA2\x77\xA2\x72\xA2\x77\xA2\x72\xA2\x77\xA2\x72\xA2\x77\xA2\x72\xA2\x77\xA2\x72\xA2\x77\xA2\x72\xA2\x77\xA2\x72\xA2\x77\xA2\x72\xA2\x77\xA2\x72\xA2\x77\xA2\x72\xA2\x77\xA2\x72\xA2\x77\xA2\x72\xA2\x77\xA2\x72\xA2\x77\xA2\x72\xA2\x77\xA2\x72\xA2\x77\xA2\x71\xA2\x77\xA2\x74\n");
+  /*   â”‚Î§â”‚                                                              â”‚ãŠ£â”‚\n */
+  outs("  \xA2\x78\xA3\x59\xA2\x78                                                              \xA2\x78\xA1\xC0\xA2\x78\n");
+  /*   â”œâ”€â”¤                                                              â”œâ”€â”¤\n */
+  outs("  \xA2\x75\xA2\x77\xA2\x74                                                              \xA2\x75\xA2\x77\xA2\x74\n");
+  /*   â”‚â–³â”‚                                                              â”‚â–³â”‚\n */
+  outs("  \xA2\x78\xA1\xB5\xA2\x78                                                              \xA2\x78\xA1\xB5\xA2\x78\n");
+  /*   â”œâ”€â”¤                                                              â”œâ”€â”¤\n */
+  outs("  \xA2\x75\xA2\x77\xA2\x74                                                              \xA2\x75\xA2\x77\xA2\x74\n");
+  /*   â”‚Î©â”‚                                                              â”‚Î©â”‚\n */
+  outs("  \xA2\x78\xA3\x5B\xA2\x78                                                              \xA2\x78\xA3\x5B\xA2\x78\n");
+  /*   â”œâ”€â”¤                                                              â”œâ”€â”¤\n */
+  outs("  \xA2\x75\xA2\x77\xA2\x74                                                              \xA2\x75\xA2\x77\xA2\x74\n");
+  /*   â”‚Î§â”‚                                                              â”‚â™€â”‚\n */
+  outs("  \xA2\x78\xA3\x59\xA2\x78                                                              \xA2\x78\xA1\xF0\xA2\x78\n");
+  /*   â”œâ”€â”¤                                                              â”œâ”€â”¤\n */
+  outs("  \xA2\x75\xA2\x77\xA2\x74                                                              \xA2\x75\xA2\x77\xA2\x74\n");
+  /*   â”‚77â”‚                                                              â”‚â˜†â”‚\n */
+  outs("  \xA2\x78""77\xA2\x78                                                              \xA2\x78\xA1\xB8\xA2\x78\n");
+  /*   â”œâ”€â”¤                      â–“å¤§           â–¡å°                     â”œâ”€â”¤\n */
+  outs("  \xA2\x75\xA2\x77\xA2\x74                      \xF9\xFE\xA4\x6A           \xA1\xBC\xA4\x70                     \xA2\x75\xA2\x77\xA2\x74\n");
+  /*   â”‚â—‡â”‚                                                              â”‚Î§â”‚\n */
+  outs("  \xA2\x78\xA1\xBA\xA2\x78                                                              \xA2\x78\xA3\x59\xA2\x78\n");
+  /*   â”œâ”€â”¼â”€â”¬â”€â”¬â”€â”¬â”€â”¬â”€â”¬â”€â”¬â”€â”¬â”€â”¬â”€â”¬â”€â”¬â”€â”¬â”€â”¬â”€â”¬â”€â”¬â”€â”¬â”€â”¼â”€â”¤\n */
+  outs("  \xA2\x75\xA2\x77\xA2\x71\xA2\x77\xA2\x73\xA2\x77\xA2\x73\xA2\x77\xA2\x73\xA2\x77\xA2\x73\xA2\x77\xA2\x73\xA2\x77\xA2\x73\xA2\x77\xA2\x73\xA2\x77\xA2\x73\xA2\x77\xA2\x73\xA2\x77\xA2\x73\xA2\x77\xA2\x73\xA2\x77\xA2\x73\xA2\x77\xA2\x73\xA2\x77\xA2\x73\xA2\x77\xA2\x73\xA2\x77\xA2\x71\xA2\x77\xA2\x74\n");
+  /*   â”‚ãŠ£â”‚â™€â”‚77â”‚Î§â”‚â—‡â”‚â–³â”‚â™‚â”‚â˜†â”‚â™€â”‚Î§â”‚ãŠ£â”‚Î©â”‚â—‡â”‚77â”‚Î§â”‚â™‚â”‚â–³â”‚77â”‚\n */
+  outs("  \xA2\x78\xA1\xC0\xA2\x78\xA1\xF0\xA2\x78""77\xA2\x78\xA3\x59\xA2\x78\xA1\xBA\xA2\x78\xA1\xB5\xA2\x78\xA1\xF1\xA2\x78\xA1\xB8\xA2\x78\xA1\xF0\xA2\x78\xA3\x59\xA2\x78\xA1\xC0\xA2\x78\xA3\x5B\xA2\x78\xA1\xBA\xA2\x78""77\xA2\x78\xA3\x59\xA2\x78\xA1\xF1\xA2\x78\xA1\xB5\xA2\x78""77\xA2\x78\n");
+  /*   â•°â”€â”´â”€â”´â”€â”´â”€â”´â”€â”´â”€â”´â”€â”´â”€â”´â”€â”´â”€â”´â”€â”´â”€â”´â”€â”´â”€â”´â”€â”´â”€â”´â”€â”´â”€â•¯\n */
+  outs("  \xA2\xA2\xA2\x77\xA2\x72\xA2\x77\xA2\x72\xA2\x77\xA2\x72\xA2\x77\xA2\x72\xA2\x77\xA2\x72\xA2\x77\xA2\x72\xA2\x77\xA2\x72\xA2\x77\xA2\x72\xA2\x77\xA2\x72\xA2\x77\xA2\x72\xA2\x77\xA2\x72\xA2\x77\xA2\x72\xA2\x77\xA2\x72\xA2\x77\xA2\x72\xA2\x77\xA2\x72\xA2\x77\xA2\x72\xA2\x77\xA2\x72\xA2\x77\xA2\xA3\n");
+  /*     \033[1;31mâ”‚Î©â”‚  \033[32mâ”‚â™€â”‚  \033[33mâ”‚â™‚â”‚  \033[34mâ”‚ãŠ£â”‚  \033[35mâ”‚â–³â”‚  \033[36mâ”‚â˜†â”‚  \033[37mâ”‚77â”‚  \033[0;36mâ”‚â—‡â”‚  \033[33mâ”‚Î§â”‚ \033[m\n */
+  outs("    \033[1;31m\xA2\x78\xA3\x5B\xA2\x78  \033[32m\xA2\x78\xA1\xF0\xA2\x78  \033[33m\xA2\x78\xA1\xF1\xA2\x78  \033[34m\xA2\x78\xA1\xC0\xA2\x78  \033[35m\xA2\x78\xA1\xB5\xA2\x78  \033[36m\xA2\x78\xA1\xB8\xA2\x78  \033[37m\xA2\x78""77\xA2\x78  \033[0;36m\xA2\x78\xA1\xBA\xA2\x78  \033[33m\xA2\x78\xA3\x59\xA2\x78 \033[m\n");
+  /*     \033[1;31mâ”‚50â”‚  \033[32mâ”‚40â”‚  \033[33mâ”‚30â”‚  \033[34mâ”‚25â”‚  \033[35mâ”‚20â”‚  \033[36mâ”‚15â”‚  \033[37mâ”‚10â”‚  \033[0;36mâ”‚ 5â”‚  \033[33mâ”‚ 2â”‚ \033[m */
+  outs("    \033[1;31m\xA2\x78""50\xA2\x78  \033[32m\xA2\x78""40\xA2\x78  \033[33m\xA2\x78""30\xA2\x78  \033[34m\xA2\x78""25\xA2\x78  \033[35m\xA2\x78""20\xA2\x78  \033[36m\xA2\x78""15\xA2\x78  \033[37m\xA2\x78""10\xA2\x78  \033[0;36m\xA2\x78 5\xA2\x78  \033[33m\xA2\x78 2\xA2\x78 \033[m");
 }
 
 
 int
 main_bar()
 {
-  int price[10] = {0, 50, 40, 30, 25, 20, 15, 10, 5, 2};	/* ­¿²v */
+  int price[10] = {0, 50, 40, 30, 25, 20, 15, 10, 5, 2};	/* å€ç‡ */
 
-  int item;			/* ¶µ¥Ø½s¸¹ */
-  int ogn, dst;			/* OriGiN: °_ÂI  DeStinaTion: ²×ÂI */  
+  int item;			/* é …ç›®ç·¨è™Ÿ */
+  int ogn, dst;			/* OriGiN: èµ·é»  DeStinaTion: çµ‚é» */  
   int ch, i, j;
   char buf[80];
 
@@ -223,45 +259,48 @@ main_bar()
     return XEASY;
   }
 
-  vs_bar("BAR ¥x");
-  print_total();		/* ¦LªO­± */
-  ogn = 1;			/* °_ÂI¦b²Ä¤@®æ */
+  /* BAR å° */
+  vs_bar("BAR \xA5\x78");
+  print_total();		/* å°æ¿é¢ */
+  ogn = 1;			/* èµ·é»åœ¨ç¬¬ä¸€æ ¼ */
 
   while (1)
   {
-    for (i = 1; i < 10; i++)	/* money Âk¹s */
+    for (i = 1; i < 10; i++)	/* money æ­¸é›¶ */
       money[i] = 0;
 
     for (;;)
     {
-      /* ¨M©w¦U¶µ½äª` */
+      /* æ±ºå®šå„é …è³­æ³¨ */
 
-      ch = vget(2, 0, "±z­n©ã­ş¶µ(1-9)¡H[S]¶}©l [Q]Â÷¶}¡G", buf, 3, DOECHO);
+      /* æ‚¨è¦æŠ¼å“ªé …(1-9)ï¼Ÿ[S]é–‹å§‹ [Q]é›¢é–‹ï¼š */
+      ch = vget(2, 0, "\xB1\x7A\xAD\x6E\xA9\xE3\xAD\xFE\xB6\xB5(1-9)\xA1\x48[S]\xB6\x7D\xA9\x6C [Q]\xC2\xF7\xB6\x7D\xA1\x47", buf, 3, DOECHO);
       if (!ch || ch == 's')
       {
 	if (total_money())
 	  break;
-	addmoney(money[1] + money[2] + money[3] + money[4] + money[5] +	money[6] + money[7] + money[8] + money[9]);	/* ÁÙ¿ú */
+	addmoney(money[1] + money[2] + money[3] + money[4] + money[5] +	money[6] + money[7] + money[8] + money[9]);	/* é‚„éŒ¢ */
 	goto abort_game;
       }
       else if (ch < '1' || ch > '9')
       {
-	addmoney(money[1] + money[2] + money[3] + money[4] + money[5] +	money[6] + money[7] + money[8] + money[9]);	/* ÁÙ¿ú */
+	addmoney(money[1] + money[2] + money[3] + money[4] + money[5] +	money[6] + money[7] + money[8] + money[9]);	/* é‚„éŒ¢ */
 	goto abort_game;
       }
 
-      if (!(vget(2, 0, "­n©ã¦h¤Ö½äª÷¡H", buf, 6, DOECHO)))
+      /* è¦æŠ¼å¤šå°‘è³­é‡‘ï¼Ÿ */
+      if (!(vget(2, 0, "\xAD\x6E\xA9\xE3\xA6\x68\xA4\xD6\xBD\xE4\xAA\xF7\xA1\x48", buf, 6, DOECHO)))
       {
 	if (total_money())
 	  break;
-	addmoney(money[1] + money[2] + money[3] + money[4] + money[5] +	money[6] + money[7] + money[8] + money[9]);	/* ÁÙ¿ú */
+	addmoney(money[1] + money[2] + money[3] + money[4] + money[5] +	money[6] + money[7] + money[8] + money[9]);	/* é‚„éŒ¢ */
 	goto abort_game;
       }
 
       j = atoi(buf);
       if (j < 1 || j > cuser.money)
       {
-	addmoney(money[1] + money[2] + money[3] + money[4] + money[5] +	money[6] + money[7] + money[8] + money[9]);	/* ÁÙ¿ú */
+	addmoney(money[1] + money[2] + money[3] + money[4] + money[5] +	money[6] + money[7] + money[8] + money[9]);	/* é‚„éŒ¢ */
 	goto abort_game;
       }
 
@@ -273,33 +312,34 @@ main_bar()
       outs("\033[1m   ");
       for (i = 1; i < 10; i++)
 	prints("\033[3%dm%6d  ", i, money[i]);  
-      prints("\n\033[m         Äw½XÁÙ¦³ %d ¤¸     ", cuser.money);
+      /* \n\033[m         ç±Œç¢¼é‚„æœ‰ %d å…ƒ      */
+      prints("\n\033[m         \xC4\x77\xBD\x58\xC1\xD9\xA6\xB3 %d \xA4\xB8     ", cuser.money);
     }
 
-    /* ¶}©l¶]¤F */
+    /* é–‹å§‹è·‘äº† */
 
-    item = get_item();		/* ¶Ã¼Æ¿ï¨ú¤¤ªº¶µ¥Ø */
-    dst = get_dst(item);	/* ¥Ñ©Ò¤¤ªº¶µ¥Ø¨Ó¨M©w³Ì«á°±¯dªº¦ì¸m */
+    item = get_item();		/* äº‚æ•¸é¸å–ä¸­çš„é …ç›® */
+    dst = get_dst(item);	/* ç”±æ‰€ä¸­çš„é …ç›®ä¾†æ±ºå®šæœ€å¾Œåœç•™çš„ä½ç½® */
 
-    for (i = ogn; i <= 48; i++)	/* ²Ä¤@°é */
+    for (i = ogn; i <= 48; i++)	/* ç¬¬ä¸€åœˆ */
     {
-      run(i, 0, 10 + i / 10);	/* °_©l¥[³t¡A¨C¬í 10 - 14 ¦¸¡A¶V¶]¶V§Ö */
+      run(i, 0, 10 + i / 10);	/* èµ·å§‹åŠ é€Ÿï¼Œæ¯ç§’ 10 - 14 æ¬¡ï¼Œè¶Šè·‘è¶Šå¿« */
     }
 
-    for (j = 0; j < 2; j++)	/* ¤¤¶¡¶]¤G°é´N¦n¤F */
+    for (j = 0; j < 2; j++)	/* ä¸­é–“è·‘äºŒåœˆå°±å¥½äº† */
     {
-      for (i = 1; i < 49; i++)	/* ¤¤¶¡ªº°é */
+      for (i = 1; i < 49; i++)	/* ä¸­é–“çš„åœˆ */
       {
-	run(i, 0, 15);		/* ¤¤¬q°ª³t¡Aºû«ù¨C¬í 15 ¦¸ */
+	run(i, 0, 15);		/* ä¸­æ®µé«˜é€Ÿï¼Œç¶­æŒæ¯ç§’ 15 æ¬¡ */
       }
     }
 
-    for (i = 1; i <= dst; i++)	/* ³Ì«á¤@°é */
+    for (i = 1; i <= dst; i++)	/* æœ€å¾Œä¸€åœˆ */
     {
-      run(i, 0, 14 - i / 10);	/* ³Ì«á´î³t¡A¨C¬í 14 - 10 ¦¸ */
+      run(i, 0, 14 - i / 10);	/* æœ€å¾Œæ¸›é€Ÿï¼Œæ¯ç§’ 14 - 10 æ¬¡ */
     }
 
-    for (j = 0; j < 2; j++)	/* ¦b³Ì«á°±¯dªº¦ì¸m°{¤G¦¸ */
+    for (j = 0; j < 2; j++)	/* åœ¨æœ€å¾Œåœç•™çš„ä½ç½®é–ƒäºŒæ¬¡ */
     {
       run(dst, 0, 2);
       run(dst, 1, 2);
@@ -307,42 +347,50 @@ main_bar()
 
     move(2, 0);
     clrtoeol();
-    prints("¤¤¼úªº¬O \033[37m%s\033[m¡A", itemlist[item]);
+    /* ä¸­ççš„æ˜¯ \033[37m%s\033[mï¼Œ */
+    prints("\xA4\xA4\xBC\xFA\xAA\xBA\xAC\x4F \033[37m%s\033[m\xA1\x41", itemlist[item]);
 
     if (!money[item])
     {
-      outs("İ¢Àt +_+");
+      /* æ‘ƒé¾œ +_+ */
+      outs("\xDD\xA2\xC0\x74 +_+");
     }
     else
     {
       money[0] = money[item] * price[item];
-      prints("®¥³ß±z©ã¤¤¤F¡AÀò±o¼úª÷ \033[32m%d\033[m", money[0]);
+      /* æ­å–œæ‚¨æŠ¼ä¸­äº†ï¼Œç²å¾—çé‡‘ \033[32m%d\033[m */
+      prints("\xAE\xA5\xB3\xDF\xB1\x7A\xA9\xE3\xA4\xA4\xA4\x46\xA1\x41\xC0\xF2\xB1\x6F\xBC\xFA\xAA\xF7 \033[32m%d\033[m", money[0]);
 
-      for (;;)		/* ¥i¥H¤@ª½¤ñ¤j¤p¤ñ¨ì²n */
+      for (;;)		/* å¯ä»¥ä¸€ç›´æ¯”å¤§å°æ¯”åˆ°çˆ½ */
       {
-	sprintf(buf, "¥Ø«e¼úª÷: %d ±zÁÙ­n¤ñ¤j¤p¶Ü(Y/N)¡H[N] ", money[0]);
+	/* ç›®å‰çé‡‘: %d æ‚¨é‚„è¦æ¯”å¤§å°å—(Y/N)ï¼Ÿ[N]  */
+	sprintf(buf, "\xA5\xD8\xAB\x65\xBC\xFA\xAA\xF7: %d \xB1\x7A\xC1\xD9\xAD\x6E\xA4\xF1\xA4\x6A\xA4\x70\xB6\xDC(Y/N)\xA1\x48[N] ", money[0]);
 
-	if (vans(buf) != 'y')	/* ¤£¤ñ¤j¤p */
+	if (vans(buf) != 'y')	/* ä¸æ¯”å¤§å° */
 	{
 	  move(2, 0);
 	  clrtoeol();
-	  prints("±o¼úª÷ %d", money[0]);
+	  /* å¾—çé‡‘ %d */
+	  prints("\xB1\x6F\xBC\xFA\xAA\xF7 %d", money[0]);
 	  break;
 	}
-	else			/* ¤ñ¤j¤p */
+	else			/* æ¯”å¤§å° */
 	{
-	  sprintf(buf, "±z­n©ã¤°»ò¡H [1]¤j (2)¤p ");
-	  ch = vans(buf) - '1';		/* ch = 0:¤j  1:¤p */
+	  /* æ‚¨è¦æŠ¼ä»€éº¼ï¼Ÿ [1]å¤§ (2)å°  */
+	  sprintf(buf, "\xB1\x7A\xAD\x6E\xA9\xE3\xA4\xB0\xBB\xF2\xA1\x48 [1]\xA4\x6A (2)\xA4\x70 ");
+	  ch = vans(buf) - '1';		/* ch = 0:å¤§  1:å° */
 
 	  for (i = 16; i <= 20; i++)
 	  {
 	    move(15, 30);
-	    outs("ùş¤j           ¡¼¤p");
+	    /* â–“å¤§           â–¡å° */
+	    outs("\xF9\xFE\xA4\x6A           \xA1\xBC\xA4\x70");
 	    refresh();
 	    usleep(6000 * (i ^ 2));
 
 	    move(15, 30);
-	    outs("¡¼¤j           ùş¤p");
+	    /* â–¡å¤§           â–“å° */
+	    outs("\xA1\xBC\xA4\x6A           \xF9\xFE\xA4\x70");
 	    usleep(6000 * (i ^ 2));
 	    refresh();
 	  }
@@ -350,35 +398,40 @@ main_bar()
 	  price[0] = rnd(2);
 	  move(15, 30);
 	  if (price[0])
-	    outs("ùş¤j           ¡¼¤p");
+	    /* â–“å¤§           â–¡å° */
+	    outs("\xF9\xFE\xA4\x6A           \xA1\xBC\xA4\x70");
 	  else
-	    outs("¡¼¤j           ùş¤p");
+	    /* â–¡å¤§           â–“å° */
+	    outs("\xA1\xBC\xA4\x6A           \xF9\xFE\xA4\x70");
 
 	  if (price[0] == ch)
 	  {
 	    money[0] *= 2;
 	    move(2, 0);
 	    clrtoeol();
-	    outs("°Ú¡I©ã¤¤¤F¡I¼úª÷ÅÜ¦¨¤G­¿¡I");
+	    /* å•Šï¼æŠ¼ä¸­äº†ï¼çé‡‘è®ŠæˆäºŒå€ï¼ */
+	    outs("\xB0\xDA\xA1\x49\xA9\xE3\xA4\xA4\xA4\x46\xA1\x49\xBC\xFA\xAA\xF7\xC5\xDC\xA6\xA8\xA4\x47\xAD\xBF\xA1\x49");
 	  }
 	  else
 	  {
 	    money[0] = 0;
 	    move(2, 0);
 	    clrtoeol();
-	    outs("µª¿ù¤F¡I¹s¤À¡I");
-	    break;	/* ¤ñ¤j¤pµ²§ô */
+	    /* ç­”éŒ¯äº†ï¼é›¶åˆ†ï¼ */
+	    outs("\xB5\xAA\xBF\xF9\xA4\x46\xA1\x49\xB9\x73\xA4\xC0\xA1\x49");
+	    break;	/* æ¯”å¤§å°çµæŸ */
 	  }
 	}
       }
       addmoney(money[0]);
-    }		/* ¤ñ¤j¤pµ²§ô */
+    }		/* æ¯”å¤§å°çµæŸ */
 
-    vmsg("Ä~Äò¤U¤@½L¤jÁÉ");
+    /* ç¹¼çºŒä¸‹ä¸€ç›¤å¤§è³½ */
+    vmsg("\xC4\x7E\xC4\xF2\xA4\x55\xA4\x40\xBD\x4C\xA4\x6A\xC1\xC9");
     move(b_lines, 0);
-    clrtoeol();			/* ²M°£½Ğ«ö¥ô·NÁäÄ~Äò */
+    clrtoeol();			/* æ¸…é™¤è«‹æŒ‰ä»»æ„éµç¹¼çºŒ */
 
-    ogn = dst;			/* ¤U¦¸°_ÂI¬O¤W¦¸ªº²×ÂI */
+    ogn = dst;			/* ä¸‹æ¬¡èµ·é»æ˜¯ä¸Šæ¬¡çš„çµ‚é» */
   }
 
 abort_game:

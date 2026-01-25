@@ -38,7 +38,7 @@
 /* ----------------------------------------------------- */
 
 
-/* ¨Ñ·sª© client ¨Ï¥Î */
+/* ä¾›æ–°ç‰ˆ client ä½¿ç”¨ */
 
 
 #define MSG_LOGINOK		100
@@ -127,10 +127,12 @@ nextword(str)
 }
 
 
-/* ¨Ñ·sª© server ¨Ï¥Î */
+/* ä¾›æ–°ç‰ˆ server ä½¿ç”¨ */
 
 
-#define	MSG_CLOAKED	"«¢«¢¡I§ÚÁô§Î°_¨Ó¤F"
-#define	MSG_UNCLOAK	"§Ú­n­«²{¦¿´ò¤F...."
+/* å“ˆå“ˆï¼æˆ‘éš±å½¢èµ·ä¾†äº† */
+#define	MSG_CLOAKED	"\xAB\xA2\xAB\xA2\xA1\x49\xA7\xDA\xC1\xF4\xA7\xCE\xB0\x5F\xA8\xD3\xA4\x46"
+/* æˆ‘è¦é‡ç¾æ±Ÿæ¹–äº†.... */
+#define	MSG_UNCLOAK	"\xA7\xDA\xAD\x6E\xAD\xAB\xB2\x7B\xA6\xBF\xB4\xF2\xA4\x46...."
 
 #endif		/* _XCHAT_H_ */

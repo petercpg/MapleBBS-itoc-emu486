@@ -1,7 +1,7 @@
 /*-------------------------------------------------------*/
 /* util/topsong.c        ( NTHU CS MapleBBS Ver 3.10 )   */
 /*-------------------------------------------------------*/
-/* target : ∫q•ª®œ•Œ±∆¶W                                 */
+/* target : Ê≠åÊú¨‰ΩøÁî®ÊéíÂêç                                 */
 /* create : 01/09/28                                     */
 /* update :   /  /                                       */
 /* author : itoc.bbs@bbs.tnfsh.tn.edu.tw                 */
@@ -29,12 +29,15 @@ write_data(songs, num)
   if (!(fp = fopen(OUTFILE_TOPSONG, "w")))
     return;
 
-  fprintf(fp, "    \033[36m¢w¢w\033[37m¶W¶∏\033[36m¢w¢w¢w¢w¢w¢w\033[37m∫q  ¶W"
-    "\033[36m¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w\033[37m¶∏º∆\033[36m¢w¢w\033[m\n");
+  /*     \033[36m‚îÄ‚îÄ\033[37mÂêçÊ¨°\033[36m‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ\033[37mÊ≠å  Âêç */
+  fprintf(fp, "    \033[36m\xA2\x77\xA2\x77\033[37m\xA6\x57\xA6\xB8\033[36m\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\033[37m\xBA\x71  \xA6\x57"
+    /* \033[36m‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ\033[37mÊ¨°Êï∏\033[36m‚îÄ‚îÄ\033[m\n */
+    "\033[36m\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\033[37m\xA6\xB8\xBC\xC6\033[36m\xA2\x77\xA2\x77\033[m\n");
 
-  for (n = 0; n < 50 && n < num; n++)		/* •u®˙´e 50 ¶W */
+  for (n = 0; n < 50 && n < num; n++)		/* Âè™ÂèñÂâç 50 Âêç */
   {
-    fprintf(fp, "      %5d. %-38.38s %4d ¶∏\033[m\n", 
+    /*       %5d. %-38.38s %4d Ê¨°\033[m\n */
+    fprintf(fp, "      %5d. %-38.38s %4d \xA6\xB8\033[m\n", 
       n + 1, songs[n].title, songs[n].count);
   }
 

@@ -5,14 +5,14 @@
 /* create : 95/03/29				 	 */
 /* update : 95/12/15				 	 */
 /*-------------------------------------------------------*/
-/* brd/_/.VCH  : Vote Control Header    ¥Ø«e©Ò¦³§ë²¼¯Á¤Ş */
-/* brd/_/@vote : vote history           ¹L¥hªº§ë²¼¾ú¥v	 */
-/* brd/_/@/@_  : vote description       §ë²¼»¡©ú	 */
-/* brd/_/@/I_  : vote selection Items   §ë²¼¿ï¶µ	 */
-/* brd/_/@/O_  : users' Opinions        ¨Ï¥ÎªÌ¦³¸Ü­n»¡	 */
-/* brd/_/@/L_  : can vote List          ¥i§ë²¼¦W³æ	 */
-/* brd/_/@/G_  : voted id loG file      ¤w»â²¼¦W³æ	 */
-/* brd/_/@/Z_  : final/temporary result	§ë²¼µ²ªG	 */
+/* brd/_/.VCH  : Vote Control Header    ç›®å‰æ‰€æœ‰æŠ•ç¥¨ç´¢å¼• */
+/* brd/_/@vote : vote history           éå»çš„æŠ•ç¥¨æ­·å²	 */
+/* brd/_/@/@_  : vote description       æŠ•ç¥¨èªªæ˜	 */
+/* brd/_/@/I_  : vote selection Items   æŠ•ç¥¨é¸é …	 */
+/* brd/_/@/O_  : users' Opinions        ä½¿ç”¨è€…æœ‰è©±è¦èªª	 */
+/* brd/_/@/L_  : can vote List          å¯æŠ•ç¥¨åå–®	 */
+/* brd/_/@/G_  : voted id loG file      å·²é ˜ç¥¨åå–®	 */
+/* brd/_/@/Z_  : final/temporary result	æŠ•ç¥¨çµæœ	 */
 /*-------------------------------------------------------*/
 
 
@@ -29,7 +29,7 @@ vch_fpath(fpath, folder, vch)
   char *fpath, *folder;
   VCH *vch;
 {
-  /* VCH ©M HDR ªº xname Äæ¦ì¤Ç°t¡A©Ò¥Hª½±µ­É¥Î hdr_fpath() */
+  /* VCH å’Œ HDR çš„ xname æ¬„ä½åŒ¹é…ï¼Œæ‰€ä»¥ç›´æ¥å€Ÿç”¨ hdr_fpath() */
   hdr_fpath(fpath, folder, (HDR *) vch);
   return strrchr(fpath, '@');
 }
@@ -45,11 +45,12 @@ vote_result(xo)
   char fpath[64];
 
   setdirpath(fpath, xo->dir, "@/@vote");
-  /* Thor.990204: ¬°¦Ò¼{more ¶Ç¦^­È */   
+  /* Thor.990204: ç‚ºè€ƒæ…®more å‚³å›å€¼ */   
   if (more(fpath, NULL) >= 0)
-    return XO_HEAD;	/* XZ_POST ©M XZ_VOTE ¦@¥Î vote_result() */
+    return XO_HEAD;	/* XZ_POST å’Œ XZ_VOTE å…±ç”¨ vote_result() */
 
-  vmsg("¥Ø«e¨S¦³¥ô¦ó¶}²¼ªºµ²ªG");
+  /* ç›®å‰æ²’æœ‰ä»»ä½•é–‹ç¥¨çš„çµæœ */
+  vmsg("\xA5\xD8\xAB\x65\xA8\x53\xA6\xB3\xA5\xF4\xA6\xF3\xB6\x7D\xB2\xBC\xAA\xBA\xB5\xB2\xAA\x47");
   return XO_FOOT;
 }
 
@@ -77,12 +78,14 @@ vote_body(xo)
   {
     if (bbstate & STAT_BOARD)
     {
-      if (vans("­nÁ|¿ì§ë²¼¶Ü(Y/N)¡H[N] ") == 'y')
+      /* è¦èˆ‰è¾¦æŠ•ç¥¨å—(Y/N)ï¼Ÿ[N]  */
+      if (vans("\xAD\x6E\xC1\x7C\xBF\xEC\xA7\xEB\xB2\xBC\xB6\xDC(Y/N)\xA1\x48[N] ") == 'y')
 	return vote_add(xo);
     }
     else
     {
-      vmsg("¥Ø«e¨ÃµL§ë²¼Á|¦æ");
+      /* ç›®å‰ä¸¦ç„¡æŠ•ç¥¨èˆ‰è¡Œ */
+      vmsg("\xA5\xD8\xAB\x65\xA8\xC3\xB5\x4C\xA7\xEB\xB2\xBC\xC1\x7C\xA6\xE6");
     }
     return XO_QUIT;
   }
@@ -101,7 +104,7 @@ vote_body(xo)
   clrtobot();
 
   /* return XO_NONE; */
-  return XO_FOOT;	/* itoc.010403: §â b_lines ¶ñ¤W feeter */
+  return XO_FOOT;	/* itoc.010403: æŠŠ b_lines å¡«ä¸Š feeter */
 }
 
 
@@ -109,7 +112,8 @@ static int
 vote_head(xo)
   XO *xo;
 {
-  vs_head(currBM, "§ë²¼©Ò");
+  /* æŠ•ç¥¨æ‰€ */
+  vs_head(currBM, "\xA7\xEB\xB2\xBC\xA9\xD2");
   prints(NECKER_VOTE, d_cols, "");
   return vote_body(xo);
 }
@@ -136,7 +140,7 @@ vote_load(xo)
 static void
 vch_edit(vch, item, echo)
   VCH *vch;
-  int item;		/* vlist ¦³´X¶µ */
+  int item;		/* vlist æœ‰å¹¾é … */
   int echo;
 {
   int num, row;
@@ -146,12 +150,14 @@ vch_edit(vch, item, echo)
 
   row = 3;
 
-  if (echo == DOECHO)	/* ¥u¦³·s¼W®É¤~¯à¨M©w¬O§_¬°½ä½L */
-    vch->vgamble = (vget(++row, 0, "¬O§_¬°½ä½L(Y/N)¡H[N] ", ans, 3, LCECHO) == 'y') ? '$' : ' ';
+  if (echo == DOECHO)	/* åªæœ‰æ–°å¢æ™‚æ‰èƒ½æ±ºå®šæ˜¯å¦ç‚ºè³­ç›¤ */
+    /* æ˜¯å¦ç‚ºè³­ç›¤(Y/N)ï¼Ÿ[N]  */
+    vch->vgamble = (vget(++row, 0, "\xAC\x4F\xA7\x5F\xAC\xB0\xBD\xE4\xBD\x4C(Y/N)\xA1\x48[N] ", ans, 3, LCECHO) == 'y') ? '$' : ' ';
 
   if (vch->vgamble == ' ')
   {
-    sprintf(buf, "½Ğ°İ¨C¤H³Ì¦h¥i§ë´X²¼¡H([1]¡ã%d)¡G", item);
+    /* è«‹å•æ¯äººæœ€å¤šå¯æŠ•å¹¾ç¥¨ï¼Ÿ([1]ï½%d)ï¼š */
+    sprintf(buf, "\xBD\xD0\xB0\xDD\xA8\x43\xA4\x48\xB3\xCC\xA6\x68\xA5\x69\xA7\xEB\xB4\x58\xB2\xBC\xA1\x48([1]\xA1\xE3%d)\xA1\x47", item);
     vget(++row, 0, buf, ans, 3, DOECHO);
     num = atoi(ans);
     if (num < 1)
@@ -160,12 +166,13 @@ vch_edit(vch, item, echo)
       num = item;
     vch->maxblt = num;
   }
-  else if (echo == DOECHO)	/* ¥u¦³·s¼W®É¤~¯à§ïÅÜ½ä½Lªº²¼»ù */
+  else if (echo == DOECHO)	/* åªæœ‰æ–°å¢æ™‚æ‰èƒ½æ”¹è®Šè³­ç›¤çš„ç¥¨åƒ¹ */
   {
-    /* ½ä½L´N¥u¯à¿ï¤@¶µ */
+    /* è³­ç›¤å°±åªèƒ½é¸ä¸€é … */
     vch->maxblt = 1;
 
-    vget(++row, 0, "½Ğ°İ¨C²¼°â»ù¦h¤Ö»È¹ô¡H(100¡ã100000)¡G", ans, 7, DOECHO);
+    /* è«‹å•æ¯ç¥¨å”®åƒ¹å¤šå°‘éŠ€å¹£ï¼Ÿ(100ï½100000)ï¼š */
+    vget(++row, 0, "\xBD\xD0\xB0\xDD\xA8\x43\xB2\xBC\xB0\xE2\xBB\xF9\xA6\x68\xA4\xD6\xBB\xC8\xB9\xF4\xA1\x48(100\xA1\xE3""100000)\xA1\x47", ans, 7, DOECHO);
     num = atoi(ans);
     if (num < 100)
       num = 100;
@@ -174,17 +181,20 @@ vch_edit(vch, item, echo)
     vch->price = num;
   }
 
-  vget(++row, 0, "¥»¶µ§ë²¼¶i¦æ´X¤p®É (¦Ü¤Ö¤@¤p®É)¡H[1] ", ans, 5, DOECHO);
+  /* æœ¬é …æŠ•ç¥¨é€²è¡Œå¹¾å°æ™‚ (è‡³å°‘ä¸€å°æ™‚)ï¼Ÿ[1]  */
+  vget(++row, 0, "\xA5\xBB\xB6\xB5\xA7\xEB\xB2\xBC\xB6\x69\xA6\xE6\xB4\x58\xA4\x70\xAE\xC9 (\xA6\xDC\xA4\xD6\xA4\x40\xA4\x70\xAE\xC9)\xA1\x48[1] ", ans, 5, DOECHO);
   num = atoi(ans);
   if (num < 1)
     num = 1;
   vch->vclose = vch->chrono + num * 3600;
   str_stamp(vch->cdate, vch->vclose);
 
-  if (vch->vgamble == ' ')	/* ½ä½L¤@©w±Æ§Ç¡B¤ÎÅã¥Ü¦Ê¤À¤ñ */
+  if (vch->vgamble == ' ')	/* è³­ç›¤ä¸€å®šæ’åºã€åŠé¡¯ç¤ºç™¾åˆ†æ¯” */
   {
-    vch->vsort = (vget(++row, 0, "¶}²¼µ²ªG¬O§_±Æ§Ç(Y/N)¡H[N] ", ans, 3, LCECHO) == 'y') ? 's' : ' ';
-    vch->vpercent = (vget(++row, 0, "¶}²¼µ²ªG¬O§_Åã¥Ü¦Ê¤À¤ñ¨Ò(Y/N)¡H[N] ", ans, 3, LCECHO) == 'y') ? '%' : ' ';
+    /* é–‹ç¥¨çµæœæ˜¯å¦æ’åº(Y/N)ï¼Ÿ[N]  */
+    vch->vsort = (vget(++row, 0, "\xB6\x7D\xB2\xBC\xB5\xB2\xAA\x47\xAC\x4F\xA7\x5F\xB1\xC6\xA7\xC7(Y/N)\xA1\x48[N] ", ans, 3, LCECHO) == 'y') ? 's' : ' ';
+    /* é–‹ç¥¨çµæœæ˜¯å¦é¡¯ç¤ºç™¾åˆ†æ¯”ä¾‹(Y/N)ï¼Ÿ[N]  */
+    vch->vpercent = (vget(++row, 0, "\xB6\x7D\xB2\xBC\xB5\xB2\xAA\x47\xAC\x4F\xA7\x5F\xC5\xE3\xA5\xDC\xA6\xCA\xA4\xC0\xA4\xF1\xA8\xD2(Y/N)\xA1\x48[N] ", ans, 3, LCECHO) == 'y') ? '%' : ' ';
   }
   else
   {
@@ -192,17 +202,21 @@ vch_edit(vch, item, echo)
     vch->vpercent = '%';
   }
 
-  vch->vprivate = (vget(++row, 0, "¬O§_­­¨î§ë²¼¦W³æ(Y/N)¡H[N] ", ans, 3, LCECHO) == 'y') ? ')' : ' ';
+  /* æ˜¯å¦é™åˆ¶æŠ•ç¥¨åå–®(Y/N)ï¼Ÿ[N]  */
+  vch->vprivate = (vget(++row, 0, "\xAC\x4F\xA7\x5F\xAD\xAD\xA8\xEE\xA7\xEB\xB2\xBC\xA6\x57\xB3\xE6(Y/N)\xA1\x48[N] ", ans, 3, LCECHO) == 'y') ? ')' : ' ';
 
-  if (vch->vprivate == ' ' && vget(++row, 0, "¬O§_­­¨î§ë²¼¸ê®æ(Y/N)¡H[N] ", ans, 3, LCECHO) == 'y')
+  /* æ˜¯å¦é™åˆ¶æŠ•ç¥¨è³‡æ ¼(Y/N)ï¼Ÿ[N]  */
+  if (vch->vprivate == ' ' && vget(++row, 0, "\xAC\x4F\xA7\x5F\xAD\xAD\xA8\xEE\xA7\xEB\xB2\xBC\xB8\xEA\xAE\xE6(Y/N)\xA1\x48[N] ", ans, 3, LCECHO) == 'y')
   {
-    vget(++row, 0, "½Ğ°İ­nµn¤J´X¦¸¥H¤W¤~¥i¥H°Ñ¥[¥»¦¸§ë²¼¡H([0]¡ã9999)¡G", ans, 5, DOECHO);
+    /* è«‹å•è¦ç™»å…¥å¹¾æ¬¡ä»¥ä¸Šæ‰å¯ä»¥åƒåŠ æœ¬æ¬¡æŠ•ç¥¨ï¼Ÿ([0]ï½9999)ï¼š */
+    vget(++row, 0, "\xBD\xD0\xB0\xDD\xAD\x6E\xB5\x6E\xA4\x4A\xB4\x58\xA6\xB8\xA5\x48\xA4\x57\xA4\x7E\xA5\x69\xA5\x48\xB0\xD1\xA5\x5B\xA5\xBB\xA6\xB8\xA7\xEB\xB2\xBC\xA1\x48([0]\xA1\xE3""9999)\xA1\x47", ans, 5, DOECHO);
     num = atoi(ans);
     if (num < 0)
       num = 0;
     vch->limitlogins = num;
 
-    vget(++row, 0, "½Ğ°İ­nµo¤å´X¦¸¥H¤W¤~¥i¥H°Ñ¥[¥»¦¸§ë²¼¡H([0]¡ã9999)¡G", ans, 5, DOECHO);
+    /* è«‹å•è¦ç™¼æ–‡å¹¾æ¬¡ä»¥ä¸Šæ‰å¯ä»¥åƒåŠ æœ¬æ¬¡æŠ•ç¥¨ï¼Ÿ([0]ï½9999)ï¼š */
+    vget(++row, 0, "\xBD\xD0\xB0\xDD\xAD\x6E\xB5\x6F\xA4\xE5\xB4\x58\xA6\xB8\xA5\x48\xA4\x57\xA4\x7E\xA5\x69\xA5\x48\xB0\xD1\xA5\x5B\xA5\xBB\xA6\xB8\xA7\xEB\xB2\xBC\xA1\x48([0]\xA1\xE3""9999)\xA1\x47", ans, 5, DOECHO);
     num = atoi(ans);
     if (num < 0)
       num = 0;
@@ -220,7 +234,8 @@ vlist_edit(vlist)
 
   clear();
 
-  outs("½Ğ¨Ì§Ç¿é¤J¿ï¶µ (³Ì¦h 32 ¶µ)¡A«ö ENTER µ²§ô¡G");
+  /* è«‹ä¾åºè¼¸å…¥é¸é … (æœ€å¤š 32 é …)ï¼ŒæŒ‰ ENTER çµæŸï¼š */
+  outs("\xBD\xD0\xA8\xCC\xA7\xC7\xBF\xE9\xA4\x4A\xBF\xEF\xB6\xB5 (\xB3\xCC\xA6\x68 32 \xB6\xB5)\xA1\x41\xAB\xF6 ENTER \xB5\xB2\xA7\xF4\xA1\x47");
 
   strcpy(buf, " ) ");
   for (;;)
@@ -233,7 +248,8 @@ vlist_edit(vlist)
         (++item >= MAX_CHOICES))
 	break;
     }
-    if (item && vans("¬O§_­«·s¿é¤J¿ï¶µ(Y/N)¡H[N] ") != 'y')
+    /* æ˜¯å¦é‡æ–°è¼¸å…¥é¸é …(Y/N)ï¼Ÿ[N]  */
+    if (item && vans("\xAC\x4F\xA7\x5F\xAD\xAB\xB7\x73\xBF\xE9\xA4\x4A\xBF\xEF\xB6\xB5(Y/N)\xA1\x48[N] ") != 'y')
       break;
   }
   return item;
@@ -277,24 +293,28 @@ vote_add(xo)
   if (!(bbstate & STAT_BOARD))
     return XO_NONE;
 
-  if (!vget(b_lines, 0, "¼ĞÃD¡G", title, TTLEN + 1, DOECHO))
-    return xo->max ? XO_FOOT : vote_body(xo);	/* itoc.011125: ¦pªG¨S¦³¥ô¦ó§ë²¼¡A­n¦^¨ì vote_body() */
+  /* æ¨™é¡Œï¼š */
+  if (!vget(b_lines, 0, "\xBC\xD0\xC3\x44\xA1\x47", title, TTLEN + 1, DOECHO))
+    return xo->max ? XO_FOOT : vote_body(xo);	/* itoc.011125: å¦‚æœæ²’æœ‰ä»»ä½•æŠ•ç¥¨ï¼Œè¦å›åˆ° vote_body() */
     /* return XO_FOOT; */
 
   dir = xo->dir;
   if ((fd = hdr_stamp(dir, 0, (HDR *) &vch, fpath)) < 0)
   {
-    vmsg("µLªk«Ø¥ß§ë²¼»¡©úÀÉ");
+    /* ç„¡æ³•å»ºç«‹æŠ•ç¥¨èªªæ˜æª” */
+    vmsg("\xB5\x4C\xAA\x6B\xAB\xD8\xA5\xDF\xA7\xEB\xB2\xBC\xBB\xA1\xA9\xFA\xC0\xC9");
     return XO_FOOT;
   }
 
   close(fd);
-  vmsg("¶}©l½s¿è [§ë²¼»¡©ú]");
-  fd = vedit(fpath, 0); /* Thor.981020: ª`·N³Qtalkªº°İÃD */
+  /* é–‹å§‹ç·¨è¼¯ [æŠ•ç¥¨èªªæ˜] */
+  vmsg("\xB6\x7D\xA9\x6C\xBD\x73\xBF\xE8 [\xA7\xEB\xB2\xBC\xBB\xA1\xA9\xFA]");
+  fd = vedit(fpath, 0); /* Thor.981020: æ³¨æ„è¢«talkçš„å•é¡Œ */
   if (fd)
   {
     unlink(fpath);
-    vmsg("¨ú®ø§ë²¼");
+    /* å–æ¶ˆæŠ•ç¥¨ */
+    vmsg("\xA8\xFA\xAE\xF8\xA7\xEB\xB2\xBC");
     return vote_head(xo);
   }
 
@@ -302,7 +322,7 @@ vote_add(xo)
   str = strrchr(fpath, '@');
 
   /* --------------------------------------------------- */
-  /* §ë²¼¿ï¶µÀÉ : Item					 */
+  /* æŠ•ç¥¨é¸é …æª” : Item					 */
   /* --------------------------------------------------- */
 
   memset(vlist, 0, sizeof(vlist));
@@ -311,7 +331,8 @@ vote_add(xo)
   *str = 'I';
   if ((fd = open(fpath, O_WRONLY | O_CREAT | O_TRUNC, 0600)) < 0)
   {
-    vmsg("µLªk«Ø¥ß§ë²¼¿ï¶µÀÉ");
+    /* ç„¡æ³•å»ºç«‹æŠ•ç¥¨é¸é …æª” */
+    vmsg("\xB5\x4C\xAA\x6B\xAB\xD8\xA5\xDF\xA7\xEB\xB2\xBC\xBF\xEF\xB6\xB5\xC0\xC9");
     return vote_head(xo);
   }
   write(fd, vlist, item * sizeof(vitem_t));
@@ -330,7 +351,8 @@ vote_add(xo)
 
   rec_add(dir, &vch, sizeof(VCH));
 
-  vmsg("¶}©l§ë²¼¤F¡I");
+  /* é–‹å§‹æŠ•ç¥¨äº†ï¼ */
+  vmsg("\xB6\x7D\xA9\x6C\xA7\xEB\xB2\xBC\xA4\x46\xA1\x49");
   return vote_init(xo);
 }
 
@@ -343,7 +365,7 @@ vote_edit(xo)
   VCH *vch, vxx;
   char *dir, fpath[64];
 
-  /* Thor: for ­×§ï§ë²¼¿ï¶µ */
+  /* Thor: for ä¿®æ”¹æŠ•ç¥¨é¸é … */
   int fd, item;
   vitem_t vlist[MAX_CHOICES];
   char *fname;
@@ -355,17 +377,18 @@ vote_edit(xo)
   dir = xo->dir;
   vch = (VCH *) xo_pool + (pos - xo->top);
 
-  /* Thor: ­×§ï§ë²¼¥DÃD */
+  /* Thor: ä¿®æ”¹æŠ•ç¥¨ä¸»é¡Œ */
 
   vxx = *vch;
 
-  if (!vget(b_lines, 0, "¼ĞÃD¡G", vxx.title, TTLEN + 1, GCARRY))
+  /* æ¨™é¡Œï¼š */
+  if (!vget(b_lines, 0, "\xBC\xD0\xC3\x44\xA1\x47", vxx.title, TTLEN + 1, GCARRY))
     return XO_FOOT;
 
   fname = vch_fpath(fpath, dir, vch);
-  vedit(fpath, 0);	/* Thor.981020: ª`·N³Qtalkªº°İÃD  */
+  vedit(fpath, 0);	/* Thor.981020: æ³¨æ„è¢«talkçš„å•é¡Œ  */
 
-  /* Thor: ­×§ï§ë²¼¿ï¶µ */
+  /* Thor: ä¿®æ”¹æŠ•ç¥¨é¸é … */
 
   memset(vlist, 0, sizeof(vlist));
   *fname = 'I';
@@ -379,7 +402,8 @@ vote_edit(xo)
 
   if ((fd = open(fpath, O_WRONLY | O_CREAT | O_TRUNC, 0600)) < 0)
   {
-    vmsg("µLªk«Ø¥ß§ë²¼¿ï¶µÀÉ");
+    /* ç„¡æ³•å»ºç«‹æŠ•ç¥¨é¸é …æª” */
+    vmsg("\xB5\x4C\xAA\x6B\xAB\xD8\xA5\xDF\xA7\xEB\xB2\xBC\xBF\xEF\xB6\xB5\xC0\xC9");
     return vote_head(xo);
   }
   write(fd, vlist, item * sizeof(vitem_t));
@@ -389,7 +413,8 @@ vote_edit(xo)
 
   if (memcmp(&vxx, vch, sizeof(VCH)))
   {
-    if (vans("½T©w­n­×§ï³o¶µ§ë²¼¶Ü(Y/N)¡H[N] ") == 'y')
+    /* ç¢ºå®šè¦ä¿®æ”¹é€™é …æŠ•ç¥¨å—(Y/N)ï¼Ÿ[N]  */
+    if (vans("\xBD\x54\xA9\x77\xAD\x6E\xAD\xD7\xA7\xEF\xB3\x6F\xB6\xB5\xA7\xEB\xB2\xBC\xB6\xDC(Y/N)\xA1\x48[N] ") == 'y')
     {
       *vch = vxx;
       currchrono = vch->chrono;
@@ -420,10 +445,12 @@ vote_query(xo)
   more(fpath, (char *) -1);
 
   *fname = 'G';
-  sprintf(buf, "¦@¦³ %d ¤H°Ñ¥[§ë²¼¡A½T©w­n±N¶}²¼®É¶¡§ï´Á(Y/N)¡H[N] ", rec_num(fpath, sizeof(VLOG)));
+  /* å…±æœ‰ %d äººåƒåŠ æŠ•ç¥¨ï¼Œç¢ºå®šè¦å°‡é–‹ç¥¨æ™‚é–“æ”¹æœŸ(Y/N)ï¼Ÿ[N]  */
+  sprintf(buf, "\xA6\x40\xA6\xB3 %d \xA4\x48\xB0\xD1\xA5\x5B\xA7\xEB\xB2\xBC\xA1\x41\xBD\x54\xA9\x77\xAD\x6E\xB1\x4E\xB6\x7D\xB2\xBC\xAE\xC9\xB6\xA1\xA7\xEF\xB4\xC1(Y/N)\xA1\x48[N] ", rec_num(fpath, sizeof(VLOG)));
   if (vans(buf) == 'y')
   {
-    vget(b_lines, 0, "½Ğ§ó§ï¶}²¼®É¶¡(-n´£«en¤p®É/+m©µ«ám¤p®É/0¤£§ï)¡G", buf, 5, DOECHO);
+    /* è«‹æ›´æ”¹é–‹ç¥¨æ™‚é–“(-næå‰nå°æ™‚/+må»¶å¾Œmå°æ™‚/0ä¸æ”¹)ï¼š */
+    vget(b_lines, 0, "\xBD\xD0\xA7\xF3\xA7\xEF\xB6\x7D\xB2\xBC\xAE\xC9\xB6\xA1(-n\xB4\xA3\xAB\x65n\xA4\x70\xAE\xC9/+m\xA9\xB5\xAB\xE1m\xA4\x70\xAE\xC9/0\xA4\xA3\xA7\xEF)\xA1\x47", buf, 5, DOECHO);
     if (cc = atoi(buf))
     {
       vch->vclose = vch->vclose + cc * 3600;
@@ -453,13 +480,13 @@ delvch(xo, vch)
 {
   int fd;
   char fpath[64], buf[64], *fname;
-  char *list = "@IOLGZ";	/* itoc.µù¸Ñ: ²M vote file */
+  char *list = "@IOLGZ";	/* itoc.è¨»è§£: æ¸… vote file */
   VLOG vlog;
   PAYCHECK paycheck;
 
   fname = vch_fpath(fpath, xo->dir, vch);
 
-  if (vch->vgamble == '$')	/* itoc.050313: ¦pªG¬O½ä½L³Q§R°£¡A¨º»ò­n°h½äª÷ */
+  if (vch->vgamble == '$')	/* itoc.050313: å¦‚æœæ˜¯è³­ç›¤è¢«åˆªé™¤ï¼Œé‚£éº¼è¦é€€è³­é‡‘ */
   {
     *fname = 'G';
 
@@ -467,7 +494,8 @@ delvch(xo, vch)
     {
       memset(&paycheck, 0, sizeof(PAYCHECK));
       time(&paycheck.tissue);
-      sprintf(paycheck.reason, "[°h´Ú] %s", currboard);
+      /* [é€€æ¬¾] %s */
+      sprintf(paycheck.reason, "[\xB0\x68\xB4\xDA] %s", currboard);
 
       while (read(fd, &vlog, sizeof(VLOG)) == sizeof(VLOG))
       {
@@ -480,7 +508,7 @@ delvch(xo, vch)
   }
 
   while (*fname = *list++)
-    unlink(fpath); /* Thor: ½T©w¦W¦r´N¬å */
+    unlink(fpath); /* Thor: ç¢ºå®šåå­—å°±ç  */
 }
 
 
@@ -534,7 +562,7 @@ vote_prune(xo)
 
 
 static int
-vote_pal(xo)		/* itoc.020117: ½s¿è­­¨î§ë²¼¦W³æ */
+vote_pal(xo)		/* itoc.020117: ç·¨è¼¯é™åˆ¶æŠ•ç¥¨åå–® */
   XO *xo;
 {
   char *fname, fpath[64];
@@ -554,7 +582,7 @@ vote_pal(xo)		/* itoc.020117: ½s¿è­­¨î§ë²¼¦W³æ */
 
   xz[XZ_PAL - XO_ZONE].xo = xt = xo_new(fpath);
   xt->key = PALTYPE_VOTE;
-  xover(XZ_PAL);		/* Thor: ¶ixover«e, pal_xo ¤@©w­n ready */
+  xover(XZ_PAL);		/* Thor: é€²xoverå‰, pal_xo ä¸€å®šè¦ ready */
 
   free(xt);
   return vote_init(xo);
@@ -581,95 +609,103 @@ vote_join(xo)
   vch = (VCH *) xo_pool + (xo->pos - xo->top);
 
   /* --------------------------------------------------- */
-  /* ÀË¬d¬O§_¤w¸gµ²§ô§ë²¼				 */
+  /* æª¢æŸ¥æ˜¯å¦å·²ç¶“çµæŸæŠ•ç¥¨				 */
   /* --------------------------------------------------- */
 
   if (time(0) > vch->vclose)
   {
-    vmsg("§ë²¼¤w¸gºI¤î¤F¡A½ĞÀR­Ô¶}²¼");
+    /* æŠ•ç¥¨å·²ç¶“æˆªæ­¢äº†ï¼Œè«‹éœå€™é–‹ç¥¨ */
+    vmsg("\xA7\xEB\xB2\xBC\xA4\x77\xB8\x67\xBA\x49\xA4\xEE\xA4\x46\xA1\x41\xBD\xD0\xC0\x52\xAD\xD4\xB6\x7D\xB2\xBC");
     return XO_FOOT;
   }
 
   /* --------------------------------------------------- */
-  /* ÀË¬d¬O§_¦³¨¬°÷¿ú					 */
+  /* æª¢æŸ¥æ˜¯å¦æœ‰è¶³å¤ éŒ¢					 */
   /* --------------------------------------------------- */
 
   if (vch->vgamble == '$')
   {
     if (cuser.money < vch->price)
     {
-      vmsg("±zªº¿ú¤£°÷°Ñ¥[½ä½L");
+      /* æ‚¨çš„éŒ¢ä¸å¤ åƒåŠ è³­ç›¤ */
+      vmsg("\xB1\x7A\xAA\xBA\xBF\xFA\xA4\xA3\xB0\xF7\xB0\xD1\xA5\x5B\xBD\xE4\xBD\x4C");
       return XO_FOOT;
     }
   }
 
   /* --------------------------------------------------- */
-  /* §ë²¼ÀÉ®×						 */
+  /* æŠ•ç¥¨æª”æ¡ˆ						 */
   /* --------------------------------------------------- */
 
   dir = xo->dir;
   fname = vch_fpath(fpath, dir, vch);
 
   /* --------------------------------------------------- */
-  /* ÀË¬d¬O§_¤w¸g§ë¹L²¼					 */
+  /* æª¢æŸ¥æ˜¯å¦å·²ç¶“æŠ•éç¥¨					 */
   /* --------------------------------------------------- */
 
-  if (vch->vgamble == ' ')	/* itoc.031101: ½ä½L¥i¥H¤@ª½¤Uª` */
+  if (vch->vgamble == ' ')	/* itoc.031101: è³­ç›¤å¯ä»¥ä¸€ç›´ä¸‹æ³¨ */
   {
     *fname = 'G';
     if (vlog_seek(fpath))
     {
-      vmsg("±z¤w¸g§ë¹L²¼¤F¡I");
+      /* æ‚¨å·²ç¶“æŠ•éç¥¨äº†ï¼ */
+      vmsg("\xB1\x7A\xA4\x77\xB8\x67\xA7\xEB\xB9\x4C\xB2\xBC\xA4\x46\xA1\x49");
       return XO_FOOT;
     }
   }
 
   /* --------------------------------------------------- */
-  /* ÀË¬d§ë²¼­­¨î					 */
+  /* æª¢æŸ¥æŠ•ç¥¨é™åˆ¶					 */
   /* --------------------------------------------------- */
 
   if (vch->vprivate == ' ')
   {
     if (cuser.numlogins < vch->limitlogins || cuser.numposts < vch->limitposts)
     {
-      vmsg("±z¤£°÷¸ê²`³á¡I");
+      /* æ‚¨ä¸å¤ è³‡æ·±å–”ï¼ */
+      vmsg("\xB1\x7A\xA4\xA3\xB0\xF7\xB8\xEA\xB2\x60\xB3\xE1\xA1\x49");
       return XO_FOOT;
     }
   }
-  else		/* itoc.020117: ¨p¤H§ë²¼ÀË¬d¬O§_¦b§ë²¼¦W³æ¤¤ */
+  else		/* itoc.020117: ç§äººæŠ•ç¥¨æª¢æŸ¥æ˜¯å¦åœ¨æŠ•ç¥¨åå–®ä¸­ */
   {
     *fname = 'L';
 
     if (!pal_find(fpath, cuser.userno) &&
-      !(bbstate & STAT_BOARD))		/* ¥Ñ©ó¨Ã¤£¯à§â¦Û¤v¥[¤JªB¤Í¦W³æ¡A©Ò¥H­n¦hÀË¬d¬O§_¬°ªO¥D */
+      !(bbstate & STAT_BOARD))		/* ç”±æ–¼ä¸¦ä¸èƒ½æŠŠè‡ªå·±åŠ å…¥æœ‹å‹åå–®ï¼Œæ‰€ä»¥è¦å¤šæª¢æŸ¥æ˜¯å¦ç‚ºæ¿ä¸» */
     {
-      vmsg("±z¨S¦³¨üÁÜ¥»¦¸¨p¤H§ë²¼¡I");
+      /* æ‚¨æ²’æœ‰å—é‚€æœ¬æ¬¡ç§äººæŠ•ç¥¨ï¼ */
+      vmsg("\xB1\x7A\xA8\x53\xA6\xB3\xA8\xFC\xC1\xDC\xA5\xBB\xA6\xB8\xA8\x70\xA4\x48\xA7\xEB\xB2\xBC\xA1\x49");
       return XO_FOOT;
     }
   }
 
   /* --------------------------------------------------- */
-  /* ½T»{¶i¤J§ë²¼					 */
+  /* ç¢ºèªé€²å…¥æŠ•ç¥¨					 */
   /* --------------------------------------------------- */
 
-  if (vans(vch->vgamble == ' ' ? "¬O§_°Ñ¥[§ë²¼(Y/N)¡H[N] " : "¬O§_°Ñ¥[½ä½L(Y/N)¡H[N] ") != 'y')
+  /* æ˜¯å¦åƒåŠ æŠ•ç¥¨(Y/N)ï¼Ÿ[N]  */
+  /* æ˜¯å¦åƒåŠ è³­ç›¤(Y/N)ï¼Ÿ[N]  */
+  if (vans(vch->vgamble == ' ' ? "\xAC\x4F\xA7\x5F\xB0\xD1\xA5\x5B\xA7\xEB\xB2\xBC(Y/N)\xA1\x48[N] " : "\xAC\x4F\xA7\x5F\xB0\xD1\xA5\x5B\xBD\xE4\xBD\x4C(Y/N)\xA1\x48[N] ") != 'y')
     return XO_FOOT;
 
   /* --------------------------------------------------- */
-  /* ¶}©l§ë²¼¡AÅã¥Ü§ë²¼»¡©ú				 */
+  /* é–‹å§‹æŠ•ç¥¨ï¼Œé¡¯ç¤ºæŠ•ç¥¨èªªæ˜				 */
   /* --------------------------------------------------- */
 
   *fname = '@';
   more(fpath, NULL);
 
   /* --------------------------------------------------- */
-  /* ¸ü¤J§ë²¼¿ï¶µÀÉ					 */
+  /* è¼‰å…¥æŠ•ç¥¨é¸é …æª”					 */
   /* --------------------------------------------------- */
 
   *fname = 'I';
   if ((fd = open(fpath, O_RDONLY)) < 0)
   {
-    vmsg("µLªkÅª¨ú§ë²¼¿ï¶µÀÉ");
+    /* ç„¡æ³•è®€å–æŠ•ç¥¨é¸é …æª” */
+    vmsg("\xB5\x4C\xAA\x6B\xC5\xAA\xA8\xFA\xA7\xEB\xB2\xBC\xBF\xEF\xB6\xB5\xC0\xC9");
     return vote_head(xo);
   }
   count = read(fd, vlist, sizeof(vlist)) / sizeof(vitem_t);
@@ -679,44 +715,50 @@ vote_join(xo)
     slist[fd] = (char *) &vlist[fd];
 
   /* --------------------------------------------------- */
-  /* ¶i¦æ§ë²¼						 */
+  /* é€²è¡ŒæŠ•ç¥¨						 */
   /* --------------------------------------------------- */
 
   choice = 0;
-  sprintf(buf, "§ë¤U¯«¸tªº %d ²¼", vch->maxblt); /* Thor: Åã¥Ü³Ì¦h´X²¼ */
+  /* æŠ•ä¸‹ç¥è–çš„ %d ç¥¨ */
+  sprintf(buf, "\xA7\xEB\xA4\x55\xAF\xAB\xB8\x74\xAA\xBA %d \xB2\xBC", vch->maxblt); /* Thor: é¡¯ç¤ºæœ€å¤šå¹¾ç¥¨ */
   vs_bar(buf);
-  outs("§ë²¼¥DÃD¡G");
+  /* æŠ•ç¥¨ä¸»é¡Œï¼š */
+  outs("\xA7\xEB\xB2\xBC\xA5\x44\xC3\x44\xA1\x47");
   for (;;)
   {
     choice = bitset(choice, count, vch->maxblt, vch->title, slist);
 
-    if (vch->vgamble == ' ')		/* ¤@¯ë§ë²¼¤~¯à¼g·N¨£ */
-      vget(b_lines - 1, 0, "§Ú¦³¸Ü­n»¡¡G", buf, 60, DOECHO);
+    if (vch->vgamble == ' ')		/* ä¸€èˆ¬æŠ•ç¥¨æ‰èƒ½å¯«æ„è¦‹ */
+      /* æˆ‘æœ‰è©±è¦èªªï¼š */
+      vget(b_lines - 1, 0, "\xA7\xDA\xA6\xB3\xB8\xDC\xAD\x6E\xBB\xA1\xA1\x47", buf, 60, DOECHO);
 
-    fd = vans("§ë²¼ (Y)½T©w (N)­«¨Ó (Q)¨ú®ø¡H[N] ");
+    /* æŠ•ç¥¨ (Y)ç¢ºå®š (N)é‡ä¾† (Q)å–æ¶ˆï¼Ÿ[N]  */
+    fd = vans("\xA7\xEB\xB2\xBC (Y)\xBD\x54\xA9\x77 (N)\xAD\xAB\xA8\xD3 (Q)\xA8\xFA\xAE\xF8\xA1\x48[N] ");
 
     if (fd == 'q')
       return vote_head(xo);
 
-    if ((fd == 'y') && (vch->vgamble == ' ' || choice))	/* ­Y¬O½ä½L«h¤@©w­n¿ï */
+    if ((fd == 'y') && (vch->vgamble == ' ' || choice))	/* è‹¥æ˜¯è³­ç›¤å‰‡ä¸€å®šè¦é¸ */
       break;
   }
 
   /* --------------------------------------------------- */
-  /* °O¿ıµ²ªG¡G¤@²¼¤]¥¼§ëªº±¡ªp ==> ¬Û·í©ó§ë¼o²¼	 */
+  /* è¨˜éŒ„çµæœï¼šä¸€ç¥¨ä¹ŸæœªæŠ•çš„æƒ…æ³ ==> ç›¸ç•¶æ–¼æŠ•å»¢ç¥¨	 */
   /* --------------------------------------------------- */
 
   if (vch->vgamble == '$')
   {
-    /* ½ä½L¥i¥H¶R¤J¦h±i */
+    /* è³­ç›¤å¯ä»¥è²·å…¥å¤šå¼µ */
     for (;;)
     {
-      sprintf(buf, "¨C±i½ä²¼ %d »È¹ô¡A½Ğ°İ­n¶R´X±i¡H[1] ", vch->price);
-      vget(b_lines, 0, buf, ans, 3, DOECHO);	/* ³Ì¦h¶R 99 ±i¡AÁ×§K·¸¦ì */
+      /* æ¯å¼µè³­ç¥¨ %d éŠ€å¹£ï¼Œè«‹å•è¦è²·å¹¾å¼µï¼Ÿ[1]  */
+      sprintf(buf, "\xA8\x43\xB1\x69\xBD\xE4\xB2\xBC %d \xBB\xC8\xB9\xF4\xA1\x41\xBD\xD0\xB0\xDD\xAD\x6E\xB6\x52\xB4\x58\xB1\x69\xA1\x48[1] ", vch->price);
+      vget(b_lines, 0, buf, ans, 3, DOECHO);	/* æœ€å¤šè²· 99 å¼µï¼Œé¿å…æº¢ä½ */
 
-      if (time(0) > vch->vclose)	/* ¦]¬°¦³­Ó vget¡A©Ò¥HÁÙ­n¦AÀË¬d¤@¦¸ */
+      if (time(0) > vch->vclose)	/* å› ç‚ºæœ‰å€‹ vgetï¼Œæ‰€ä»¥é‚„è¦å†æª¢æŸ¥ä¸€æ¬¡ */
       {
-	vmsg("§ë²¼¤w¸gºI¤î¤F¡A½ĞÀR­Ô¶}²¼");
+	/* æŠ•ç¥¨å·²ç¶“æˆªæ­¢äº†ï¼Œè«‹éœå€™é–‹ç¥¨ */
+	vmsg("\xA7\xEB\xB2\xBC\xA4\x77\xB8\x67\xBA\x49\xA4\xEE\xA4\x46\xA1\x41\xBD\xD0\xC0\x52\xAD\xD4\xB6\x7D\xB2\xBC");
 	return vote_head(xo);
       }
 
@@ -729,36 +771,38 @@ vote_join(xo)
   }
   else
   {
-    /* ¤@¯ë§ë²¼´N¬O¤@±i²¼ */
+    /* ä¸€èˆ¬æŠ•ç¥¨å°±æ˜¯ä¸€å¼µç¥¨ */
     count = 1;
   }
 
-  /* ½T©w§ë²¼©|¥¼ºI¤î */
-  /* itoc.050514: ¦]¬°ªO¥D¥i¥H§ïÅÜ¶}²¼®É¶¡¡A¬°¤FÁ×§K¨Ï¥ÎªÌ·|Àt¦b vget() ©Î¬O
-     §Q¥Î xo_pool[] ¥¼¦P¨B¨Ó³WÁ× time(0) > vclose ªºÀË¬d¡A©Ò¥H´N±o­«·s¸ü¤J VCH */
+  /* ç¢ºå®šæŠ•ç¥¨å°šæœªæˆªæ­¢ */
+  /* itoc.050514: å› ç‚ºæ¿ä¸»å¯ä»¥æ”¹è®Šé–‹ç¥¨æ™‚é–“ï¼Œç‚ºäº†é¿å…ä½¿ç”¨è€…æœƒé¾œåœ¨ vget() æˆ–æ˜¯
+     åˆ©ç”¨ xo_pool[] æœªåŒæ­¥ä¾†è¦é¿ time(0) > vclose çš„æª¢æŸ¥ï¼Œæ‰€ä»¥å°±å¾—é‡æ–°è¼‰å…¥ VCH */
   if (rec_get(dir, &vbuf, sizeof(VCH), xo->pos) || vch->chrono != vch->chrono || time(0) > vbuf.vclose)
   {
-    vmsg("§ë²¼¤w¸gºI¤î¤F¡A½ĞÀR­Ô¶}²¼");
+    /* æŠ•ç¥¨å·²ç¶“æˆªæ­¢äº†ï¼Œè«‹éœå€™é–‹ç¥¨ */
+    vmsg("\xA7\xEB\xB2\xBC\xA4\x77\xB8\x67\xBA\x49\xA4\xEE\xA4\x46\xA1\x41\xBD\xD0\xC0\x52\xAD\xD4\xB6\x7D\xB2\xBC");
     return vote_init(xo);
   }
 
   if (vch->vgamble == '$')
   {
-    cuser.money -= fd;	/* fd ¬O­n¥Iªº½äª÷ */
+    cuser.money -= fd;	/* fd æ˜¯è¦ä»˜çš„è³­é‡‘ */
   }
-  else if (*buf)	/* ¤@¯ë§ë²¼¤~¯à¼g¤J¨Ï¥ÎªÌ·N¨£ */
+  else if (*buf)	/* ä¸€èˆ¬æŠ•ç¥¨æ‰èƒ½å¯«å…¥ä½¿ç”¨è€…æ„è¦‹ */
   {
     FILE *fp;
 
     *fname = 'O';
     if (fp = fopen(fpath, "a"))
     {
-      fprintf(fp, "¡E%-12s¡G%s\n", cuser.userid, buf);
+      /* â€§%-12sï¼š%s\n */
+      fprintf(fp, "\xA1\x45%-12s\xA1\x47%s\n", cuser.userid, buf);
       fclose(fp);
     }
   }
 
-  /* ¥[¤J°O¿ıÀÉ */
+  /* åŠ å…¥è¨˜éŒ„æª” */
   memset(&vlog, 0, sizeof(VLOG));
   strcpy(vlog.userid, cuser.userid);
   vlog.numvotes = count;
@@ -766,7 +810,8 @@ vote_join(xo)
   *fname = 'G';
   rec_add(fpath, &vlog, sizeof(VLOG));
 
-  vmsg("§ë²¼§¹¦¨¡I");
+  /* æŠ•ç¥¨å®Œæˆï¼ */
+  vmsg("\xA7\xEB\xB2\xBC\xA7\xB9\xA6\xA8\xA1\x49");
   return vote_head(xo);
 }
 
@@ -786,12 +831,12 @@ TchoiceCompare(i, j)
 }
 
 
-static char *			/* NULL:¥¢±Ñ(ÁÙ¨S¦³¤H§ë²¼) */
-draw_vote(fpath, folder, vch, preview)	/* itoc.030906: §ë²¼µ²ªG (»P account.c:draw_vote() ®æ¦¡¬Û¦P) */
+static char *			/* NULL:å¤±æ•—(é‚„æ²’æœ‰äººæŠ•ç¥¨) */
+draw_vote(fpath, folder, vch, preview)	/* itoc.030906: æŠ•ç¥¨çµæœ (èˆ‡ account.c:draw_vote() æ ¼å¼ç›¸åŒ) */
   char *fpath;
   char *folder;
   VCH *vch;
-  int preview;		/* 1:¹wÄı 0:¶}²¼ */
+  int preview;		/* 1:é è¦½ 0:é–‹ç¥¨ */
 {
   struct Tchoice choice[MAX_CHOICES];
   FILE *fp;
@@ -819,10 +864,10 @@ draw_vote(fpath, folder, vch, preview)	/* itoc.030906: §ë²¼µ²ªG (»P account.c:dr
   if (items == 0)
     return NULL;
 
-  /* ²Ö­p§ë²¼µ²ªG */
+  /* ç´¯è¨ˆæŠ•ç¥¨çµæœ */
 
   *fname = 'G';
-  bollt = 0;		/* Thor: Á`²¼¼ÆÂk¹s */
+  bollt = 0;		/* Thor: ç¸½ç¥¨æ•¸æ­¸é›¶ */
   total = 0;
 
   if ((fd = open(fpath, O_RDONLY)) >= 0)
@@ -842,21 +887,24 @@ draw_vote(fpath, folder, vch, preview)	/* itoc.030906: §ë²¼µ²ªG (»P account.c:dr
     close(fd);
   }
 
-  /* ²£¥Í¶}²¼µ²ªG */
+  /* ç”¢ç”Ÿé–‹ç¥¨çµæœ */
 
   *fname = 'Z';
   if (!(fp = fopen(fpath, "w")))
     return NULL;
 
   fprintf(fp, "\n\033[1;34m%s\033[m\n\n"
-    "\033[1;32m¡» [%s] ¬İªO§ë²¼¡G%s\033[m\n\nÁ|¿ìªO¥D¡G%s\n\nÁ|¿ì¤é´Á¡G%s\n\n",
+    /* \033[1;32mâ—† [%s] çœ‹æ¿æŠ•ç¥¨ï¼š%s\033[m\n\nèˆ‰è¾¦æ¿ä¸»ï¼š%s\n\nèˆ‰è¾¦æ—¥æœŸï¼š%s\n\n */
+    "\033[1;32m\xA1\xBB [%s] \xAC\xDD\xAA\x4F\xA7\xEB\xB2\xBC\xA1\x47%s\033[m\n\n\xC1\x7C\xBF\xEC\xAA\x4F\xA5\x44\xA1\x47%s\n\n\xC1\x7C\xBF\xEC\xA4\xE9\xB4\xC1\xA1\x47%s\n\n",
     msg_seperator, currboard, vch->title, vch->owner, Btime(vch->chrono));
-  fprintf(fp, "¶}²¼¤é´Á¡G%s\n\n\033[1;32m¡» §ë²¼¥DÃD¡G\033[m\n\n", Btime(vch->vclose));
+  /* é–‹ç¥¨æ—¥æœŸï¼š%s\n\n\033[1;32mâ—† æŠ•ç¥¨ä¸»é¡Œï¼š\033[m\n\n */
+  fprintf(fp, "\xB6\x7D\xB2\xBC\xA4\xE9\xB4\xC1\xA1\x47%s\n\n\033[1;32m\xA1\xBB \xA7\xEB\xB2\xBC\xA5\x44\xC3\x44\xA1\x47\033[m\n\n", Btime(vch->vclose));
 
   *fname = '@';
   f_suck(fp, fpath);
 
-  fprintf(fp, "\n\033[1;32m¡» §ë²¼µ²ªG¡G¨C¤H¥i§ë %d ²¼¡A¦@ %d ¤H°Ñ¥[¡A§ë¥X %d ²¼\033[m\n\n",
+  /* \n\033[1;32mâ—† æŠ•ç¥¨çµæœï¼šæ¯äººå¯æŠ• %d ç¥¨ï¼Œå…± %d äººåƒåŠ ï¼ŒæŠ•å‡º %d ç¥¨\033[m\n\n */
+  fprintf(fp, "\n\033[1;32m\xA1\xBB \xA7\xEB\xB2\xBC\xB5\xB2\xAA\x47\xA1\x47\xA8\x43\xA4\x48\xA5\x69\xA7\xEB %d \xB2\xBC\xA1\x41\xA6\x40 %d \xA4\x48\xB0\xD1\xA5\x5B\xA1\x41\xA7\xEB\xA5\x58 %d \xB2\xBC\033[m\n\n",
     vch->maxblt, total, bollt);
 
   if (vch->vsort == 's')
@@ -867,29 +915,33 @@ draw_vote(fpath, folder, vch, preview)	/* itoc.030906: §ë²¼µ²ªG (»P account.c:dr
   else
     fd = 0;
 
-  if (preview && vch->vgamble == ' ')	/* ¥u¦³¹wÄı½ä½L¤~»İ­nÅã¥Ü½ß²v */
+  if (preview && vch->vgamble == ' ')	/* åªæœ‰é è¦½è³­ç›¤æ‰éœ€è¦é¡¯ç¤ºè³ ç‡ */
     preview = 0;
 
   for (num = 0; num < items; num++)
   {
     ticket = choice[num].count;
-    if (preview)	/* Åã¥Ü¥[¶R¤@±i®Éªº½ß²v */
-      fprintf(fp, "    %-36s%5d ²¼ (%4.1f%%) ½ß²v 1:%.3f\n", &choice[num].vitem, ticket, 100.0 * ticket / fd, 0.9 * (bollt + 1) / (ticket + 1));
+    if (preview)	/* é¡¯ç¤ºåŠ è²·ä¸€å¼µæ™‚çš„è³ ç‡ */
+      /*     %-36s%5d ç¥¨ (%4.1f%%) è³ ç‡ 1:%.3f\n */
+      fprintf(fp, "    %-36s%5d \xB2\xBC (%4.1f%%) \xBD\xDF\xB2\x76 1:%.3f\n", &choice[num].vitem, ticket, 100.0 * ticket / fd, 0.9 * (bollt + 1) / (ticket + 1));
     else if (fd)
-      fprintf(fp, "    %-36s%5d ²¼ (%4.1f%%)\n", &choice[num].vitem, ticket, 100.0 * ticket / fd);
+      /*     %-36s%5d ç¥¨ (%4.1f%%)\n */
+      fprintf(fp, "    %-36s%5d \xB2\xBC (%4.1f%%)\n", &choice[num].vitem, ticket, 100.0 * ticket / fd);
     else
-      fprintf(fp, "    %-36s%5d ²¼\n", &choice[num].vitem, ticket);
+      /*     %-36s%5d ç¥¨\n */
+      fprintf(fp, "    %-36s%5d \xB2\xBC\n", &choice[num].vitem, ticket);
   }
 
   /* other opinions */
 
   *fname = 'O';
-  fputs("\n\033[1;32m¡» §Ú¦³¸Ü­n»¡¡G\033[m\n\n", fp);
+  /* \n\033[1;32mâ—† æˆ‘æœ‰è©±è¦èªªï¼š\033[m\n\n */
+  fputs("\n\033[1;32m\xA1\xBB \xA7\xDA\xA6\xB3\xB8\xDC\xAD\x6E\xBB\xA1\xA1\x47\033[m\n\n", fp);
   f_suck(fp, fpath);
   fputs("\n", fp);
   fclose(fp);
 
-  /* ³Ì«á¶Ç¦^ªº fpath §Y¬°§ë²¼µ²ªGÀÉ */
+  /* æœ€å¾Œå‚³å›çš„ fpath å³ç‚ºæŠ•ç¥¨çµæœæª” */
   *fname = 'Z';
   return fname;
 }
@@ -913,7 +965,8 @@ vote_view(xo)
       return vote_head(xo);
     }
 
-    vmsg("¥Ø«e©|¥¼¦³¤H§ë²¼");
+    /* ç›®å‰å°šæœªæœ‰äººæŠ•ç¥¨ */
+    vmsg("\xA5\xD8\xAB\x65\xA9\x7C\xA5\xBC\xA6\xB3\xA4\x48\xA7\xEB\xB2\xBC");
     return XO_FOOT;
   }
 
@@ -931,14 +984,15 @@ keeplog(fnlog, board, title)
   char folder[64], fpath[64];
   FILE *fp;
 
-  if (!dashf(fnlog))	/* Kudo.010804: ÀÉ®×¬OªÅªº´N¤£ keeplog */
+  if (!dashf(fnlog))	/* Kudo.010804: æª”æ¡ˆæ˜¯ç©ºçš„å°±ä¸ keeplog */
     return;
 
   brd_fpath(folder, board, fn_dir);
 
   if (fp = fdopen(hdr_stamp(folder, 'A', &hdr, fpath), "w"))
   {
-    fprintf(fp, "§@ªÌ: %s (%s)\n¼ĞÃD: %s\n®É¶¡: %s\n\n",
+    /* ä½œè€…: %s (%s)\næ¨™é¡Œ: %s\næ™‚é–“: %s\n\n */
+    fprintf(fp, "\xA7\x40\xAA\xCC: %s (%s)\n\xBC\xD0\xC3\x44: %s\n\xAE\xC9\xB6\xA1: %s\n\n",
       str_sysop, SYSOPNICK, title, Btime(hdr.chrono));
     f_suck(fp, fnlog);
     fclose(fp);
@@ -953,14 +1007,14 @@ keeplog(fnlog, board, title)
 
 
 static void
-vlog_pay(fpath, choice, fp, vch)/* ½ß¿úµ¹©ã¹ïªº¨Ï¥ÎªÌ */
-  char *fpath;			/* °O¿ıÀÉ¸ô®| */
-  usint choice;			/* ¥¿½Tªºµª®× */
-  FILE *fp;			/* ¼g¤JªºÀÉ®× */
+vlog_pay(fpath, choice, fp, vch)/* è³ éŒ¢çµ¦æŠ¼å°çš„ä½¿ç”¨è€… */
+  char *fpath;			/* è¨˜éŒ„æª”è·¯å¾‘ */
+  usint choice;			/* æ­£ç¢ºçš„ç­”æ¡ˆ */
+  FILE *fp;			/* å¯«å…¥çš„æª”æ¡ˆ */
   VCH *vch;
 {
   int fd;
-  int correct, bollt;		/* ©ã¹ï/¥ş³¡ ªº²¼¼Æ */
+  int correct, bollt;		/* æŠ¼å°/å…¨éƒ¨ çš„ç¥¨æ•¸ */
   int single, money;
   char buf[64];
   VLOG vlog;
@@ -968,7 +1022,7 @@ vlog_pay(fpath, choice, fp, vch)/* ½ß¿úµ¹©ã¹ïªº¨Ï¥ÎªÌ */
 
   if ((fd = open(fpath, O_RDONLY)) >= 0)
   {
-    /* ²Ä¤@°éºâ¥X½ß²v */
+    /* ç¬¬ä¸€åœˆç®—å‡ºè³ ç‡ */
     correct = bollt = 0;
     while (read(fd, &vlog, sizeof(VLOG)) == sizeof(VLOG))
     {
@@ -977,36 +1031,41 @@ vlog_pay(fpath, choice, fp, vch)/* ½ß¿úµ¹©ã¹ïªº¨Ï¥ÎªÌ */
 	correct += vlog.numvotes;
     }
 
-    /* µ¹ªO¥D©âÀY 1% */
-    money = (INT_MAX / vch->price) * 100;	/* BioStar.050626: Á×§K·¸¦ì */
+    /* çµ¦æ¿ä¸»æŠ½é ­ 1% */
+    money = (INT_MAX / vch->price) * 100;	/* BioStar.050626: é¿å…æº¢ä½ */
     money = (bollt > money) ? INT_MAX : vch->price / 100 * bollt;
-    fprintf(fp, "ªO¥D %s ©âÀY¡A¥iÀò±o %d »È¹ô\n", vch->owner, money);
+    /* æ¿ä¸» %s æŠ½é ­ï¼Œå¯ç²å¾— %d éŠ€å¹£\n */
+    fprintf(fp, "\xAA\x4F\xA5\x44 %s \xA9\xE2\xC0\x59\xA1\x41\xA5\x69\xC0\xF2\xB1\x6F %d \xBB\xC8\xB9\xF4\n", vch->owner, money);
 
     memset(&paycheck, 0, sizeof(PAYCHECK));
     time(&paycheck.tissue);
     paycheck.money = money;
-    sprintf(paycheck.reason, "[©âÀY] %s", currboard);
+    /* [æŠ½é ­] %s */
+    sprintf(paycheck.reason, "[\xA9\xE2\xC0\x59] %s", currboard);
     usr_fpath(buf, vch->owner, FN_PAYCHECK);
     rec_add(buf, &paycheck, sizeof(PAYCHECK));
 
-    if (correct)	/* ¦pªG¨S¤H©ã¤¤¡A´N¤£»İ­nµo¿ú */
+    if (correct)	/* å¦‚æœæ²’äººæŠ¼ä¸­ï¼Œå°±ä¸éœ€è¦ç™¼éŒ¢ */
     {
-      /* µo¼úª÷¡A¨t²Î©â 10% ªºµ| */
+      /* ç™¼çé‡‘ï¼Œç³»çµ±æŠ½ 10% çš„ç¨… */
       single = (float) vch->price * 0.9 * bollt / correct;
-      fprintf(fp, "¨C±i¥iÀò %d »È¹ô¡A©ã¹ïªº¨Ï¥ÎªÌ¦³¡G\n", single);
+      /* æ¯å¼µå¯ç² %d éŠ€å¹£ï¼ŒæŠ¼å°çš„ä½¿ç”¨è€…æœ‰ï¼š\n */
+      fprintf(fp, "\xA8\x43\xB1\x69\xA5\x69\xC0\xF2 %d \xBB\xC8\xB9\xF4\xA1\x41\xA9\xE3\xB9\xEF\xAA\xBA\xA8\xCF\xA5\xCE\xAA\xCC\xA6\xB3\xA1\x47\n", single);
 
-      /* ²Ä¤G°é¶}©lµo¿ú */
+      /* ç¬¬äºŒåœˆé–‹å§‹ç™¼éŒ¢ */
       lseek(fd, (off_t) 0, SEEK_SET);
       while (read(fd, &vlog, sizeof(VLOG)) == sizeof(VLOG))
       {
 	if (vlog.choice == choice)
 	{
-	  money = INT_MAX / single;		/* BioStar.050626: Á×§K·¸¦ì */
+	  money = INT_MAX / single;		/* BioStar.050626: é¿å…æº¢ä½ */
 	  money = (vlog.numvotes > money) ? INT_MAX : single * vlog.numvotes;
-	  fprintf(fp, "%s ¶R¤F %d ±i¡A¦@¥iÀò±o %d »È¹ô\n", vlog.userid, vlog.numvotes, money);
+	  /* %s è²·äº† %d å¼µï¼Œå…±å¯ç²å¾— %d éŠ€å¹£\n */
+	  fprintf(fp, "%s \xB6\x52\xA4\x46 %d \xB1\x69\xA1\x41\xA6\x40\xA5\x69\xC0\xF2\xB1\x6F %d \xBB\xC8\xB9\xF4\n", vlog.userid, vlog.numvotes, money);
 
 	  paycheck.money = money;
-	  sprintf(paycheck.reason, "[½ä½L] %s", currboard);
+	  /* [è³­ç›¤] %s */
+	  sprintf(paycheck.reason, "[\xBD\xE4\xBD\x4C] %s", currboard);
 	  usr_fpath(buf, vlog.userid, FN_PAYCHECK);
 	  rec_add(buf, &paycheck, sizeof(PAYCHECK));
 	}
@@ -1038,27 +1097,30 @@ vote_open(xo)
 
   if (time(NULL) < vch->vclose)
   {
-    if (vans("©|¥¼¨ì­ì©w¶}²¼®É¶¡¡A½T©w­n´£¦­¶}²¼(Y/N)¡H[N] ") != 'y')
+    /* å°šæœªåˆ°åŸå®šé–‹ç¥¨æ™‚é–“ï¼Œç¢ºå®šè¦ææ—©é–‹ç¥¨(Y/N)ï¼Ÿ[N]  */
+    if (vans("\xA9\x7C\xA5\xBC\xA8\xEC\xAD\xEC\xA9\x77\xB6\x7D\xB2\xBC\xAE\xC9\xB6\xA1\xA1\x41\xBD\x54\xA9\x77\xAD\x6E\xB4\xA3\xA6\xAD\xB6\x7D\xB2\xBC(Y/N)\xA1\x48[N] ") != 'y')
       return XO_FOOT;
   }
 
   dir = xo->dir;
 
-  /* §ë²¼µ²ªG */
+  /* æŠ•ç¥¨çµæœ */
 
   if (!(fname = draw_vote(fpath, dir, vch, 0)))
   {
-    vmsg("¥Ø«e©|¥¼¦³¤H§ë²¼");
+    /* ç›®å‰å°šæœªæœ‰äººæŠ•ç¥¨ */
+    vmsg("\xA5\xD8\xAB\x65\xA9\x7C\xA5\xBC\xA6\xB3\xA4\x48\xA7\xEB\xB2\xBC");
     return XO_FOOT;
   }
 
-  if (vch->vgamble == '$')	/* ½ä½L */
+  if (vch->vgamble == '$')	/* è³­ç›¤ */
   {
-    /* ªO¥D¿é¤Jµ²ªG¡A¨Ã¼g¤J§ë²¼µ²ªG */
-    while (!vget(b_lines, 0, "½Ğ¿é¤J¥¿½Tµª®×¡G", buf, 60, DOECHO))
+    /* æ¿ä¸»è¼¸å…¥çµæœï¼Œä¸¦å¯«å…¥æŠ•ç¥¨çµæœ */
+    /* è«‹è¼¸å…¥æ­£ç¢ºç­”æ¡ˆï¼š */
+    while (!vget(b_lines, 0, "\xBD\xD0\xBF\xE9\xA4\x4A\xA5\xBF\xBD\x54\xB5\xAA\xAE\xD7\xA1\x47", buf, 60, DOECHO))
       ;
 
-    /* ¸ü¤J§ë²¼¿ï¶µÀÉ */
+    /* è¼‰å…¥æŠ•ç¥¨é¸é …æª” */
     *fname = 'I';
     if ((fd = open(fpath, O_RDONLY)) >= 0)
     {
@@ -1068,15 +1130,18 @@ vote_open(xo)
       for (fd = 0; fd < count; fd++)
 	slist[fd] = (char *) &vlist[fd];
 
-      /* ªO¥D¿ï¥X¥¿½Tµª®× */
+      /* æ¿ä¸»é¸å‡ºæ­£ç¢ºç­”æ¡ˆ */
       choice = 0;
-      vs_bar("¿ï¾Ü¥¿½Tµª®×");
-      outs("§ë²¼¥DÃD¡G");
+      /* é¸æ“‡æ­£ç¢ºç­”æ¡ˆ */
+      vs_bar("\xBF\xEF\xBE\xDC\xA5\xBF\xBD\x54\xB5\xAA\xAE\xD7");
+      /* æŠ•ç¥¨ä¸»é¡Œï¼š */
+      outs("\xA7\xEB\xB2\xBC\xA5\x44\xC3\x44\xA1\x47");
       for (;;)
       {
 	choice = bitset(choice, count, vch->maxblt, vch->title, slist);
 
-	fd = vans("¶}²¼ (Y)½T©w (N)­«¨Ó (Q)¨ú®ø¡H[N] ");
+	/* é–‹ç¥¨ (Y)ç¢ºå®š (N)é‡ä¾† (Q)å–æ¶ˆï¼Ÿ[N]  */
+	fd = vans("\xB6\x7D\xB2\xBC (Y)\xBD\x54\xA9\x77 (N)\xAD\xAB\xA8\xD3 (Q)\xA8\xFA\xAE\xF8\xA1\x48[N] ");
 
 	if (fd == 'q')
 	{
@@ -1085,15 +1150,16 @@ vote_open(xo)
 	  return vote_head(xo);
 	}
 
-	if (fd == 'y' && choice)	/* ­Y¬O½ä½L«h¤@©w­n¿ï */
+	if (fd == 'y' && choice)	/* è‹¥æ˜¯è³­ç›¤å‰‡ä¸€å®šè¦é¸ */
 	  break;
       }
 
-      /* ¶}©lµo¿ú */
+      /* é–‹å§‹ç™¼éŒ¢ */
       *fname = 'Z';
       if (fp = fopen(fpath, "a"))
       {
-	fprintf(fp, "ªO¥D¤½§Gµª®×¡G%s\n\n", buf);
+	/* æ¿ä¸»å…¬ä½ˆç­”æ¡ˆï¼š%s\n\n */
+	fprintf(fp, "\xAA\x4F\xA5\x44\xA4\xBD\xA7\x47\xB5\xAA\xAE\xD7\xA1\x47%s\n\n", buf);
 
 	*fname = 'G';
 	vlog_pay(fpath, choice, fp, vch);
@@ -1102,22 +1168,24 @@ vote_open(xo)
 	fclose(fp);
       }
 
-      /* ¶}²¼µ²ªG */
+      /* é–‹ç¥¨çµæœ */
       *fname = 'Z';
     }
   }
 
-  /* ±N¶}²¼µ²ªG post ¨ì [BN_RECORD] »P ¥»¬İªO */
+  /* å°‡é–‹ç¥¨çµæœ post åˆ° [BN_RECORD] èˆ‡ æœ¬çœ‹æ¿ */
 
   if (!(currbattr & BRD_NOVOTE))
   {
-    sprintf(buf, "[°O¿ı] %s <<¬İªO¿ï±¡³ø¾É>>", currboard);
+    /* [è¨˜éŒ„] %s <<çœ‹æ¿é¸æƒ…å ±å°>> */
+    sprintf(buf, "[\xB0\x4F\xBF\xFD] %s <<\xAC\xDD\xAA\x4F\xBF\xEF\xB1\xA1\xB3\xF8\xBE\xC9>>", currboard);
     keeplog(fpath, BN_RECORD, buf);
   }
 
-  keeplog(fpath, currboard, "[°O¿ı] ¿ï±¡³ø¾É");
+  /* [è¨˜éŒ„] é¸æƒ…å ±å° */
+  keeplog(fpath, currboard, "[\xB0\x4F\xBF\xFD] \xBF\xEF\xB1\xA1\xB3\xF8\xBE\xC9");
 
-  /* §ë²¼µ²ªGªş¥[¨ì @vote */
+  /* æŠ•ç¥¨çµæœé™„åŠ åˆ° @vote */
 
   setdirpath(buf, dir, "@/@vote");
   if (fp = fopen(fpath, "a"))
@@ -1127,14 +1195,15 @@ vote_open(xo)
     rename(fpath, buf);
   }
 
-  /* ¶}§¹²¼´N§R°£ */
-  vch->vgamble = ' ';	/* ¥O¬°«D½ä½L¡A¦p¦¹¦b delvch ¸Ì­±´N¤£·|°h½äª÷ */
+  /* é–‹å®Œç¥¨å°±åˆªé™¤ */
+  vch->vgamble = ' ';	/* ä»¤ç‚ºéè³­ç›¤ï¼Œå¦‚æ­¤åœ¨ delvch è£¡é¢å°±ä¸æœƒé€€è³­é‡‘ */
   delvch(xo, vch);
 
   currchrono = vch->chrono;
   rec_del(dir, sizeof(VCH), pos, cmpchrono);    
 
-  vmsg("¶}²¼§¹²¦");
+  /* é–‹ç¥¨å®Œç•¢ */
+  vmsg("\xB6\x7D\xB2\xBC\xA7\xB9\xB2\xA6");
   return vote_init(xo);
 }
 
@@ -1157,7 +1226,7 @@ vote_tag(xo)
   }
 
   /* return XO_NONE; */
-  return xo->pos + 1 + XO_MOVE;	/* lkchu.981201: ¸õ¦Ü¤U¤@¶µ */
+  return xo->pos + 1 + XO_MOVE;	/* lkchu.981201: è·³è‡³ä¸‹ä¸€é … */
 }
 
 
@@ -1177,7 +1246,7 @@ static KeyFunc vote_cb[] =
   XO_HEAD, vote_head,
   XO_BODY, vote_body,
 
-  'r', vote_join,	/* itoc.010901: «ö¥kÁä¤ñ¸û¤è«K */
+  'r', vote_join,	/* itoc.010901: æŒ‰å³éµæ¯”è¼ƒæ–¹ä¾¿ */
   'v', vote_join,
   'R', vote_result,
 
@@ -1204,8 +1273,8 @@ XoVote(xo)
 {
   char fpath[64];
 
-  /* ¦³ post Åv§Qªº¤~¯à°Ñ¥[§ë²¼ */
-  /* ¦Ó¥B­nÁ×§K guest ¦b sysop ªO§ë²¼ */
+  /* æœ‰ post æ¬Šåˆ©çš„æ‰èƒ½åƒåŠ æŠ•ç¥¨ */
+  /* è€Œä¸”è¦é¿å… guest åœ¨ sysop æ¿æŠ•ç¥¨ */
 
   if (!(bbstate & STAT_POST) || !cuser.userlevel)
     return XO_NONE;
@@ -1213,7 +1282,8 @@ XoVote(xo)
   setdirpath(fpath, xo->dir, FN_VCH);
   if (!(bbstate & STAT_BOARD) && !rec_num(fpath, sizeof(VCH)))
   {
-    vmsg("¥Ø«e¨S¦³§ë²¼Á|¦æ");
+    /* ç›®å‰æ²’æœ‰æŠ•ç¥¨èˆ‰è¡Œ */
+    vmsg("\xA5\xD8\xAB\x65\xA8\x53\xA6\xB3\xA7\xEB\xB2\xBC\xC1\x7C\xA6\xE6");
     return XO_FOOT;
   }
 
@@ -1227,7 +1297,7 @@ XoVote(xo)
 
 
 int
-vote_all()		/* itoc.010414: §ë²¼¤¤¤ß */
+vote_all()		/* itoc.010414: æŠ•ç¥¨ä¸­å¿ƒ */
 {
   typedef struct
   {
@@ -1271,7 +1341,8 @@ vote_all()		/* itoc.010414: §ë²¼¤¤¤ß */
 
   if (!num)
   {
-    vmsg("¥Ø«e¯¸¤º¨Ã¨S¦³¥ô¦ó§ë²¼");
+    /* ç›®å‰ç«™å…§ä¸¦æ²’æœ‰ä»»ä½•æŠ•ç¥¨ */
+    vmsg("\xA5\xD8\xAB\x65\xAF\xB8\xA4\xBA\xA8\xC3\xA8\x53\xA6\xB3\xA5\xF4\xA6\xF3\xA7\xEB\xB2\xBC");
     return XEASY;
   }
 
@@ -1285,17 +1356,18 @@ vote_all()		/* itoc.010414: §ë²¼¤¤¤ß */
   {
     if (redraw)
     {
-      /* itoc.µù¸Ñ: ºÉ¶q°µ±o¹³ xover ®æ¦¡ */
-      vs_head("§ë²¼¤¤¤ß", str_site);
+      /* itoc.è¨»è§£: ç›¡é‡åšå¾—åƒ xover æ ¼å¼ */
+      /* æŠ•ç¥¨ä¸­å¿ƒ */
+      vs_head("\xA7\xEB\xB2\xBC\xA4\xA4\xA4\xDF", str_site);
       prints(NECKER_VOTEALL, d_cols >> 1, "", d_cols - (d_cols >> 1), "");
 
-      redraw = pageno * XO_TALL;	/* ­É¥Î redraw */
+      redraw = pageno * XO_TALL;	/* å€Ÿç”¨ redraw */
       ch = BMIN(num, redraw + XO_TALL - 1);
       move(3, 0);
       do
       {
 	vb = vbrd + redraw;
-	/* itoc.010909: ªO¦W¤Óªøªº§R±¼¡B¥[¤ÀÃşÃC¦â¡C°²³] BCLEN = 4 */
+	/* itoc.010909: æ¿åå¤ªé•·çš„åˆªæ‰ã€åŠ åˆ†é¡é¡è‰²ã€‚å‡è¨­ BCLEN = 4 */
 	prints("%6d   %-13s\033[1;3%dm%-5s\033[m%s %-*.*s %.*s\n",
 	  redraw + 1, vb->brdname,
 	  vb->class[3] & 7, vb->class,
@@ -1319,16 +1391,16 @@ vote_all()		/* itoc.010414: §ë²¼¤¤¤ß */
     case 'r':
       vb = vbrd + (cur + pageno * XO_TALL);
 
-      /* itoc.060324: µ¥¦P¶i¤J·sªº¬İªO¡AXoPost() ¦³°µªº¨Æ¡A³o¸Ì´X¥G³£­n°µ */
-      if (!vb->brdname[0])	/* ¤w§R°£ªº¬İªO */
+      /* itoc.060324: ç­‰åŒé€²å…¥æ–°çš„çœ‹æ¿ï¼ŒXoPost() æœ‰åšçš„äº‹ï¼Œé€™è£¡å¹¾ä¹éƒ½è¦åš */
+      if (!vb->brdname[0])	/* å·²åˆªé™¤çš„çœ‹æ¿ */
 	break;
 
-      redraw = brd_bno(vb->brdname);	/* ­É¥Î redraw */
+      redraw = brd_bno(vb->brdname);	/* å€Ÿç”¨ redraw */
       if (currbno != redraw)
       {
 	ch = brd_bits[redraw];
 
-	/* ³B²zÅv­­ */
+	/* è™•ç†æ¬Šé™ */
 	if (ch & BRD_M_BIT)
 	  bbstate |= (STAT_BM | STAT_BOARD | STAT_POST);
 	else if (ch & BRD_X_BIT)
@@ -1343,14 +1415,16 @@ vote_all()		/* itoc.010414: §ë²¼¤¤¤ß */
 	currbattr = bhead->battr;
 	strcpy(currboard, bhead->brdname);
 	str = bhead->BM;
-	sprintf(currBM, "ªO¥D¡G%s", *str <= ' ' ? "¼x¨D¤¤" : str);
+	/* æ¿ä¸»ï¼š%s */
+	/* å¾µæ±‚ä¸­ */
+	sprintf(currBM, "\xAA\x4F\xA5\x44\xA1\x47%s", *str <= ' ' ? "\xBC\x78\xA8\x44\xA4\xA4" : str);
 #ifdef HAVE_BRDMATE
 	strcpy(cutmp->reading, currboard);
 #endif
 
 	brd_fpath(fpath, currboard, fn_dir);
 #ifdef AUTO_JUMPPOST
-	xz[XZ_POST - XO_ZONE].xo = xo = xo_get_post(fpath, bhead);	/* itoc.010910: ¬° XoPost ¶q¨­¥´³y¤@¤ä xo_get() */
+	xz[XZ_POST - XO_ZONE].xo = xo = xo_get_post(fpath, bhead);	/* itoc.010910: ç‚º XoPost é‡èº«æ‰“é€ ä¸€æ”¯ xo_get() */
 #else
 	xz[XZ_POST - XO_ZONE].xo = xo = xo_get(fpath);
 #endif

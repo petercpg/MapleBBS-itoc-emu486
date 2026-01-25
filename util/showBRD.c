@@ -54,15 +54,21 @@ main(argc, argv)
   {
     if (show_allbrd || !str_cmp(brd.brdname, argv[1]))
     {
-      printf("¬İªO¦WºÙ¡G%-13s     ¬İªO¼ĞÃD¡G[%s] %s\n", brd.brdname, brd.class, brd.title);
-      printf("§ë²¼ª¬ºA¡G%-13d     ¬İªOªO¥D¡G%s\n", brd.bvote, brd.BM);
+      /* çœ‹æ¿åç¨±ï¼š%-13s     çœ‹æ¿æ¨™é¡Œï¼š[%s] %s\n */
+      printf("\xAC\xDD\xAA\x4F\xA6\x57\xBA\xD9\xA1\x47%-13s     \xAC\xDD\xAA\x4F\xBC\xD0\xC3\x44\xA1\x47[%s] %s\n", brd.brdname, brd.class, brd.title);
+      /* æŠ•ç¥¨ç‹€æ…‹ï¼š%-13d     çœ‹æ¿æ¿ä¸»ï¼š%s\n */
+      printf("\xA7\xEB\xB2\xBC\xAA\xAC\xBA\x41\xA1\x47%-13d     \xAC\xDD\xAA\x4F\xAA\x4F\xA5\x44\xA1\x47%s\n", brd.bvote, brd.BM);
       _bitmsg(MSG_READPERM, STR_PERM, brd.readlevel);
       _bitmsg(MSG_POSTPERM, STR_PERM, brd.postlevel);
       _bitmsg(MSG_BRDATTR, STR_BATTR, brd.battr);
-      printf("¤å³¹½g¼Æ¡G%d\n", brd.bpost);
-      printf("¶}ªO®É¶¡¡G%s\n", Btime(brd.bstamp));
-      printf(".DIR®É¶¡¡G%s\n", Btime(brd.btime));
-      printf("³Ì«á¤@½g¡G%s\n", Btime(brd.blast));
+      /* æ–‡ç« ç¯‡æ•¸ï¼š%d\n */
+      printf("\xA4\xE5\xB3\xB9\xBD\x67\xBC\xC6\xA1\x47%d\n", brd.bpost);
+      /* é–‹æ¿æ™‚é–“ï¼š%s\n */
+      printf("\xB6\x7D\xAA\x4F\xAE\xC9\xB6\xA1\xA1\x47%s\n", Btime(brd.bstamp));
+      /* .DIRæ™‚é–“ï¼š%s\n */
+      printf(".DIR\xAE\xC9\xB6\xA1\xA1\x47%s\n", Btime(brd.btime));
+      /* æœ€å¾Œä¸€ç¯‡ï¼š%s\n */
+      printf("\xB3\xCC\xAB\xE1\xA4\x40\xBD\x67\xA1\x47%s\n", Btime(brd.blast));
 
       if (!show_allbrd)
 	break;

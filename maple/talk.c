@@ -30,7 +30,7 @@ typedef struct
 
 
 /* ------------------------------------- */
-/* ¯u¹ê°Ê§@				 */
+/* çœŸå¯¦å‹•ä½œ				 */
 /* ------------------------------------- */
 
 
@@ -49,32 +49,35 @@ bmode(up, simple)
     return word;
 
 #ifdef BMW_COUNT
-  if (simple = up->bmw_count)	/* ­É¥Î simple */
+  if (simple = up->bmw_count)	/* å€Ÿç”¨ simple */
   {
-    sprintf(modestr, "%d ­Ó¤ô²y", simple);
+    /* %d å€‹æ°´çƒ */
+    sprintf(modestr, "%d \xAD\xD3\xA4\xF4\xB2\x79", simple);
     return modestr;
   }
 #endif
 
 #ifdef HAVE_BRDMATE
-  /* itoc.020602: ¯¸ªø±oª¾¨Ï¥ÎªÌ¦b¬İ­ş­ÓªO */
+  /* itoc.020602: ç«™é•·å¾—çŸ¥ä½¿ç”¨è€…åœ¨çœ‹å“ªå€‹æ¿ */
   if (mode == M_READA && HAS_PERM(PERM_SYSOP))
   {
-    sprintf(modestr, "¾\\:%s", up->reading);
+    /* é–±:%s */
+    sprintf(modestr, "\xBE\x5C:%s", up->reading);
     return modestr;
   }
 #endif
 
-  if (mode < M_TALK || mode > M_IDLE)	/* M_TALK(§t) »P M_IDLE(§t) ¶¡±µ mateid */
+  if (mode < M_TALK || mode > M_IDLE)	/* M_TALK(å«) èˆ‡ M_IDLE(å«) é–“æ¥ mateid */
     return word;
 
   mateid = up->mateid;
 
   if (mode == M_TALK)
   {
-    /* itoc.020829: up ¦b Talk ®É¡A­Y up->mateid Áô§Î«h¬İ¤£¨£ */
+    /* itoc.020829: up åœ¨ Talk æ™‚ï¼Œè‹¥ up->mateid éš±å½¢å‰‡çœ‹ä¸è¦‹ */
     if (!utmp_get(0, mateid))
-      mateid = "µL¦W¤ó";
+      /* ç„¡åæ° */
+      mateid = "\xB5\x4C\xA6\x57\xA4\xF3";
   }
 
   sprintf(modestr, "%s:%s", word, mateid);
@@ -108,7 +111,11 @@ do_query(acct)
   UTMP *up;
   int userno, rich;
   char *userid;
-  char fortune[4][9] = {"¨ª³h¤^¤¢", "¤@¯ë­ÓÅé", "®a¹Ò¤p±d", "°]»Ö¦a¥D"};
+  /* èµ¤è²§ä¹ä¸ */
+  /* ä¸€èˆ¬å€‹é«” */
+  /* å®¶å¢ƒå°åº· */
+  /* è²¡é–¥åœ°ä¸» */
+  char fortune[4][9] = {"\xA8\xAA\xB3\x68\xA4\x5E\xA4\xA2", "\xA4\x40\xAF\xEB\xAD\xD3\xC5\xE9", "\xAE\x61\xB9\xD2\xA4\x70\xB1\x64", "\xB0\x5D\xBB\xD6\xA6\x61\xA5\x44"};
 
   utmp_mode(M_QUERY);
 
@@ -119,16 +126,24 @@ do_query(acct)
   up = utmp_find(userno);
   rich = acct->money >= 1000000 ? (acct->gold >= 100 ? 3 : 2) : (acct->money >= 50000 ? 1 : 0);
 
-  prints("[±b¸¹] %-12s [¼ÊºÙ] %-16.16s [¤W¯¸] %5d ¦¸ [¤å³¹] %5d ½g\n",
+  /* [å¸³è™Ÿ] %-12s [æš±ç¨±] %-16.16s [ä¸Šç«™] %5d æ¬¡ [æ–‡ç« ] %5d ç¯‡\n */
+  prints("[\xB1\x62\xB8\xB9] %-12s [\xBC\xCA\xBA\xD9] %-16.16s [\xA4\x57\xAF\xB8] %5d \xA6\xB8 [\xA4\xE5\xB3\xB9] %5d \xBD\x67\n",
     userid, acct->username, acct->numlogins, acct->numposts);
 
-  prints("[»{ÃÒ] %s³q¹L»{ÃÒ [°ÊºA] %-16.16s [°]²£] %s [«H½c] %s\n",
-    acct->userlevel & PERM_VALID ? "¤w¸g" : "©|¥¼",
-    (up && can_see(cutmp, up)) ? bmode(up, 1) : "¤£¦b¯¸¤W",
+  /* [èªè­‰] %sé€šéèªè­‰ [å‹•æ…‹] %-16.16s [è²¡ç”¢] %s [ä¿¡ç®±] %s\n */
+  prints("[\xBB\x7B\xC3\xD2] %s\xB3\x71\xB9\x4C\xBB\x7B\xC3\xD2 [\xB0\xCA\xBA\x41] %-16.16s [\xB0\x5D\xB2\xA3] %s [\xAB\x48\xBD\x63] %s\n",
+    /* å·²ç¶“ */
+    /* å°šæœª */
+    acct->userlevel & PERM_VALID ? "\xA4\x77\xB8\x67" : "\xA9\x7C\xA5\xBC",
+    /* ä¸åœ¨ç«™ä¸Š */
+    (up && can_see(cutmp, up)) ? bmode(up, 1) : "\xA4\xA3\xA6\x62\xAF\xB8\xA4\x57",
     fortune[rich],
-    (m_query(userid) & STATUS_BIFF) ? "¦³·s«H¥ó" : "³£¬İ¹L¤F");
+    /* æœ‰æ–°ä¿¡ä»¶ */
+    /* éƒ½çœ‹éäº† */
+    (m_query(userid) & STATUS_BIFF) ? "\xA6\xB3\xB7\x73\xAB\x48\xA5\xF3" : "\xB3\xA3\xAC\xDD\xB9\x4C\xA4\x46");
 
-  prints("[¨Ó·½] (%s) %s\n",
+  /* [ä¾†æº] (%s) %s\n */
+  prints("[\xA8\xD3\xB7\xBD] (%s) %s\n",
     Btime(acct->lastlogin), acct->lasthost);
 
   showplans(userid);
@@ -192,9 +207,11 @@ aloha()
   if ((fd = open(fpath, O_RDONLY)) >= 0)
   {
     bmw.caller = cutmp;
-    /* bmw.sender = cuser.userno; */	/* bmw.sender ¨Ì¹ï¤è¥i¥H call §Ú¡A«İ·|¦A¨M©w */
+    /* bmw.sender = cuser.userno; */	/* bmw.sender ä¾å°æ–¹å¯ä»¥ call æˆ‘ï¼Œå¾…æœƒå†æ±ºå®š */
     strcpy(bmw.userid, cuser.userid);
-    strcpy(bmw.msg, "¡· ­è­è½ñ¶i"BBSNAME"ªºªù [¤W¯¸³qª¾] ¡·");
+    /* â— å‰›å‰›è¸é€² */
+    /* çš„é–€ [ä¸Šç«™é€šçŸ¥] â— */
+    strcpy(bmw.msg, "\xA1\xB7 \xAD\xE8\xAD\xE8\xBD\xF1\xB6\x69"BBSNAME"\xAA\xBA\xAA\xF9 [\xA4\x57\xAF\xB8\xB3\x71\xAA\xBE] \xA1\xB7");
 
     mgets(-1);
     while (frienz = mread(fd, sizeof(FRIENZ)))
@@ -202,9 +219,9 @@ aloha()
       userno = frienz->userno;
       up = utmp_find(userno);
 
-      if (up && (up->ufo & UFO_ALOHA) && !(up->status & STATUS_REJECT) && can_see(up, cutmp))	/* ¹ï¤è¬İ¤£¨£§Ú¤£³qª¾ */
+      if (up && (up->ufo & UFO_ALOHA) && !(up->status & STATUS_REJECT) && can_see(up, cutmp))	/* å°æ–¹çœ‹ä¸è¦‹æˆ‘ä¸é€šçŸ¥ */
       {
-	/* ¦n¤Í¥B¦Û¤v¨S¦³»·Â÷¹ĞÄÛ¤~¥i¥H reply */
+	/* å¥½å‹ä¸”è‡ªå·±æ²’æœ‰é é›¢å¡µå›‚æ‰å¯ä»¥ reply */
 	bmw.sender = (is_mygood(userno) && !(cuser.ufo & UFO_QUIET)) ? cuser.userno : 0;
 	bmw.recver = userno;
 	bmw_send(up, &bmw);
@@ -227,9 +244,10 @@ t_loginNotify()
   BENZ benz;
   char fpath[64];
 
-  /* ³]©w list ªº¦W³æ */
+  /* è¨­å®š list çš„åå–® */
 
-  vs_bar("¨t²Î¨ó´Mºô¤Í");
+  /* ç³»çµ±å”å°‹ç¶²å‹ */
+  vs_bar("\xA8\x74\xB2\xCE\xA8\xF3\xB4\x4D\xBA\xF4\xA4\xCD");
 
   ll_new();
 
@@ -241,14 +259,15 @@ t_loginNotify()
 
     do
     {
-      if (strcmp(cuser.userid, wp->data))	/* ¤£¥i¨ó´M¦Û¤v */
+      if (strcmp(cuser.userid, wp->data))	/* ä¸å¯å”å°‹è‡ªå·± */
       {
 	usr_fpath(fpath, wp->data, FN_BENZ);
 	rec_add(fpath, &benz, sizeof(BENZ));
       }
     } while (wp = wp->next);
 
-    vmsg("¨ó´M³]©w§¹¦¨¡A¹ï¤è¤W¯¸®É¨t²Î·|³qª¾±z");
+    /* å”å°‹è¨­å®šå®Œæˆï¼Œå°æ–¹ä¸Šç«™æ™‚ç³»çµ±æœƒé€šçŸ¥æ‚¨ */
+    vmsg("\xA8\xF3\xB4\x4D\xB3\x5D\xA9\x77\xA7\xB9\xA6\xA8\xA1\x41\xB9\xEF\xA4\xE8\xA4\x57\xAF\xB8\xAE\xC9\xA8\x74\xB2\xCE\xB7\x7C\xB3\x71\xAA\xBE\xB1\x7A");
   }
   return 0;
 }
@@ -263,31 +282,34 @@ loginNotify()
   BMW bmw;
   BENZ *benz;
   int userno;
-  int row, col;		/* ­pºâ¦L¨ì­ş */
+  int row, col;		/* è¨ˆç®—å°åˆ°å“ª */
 
   usr_fpath(fpath, cuser.userid, FN_BENZ);
 
   if ((fd = open(fpath, O_RDONLY)) >= 0)
   {
-    vs_bar("¨t²Î¨ó´Mºô¤Í");
+    /* ç³»çµ±å”å°‹ç¶²å‹ */
+    vs_bar("\xA8\x74\xB2\xCE\xA8\xF3\xB4\x4D\xBA\xF4\xA4\xCD");
 
     bmw.caller = cutmp;
-    /* bmw.sender = cuser.userno; */	/* bmw.sender ¨Ì¹ï¤è¥i¥H call §Ú¡A«İ·|¦A¨M©w */
+    /* bmw.sender = cuser.userno; */	/* bmw.sender ä¾å°æ–¹å¯ä»¥ call æˆ‘ï¼Œå¾…æœƒå†æ±ºå®š */
     strcpy(bmw.userid, cuser.userid);
-    strcpy(bmw.msg, "¡· ­è­è½ñ¶i"BBSNAME"ªºªù [¨t²Î¨ó´M] ¡·");
+    /* â— å‰›å‰›è¸é€² */
+    /* çš„é–€ [ç³»çµ±å”å°‹] â— */
+    strcpy(bmw.msg, "\xA1\xB7 \xAD\xE8\xAD\xE8\xBD\xF1\xB6\x69"BBSNAME"\xAA\xBA\xAA\xF9 [\xA8\x74\xB2\xCE\xA8\xF3\xB4\x4D] \xA1\xB7");
 
     row = 1;
     col = 0;
     mgets(-1);
     while (benz = mread(fd, sizeof(BENZ)))
     {
-      /* ¦L¥X­ş¨Ç¤H¦b§ä§Ú */
+      /* å°å‡ºå“ªäº›äººåœ¨æ‰¾æˆ‘ */
       if (row < b_lines)
       {
 	move(row, col);
 	outs(benz->userid);
 	col += IDLEN + 1;
-	if (col > b_cols + 1 - IDLEN - 1)	/* Á`¦@¥i¥H©ñ (b_cols + 1) / (IDLEN + 1) Äæ */
+	if (col > b_cols + 1 - IDLEN - 1)	/* ç¸½å…±å¯ä»¥æ”¾ (b_cols + 1) / (IDLEN + 1) æ¬„ */
 	{
 	  row++;
 	  col = 0;
@@ -297,18 +319,19 @@ loginNotify()
       userno = benz->userno;
       up = utmp_find(userno);
 
-      if (up && !(up->status & STATUS_REJECT) && can_see(up, cutmp))	/* ¹ï¤è¬İ¤£¨£§Ú¤£³qª¾ */
+      if (up && !(up->status & STATUS_REJECT) && can_see(up, cutmp))	/* å°æ–¹çœ‹ä¸è¦‹æˆ‘ä¸é€šçŸ¥ */
       {
-	/* ¦n¤Í¥B¦Û¤v¨S¦³»·Â÷¹ĞÄÛ¤~¥i¥H reply */
+	/* å¥½å‹ä¸”è‡ªå·±æ²’æœ‰é é›¢å¡µå›‚æ‰å¯ä»¥ reply */
 	bmw.sender = (is_mygood(userno) && !(cuser.ufo & UFO_QUIET)) ? cuser.userno : 0;
 	bmw.recver = userno;
 	bmw_send(up, &bmw);
-	outc('*');	/* Thor.980707: ¦³³qª¾¨ìªº¦³©Ò¤£¦P */
+	outc('*');	/* Thor.980707: æœ‰é€šçŸ¥åˆ°çš„æœ‰æ‰€ä¸åŒ */
       }
     }
     close(fd);
     unlink(fpath);
-    vmsg("³o¨Ç¨Ï¥ÎªÌ³]±z¬°¤W¯¸¨ó´M¡A¥´ * ªí¥Ü¥Ø«e¦b¯¸¤W");
+    /* é€™äº›ä½¿ç”¨è€…è¨­æ‚¨ç‚ºä¸Šç«™å”å°‹ï¼Œæ‰“ * è¡¨ç¤ºç›®å‰åœ¨ç«™ä¸Š */
+    vmsg("\xB3\x6F\xA8\xC7\xA8\xCF\xA5\xCE\xAA\xCC\xB3\x5D\xB1\x7A\xAC\xB0\xA4\x57\xAF\xB8\xA8\xF3\xB4\x4D\xA1\x41\xA5\xB4 * \xAA\xED\xA5\xDC\xA5\xD8\xAB\x65\xA6\x62\xAF\xB8\xA4\x57");
   }
 }
 #endif
@@ -320,11 +343,13 @@ talk_save()
 {
   char fpath[64];
   
-  /* lkchu.981201: ©ñ¶i¨p¤H«H½c¤º/²M°£ */
+  /* lkchu.981201: æ”¾é€²ç§äººä¿¡ç®±å…§/æ¸…é™¤ */
   usr_fpath(fpath, cuser.userid, FN_TALK_LOG);
 
-  if (!(cuser.ufo & UFO_NTLOG) && vans("¥»¦¸²á¤Ñ¬ö¿ı³B²z (M)³Æ§Ñ¿ı (C)²M°£¡H[M] ") != 'c')
-    mail_self(fpath, cuser.userid, "[³Æ §Ñ ¿ı] ²á¤Ñ¬ö¿ı", MAIL_READ | MAIL_NOREPLY);
+  /* æœ¬æ¬¡èŠå¤©ç´€éŒ„è™•ç† (M)å‚™å¿˜éŒ„ (C)æ¸…é™¤ï¼Ÿ[M]  */
+  if (!(cuser.ufo & UFO_NTLOG) && vans("\xA5\xBB\xA6\xB8\xB2\xE1\xA4\xD1\xAC\xF6\xBF\xFD\xB3\x42\xB2\x7A (M)\xB3\xC6\xA7\xD1\xBF\xFD (C)\xB2\x4D\xB0\xA3\xA1\x48[M] ") != 'c')
+    /* [å‚™ å¿˜ éŒ„] èŠå¤©ç´€éŒ„ */
+    mail_self(fpath, cuser.userid, "[\xB3\xC6 \xA7\xD1 \xBF\xFD] \xB2\xE1\xA4\xD1\xAC\xF6\xBF\xFD", MAIL_READ | MAIL_NOREPLY);
 
   unlink(fpath);
 }
@@ -341,13 +366,13 @@ static char page_requestor[40];
 static int page_requestor_zhc;
 #endif
 
-/* ¨C¦C¥i¥H¿é¤Jªº¦r¼Æ¬° SCR_WIDTH */
+/* æ¯åˆ—å¯ä»¥è¼¸å…¥çš„å­—æ•¸ç‚º SCR_WIDTH */
 #ifdef HAVE_MULTI_BYTE
-static uschar talk_pic[T_LINES][SCR_WIDTH + 1];	/* §R°£¦C§À¦r®É·|¥Î¨ì«á¤@½XªºªÅ¥Õ¡A©Ò¥H­n¦h¤@½X */
+static uschar talk_pic[T_LINES][SCR_WIDTH + 1];	/* åˆªé™¤åˆ—å°¾å­—æ™‚æœƒç”¨åˆ°å¾Œä¸€ç¢¼çš„ç©ºç™½ï¼Œæ‰€ä»¥è¦å¤šä¸€ç¢¼ */
 #else
-static uschar talk_pic[T_LINES][SCR_WIDTH + 2];	/* §R°£¦C§À¤¤¤å¦r®É·|¥Î¨ì«á¤G½XªºªÅ¥Õ¡A©Ò¥H­n¦h¤G½X */
+static uschar talk_pic[T_LINES][SCR_WIDTH + 2];	/* åˆªé™¤åˆ—å°¾ä¸­æ–‡å­—æ™‚æœƒç”¨åˆ°å¾ŒäºŒç¢¼çš„ç©ºç™½ï¼Œæ‰€ä»¥è¦å¤šäºŒç¢¼ */
 #endif
-static int talk_len[T_LINES];			/* ¨C¦C¥Ø«e¤w¿é¤J¦h¤Ö¦r */
+static int talk_len[T_LINES];			/* æ¯åˆ—ç›®å‰å·²è¼¸å…¥å¤šå°‘å­— */
 
 
 static void
@@ -372,7 +397,7 @@ talk_outs(str, len)
   int ch;
   uschar *end;
 
-  /* ©M¤@¯ëªº outs() ¬O¬Û¦P¡A¥u¬O­­¨î¦L len ­Ó¦r */
+  /* å’Œä¸€èˆ¬çš„ outs() æ˜¯ç›¸åŒï¼Œåªæ˜¯é™åˆ¶å° len å€‹å­— */
   end = str + len;
   while (ch = *str)
   {
@@ -394,7 +419,7 @@ talk_nextline(twin)
   {
     twin->curln = ++curln;
   }
-  else	/* ¤w¸g¬O³Ì«á¤@¦C¡A­n¦V¤W±²°Ê */
+  else	/* å·²ç¶“æ˜¯æœ€å¾Œä¸€åˆ—ï¼Œè¦å‘ä¸Šæ²å‹• */
   {
     max = twin->eline;
     for (curln = twin->sline; curln < max; curln++)
@@ -409,7 +434,7 @@ talk_nextline(twin)
     }
   }
 
-  /* ·sªº¤@¦C */
+  /* æ–°çš„ä¸€åˆ— */
   talk_clearline(curln, 0);
 
   twin->curcol = 0;
@@ -431,7 +456,7 @@ talk_char(twin, ch)
 
   if (isprint2(ch))
   {
-    if (col >= SCR_WIDTH)	/* ­Y¤w¸g¥´¨ì¦C§À¡A¥ı´«¦C */
+    if (col >= SCR_WIDTH)	/* è‹¥å·²ç¶“æ‰“åˆ°åˆ—å°¾ï¼Œå…ˆæ›åˆ— */
     {
       talk_nextline(twin);
       col = twin->curcol;
@@ -447,7 +472,7 @@ talk_char(twin, ch)
       twin->curcol = ++col;
       talk_len[ln] = col;
     }
-    else		/* ­n insert */
+    else		/* è¦ insert */
     {
       for (i = SCR_WIDTH - 1; i > col; i--)
 	talk_pic[ln][i] = talk_pic[ln][i - 1];
@@ -473,7 +498,7 @@ talk_char(twin, ch)
       {
 	if (col > len)
 	{
-	  /* °µ©M KEY_LEFT ¤@¼Ëªº¨Æ */
+	  /* åšå’Œ KEY_LEFT ä¸€æ¨£çš„äº‹ */
 	  twin->curcol = --col;
 	  move(ln, col);
 	}
@@ -481,7 +506,7 @@ talk_char(twin, ch)
 	{
 	  col--;
 #ifdef HAVE_MULTI_BYTE
-	  /* hightman.060504: §PÂ_²{¦b§R°£ªº¦ì¸m¬O§_¬°º~¦rªº«á¥b¬q¡A­Y¬O§R¤G¦r¤¸ */
+	  /* hightman.060504: åˆ¤æ–·ç¾åœ¨åˆªé™¤çš„ä½ç½®æ˜¯å¦ç‚ºæ¼¢å­—çš„å¾ŒåŠæ®µï¼Œè‹¥æ˜¯åˆªäºŒå­—å…ƒ */
 	  if (twin->zhc && col && IS_ZHC_LO(talk_pic[ln], col))
 	  {
 	    col--;
@@ -505,7 +530,7 @@ talk_char(twin, ch)
       if (col < len)
       {
 #ifdef HAVE_MULTI_BYTE
-	/* hightman.060504: §PÂ_²{¦b§R°£ªº¦ì¸m¬O§_¬°º~¦rªº«e¥b¬q¡A­Y¬O§R¤G¦r¤¸ */
+	/* hightman.060504: åˆ¤æ–·ç¾åœ¨åˆªé™¤çš„ä½ç½®æ˜¯å¦ç‚ºæ¼¢å­—çš„å‰åŠæ®µï¼Œè‹¥æ˜¯åˆªäºŒå­—å…ƒ */
 	if (twin->zhc && col < len - 1 && IS_ZHC_HI(talk_pic[ln][col]))
 	  ch = 2;
 	else
@@ -525,7 +550,7 @@ talk_char(twin, ch)
       {
 	col--;
 #ifdef HAVE_MULTI_BYTE
-	/* hightman.060504: ¥ª²¾®É¸I¨ìº~¦r²¾Âù®æ */
+	/* hightman.060504: å·¦ç§»æ™‚ç¢°åˆ°æ¼¢å­—ç§»é›™æ ¼ */
 	if (twin->zhc && col && IS_ZHC_LO(talk_pic[ln], col))
 	  col--;
 #endif
@@ -539,7 +564,7 @@ talk_char(twin, ch)
       {
 	col++;
 #ifdef HAVE_MULTI_BYTE
-	/* hightman.060504: ¥k²¾®É¸I¨ìº~¦r²¾Âù®æ */
+	/* hightman.060504: å³ç§»æ™‚ç¢°åˆ°æ¼¢å­—ç§»é›™æ ¼ */
 	if (twin->zhc && col < SCR_WIDTH && IS_ZHC_HI(talk_pic[ln][col - 1]))
 	  col++;
 #endif
@@ -553,7 +578,7 @@ talk_char(twin, ch)
       {
 	twin->curln = --ln;
 #ifdef HAVE_MULTI_BYTE
-	/* hightman.060504: º~¦r¾ã¦r½Õ¸` */
+	/* hightman.060504: æ¼¢å­—æ•´å­—èª¿ç¯€ */
 	if (twin->zhc && col < SCR_WIDTH && IS_ZHC_LO(talk_pic[ln], col))
 	  col++;
 #endif
@@ -566,7 +591,7 @@ talk_char(twin, ch)
       {
 	twin->curln = ++ln;
 #ifdef HAVE_MULTI_BYTE
-	/* hightman.060504: º~¦r¾ã¦r½Õ¸` */
+	/* hightman.060504: æ¼¢å­—æ•´å­—èª¿ç¯€ */
 	if (twin->zhc && col < SCR_WIDTH && IS_ZHC_LO(talk_pic[ln], col))
 	  col++;
 #endif
@@ -632,13 +657,13 @@ talk_speak(fd)
   char mywords[80], itswords[80], itsuserid[40];
   FILE *fp;
 
-#if 0	/* talk log ªº algo */
-  ¹ï¸Ü¨â¤è¤À§O¬° mywin & itswin, ¥u­n¨ä¤@¦³ recv ªº¸Ü´N·|°e¤W¹ïÀ³ªº win, 
-  ©Ò¥H§Ú­Ì¥²¶·­n¥ı§â¦Û¤v¥´ªº¦r»P¹ï¤è¥´ªº¦r¤À¶}¨Ó.
+#if 0	/* talk log çš„ algo */
+  å°è©±å…©æ–¹åˆ†åˆ¥ç‚º mywin & itswin, åªè¦å…¶ä¸€æœ‰ recv çš„è©±å°±æœƒé€ä¸Šå°æ‡‰çš„ win, 
+  æ‰€ä»¥æˆ‘å€‘å¿…é ˆè¦å…ˆæŠŠè‡ªå·±æ‰“çš„å­—èˆ‡å°æ–¹æ‰“çš„å­—åˆ†é–‹ä¾†.
 
-  ©ó¬O´N¥ı«Ø¨â­Ó spool, ¤À§O±N mywin/itswin recv ªº char ©¹¦U¦Ûªº spool 
-  ¸Ì¥á, ¥Ø«e³] spool ­è¦n¬O¤@¦Cªº¤j¤p, ©Ò¥H¥u­n¬O spool º¡¤F, ©Î¬O¸I¨ì´«
-  ¦æ¦r¤¸, ´N§â spool ¸Ìªº¸ê®Æ¼g¦^ log, µM«á²M±¼ spool, ¦p¦¹Ä~Äò :)
+  æ–¼æ˜¯å°±å…ˆå»ºå…©å€‹ spool, åˆ†åˆ¥å°‡ mywin/itswin recv çš„ char å¾€å„è‡ªçš„ spool 
+  è£¡ä¸Ÿ, ç›®å‰è¨­ spool å‰›å¥½æ˜¯ä¸€åˆ—çš„å¤§å°, æ‰€ä»¥åªè¦æ˜¯ spool æ»¿äº†, æˆ–æ˜¯ç¢°åˆ°æ›
+  è¡Œå­—å…ƒ, å°±æŠŠ spool è£¡çš„è³‡æ–™å¯«å› log, ç„¶å¾Œæ¸…æ‰ spool, å¦‚æ­¤ç¹¼çºŒ :)
 #endif
 
   /* lkchu: make sure that's empty */
@@ -652,7 +677,8 @@ talk_speak(fd)
 
   ch = 58 - strlen(page_requestor);
 
-  sprintf(buf, "%s¡i%s", cuser.userid, cuser.username);
+  /* %sã€%s */
+  sprintf(buf, "%s\xA1\x69%s", cuser.userid, cuser.username);
 
   i = ch - strlen(buf);
   if (i >= 0)
@@ -683,22 +709,25 @@ talk_speak(fd)
 
   clear();
   move(i, 0);
-  prints("\033[1;46;37m  ½Í¤Ñ»¡¦a  \033[45m%s%s¡j ¡»  %s%s\033[m",
+  /* \033[1;46;37m  è«‡å¤©èªªåœ°  \033[45m%s%sã€‘ â—†  %s%s\033[m */
+  prints("\033[1;46;37m  \xBD\xCD\xA4\xD1\xBB\xA1\xA6\x61  \033[45m%s%s\xA1\x6A \xA1\xBB  %s%s\033[m",
     data, buf, page_requestor, data);
   outf(FOOTER_TALK);
   move(0, 0);
 
-  /* talk_pic °O¿ı¾ã­Óµe­±ªº¤å¦r¡Aªì©l­È¬OªÅ¥Õ */
+  /* talk_pic è¨˜éŒ„æ•´å€‹ç•«é¢çš„æ–‡å­—ï¼Œåˆå§‹å€¼æ˜¯ç©ºç™½ */
   memset(talk_pic, ' ', sizeof(talk_pic));
-  /* talk_len °O¿ı¾ã­Óµe­±¦U¦C¤w¸g¥Î¤F¦h¤Ö¦r */
+  /* talk_len è¨˜éŒ„æ•´å€‹ç•«é¢å„åˆ—å·²ç¶“ç”¨äº†å¤šå°‘å­— */
   memset(talk_len, 0, sizeof(talk_len));
 
-#ifdef LOG_TALK				/* lkchu.981201: ²á¤Ñ°O¿ı */
+#ifdef LOG_TALK				/* lkchu.981201: èŠå¤©è¨˜éŒ„ */
   usr_fpath(buf, cuser.userid, FN_TALK_LOG);
   if (fp = fopen(buf, "a+"))
   {
-    fprintf(fp, "¡i %s »P %s ¤§²á¤Ñ°O¿ı ¡j\n", cuser.userid, page_requestor);
-    fprintf(fp, "¶}©l²á¤Ñ®É¶¡ [%s]\n", Now());	/* itoc.010108: °O¿ı¶}©l²á¤Ñ®É¶¡ */
+    /* ã€ %s èˆ‡ %s ä¹‹èŠå¤©è¨˜éŒ„ ã€‘\n */
+    fprintf(fp, "\xA1\x69 %s \xBB\x50 %s \xA4\xA7\xB2\xE1\xA4\xD1\xB0\x4F\xBF\xFD \xA1\x6A\n", cuser.userid, page_requestor);
+    /* é–‹å§‹èŠå¤©æ™‚é–“ [%s]\n */
+    fprintf(fp, "\xB6\x7D\xA9\x6C\xB2\xE1\xA4\xD1\xAE\xC9\xB6\xA1 [%s]\n", Now());	/* itoc.010108: è¨˜éŒ„é–‹å§‹èŠå¤©æ™‚é–“ */
   }
 #endif
 
@@ -709,22 +738,22 @@ talk_speak(fd)
     ch = vkey();
 
 #ifdef EVERY_Z
-    /* Thor.980725: talk¤¤, ctrl-z */
+    /* Thor.980725: talkä¸­, ctrl-z */
     if (ch == Ctrl('Z'))
     {
       char buf[IDLEN + 1];
       screenline slt[T_LINES];
 
-      /* Thor.980731: ¼È¦s mateid, ¦]¬°¥X¥h®É¥i¯à·|¥Î±¼ mateid */
+      /* Thor.980731: æš«å­˜ mateid, å› ç‚ºå‡ºå»æ™‚å¯èƒ½æœƒç”¨æ‰ mateid */
       strcpy(buf, cutmp->mateid);
 
-      vio_save();	/* Thor.980727: ¼È¦s vio_fd */
+      vio_save();	/* Thor.980727: æš«å­˜ vio_fd */
       vs_save(slt);
       every_Z(0);
       vs_restore(slt);
-      vio_restore();	/* Thor.980727: ÁÙ­ì vio_fd */
+      vio_restore();	/* Thor.980727: é‚„åŸ vio_fd */
 
-      /* Thor.980731: ÁÙ­ì mateid, ¦]¬°¥X¥h®É¥i¯à·|¥Î±¼ mateid */
+      /* Thor.980731: é‚„åŸ mateid, å› ç‚ºå‡ºå»æ™‚å¯èƒ½æœƒç”¨æ‰ mateid */
       strcpy(cutmp->mateid, buf);
       continue;
     }
@@ -741,7 +770,7 @@ talk_speak(fd)
 
 #ifdef HAVE_GAME
       if (data[0] == Ctrl('O'))
-      { /* Thor.990219: ©I¥s¥~±¾´Ñ½L */
+      { /* Thor.990219: å‘¼å«å¤–æ›æ£‹ç›¤ */
 	if (DL_func("bin/bwboard.so:vaBWboard", fd, 1) == -2)
 	  break;
 	continue;
@@ -751,14 +780,15 @@ talk_speak(fd)
       {
 	talk_char(&itswin, data[i]);
 
-#ifdef	LOG_TALK		/* ¹ï¤è»¡ªº¸Ü */
+#ifdef	LOG_TALK		/* å°æ–¹èªªçš„è©± */
 	switch (data[i])
 	{
 	case '\n':
-	  /* lkchu.981201: ¦³´«¦C´N§â itswords ¦L¥X²M±¼ */
+	  /* lkchu.981201: æœ‰æ›åˆ—å°±æŠŠ itswords å°å‡ºæ¸…æ‰ */
 	  if (itswords[0] != '\0')
   	  {
-  	    fprintf(fp, "\033[32m%s¡G%s\033[m\n", itsuserid, itswords);
+  	    /* \033[32m%sï¼š%s\033[m\n */
+  	    fprintf(fp, "\033[32m%s\xA1\x47%s\033[m\n", itsuserid, itswords);
 	    itswords[0] = '\0';
 	  }
 	  break;
@@ -774,9 +804,10 @@ talk_speak(fd)
   	    {
   	      strncat(itswords, (char *)&data[i], 1);
 	    }
-	    else	/* lkchu.981201: itswords ¸Ëº¡¤F */
+	    else	/* lkchu.981201: itswords è£æ»¿äº† */
 	    {
-  	      fprintf(fp, "\033[32m%s¡G%s%c\033[m\n", itsuserid, itswords, data[i]);
+  	      /* \033[32m%sï¼š%s%c\033[m\n */
+  	      fprintf(fp, "\033[32m%s\xA1\x47%s%c\033[m\n", itsuserid, itswords, data[i]);
 	      itswords[0] = '\0';
 	    }
 	  }
@@ -789,7 +820,7 @@ talk_speak(fd)
 
 #ifdef HAVE_GAME
     else if (ch == Ctrl('O'))
-    { /* Thor.990219: ©I¥s¥~±¾´Ñ½L */
+    { /* Thor.990219: å‘¼å«å¤–æ›æ£‹ç›¤ */
       data[0] = ch;
       if (send(fd, data, 1, 0) != 1)
 	break;
@@ -800,11 +831,13 @@ talk_speak(fd)
 
     else if (ch == Ctrl('T'))
     {
-      if (cuser.userlevel)	/* guest ¦³¥i¯à³Q¯¸ªøÁÜ½Ğ Talk */
+      if (cuser.userlevel)	/* guest æœ‰å¯èƒ½è¢«ç«™é•·é‚€è«‹ Talk */
       {
 	cuser.ufo ^= UFO_PAGER;
 	cutmp->ufo = cuser.ufo;
-	talk_string(&mywin, (cuser.ufo & UFO_PAGER) ? "¡» Ãö³¬©I¥s¾¹\n" : "¡» ¥´¶}©I¥s¾¹\n");
+	/* â—† é—œé–‰å‘¼å«å™¨\n */
+	/* â—† æ‰“é–‹å‘¼å«å™¨\n */
+	talk_string(&mywin, (cuser.ufo & UFO_PAGER) ? "\xA1\xBB \xC3\xF6\xB3\xAC\xA9\x49\xA5\x73\xBE\xB9\n" : "\xA1\xBB \xA5\xB4\xB6\x7D\xA9\x49\xA5\x73\xBE\xB9\n");
       }
     }
 
@@ -847,13 +880,14 @@ talk_speak(fd)
 
       talk_char(&mywin, ch);
 
-#ifdef LOG_TALK			/* ¦Û¤v»¡ªº¸Ü */
+#ifdef LOG_TALK			/* è‡ªå·±èªªçš„è©± */
       switch (ch)
       {
       case '\n':
 	if (mywords[0] != '\0')
 	{
-	  fprintf(fp, "%s¡G%s\n", cuser.userid, mywords);
+	  /* %sï¼š%s\n */
+	  fprintf(fp, "%s\xA1\x47%s\n", cuser.userid, mywords);
 	  mywords[0] = '\0';
 	}
 	break;
@@ -871,7 +905,8 @@ talk_speak(fd)
 	  }
 	  else
 	  {
-	    fprintf(fp, "%s¡G%s%c\n", cuser.userid, mywords, ch);
+	    /* %sï¼š%s%c\n */
+	    fprintf(fp, "%s\xA1\x47%s%c\n", cuser.userid, mywords, ch);
 	    mywords[0] = '\0';
 	  }
 	}
@@ -880,13 +915,14 @@ talk_speak(fd)
 #endif
 
 #ifdef EVERY_BIFF 
-      /* Thor.980805: ¦³¤H¦b®ÇÃä«öenter¤~»İ­ncheck biff */ 
+      /* Thor.980805: æœ‰äººåœ¨æ—é‚ŠæŒ‰enteræ‰éœ€è¦check biff */ 
       if (ch == '\n')
       {
 	static int old_biff; 
 	int biff = HAS_STATUS(STATUS_BIFF);
 	if (biff && !old_biff) 
-	  talk_string(&mywin, "¡» ¾´¡I¶l®t¨Ó«ö¹a¤F¡I\n");
+	  /* â—† å™¹ï¼éƒµå·®ä¾†æŒ‰éˆ´äº†ï¼\n */
+	  talk_string(&mywin, "\xA1\xBB \xBE\xB4\xA1\x49\xB6\x6C\xAE\x74\xA8\xD3\xAB\xF6\xB9\x61\xA4\x46\xA1\x49\n");
 	old_biff = biff; 
       }
 #endif
@@ -894,12 +930,14 @@ talk_speak(fd)
   }
 
 #ifdef LOG_TALK
-  /* itoc.021205: ³Ì«á¤@¥y¸Ü­Y¨S¦³«ö ENTER ´N¤£·|³Q°O¿ı¶i talk.log¡A
-     ¦b¦¹¯S§O³B²z¡A¶¶§Ç©w¬°¥ı myword ¦A itsword¡A¦ı¥i¯à·|¬Û¤Ï */
+  /* itoc.021205: æœ€å¾Œä¸€å¥è©±è‹¥æ²’æœ‰æŒ‰ ENTER å°±ä¸æœƒè¢«è¨˜éŒ„é€² talk.logï¼Œ
+     åœ¨æ­¤ç‰¹åˆ¥è™•ç†ï¼Œé †åºå®šç‚ºå…ˆ myword å† itswordï¼Œä½†å¯èƒ½æœƒç›¸å */
   if (mywords[0] != '\0')
-    fprintf(fp, "%s¡G%s\n", cuser.userid, mywords);
+    /* %sï¼š%s\n */
+    fprintf(fp, "%s\xA1\x47%s\n", cuser.userid, mywords);
   if (itswords[0] != '\0')
-    fprintf(fp, "\033[32m%s¡G%s\033[m\n", itsuserid, itswords);
+    /* \033[32m%sï¼š%s\033[m\n */
+    fprintf(fp, "\033[32m%s\xA1\x47%s\033[m\n", itsuserid, itswords);
 
   fclose(fp);
 #endif
@@ -920,20 +958,26 @@ talk_hangup(sock)
 
 static char *talk_reason[] =
 {
-  "¹ï¤£°_¡A§Ú¦³¨Æ±¡¤£¯à¸ò±z talk",
-  "§Ú²{¦b«Ü¦£¡A½Ğµ¥¤@·|¨à¦A call §Ú",
-  "²{¦b¦£¤£¹L¨Ó¡Aµ¥¤@¤U§Ú·|¥D°Ê page ±z",
-  "§Ú²{¦b¤£·Q talk °Õ",
-  "«Ü·Ğ«¨¡A§Ú¹ê¦b¤£·Q talk",
+  /* å°ä¸èµ·ï¼Œæˆ‘æœ‰äº‹æƒ…ä¸èƒ½è·Ÿæ‚¨ talk */
+  "\xB9\xEF\xA4\xA3\xB0\x5F\xA1\x41\xA7\xDA\xA6\xB3\xA8\xC6\xB1\xA1\xA4\xA3\xAF\xE0\xB8\xF2\xB1\x7A talk",
+  /* æˆ‘ç¾åœ¨å¾ˆå¿™ï¼Œè«‹ç­‰ä¸€æœƒå…’å† call æˆ‘ */
+  "\xA7\xDA\xB2\x7B\xA6\x62\xAB\xDC\xA6\xA3\xA1\x41\xBD\xD0\xB5\xA5\xA4\x40\xB7\x7C\xA8\xE0\xA6\x41 call \xA7\xDA",
+  /* ç¾åœ¨å¿™ä¸éä¾†ï¼Œç­‰ä¸€ä¸‹æˆ‘æœƒä¸»å‹• page æ‚¨ */
+  "\xB2\x7B\xA6\x62\xA6\xA3\xA4\xA3\xB9\x4C\xA8\xD3\xA1\x41\xB5\xA5\xA4\x40\xA4\x55\xA7\xDA\xB7\x7C\xA5\x44\xB0\xCA page \xB1\x7A",
+  /* æˆ‘ç¾åœ¨ä¸æƒ³ talk å•¦ */
+  "\xA7\xDA\xB2\x7B\xA6\x62\xA4\xA3\xB7\x51 talk \xB0\xD5",
+  /* å¾ˆç…©å’§ï¼Œæˆ‘å¯¦åœ¨ä¸æƒ³ talk */
+  "\xAB\xDC\xB7\xD0\xAB\xA8\xA1\x41\xA7\xDA\xB9\xEA\xA6\x62\xA4\xA3\xB7\x51 talk",
 
 #ifdef EVERY_Z
-  "§Úªº¼L¤Ú¥¿¦£µÛ©M§O¤HÁ¿¸Ü©O¡A¨S¦³ªÅªº¼L¤Ú¤F"
-  /* Thor.980725: for chat&talk ¥Î^z §@·Ç³Æ */
+  /* æˆ‘çš„å˜´å·´æ­£å¿™è‘—å’Œåˆ¥äººè¬›è©±å‘¢ï¼Œæ²’æœ‰ç©ºçš„å˜´å·´äº† */
+  "\xA7\xDA\xAA\xBA\xBC\x4C\xA4\xDA\xA5\xBF\xA6\xA3\xB5\xDB\xA9\x4D\xA7\x4F\xA4\x48\xC1\xBF\xB8\xDC\xA9\x4F\xA1\x41\xA8\x53\xA6\xB3\xAA\xC5\xAA\xBA\xBC\x4C\xA4\xDA\xA4\x46"
+  /* Thor.980725: for chat&talk ç”¨^z ä½œæº–å‚™ */
 #endif
 };
 
 
-/* return 0: ¨S¦³ talk, 1: ¦³ talk, -1: ¨ä¥L */
+/* return 0: æ²’æœ‰ talk, 1: æœ‰ talk, -1: å…¶ä»– */
 
 
 int
@@ -950,10 +994,11 @@ talk_page(up)
 #endif
 
 #ifdef EVERY_Z
-  /* Thor.980725: ¬° talk & chat ¥i¥Î ^z §@·Ç³Æ */
+  /* Thor.980725: ç‚º talk & chat å¯ç”¨ ^z ä½œæº–å‚™ */
   if (vio_holdon())
   {
-    vmsg("±zÁ¿¸ÜÁ¿¤@¥bÁÙ¨SÁ¿§¹­C");
+    /* æ‚¨è¬›è©±è¬›ä¸€åŠé‚„æ²’è¬›å®Œè€¶ */
+    vmsg("\xB1\x7A\xC1\xBF\xB8\xDC\xC1\xBF\xA4\x40\xA5\x62\xC1\xD9\xA8\x53\xC1\xBF\xA7\xB9\xAD\x43");
     return 0;
   }
 #endif
@@ -961,7 +1006,8 @@ talk_page(up)
   pid = up->mode;
   if (pid >= M_SYSTEM && pid <= M_CHAT)
   {
-    vmsg("¹ï¤èµL·v²á¤Ñ");
+    /* å°æ–¹ç„¡æš‡èŠå¤© */
+    vmsg("\xB9\xEF\xA4\xE8\xB5\x4C\xB7\x76\xB2\xE1\xA4\xD1");
     return 0;
   }
 
@@ -973,7 +1019,8 @@ talk_page(up)
 
   /* showplans(up->userid); */
 
-  if (vans("½T©w­n©M¥L/¦o½Í¤Ñ¶Ü(Y/N)¡H[N] ") != 'y')
+  /* ç¢ºå®šè¦å’Œä»–/å¥¹è«‡å¤©å—(Y/N)ï¼Ÿ[N]  */
+  if (vans("\xBD\x54\xA9\x77\xAD\x6E\xA9\x4D\xA5\x4C/\xA6\x6F\xBD\xCD\xA4\xD1\xB6\xDC(Y/N)\xA1\x48[N] ") != 'y')
     return 0;
 
   sock = socket(AF_INET, SOCK_STREAM, 0);
@@ -1013,7 +1060,8 @@ talk_page(up)
   kill(pid, SIGUSR1);
 
   clear();
-  prints("­º«×©I¥s %s ...\n¥i«ö Ctrl-D ¤¤¤î", up->userid);
+  /* é¦–åº¦å‘¼å« %s ...\nå¯æŒ‰ Ctrl-D ä¸­æ­¢ */
+  prints("\xAD\xBA\xAB\xD7\xA9\x49\xA5\x73 %s ...\n\xA5\x69\xAB\xF6 Ctrl-D \xA4\xA4\xA4\xEE", up->userid);
 
   listen(sock, 1);
   add_io(sock, 20);
@@ -1030,11 +1078,12 @@ talk_page(up)
     if (msgsock == I_TIMEOUT)
     {
       move(0, 0);
-      outs("¦A");
+      /* å† */
+      outs("\xA6\x41");
       bell();
 
       if (kill(pid, SIGUSR1)) 
-      /* Thor.990201.µù¸Ñ: ¨ä¹ê³o­Ó kill¡A¤]¥u¬O¬İ¬İ¹ï¤è¬O¤£¬OÁÙ¦b½u¤W¦Ó¤w¡A­«µosignal¨ä¹ê¦ü¥G talk_rqst ¤£·|¦A³Q¥s */
+      /* Thor.990201.è¨»è§£: å…¶å¯¦é€™å€‹ killï¼Œä¹Ÿåªæ˜¯çœ‹çœ‹å°æ–¹æ˜¯ä¸æ˜¯é‚„åœ¨ç·šä¸Šè€Œå·²ï¼Œé‡ç™¼signalå…¶å¯¦ä¼¼ä¹ talk_rqst ä¸æœƒå†è¢«å« */
       {
 	talk_hangup(sock);
 	vmsg(MSG_USR_LEFT);
@@ -1057,10 +1106,10 @@ talk_page(up)
     page_requestor_zhc = up->ufo & UFO_ZHC;
 #endif
 
-    /* Thor.980814.ª`·N: ¦b¦¹¦³¤@­ÓÂû¦PÀnÁ¿ªº¥i¯à±¡ªp, ¦pªG A ¥ı page B, ¦ı¦b B ¦^À³«e«o°¨¤WÂ÷¶}, ´« page C,
-	C ©|¥¼¦^À³«e, ¦pªG B ¦^À³¤F, B ´N·|³Q accept, ¦Ó¤£¬O C.
-	¦¹®É¦b¿Ã¹õ¤¤¥¡, ¬İ¨ìªº page_requestor·|¬O C, ¥i¬O¨Æ¹ê¤W, talkªº¹ï¶H¬O B, ³y¦¨Âû¦PÀnÁ¿!
-	¼È®É¤£¤©­×¥¿, ¥H§@¬°ªá¤ßªÌªºÃg»@ :P    */
+    /* Thor.980814.æ³¨æ„: åœ¨æ­¤æœ‰ä¸€å€‹é›åŒé´¨è¬›çš„å¯èƒ½æƒ…æ³, å¦‚æœ A å…ˆ page B, ä½†åœ¨ B å›æ‡‰å‰å»é¦¬ä¸Šé›¢é–‹, æ› page C,
+	C å°šæœªå›æ‡‰å‰, å¦‚æœ B å›æ‡‰äº†, B å°±æœƒè¢« accept, è€Œä¸æ˜¯ C.
+	æ­¤æ™‚åœ¨è¢å¹•ä¸­å¤®, çœ‹åˆ°çš„ page_requestoræœƒæ˜¯ C, å¯æ˜¯äº‹å¯¦ä¸Š, talkçš„å°è±¡æ˜¯ B, é€ æˆé›åŒé´¨è¬›!
+	æš«æ™‚ä¸äºˆä¿®æ­£, ä»¥ä½œç‚ºèŠ±å¿ƒè€…çš„æ‡²ç½° :P    */
 
     talk_speak(msgsock);
   }
@@ -1077,17 +1126,19 @@ talk_page(up)
       reply = talk_reason[ans - '1'];
 
     move(4, 0);
-    outs("¡i¦^­µ¡j");
+    /* ã€å›éŸ³ã€‘ */
+    outs("\xA1\x69\xA6\x5E\xAD\xB5\xA1\x6A");
     outs(reply);
   }
 
   close(msgsock);
   cutmp->talker = NULL;
 #ifdef LOG_TALK
-  if (ans == 'y')  	/* itoc.000512: ¨¾¤îTalk³Q©Úµ´®É¡A²£¥Í²á¤Ñ°O¿ıªºrecord */
-    talk_save();	/* lkchu.981201: talk °O¿ı³B²z */  
+  if (ans == 'y')  	/* itoc.000512: é˜²æ­¢Talkè¢«æ‹’çµ•æ™‚ï¼Œç”¢ç”ŸèŠå¤©è¨˜éŒ„çš„record */
+    talk_save();	/* lkchu.981201: talk è¨˜éŒ„è™•ç† */  
 #endif
-  vmsg("²á¤Ñµ²§ô");
+  /* èŠå¤©çµæŸ */
+  vmsg("\xB2\xE1\xA4\xD1\xB5\xB2\xA7\xF4");
   return 1;
 }
 
@@ -1100,19 +1151,20 @@ talk_page(up)
 int
 t_pager()
 {
-#if 0	/* itoc.010923: Á×§K»~«ö¡A¤À²M·¡¤@ÂI */
-  ¢z¢w¢w¢w¢w¢s¢w¢w¢w¢w¢w¢s¢w¢w¢w¢w¢w¢s¢w¢w¢w¢w¢w¢{
-  ¢x        ¢x UFO_PAGER¢x UFO_RCVER¢x UFO_QUIET¢x
-  ¢u¢w¢w¢w¢w¢q¢w¢w¢w¢w¢w¢q¢w¢w¢w¢w¢w¢q¢w¢w¢w¢w¢w¢t
-  ¢x§¹¥ş¶}©ñ¢x          ¢x          ¢x          ¢x
-  ¢u¢w¢w¢w¢w¢q¢w¢w¢w¢w¢w¢q¢w¢w¢w¢w¢w¢q¢w¢w¢w¢w¢w¢t   
-  ¢x¦n¤Í±M½u¢x    ¡³    ¢x          ¢x          ¢x
-  ¢u¢w¢w¢w¢w¢q¢w¢w¢w¢w¢w¢q¢w¢w¢w¢w¢w¢q¢w¢w¢w¢w¢w¢t
-  ¢x»·Â÷¹ĞÄÛ¢x    ¡³    ¢x    ¡³    ¢x    ¡³    ¢x
-  ¢|¢w¢w¢w¢w¢r¢w¢w¢w¢w¢w¢r¢w¢w¢w¢w¢w¢r¢w¢w¢w¢w¢w¢}
+#if 0	/* itoc.010923: é¿å…èª¤æŒ‰ï¼Œåˆ†æ¸…æ¥šä¸€é» */
+  â”Œâ”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”
+  â”‚        â”‚ UFO_PAGERâ”‚ UFO_RCVERâ”‚ UFO_QUIETâ”‚
+  â”œâ”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”¤
+  â”‚å®Œå…¨é–‹æ”¾â”‚          â”‚          â”‚          â”‚
+  â”œâ”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”¤   
+  â”‚å¥½å‹å°ˆç·šâ”‚    â—‹    â”‚          â”‚          â”‚
+  â”œâ”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”¤
+  â”‚é é›¢å¡µå›‚â”‚    â—‹    â”‚    â—‹    â”‚    â—‹    â”‚
+  â””â”€â”€â”€â”€â”´â”€â”€â”€â”€â”€â”´â”€â”€â”€â”€â”€â”´â”€â”€â”€â”€â”€â”˜
 #endif
 
-  switch (vans("¤Á´«¦©¾÷¬° 1)§¹¥ş¶}©ñ 2)¦n¤Í±M½u 3)»·Â÷¹ĞÄÛ [Q] "))
+  /* åˆ‡æ›æ‰£æ©Ÿç‚º 1)å®Œå…¨é–‹æ”¾ 2)å¥½å‹å°ˆç·š 3)é é›¢å¡µå›‚ [Q]  */
+  switch (vans("\xA4\xC1\xB4\xAB\xA6\xA9\xBE\xF7\xAC\xB0 1)\xA7\xB9\xA5\xFE\xB6\x7D\xA9\xF1 2)\xA6\x6E\xA4\xCD\xB1\x4D\xBD\x75 3)\xBB\xB7\xC2\xF7\xB9\xD0\xC4\xDB [Q] "))
   {
   case '1':
 #ifdef HAVE_NOBROAD
@@ -1121,7 +1173,7 @@ t_pager()
     cuser.ufo &= ~(UFO_PAGER | UFO_QUIET);
 #endif
     cutmp->ufo = cuser.ufo;
-    return 0;	/* itoc.010923: ÁöµM¤£»İ­n­«Ã¸¿Ã¹õ¡A¦ı¬O±j­¢­«Ã¸¤~¯à§ó·s feeter ¤¤ªº pager ¼Ò¦¡ */
+    return 0;	/* itoc.010923: é›–ç„¶ä¸éœ€è¦é‡ç¹ªè¢å¹•ï¼Œä½†æ˜¯å¼·è¿«é‡ç¹ªæ‰èƒ½æ›´æ–° feeter ä¸­çš„ pager æ¨¡å¼ */
 
   case '2':
     cuser.ufo |= UFO_PAGER;
@@ -1153,22 +1205,26 @@ t_cloak()
 #ifdef HAVE_SUPERCLOAK
   if (HAS_PERM(PERM_ALLADMIN))
   {
-    switch (vans("Áô¨­¼Ò¦¡ 1)¤@¯ëÁô§Î 2)µµ¦âÁô§Î 3)¤£Áô§Î [Q] "))
+    /* éš±èº«æ¨¡å¼ 1)ä¸€èˆ¬éš±å½¢ 2)ç´«è‰²éš±å½¢ 3)ä¸éš±å½¢ [Q]  */
+    switch (vans("\xC1\xF4\xA8\xAD\xBC\xD2\xA6\xA1 1)\xA4\x40\xAF\xEB\xC1\xF4\xA7\xCE 2)\xB5\xB5\xA6\xE2\xC1\xF4\xA7\xCE 3)\xA4\xA3\xC1\xF4\xA7\xCE [Q] "))
     {
     case '1':
       cuser.ufo |= UFO_CLOAK;
       cuser.ufo &= ~UFO_SUPERCLOAK;
-      vmsg("¼K¼K¡A¸ú°_¨ÓÅo¡I");
+      /* å˜¿å˜¿ï¼Œèº²èµ·ä¾†å›‰ï¼ */
+      vmsg("\xBC\x4B\xBC\x4B\xA1\x41\xB8\xFA\xB0\x5F\xA8\xD3\xC5\x6F\xA1\x49");
       break;
 
     case '2':
       cuser.ufo |= (UFO_CLOAK | UFO_SUPERCLOAK);
-      vmsg("¼K¼K¡AÂÃ°_¨ÓÅo¡A¨ä¥L¯¸ªø¤]¬İ¤£¨ì§Ú¡I");
+      /* å˜¿å˜¿ï¼Œè—èµ·ä¾†å›‰ï¼Œå…¶ä»–ç«™é•·ä¹Ÿçœ‹ä¸åˆ°æˆ‘ï¼ */
+      vmsg("\xBC\x4B\xBC\x4B\xA1\x41\xC2\xC3\xB0\x5F\xA8\xD3\xC5\x6F\xA1\x41\xA8\xE4\xA5\x4C\xAF\xB8\xAA\xF8\xA4\x5D\xAC\xDD\xA4\xA3\xA8\xEC\xA7\xDA\xA1\x49");
       break;
 
     case '3':
       cuser.ufo &= ~(UFO_CLOAK | UFO_SUPERCLOAK);
-      vmsg("­«²{¦¿´ò¤F");
+      /* é‡ç¾æ±Ÿæ¹–äº† */
+      vmsg("\xAD\xAB\xB2\x7B\xA6\xBF\xB4\xF2\xA4\x46");
       break;
     }
   }
@@ -1177,7 +1233,9 @@ t_cloak()
   if (HAS_PERM(PERM_CLOAK))
   {
     cuser.ufo ^= UFO_CLOAK;
-    vmsg(cuser.ufo & UFO_CLOAK ? "¼K¼K¡A¸ú°_¨ÓÅo¡I" : "­«²{¦¿´ò¤F");
+    /* å˜¿å˜¿ï¼Œèº²èµ·ä¾†å›‰ï¼ */
+    /* é‡ç¾æ±Ÿæ¹–äº† */
+    vmsg(cuser.ufo & UFO_CLOAK ? "\xBC\x4B\xBC\x4B\xA1\x41\xB8\xFA\xB0\x5F\xA8\xD3\xC5\x6F\xA1\x49" : "\xAD\xAB\xB2\x7B\xA6\xBF\xB4\xF2\xA4\x46");
   }
 
   cutmp->ufo = cuser.ufo;
@@ -1190,7 +1248,8 @@ t_query()
 {
   ACCT acct;
 
-  vs_bar("¬d¸ßºô¤Í");
+  /* æŸ¥è©¢ç¶²å‹ */
+  vs_bar("\xAC\x64\xB8\xDF\xBA\xF4\xA4\xCD");
   if (acct_get(msg_uid, &acct) > 0)
   {
     move(1, 0);
@@ -1244,7 +1303,9 @@ t_talk()
 
   if (total_user <= 1)
   {
-    zmsg("¥Ø«e½u¤W¥u¦³±z¤@¤H¡A§ÖÁÜ½Ğ¤j®a¨Ó¥úÁ{¡i" BBSNAME "¡j§a¡I");
+    /* ç›®å‰ç·šä¸Šåªæœ‰æ‚¨ä¸€äººï¼Œå¿«é‚€è«‹å¤§å®¶ä¾†å…‰è‡¨ã€ */
+    /* ã€‘å§ï¼ */
+    zmsg("\xA5\xD8\xAB\x65\xBD\x75\xA4\x57\xA5\x75\xA6\xB3\xB1\x7A\xA4\x40\xA4\x48\xA1\x41\xA7\xD6\xC1\xDC\xBD\xD0\xA4\x6A\xAE\x61\xA8\xD3\xA5\xFA\xC1\x7B\xA1\x69" BBSNAME "\xA1\x6A\xA7\x61\xA1\x49");
     return XEASY;
   }
 
@@ -1260,9 +1321,11 @@ t_talk()
   unum = 1;
   while ((ucount = utmp_count(tuid, 0)) > 1)
   {
-    outs("(0) ¤£·Q talk ¤F...\n");
+    /* (0) ä¸æƒ³ talk äº†...\n */
+    outs("(0) \xA4\xA3\xB7\x51 talk \xA4\x46...\n");
     utmp_count(tuid, 1);
-    vget(1, 33, "½Ğ¿ï¾Ü¤@­Ó²á¤Ñ¹ï¶H [0]¡G", ans, 3, DOECHO);
+    /* è«‹é¸æ“‡ä¸€å€‹èŠå¤©å°è±¡ [0]ï¼š */
+    vget(1, 33, "\xBD\xD0\xBF\xEF\xBE\xDC\xA4\x40\xAD\xD3\xB2\xE1\xA4\xD1\xB9\xEF\xB6\x48 [0]\xA1\x47", ans, 3, DOECHO);
     unum = atoi(ans);
     if (unum == 0)
       return 0;
@@ -1283,7 +1346,8 @@ t_talk()
     }
     else
     {
-      vmsg("¹ï¤èÃö±¼©I¥s¾¹¤F");
+      /* å°æ–¹é—œæ‰å‘¼å«å™¨äº† */
+      vmsg("\xB9\xEF\xA4\xE8\xC3\xF6\xB1\xBC\xA9\x49\xA5\x73\xBE\xB9\xA4\x46");
     }
   }
 
@@ -1292,7 +1356,7 @@ t_talk()
 
 
 /* ------------------------------------- */
-/* ¦³¤H¨Ó¦êªù¤l¤F¡A¦^À³©I¥s¾¹		 */
+/* æœ‰äººä¾†ä¸²é–€å­äº†ï¼Œå›æ‡‰å‘¼å«å™¨		 */
 /* ------------------------------------- */
 
 
@@ -1325,23 +1389,26 @@ talk_rqst()
   sprintf(page_requestor, "%s (%s)", up->userid, up->username);
 
 #ifdef EVERY_Z
-  /* Thor.980725: ¬° talk & chat ¥i¥Î ^z §@·Ç³Æ */
+  /* Thor.980725: ç‚º talk & chat å¯ç”¨ ^z ä½œæº–å‚™ */
 
   if (vio_holdon())
   {
-    sprintf(buf, "%s ·Q©M±z²á¡A¤£¹L±z¥u¦³¤@±i¼L", page_requestor);
+    /* %s æƒ³å’Œæ‚¨èŠï¼Œä¸éæ‚¨åªæœ‰ä¸€å¼µå˜´ */
+    sprintf(buf, "%s \xB7\x51\xA9\x4D\xB1\x7A\xB2\xE1\xA1\x41\xA4\xA3\xB9\x4C\xB1\x7A\xA5\x75\xA6\xB3\xA4\x40\xB1\x69\xBC\x4C", page_requestor);
     vmsg(buf);
-    buf[0] = ans = '6';		/* Thor.980725: ¥u¦³¤@±i¼L */
+    buf[0] = ans = '6';		/* Thor.980725: åªæœ‰ä¸€å¼µå˜´ */
     len = 1;
     goto over_for;
   }
 #endif
 
   bell();
-  prints("±z·Q¸ò %s ²á¤Ñ¶Ü¡H(¨Ó¦Û %s)", page_requestor, up->from);
-  for (;;)	/* Åı¨Ï¥ÎªÌ¥i¥H¥ı¬d¸ß­n¨D²á¤Ñªº¹ï¤è */
+  /* æ‚¨æƒ³è·Ÿ %s èŠå¤©å—ï¼Ÿ(ä¾†è‡ª %s) */
+  prints("\xB1\x7A\xB7\x51\xB8\xF2 %s \xB2\xE1\xA4\xD1\xB6\xDC\xA1\x48(\xA8\xD3\xA6\xDB %s)", page_requestor, up->from);
+  for (;;)	/* è®“ä½¿ç”¨è€…å¯ä»¥å…ˆæŸ¥è©¢è¦æ±‚èŠå¤©çš„å°æ–¹ */
   {
-    ans = vget(1, 0, "==> Q)¬d¸ß Y)²á¤Ñ N)¨ú®ø¡H[Y] ", buf, 3, LCECHO);
+    /* ==> Q)æŸ¥è©¢ Y)èŠå¤© N)å–æ¶ˆï¼Ÿ[Y]  */
+    ans = vget(1, 0, "==> Q)\xAC\x64\xB8\xDF Y)\xB2\xE1\xA4\xD1 N)\xA8\xFA\xAE\xF8\xA1\x48[Y] ", buf, 3, LCECHO);
     if (ans == 'q')
       my_query(up->userid);
     else
@@ -1356,7 +1423,8 @@ talk_rqst()
     clrtobot();
     for (ans = 0; ans < 5; ans++)
       prints("\n (%d) %s", ans + 1, talk_reason[ans]);
-    ans = vget(10, 0, "½Ğ¿é¤J¿ï¶µ©Î¨ä¥L±¡¥Ñ [1]¡G\n==> ", buf + 1, 60, DOECHO);
+    /* è«‹è¼¸å…¥é¸é …æˆ–å…¶ä»–æƒ…ç”± [1]ï¼š\n==>  */
+    ans = vget(10, 0, "\xBD\xD0\xBF\xE9\xA4\x4A\xBF\xEF\xB6\xB5\xA9\xCE\xA8\xE4\xA5\x4C\xB1\xA1\xA5\xD1 [1]\xA1\x47\n==> ", buf + 1, 60, DOECHO);
 
     if (ans == 0)
       ans = '1';
@@ -1420,8 +1488,8 @@ over_for:
 
   close(sock);
 #ifdef  LOG_TALK
-  if (ans == 'y')	/* mat.991011: ¨¾¤îTalk³Q©Úµ´®É¡A²£¥Í²á¤Ñ°O¿ıªºrecord */
-    talk_save();	/* lkchu.981201: talk °O¿ı³B²z */
+  if (ans == 'y')	/* mat.991011: é˜²æ­¢Talkè¢«æ‹’çµ•æ™‚ï¼Œç”¢ç”ŸèŠå¤©è¨˜éŒ„çš„record */
+    talk_save();	/* lkchu.981201: talk è¨˜éŒ„è™•ç† */
 #endif
   vs_restore(sl);
   utmp_mode(mode);

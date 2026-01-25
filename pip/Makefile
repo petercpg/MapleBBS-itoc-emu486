@@ -32,22 +32,22 @@ all:
 	@echo " make cygwin  : for Microsoft Windows and Cygwin gcc"
 
 sun:
-	@$(MAKE) CC=gcc CFLAGS="-finput-charset=big5 -fPIC -O2 -pipe -fomit-frame-pointer -Wunused -I../include" $(SO)
+	@$(MAKE) CC=gcc CFLAGS="-finput-charset=utf-8 -fPIC -O2 -pipe -fomit-frame-pointer -Wunused -I../include" $(SO)
 
 linux:
-	@$(MAKE) CC=gcc CFLAGS="-finput-charset=big5 -fPIC -DLINUX -O2 -pipe -fomit-frame-pointer -Wunused -I../include" $(SO)
+	@$(MAKE) CC=gcc CFLAGS="-finput-charset=utf-8 -fPIC -DLINUX -O2 -pipe -fomit-frame-pointer -Wunused -I../include" $(SO)
 
 solaris:
-	@$(MAKE) CC=gcc CFLAGS="-finput-charset=big5 -fPIC -DSOLARIS -DSYSV -O2 -pipe -fomit-frame-pointer -Wunused -I../include" $(SO)
+	@$(MAKE) CC=gcc CFLAGS="-finput-charset=utf-8 -fPIC -DSOLARIS -DSYSV -O2 -pipe -fomit-frame-pointer -Wunused -I../include" $(SO)
 
 sol-x86:
-	@$(MAKE) CC=gcc CFLAGS="-finput-charset=big5 -fPIC -DSOLARIS -DSYSV -O2 -fomit-frame-pointer -Wunused -I../include" $(SO)
+	@$(MAKE) CC=gcc CFLAGS="-finput-charset=utf-8 -fPIC -DSOLARIS -DSYSV -O2 -fomit-frame-pointer -Wunused -I../include" $(SO)
 
 freebsd:
-	@$(MAKE) CC=gcc CFLAGS="-finput-charset=big5 -fPIC -DBSD44 -O2 -pipe -fomit-frame-pointer -Wunused -I../include" $(SO)
+	@$(MAKE) CC=gcc CFLAGS="-finput-charset=utf-8 -fPIC -DBSD44 -O2 -pipe -fomit-frame-pointer -Wunused -I../include" $(SO)
 
 bsd:
-	@$(MAKE) CC=gcc CFLAGS="-finput-charset=big5 -fPIC -DBSD44 -O2 -pipe -fomit-frame-pointer -Wunused -I../include" $(SO)
+	@$(MAKE) CC=gcc CFLAGS="-finput-charset=utf-8 -fPIC -DBSD44 -O2 -pipe -fomit-frame-pointer -Wunused -I../include" $(SO)
 
 cygwin:
 	@cd ../maple; make cygwin

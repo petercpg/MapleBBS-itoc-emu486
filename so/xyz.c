@@ -1,7 +1,7 @@
 /*-------------------------------------------------------*/
 /* xyz.c	( NTHU CS MapleBBS Ver 3.10 )		 */
 /*-------------------------------------------------------*/
-/* target : Âø¤CÂø¤Kªº¥~±¾				 */
+/* target : é›œä¸ƒé›œå…«çš„å¤–æ›				 */
 /* create : 01/03/01					 */
 /* update :   /  /  					 */
 /*-------------------------------------------------------*/
@@ -13,7 +13,7 @@
 #ifdef HAVE_TIP
 
 /* ----------------------------------------------------- */
-/* ¨C¤é¤p¯µ³Z						 */
+/* æ¯æ—¥å°ç§˜è¨£						 */
 /* ----------------------------------------------------- */
 
 int
@@ -27,11 +27,11 @@ x_tip()
     return XEASY;
 
   fgets(msg, 128, fp);
-  j = atoi(msg);		/* ²Ä¤@¦æ°O¿ıÁ`½g¼Æ */
+  j = atoi(msg);		/* ç¬¬ä¸€è¡Œè¨˜éŒ„ç¸½ç¯‡æ•¸ */
   i = time(0) % j + 1;
   j = 0;
 
-  while (j < i)			/* ¨ú²Ä i ­Ó tip */
+  while (j < i)			/* å–ç¬¬ i å€‹ tip */
   {
     fgets(msg, 128, fp);
     if (msg[0] == '#')
@@ -41,7 +41,8 @@ x_tip()
   move(12, 0);
   clrtobot();
   fgets(msg, 128, fp);
-  prints("\033[1;36m¨C¤é¤p¯¦³Z¡G\033[m\n");
+  /* \033[1;36mæ¯æ—¥å°ç¥•è¨£ï¼š\033[m\n */
+  prints("\033[1;36m\xA8\x43\xA4\xE9\xA4\x70\xAF\xA6\xB3\x5A\xA1\x47\033[m\n");
   prints("            %s", msg);
   fgets(msg, 128, fp);
   prints("            %s", msg);
@@ -55,39 +56,40 @@ x_tip()
 #ifdef HAVE_LOVELETTER 
 
 /* ----------------------------------------------------- */
-/* ±¡®Ñ²£¥Í¾¹						 */
+/* æƒ…æ›¸ç”¢ç”Ÿå™¨						 */
 /* ----------------------------------------------------- */
 
 int
 x_loveletter()
 {
   FILE *fp;
-  int start_show;	/* 1:¶}©l¨q */
-  int style;		/* 0:¶}ÀY 1:¥¿¤å 2:µ²§À */
+  int start_show;	/* 1:é–‹å§‹ç§€ */
+  int style;		/* 0:é–‹é ­ 1:æ­£æ–‡ 2:çµå°¾ */
   int line;
   char buf[128];
-  char header[3][5] = {"head", "body", "foot"};	/* ¶}ÀY¡B¥¿¤å¡Bµ²§À */
+  char header[3][5] = {"head", "body", "foot"};	/* é–‹é ­ã€æ­£æ–‡ã€çµå°¾ */
   int num[3];
 
-  /* etc/loveletter «e¬q¬O#head ¤¤¬q¬O#body «á¬q¬O#foot */
-  /* ¦æ¼Æ¤W­­¡G#head¤­¦æ  #body¤K¦æ  #foot¤­¦æ */
+  /* etc/loveletter å‰æ®µæ˜¯#head ä¸­æ®µæ˜¯#body å¾Œæ®µæ˜¯#foot */
+  /* è¡Œæ•¸ä¸Šé™ï¼š#headäº”è¡Œ  #bodyå…«è¡Œ  #footäº”è¡Œ */
 
   if (!(fp = fopen(FN_ETC_LOVELETTER, "r")))
     return XEASY;
 
-  /* «e¤T¦æ°O¿ı½g¼Æ */
+  /* å‰ä¸‰è¡Œè¨˜éŒ„ç¯‡æ•¸ */
   fgets(buf, 128, fp);
   num[0] = atoi(buf + 5);
   num[1] = atoi(buf + 5);
   num[2] = atoi(buf + 5);
 
-  /* ¨M©w­n¿ï²Ä´X½g */
+  /* æ±ºå®šè¦é¸ç¬¬å¹¾ç¯‡ */
   line = time(0);
   num[0] = line % num[0];
   num[1] = (line >> 1) % num[1];
   num[2] = (line >> 2) % num[2];
 
-  vs_bar("±¡®Ñ²£¥Í¾¹");
+  /* æƒ…æ›¸ç”¢ç”Ÿå™¨ */
+  vs_bar("\xB1\xA1\xAE\xD1\xB2\xA3\xA5\xCD\xBE\xB9");
 
   start_show = style = line = 0;
 
@@ -95,10 +97,10 @@ x_loveletter()
   {
     if (*buf == '#')
     {
-      if (!strncmp(buf + 1, header[style], 4))  /* header[] ªø«×³£¬O 5 bytes */
+      if (!strncmp(buf + 1, header[style], 4))  /* header[] é•·åº¦éƒ½æ˜¯ 5 bytes */
 	num[style]--;
 
-      if (num[style] < 0)	/* ¤w¸g fget ¨ì­n¿ïªº³o½g¤F */
+      if (num[style] < 0)	/* å·²ç¶“ fget åˆ°è¦é¸çš„é€™ç¯‡äº† */
       {
 	outc('\n');
 	start_show = 1;
@@ -113,7 +115,7 @@ x_loveletter()
 
     if (start_show)
     {
-      if (line >= (b_lines - 5))	/* ¶W¹L¿Ã¹õ¤j¤p¤F */
+      if (line >= (b_lines - 5))	/* è¶…éè¢å¹•å¤§å°äº† */
 	break;
 
       outs(buf);
@@ -130,7 +132,7 @@ x_loveletter()
 
 
 /* ----------------------------------------------------- */
-/* ±K½X§Ñ°O¡A­«³]±K½X					 */
+/* å¯†ç¢¼å¿˜è¨˜ï¼Œé‡è¨­å¯†ç¢¼					 */
 /* ----------------------------------------------------- */
 
 
@@ -143,7 +145,8 @@ x_password()
   char fpath[80], email[60], passwd[PSWDLEN + 1];
   time_t now;
 
-  vmsg("·í¨ä¥L¨Ï¥ÎªÌ§Ñ°O±K½X®É¡A­«°e·s±K½X¦Ü¸Ó¨Ï¥ÎªÌªº«H½c");
+  /* ç•¶å…¶ä»–ä½¿ç”¨è€…å¿˜è¨˜å¯†ç¢¼æ™‚ï¼Œé‡é€æ–°å¯†ç¢¼è‡³è©²ä½¿ç”¨è€…çš„ä¿¡ç®± */
+  vmsg("\xB7\xED\xA8\xE4\xA5\x4C\xA8\xCF\xA5\xCE\xAA\xCC\xA7\xD1\xB0\x4F\xB1\x4B\xBD\x58\xAE\xC9\xA1\x41\xAD\xAB\xB0\x65\xB7\x73\xB1\x4B\xBD\x58\xA6\xDC\xB8\xD3\xA8\xCF\xA5\xCE\xAA\xCC\xAA\xBA\xAB\x48\xBD\x63");
 
   if (acct_get(msg_uid, &acct) > 0)
   {
@@ -151,15 +154,18 @@ x_password()
 
     if (acct.lastlogin > now - 86400 * 10)
     {
-      vmsg("¸Ó¨Ï¥ÎªÌ¥²¶·¤Q¤Ñ¥H¤W¥¼¤W¯¸¤è¥i­«°e±K½X");
+      /* è©²ä½¿ç”¨è€…å¿…é ˆåå¤©ä»¥ä¸Šæœªä¸Šç«™æ–¹å¯é‡é€å¯†ç¢¼ */
+      vmsg("\xB8\xD3\xA8\xCF\xA5\xCE\xAA\xCC\xA5\xB2\xB6\xB7\xA4\x51\xA4\xD1\xA5\x48\xA4\x57\xA5\xBC\xA4\x57\xAF\xB8\xA4\xE8\xA5\x69\xAD\xAB\xB0\x65\xB1\x4B\xBD\x58");
       return 0;
     }
 
-    vget(b_lines - 2, 0, "½Ğ¿é¤J»{ÃÒ®Éªº Email¡G", email, 40, DOECHO);
+    /* è«‹è¼¸å…¥èªè­‰æ™‚çš„ Emailï¼š */
+    vget(b_lines - 2, 0, "\xBD\xD0\xBF\xE9\xA4\x4A\xBB\x7B\xC3\xD2\xAE\xC9\xAA\xBA Email\xA1\x47", email, 40, DOECHO);
 
     if (str_cmp(acct.email, email))
     {
-      vmsg("³o¤£¬O¸Ó¨Ï¥ÎªÌ»{ÃÒ®É¥Îªº Email");
+      /* é€™ä¸æ˜¯è©²ä½¿ç”¨è€…èªè­‰æ™‚ç”¨çš„ Email */
+      vmsg("\xB3\x6F\xA4\xA3\xAC\x4F\xB8\xD3\xA8\xCF\xA5\xCE\xAA\xCC\xBB\x7B\xC3\xD2\xAE\xC9\xA5\xCE\xAA\xBA Email");
       return 0;
     }
 
@@ -169,25 +175,29 @@ x_password()
       return 0;
     }
 
-    vget(b_lines - 1, 0, "½Ğ¿é¤J¯u¹ê©m¦W¡G", fpath, RNLEN + 1, DOECHO);
+    /* è«‹è¼¸å…¥çœŸå¯¦å§“åï¼š */
+    vget(b_lines - 1, 0, "\xBD\xD0\xBF\xE9\xA4\x4A\xAF\x75\xB9\xEA\xA9\x6D\xA6\x57\xA1\x47", fpath, RNLEN + 1, DOECHO);
     if (strcmp(acct.realname, fpath))
     {
-      vmsg("³o¤£¬O¸Ó¨Ï¥ÎªÌªº¯u¹ê©m¦W");
+      /* é€™ä¸æ˜¯è©²ä½¿ç”¨è€…çš„çœŸå¯¦å§“å */
+      vmsg("\xB3\x6F\xA4\xA3\xAC\x4F\xB8\xD3\xA8\xCF\xA5\xCE\xAA\xCC\xAA\xBA\xAF\x75\xB9\xEA\xA9\x6D\xA6\x57");
       return 0;
     }
 
-    if (vans("¸ê®Æ¥¿½T¡A½Ğ½T»{¬O§_²£¥Í·s±K½X(Y/N)¡H[N] ") != 'y')
+    /* è³‡æ–™æ­£ç¢ºï¼Œè«‹ç¢ºèªæ˜¯å¦ç”¢ç”Ÿæ–°å¯†ç¢¼(Y/N)ï¼Ÿ[N]  */
+    if (vans("\xB8\xEA\xAE\xC6\xA5\xBF\xBD\x54\xA1\x41\xBD\xD0\xBD\x54\xBB\x7B\xAC\x4F\xA7\x5F\xB2\xA3\xA5\xCD\xB7\x73\xB1\x4B\xBD\x58(Y/N)\xA1\x48[N] ") != 'y')
       return 0;
 
-    sprintf(fpath, "%s §ï¤F %s ªº±K½X", cuser.userid, acct.userid);
+    /* %s æ”¹äº† %s çš„å¯†ç¢¼ */
+    sprintf(fpath, "%s \xA7\xEF\xA4\x46 %s \xAA\xBA\xB1\x4B\xBD\x58", cuser.userid, acct.userid);
     blog("PASSWD", fpath);
 
-    /* ¶Ã¼Æ²£¥Í A~Z ²Õ¦Xªº±K½X¤K½X */
+    /* äº‚æ•¸ç”¢ç”Ÿ A~Z çµ„åˆçš„å¯†ç¢¼å…«ç¢¼ */
     for (i = 0; i < PSWDLEN; i++)
       passwd[i] = rnd(26) + 'A';
     passwd[PSWDLEN] = '\0';
 
-    /* ­«·s acct_load ¸ü¤J¤@¦¸¡AÁ×§K¹ï¤è¦b vans() ®Éµn¤J·|¦³¬~¿úªº®ÄªG */
+    /* é‡æ–° acct_load è¼‰å…¥ä¸€æ¬¡ï¼Œé¿å…å°æ–¹åœ¨ vans() æ™‚ç™»å…¥æœƒæœ‰æ´—éŒ¢çš„æ•ˆæœ */
     if (acct_load(&acct, acct.userid) >= 0)
     {
       str_ncpy(acct.passwd, genpasswd(passwd), PASSLEN + 1);
@@ -197,15 +207,19 @@ x_password()
     sprintf(fpath, "tmp/sendpass.%s", cuser.userid);
     if (fp = fopen(fpath, "w"))
     {
-      fprintf(fp, "%s ¬°±z¥Ó½Ğ¤F·s±K½X\n\n", cuser.userid);
+      /* %s ç‚ºæ‚¨ç”³è«‹äº†æ–°å¯†ç¢¼\n\n */
+      fprintf(fp, "%s \xAC\xB0\xB1\x7A\xA5\xD3\xBD\xD0\xA4\x46\xB7\x73\xB1\x4B\xBD\x58\n\n", cuser.userid);
       fprintf(fp, BBSNAME "ID : %s\n\n", acct.userid);
-      fprintf(fp, BBSNAME "·s±K½X : %s\n", passwd);
+      /* æ–°å¯†ç¢¼ : %s\n */
+      fprintf(fp, BBSNAME "\xB7\x73\xB1\x4B\xBD\x58 : %s\n", passwd);
       fclose(fp);
 
-      bsmtp(fpath, BBSNAME "·s±K½X", email, 0);
+      /* æ–°å¯†ç¢¼ */
+      bsmtp(fpath, BBSNAME "\xB7\x73\xB1\x4B\xBD\x58", email, 0);
       unlink(fpath);
 
-      vmsg("·s±K½X¤w±H¨ì¸Ó»{ÃÒ«H½c");
+      /* æ–°å¯†ç¢¼å·²å¯„åˆ°è©²èªè­‰ä¿¡ç®± */
+      vmsg("\xB7\x73\xB1\x4B\xBD\x58\xA4\x77\xB1\x48\xA8\xEC\xB8\xD3\xBB\x7B\xC3\xD2\xAB\x48\xBD\x63");
     }
   }
 

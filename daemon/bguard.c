@@ -1,7 +1,7 @@
 /*-------------------------------------------------------*/
 /* util/bguard.c	( NTHU CS MapleBBS Ver 3.00 )	 */
 /*-------------------------------------------------------*/
-/* target : BBS finger daemon ¦C¥X¯¸¤º¨Ï¥ÎªÌ¸ê®Æ	 */
+/* target : BBS finger daemon åˆ—å‡ºç«™å…§ä½¿ç”¨è€…è³‡æ–™	 */
 /* create : 96/11/20				 	 */
 /* update : 96/12/15				 	 */
 /*-------------------------------------------------------*/
@@ -73,9 +73,9 @@ struct Agent
   int sock;
   int state;
   int locus;
-  time_t uptime;		/* «Ø¥ß connection ªº®É¶¡ */
+  time_t uptime;		/* å»ºç«‹ connection çš„æ™‚é–“ */
 
-  int count;			/* ½u¤W¦@¦³¦h¤Ö¤H¡H */
+  int count;			/* ç·šä¸Šå…±æœ‰å¤šå°‘äººï¼Ÿ */
   UTMP *uentp;
 
   char pool[TCP_BUFSIZ];	/* buffered I/O pool */
@@ -367,7 +367,7 @@ chkload_init()
 #include <nlist.h>
 #define VMUNIX  "/dev/ksyms"
 #define KMEM    "/dev/kmem" 
-   /* Thor.981207: °O±ocheck permission ­nbbs readable */
+   /* Thor.981207: è¨˜å¾—check permission è¦bbs readable */
 
   static struct nlist nlst[] = 
   {
@@ -444,7 +444,7 @@ chkload()
   for (i = 0; i < 3; i++)
     cpu_load[i] = loaddouble(avenrun[i]);
 
-  /* Thor.980728: lkchu patch: linux³¡¤À¤Î bsd³¡ ¤À¤w¦³©w cpu_load */
+  /* Thor.980728: lkchu patch: linuxéƒ¨åˆ†åŠ bsdéƒ¨ åˆ†å·²æœ‰å®š cpu_load */
 
 #endif
 
@@ -471,7 +471,8 @@ mail_string(fpath)
   int fd, size;
   struct stat st;
 
-  answer = "³£¬İ¹L¤F";
+  /* éƒ½çœ‹éäº† */
+  answer = "\xB3\xA3\xAC\xDD\xB9\x4C\xA4\x46";
   if ((fd = open(fpath, O_RDONLY)) >= 0)
   {
     if (!fstat(fd, &st) && (size = st.st_size) > 0)
@@ -486,7 +487,8 @@ mail_string(fpath)
       {
 	if (!(fhdr->xmode & MAIL_READ))
 	{
-	  answer = "¦³·s«H¥ó";
+	  /* æœ‰æ–°ä¿¡ä»¶ */
+	  answer = "\xA6\xB3\xB7\x73\xAB\x48\xA5\xF3";
 	  break;
 	}
       }
@@ -508,7 +510,7 @@ serve_finger(ap)
 
   base = head = ap->pool;
 
-  /* Thor.980726: pool¤º®e¤£·|¶W¹L idlen */
+  /* Thor.980726: poolå…§å®¹ä¸æœƒè¶…é idlen */
   head[IDLEN] = '\0';
   
 
@@ -525,21 +527,22 @@ serve_finger(ap)
     read(fd, &acct, sizeof(ACCT));
     close(fd);
 
-    /* ¬O§_¦³·s«H¥óÁÙ¨S¬İ¡H */
+    /* æ˜¯å¦æœ‰æ–°ä¿¡ä»¶é‚„æ²’çœ‹ï¼Ÿ */
 
     str = (char *) strchr(fpath, '.');
     strcpy(str, FN_DIR);
     MYDOG;
     mailstr = mail_string(fpath);
 
-    /* ¬O§_¦b½u¤W¡H */
+    /* æ˜¯å¦åœ¨ç·šä¸Šï¼Ÿ */
 
     MYDOG;
 
     uentp = ushm_head;
     utail = ushm_tail;
     fd = acct.userno;
-    modestr = "¤£¦b¯¸¤W";
+    /* ä¸åœ¨ç«™ä¸Š */
+    modestr = "\xA4\xA3\xA6\x62\xAF\xB8\xA4\x57";
 
     do
     {
@@ -550,25 +553,30 @@ serve_finger(ap)
       }
     } while (++uentp < utail);
 
-    sprintf(head, "%s(%s) ¦@¤W¯¸ %d ¦¸¡Aµoªí¤å³¹ %d ½g¡C\n"
-      "³Ìªñ(%s)¨Ó¦Û(%s)\n%s³q¹L¨­¤À»{ÃÒ [°ÊºA] %s [«H½c] %s\n",
+    /* %s(%s) å…±ä¸Šç«™ %d æ¬¡ï¼Œç™¼è¡¨æ–‡ç«  %d ç¯‡ã€‚\n */
+    sprintf(head, "%s(%s) \xA6\x40\xA4\x57\xAF\xB8 %d \xA6\xB8\xA1\x41\xB5\x6F\xAA\xED\xA4\xE5\xB3\xB9 %d \xBD\x67\xA1\x43\n"
+      /* æœ€è¿‘(%s)ä¾†è‡ª(%s)\n%sé€šéèº«åˆ†èªè­‰ [å‹•æ…‹] %s [ä¿¡ç®±] %s\n */
+      "\xB3\xCC\xAA\xF1(%s)\xA8\xD3\xA6\xDB(%s)\n%s\xB3\x71\xB9\x4C\xA8\xAD\xA4\xC0\xBB\x7B\xC3\xD2 [\xB0\xCA\xBA\x41] %s [\xAB\x48\xBD\x63] %s\n",
       acct.userid, acct.username, acct.numlogins, acct.numposts,
       Btime((acct.lastlogin)), acct.lasthost,
-      acct.userlevel & PERM_VALID ? "¤w¸g" : "©|¥¼",
+      /* å·²ç¶“ */
+      /* å°šæœª */
+      acct.userlevel & PERM_VALID ? "\xA4\x77\xB8\x67" : "\xA9\x7C\xA5\xBC",
       modestr, mailstr);
 
     head += strlen(head);
 
-    /* Åã¥Ü [¦W¤ù/­pµeÀÉ] */
+    /* é¡¯ç¤º [åç‰‡/è¨ˆç•«æª”] */
 
     MYDOG;
     strcpy(str, FN_PLANS);
     if ((fd = open(fpath, O_RDONLY)) >= 0)
     {
-      strcpy(head, "[­pµe]\n");
+      /* [è¨ˆç•«]\n */
+      strcpy(head, "[\xAD\x70\xB5\x65]\n");
       head += strlen(head);
 
-      /* °²³] buffer ºïºï¦³¾l¡AÅı¨Æ±¡Â²¤Æ */
+      /* å‡è¨­ buffer ç¶½ç¶½æœ‰é¤˜ï¼Œè®“äº‹æƒ…ç°¡åŒ– */
 
       len = read(fd, head, TCP_BUFSIZ - (head - base) - 10);
       close(fd);
@@ -588,7 +596,7 @@ serve_finger(ap)
   }
 
   ap->locus = head - base;
-  ap->count = -1;		/* ¥Nªí end of transmission */
+  ap->count = -1;		/* ä»£è¡¨ end of transmission */
 }
 
 
@@ -614,7 +622,7 @@ serve_userlist(ap)
 #ifdef HAVE_SUPERCLOAK
       !(uentp->ufo & UFO_SUPERCLOAK) &&
 #endif
-      !(uentp->ufo & UFO_CLOAK))	/* lkchu.990118: Áô¨­¤£Åã¥Ü */
+      !(uentp->ufo & UFO_CLOAK))	/* lkchu.990118: éš±èº«ä¸é¡¯ç¤º */
     {
       sprintf(head, "%-13s%-25s%-30.29s%s\n",
 	uentp->userid, uentp->username, uentp->from,
@@ -631,7 +639,9 @@ serve_userlist(ap)
     if (++uentp >= utail)
     {
       sprintf(head, "============ ======================== ============================= ==========\n"
-	"¡i" BBSNAME "¡j Total users = %d\n", count);
+	/* ã€ */
+	/* ã€‘ Total users = %d\n */
+	"\xA1\x69" BBSNAME "\xA1\x6A Total users = %d\n", count);
       head += strlen(head);
       count = -1;
       break;
@@ -752,7 +762,7 @@ agent_read(ap)
   pos = ap->locus;
   str = &ap->pool[pos];
   len = recv(ap->sock, str, BMIN(TCP_RCVSIZ, sizeof(ap->pool)-pos), 0);  
-  /* Thor.980726: Á×§K pool overflow */
+  /* Thor.980726: é¿å… pool overflow */
 
   if (len <= 0)
   {
@@ -958,9 +968,9 @@ main_signals()
   struct sigaction act;
 
   /* sigblock(sigmask(SIGPIPE)); */
-  /* Thor.981206: ²Î¤@ POSIX ¼Ğ·Ç¥Îªk  */
+  /* Thor.981206: çµ±ä¸€ POSIX æ¨™æº–ç”¨æ³•  */
 
-  /* act.sa_mask = 0; */ /* Thor.981105: ¼Ğ·Ç¥Îªk */
+  /* act.sa_mask = 0; */ /* Thor.981105: æ¨™æº–ç”¨æ³• */
   sigemptyset(&act.sa_mask);      
   act.sa_flags = 0;
 
@@ -975,8 +985,8 @@ main_signals()
   act.sa_handler = server_usage;
   sigaction(SIGPROF, &act, NULL);
 
-  /* Thor.981206: lkchu patch: ²Î¤@ POSIX ¼Ğ·Ç¥Îªk  */
-  /* ¦b¦¹­É¥Î sigset_t act.sa_mask */
+  /* Thor.981206: lkchu patch: çµ±ä¸€ POSIX æ¨™æº–ç”¨æ³•  */
+  /* åœ¨æ­¤å€Ÿç”¨ sigset_t act.sa_mask */
   sigaddset(&act.sa_mask, SIGPIPE);
   sigprocmask(SIG_BLOCK, &act.sa_mask, NULL);
 
@@ -1041,7 +1051,7 @@ main(argc, argv)
 
   Scully = Mulder = NULL;
 
-  for (;;) /* Thor.981221: µù¸Ñ: Main loop begin */
+  for (;;) /* Thor.981221: è¨»è§£: Main loop begin */
   {
     uptime = time(0);
 

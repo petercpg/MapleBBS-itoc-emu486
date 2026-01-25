@@ -1,7 +1,7 @@
 /*-------------------------------------------------------*/
 /* innbbs.c	( NTHU CS MapleBBS Ver 3.10 )		 */
 /*-------------------------------------------------------*/
-/* target : Âà«H³]©w					 */
+/* target : è½‰ä¿¡è¨­å®š					 */
 /* create : 04/04/25					 */
 /* update :   /  /  					 */
 /* author : itoc.bbs@bbs.tnfsh.tn.edu.tw		 */
@@ -15,7 +15,7 @@ extern BCACHE *bshm;
 
 
 /* ----------------------------------------------------- */
-/* nodelist.bbs ¤l¨ç¦¡					 */
+/* nodelist.bbs å­å‡½å¼					 */
 /* ----------------------------------------------------- */
 
 
@@ -35,13 +35,16 @@ nl_query(nl)
 {
   move(3, 0);
   clrtobot();
-  prints("\n\nÂà«H¯¸¥x¡G%s\n¯¸¥x¦ì§}¡G%s\n¯¸¥x¨ó©w¡G%s(%d)\n³Q Áı «H¡G%s", 
-    nl->name, nl->host, nl->xmode & INN_USEIHAVE ? "IHAVE" : "POST", nl->port, nl->xmode & INN_FEEDED ? "¬O" : "§_");
+  /* \n\nè½‰ä¿¡ç«™å°ï¼š%s\nç«™å°ä½å€ï¼š%s\nç«™å°å”å®šï¼š%s(%d)\nè¢« é¤µ ä¿¡ï¼š%s */
+  prints("\n\n\xC2\xE0\xAB\x48\xAF\xB8\xA5\x78\xA1\x47%s\n\xAF\xB8\xA5\x78\xA6\xEC\xA7\x7D\xA1\x47%s\n\xAF\xB8\xA5\x78\xA8\xF3\xA9\x77\xA1\x47%s(%d)\n\xB3\x51 \xC1\xFD \xAB\x48\xA1\x47%s", 
+    /* æ˜¯ */
+    /* å¦ */
+    nl->name, nl->host, nl->xmode & INN_USEIHAVE ? "IHAVE" : "POST", nl->port, nl->xmode & INN_FEEDED ? "\xAC\x4F" : "\xA7\x5F");
   vmsg(NULL);
 }
 
 
-static int	/* 1:¦¨¥\ 0:¥¢±Ñ */
+static int	/* 1:æˆåŠŸ 0:å¤±æ•— */
 nl_add(fpath, old, pos)
   char *fpath;
   nodelist_t *old;
@@ -50,37 +53,43 @@ nl_add(fpath, old, pos)
   nodelist_t nl;
   int ch, port;
   char ans[8];
-  char msg1[] = "¨ó©w¡G(1)IHAVE (2)POST [1] ";
-  char msg2[] = "¦¹¯¸¥x·|¥D°ÊÁı«Hµ¹¥»¯¸¶Ü(Y/N)¡H[N] ";
+  /* å”å®šï¼š(1)IHAVE (2)POST [1]  */
+  char msg1[] = "\xA8\xF3\xA9\x77\xA1\x47(1)IHAVE (2)POST [1] ";
+  /* æ­¤ç«™å°æœƒä¸»å‹•é¤µä¿¡çµ¦æœ¬ç«™å—(Y/N)ï¼Ÿ[N]  */
+  char msg2[] = "\xA6\xB9\xAF\xB8\xA5\x78\xB7\x7C\xA5\x44\xB0\xCA\xC1\xFD\xAB\x48\xB5\xB9\xA5\xBB\xAF\xB8\xB6\xDC(Y/N)\xA1\x48[N] ";
 
   if (old)
     memcpy(&nl, old, sizeof(nodelist_t));
   else
     memset(&nl, 0, sizeof(nodelist_t));
 
-  if (vget(b_lines, 0, "­^¤å¯¸¦W¡G", nl.name, sizeof(nl.name), GCARRY) &&
-    vget(b_lines, 0, "¯¸§}¡G", nl.host, /* sizeof(nl.host) */ 70, GCARRY))
+  /* è‹±æ–‡ç«™åï¼š */
+  if (vget(b_lines, 0, "\xAD\x5E\xA4\xE5\xAF\xB8\xA6\x57\xA1\x47", nl.name, sizeof(nl.name), GCARRY) &&
+    /* ç«™å€ï¼š */
+    vget(b_lines, 0, "\xAF\xB8\xA7\x7D\xA1\x47", nl.host, /* sizeof(nl.host) */ 70, GCARRY))
   {
-    msg1[24] = (nl.xmode & INN_USEPOST) ? '2' : '1';	/* ·s¼W¸ê®Æ¹w³] INN_HAVE */
+    msg1[24] = (nl.xmode & INN_USEPOST) ? '2' : '1';	/* æ–°å¢è³‡æ–™é è¨­ INN_HAVE */
     ch = vans(msg1);
     if (ch != '1' && ch != '2')
       ch = msg1[24];
 
     if (ch == '1')
     {
-      nl.xmode = INN_USEIHAVE | INN_FEEDED;	/* IHAVE ¤@©w¬O³QÁı«H */
-      vget(b_lines, 0, "Port¡G[7777] ", ans, 6, DOECHO);
+      nl.xmode = INN_USEIHAVE | INN_FEEDED;	/* IHAVE ä¸€å®šæ˜¯è¢«é¤µä¿¡ */
+      /* Portï¼š[7777]  */
+      vget(b_lines, 0, "Port\xA1\x47[7777] ", ans, 6, DOECHO);
       if ((port = atoi(ans)) <= 0)
 	port = 7777;
     }
     else /* if (ch == '2') */
     {
       nl.xmode = INN_USEPOST;
-      vget(b_lines, 0, "Port¡G[119] ", ans, 6, DOECHO);
+      /* Portï¼š[119]  */
+      vget(b_lines, 0, "Port\xA1\x47[119] ", ans, 6, DOECHO);
       if ((port = atoi(ans)) <= 0)
 	port = 119;
 
-      msg2[32] = (old && old->xmode & INN_FEEDED) ? 'Y' : 'N';	/* ·s¼W¸ê®Æ¹w³]¤£Áı«H */
+      msg2[32] = (old && old->xmode & INN_FEEDED) ? 'Y' : 'N';	/* æ–°å¢è³‡æ–™é è¨­ä¸é¤µä¿¡ */
       ch = vans(msg2);
       if (ch != 'y' && ch != 'n')
 	ch = msg2[32] | 0x20;
@@ -104,7 +113,7 @@ static int
 nl_cmp(a, b)
   nodelist_t *a, *b;
 {
-  /* ¨Ì name ±Æ§Ç */
+  /* ä¾ name æ’åº */
   return str_cmp(a->name, b->name);
 }
 
@@ -119,7 +128,7 @@ nl_search(nl, key)
 
 
 /* ----------------------------------------------------- */
-/* newsfeeds.bbs ¤l¨ç¦¡					 */
+/* newsfeeds.bbs å­å‡½å¼					 */
 /* ----------------------------------------------------- */
 
 
@@ -165,7 +174,7 @@ nf_query(nf)
   BRD *brd;
   char *outgo, *income;
 
-  /* §ä¥X¸Ó¯¸¥x¦b nodelist.bbs ¤¤ªº¸ê°T */
+  /* æ‰¾å‡ºè©²ç«™å°åœ¨ nodelist.bbs ä¸­çš„è³‡è¨Š */
   if ((fd = open("innd/nodelist.bbs", O_RDONLY)) >= 0)
   {
     while (read(fd, &nl, sizeof(nodelist_t)) == sizeof(nodelist_t))
@@ -181,36 +190,46 @@ nf_query(nf)
   if (!rc)
   {
     memset(&nl, 0, sizeof(nodelist_t));
-    strcpy(nl.host, "\033[1;33m¦¹¯¸¥x¤£¦b nodelist.bbs ¤¤\033[m");
+    /* \033[1;33mæ­¤ç«™å°ä¸åœ¨ nodelist.bbs ä¸­\033[m */
+    strcpy(nl.host, "\033[1;33m\xA6\xB9\xAF\xB8\xA5\x78\xA4\xA3\xA6\x62 nodelist.bbs \xA4\xA4\033[m");
   }
 
-  /* ¬İªOª¬ºA */
+  /* çœ‹æ¿ç‹€æ…‹ */
   if ((rc = brd_bno(nf->board)) >= 0)
   {
     brd = bshm->bcache + rc;
-    outgo = brd->battr & BRD_NOTRAN ? "\033[1;33m¤£Âà¥X\033[m"  : "Âà¥X";
-    income = nf->xmode & INN_NOINCOME ? "¥B\033[1;33m¤£Âà¶i\033[m" : "¥BÂà¶i";
+    /* \033[1;33mä¸è½‰å‡º\033[m */
+    /* è½‰å‡º */
+    outgo = brd->battr & BRD_NOTRAN ? "\033[1;33m\xA4\xA3\xC2\xE0\xA5\x58\033[m"  : "\xC2\xE0\xA5\x58";
+    /* ä¸”\033[1;33mä¸è½‰é€²\033[m */
+    /* ä¸”è½‰é€² */
+    income = nf->xmode & INN_NOINCOME ? "\xA5\x42\033[1;33m\xA4\xA3\xC2\xE0\xB6\x69\033[m" : "\xA5\x42\xC2\xE0\xB6\x69";
   }
   else
   {
-    outgo = "\033[1;33m¦¹¬İªO¤£¦s¦b\033[m";
+    /* \033[1;33mæ­¤çœ‹æ¿ä¸å­˜åœ¨\033[m */
+    outgo = "\033[1;33m\xA6\xB9\xAC\xDD\xAA\x4F\xA4\xA3\xA6\x73\xA6\x62\033[m";
     income = "";
   }
 
   move(3, 0);
   clrtobot();
-  prints("\n\nÂà«H¯¸¥x¡G%s\n¯¸¥x¦ì§}¡G%s\n¯¸¥x¨ó©w¡G%s(%d)\n"
-    "Âà«H¸s²Õ¡G%s%s\n¥»¯¸¬İªO¡G%s (%s%s)\n¨Ï¥Î¦r¶°¡G%s", 
+  /* \n\nè½‰ä¿¡ç«™å°ï¼š%s\nç«™å°ä½å€ï¼š%s\nç«™å°å”å®šï¼š%s(%d)\n */
+  prints("\n\n\xC2\xE0\xAB\x48\xAF\xB8\xA5\x78\xA1\x47%s\n\xAF\xB8\xA5\x78\xA6\xEC\xA7\x7D\xA1\x47%s\n\xAF\xB8\xA5\x78\xA8\xF3\xA9\x77\xA1\x47%s(%d)\n"
+    /* è½‰ä¿¡ç¾¤çµ„ï¼š%s%s\næœ¬ç«™çœ‹æ¿ï¼š%s (%s%s)\nä½¿ç”¨å­—é›†ï¼š%s */
+    "\xC2\xE0\xAB\x48\xB8\x73\xB2\xD5\xA1\x47%s%s\n\xA5\xBB\xAF\xB8\xAC\xDD\xAA\x4F\xA1\x47%s (%s%s)\n\xA8\xCF\xA5\xCE\xA6\x72\xB6\xB0\xA1\x47%s", 
     nf->path, nl.host, nl.xmode & INN_USEIHAVE ? "IHAVE" : "POST", nl.port, 
-    nf->newsgroup, nf->xmode & INN_ERROR ? " (\033[1;33m¦¹¸s²Õ¤£¦s¦b\033[m)" : "", 
+    /*  (\033[1;33mæ­¤ç¾¤çµ„ä¸å­˜åœ¨\033[m) */
+    nf->newsgroup, nf->xmode & INN_ERROR ? " (\033[1;33m\xA6\xB9\xB8\x73\xB2\xD5\xA4\xA3\xA6\x73\xA6\x62\033[m)" : "", 
     nf->board, outgo, income, nf->charset);
   if (rc && !(nl.xmode & INN_FEEDED))
-    prints("\n¥Ø«e½g¼Æ¡G%d", nf->high);
+    /* \nç›®å‰ç¯‡æ•¸ï¼š%d */
+    prints("\n\xA5\xD8\xAB\x65\xBD\x67\xBC\xC6\xA1\x47%d", nf->high);
   vmsg(NULL);
 }
 
 
-static int	/* 1:¦¨¥\ 0:¥¢±Ñ */
+static int	/* 1:æˆåŠŸ 0:å¤±æ•— */
 nf_add(fpath, old, pos)
   char *fpath;
   newsfeeds_t *old;
@@ -226,21 +245,28 @@ nf_add(fpath, old, pos)
   else
   {
     memset(&nf, 0, sizeof(newsfeeds_t));
-    nf.high = INT_MAX;		/* ²Ä¤@¦¸¨ú«H±j­¢ reload */
+    nf.high = INT_MAX;		/* ç¬¬ä¸€æ¬¡å–ä¿¡å¼·è¿« reload */
   }
 
   if ((brd = ask_board(nf.board, BRD_L_BIT, NULL)) &&
-    vget(b_lines, 0, "­^¤å¯¸¦W¡G", nf.path, sizeof(nf.path), GCARRY) &&
-    vget(b_lines, 0, "¸s²Õ¡G", nf.newsgroup, /* sizeof(nf.newsgroup) */ 70, GCARRY))
+    /* è‹±æ–‡ç«™åï¼š */
+    vget(b_lines, 0, "\xAD\x5E\xA4\xE5\xAF\xB8\xA6\x57\xA1\x47", nf.path, sizeof(nf.path), GCARRY) &&
+    /* ç¾¤çµ„ï¼š */
+    vget(b_lines, 0, "\xB8\x73\xB2\xD5\xA1\x47", nf.newsgroup, /* sizeof(nf.newsgroup) */ 70, GCARRY))
   {
-    if (!vget(b_lines, 0, "¦r¶° [" MYCHARSET "]¡G", nf.charset, sizeof(nf.charset), GCARRY))
+    /* å­—é›† [ */
+    /* ]ï¼š */
+    if (!vget(b_lines, 0, "\xA6\x72\xB6\xB0 [" MYCHARSET "]\xA1\x47", nf.charset, sizeof(nf.charset), GCARRY))
       str_ncpy(nf.charset, MYCHARSET, sizeof(nf.charset));
-    nf.xmode = (vans("¬O§_Âà¶i(Y/N)¡H[Y] ") == 'n') ? INN_NOINCOME : 0;
+    /* æ˜¯å¦è½‰é€²(Y/N)ï¼Ÿ[Y]  */
+    nf.xmode = (vans("\xAC\x4F\xA7\x5F\xC2\xE0\xB6\x69(Y/N)\xA1\x48[Y] ") == 'n') ? INN_NOINCOME : 0;
 
-    if (vans("¬O§_§ó§ïÂà«Hªº high-number ³]©w¡A³o³]©w¹ï³QÁı«Hªº¸s²ÕµL®Ä(Y/N)¡H[N] ") == 'y')
+    /* æ˜¯å¦æ›´æ”¹è½‰ä¿¡çš„ high-number è¨­å®šï¼Œé€™è¨­å®šå°è¢«é¤µä¿¡çš„ç¾¤çµ„ç„¡æ•ˆ(Y/N)ï¼Ÿ[N]  */
+    if (vans("\xAC\x4F\xA7\x5F\xA7\xF3\xA7\xEF\xC2\xE0\xAB\x48\xAA\xBA high-number \xB3\x5D\xA9\x77\xA1\x41\xB3\x6F\xB3\x5D\xA9\x77\xB9\xEF\xB3\x51\xC1\xFD\xAB\x48\xAA\xBA\xB8\x73\xB2\xD5\xB5\x4C\xAE\xC4(Y/N)\xA1\x48[N] ") == 'y')
     {
       sprintf(ans, "%d", nf.high);
-      vget(b_lines, 0, "¥Ø«e½g¼Æ¡G", ans, 11, GCARRY);
+      /* ç›®å‰ç¯‡æ•¸ï¼š */
+      vget(b_lines, 0, "\xA5\xD8\xAB\x65\xBD\x67\xBC\xC6\xA1\x47", ans, 11, GCARRY);
       if ((high = atoi(ans)) >= 0)
 	nf.high = high;
     }
@@ -250,7 +276,8 @@ nf_add(fpath, old, pos)
     else
       rec_add(fpath, &nf, sizeof(newsfeeds_t));
 
-    if ((brd->battr & BRD_NOTRAN) && vans("¥»ªOÄİ©Ê¥Ø«e¬°¤£Âà¥X¡A¬O§_§ï¬°Âà¥X(Y/N)¡H[Y] ") != 'n')
+    /* æœ¬æ¿å±¬æ€§ç›®å‰ç‚ºä¸è½‰å‡ºï¼Œæ˜¯å¦æ”¹ç‚ºè½‰å‡º(Y/N)ï¼Ÿ[Y]  */
+    if ((brd->battr & BRD_NOTRAN) && vans("\xA5\xBB\xAA\x4F\xC4\xDD\xA9\xCA\xA5\xD8\xAB\x65\xAC\xB0\xA4\xA3\xC2\xE0\xA5\x58\xA1\x41\xAC\x4F\xA7\x5F\xA7\xEF\xAC\xB0\xC2\xE0\xA5\x58(Y/N)\xA1\x48[Y] ") != 'n')
     {
       high = brd - bshm->bcache;
       brd->battr &= ~BRD_NOTRAN;
@@ -267,7 +294,7 @@ static int
 nf_cmp(a, b)
   newsfeeds_t *a, *b;
 {
-  /* path/newsgroup ¥æ¤e¤ñ¹ï */
+  /* path/newsgroup äº¤å‰æ¯”å° */
   int k = str_cmp(a->path, b->path);
   return k ? k : str_cmp(a->newsgroup, b->newsgroup);
 }
@@ -283,7 +310,7 @@ nf_search(nf, key)
 
 
 /* ----------------------------------------------------- */
-/* ncmperm.bbs ¤l¨ç¦¡					 */
+/* ncmperm.bbs å­å‡½å¼					 */
 /* ----------------------------------------------------- */
 
 
@@ -293,7 +320,9 @@ ncm_item(num, ncm)
   ncmperm_t *ncm;
 {
   prints("%6d %-*.*s%-23.23s %s\n", num, 
-    d_cols + 44, d_cols + 44, ncm->issuer, ncm->type, ncm->perm ? "¡³" : "¢®");
+    /* â—‹ */
+    /* â•³ */
+    d_cols + 44, d_cols + 44, ncm->issuer, ncm->type, ncm->perm ? "\xA1\xB3" : "\xA2\xAE");
 }
 
 
@@ -303,13 +332,16 @@ ncm_query(ncm)
 {
   move(3, 0);
   clrtobot();
-  prints("\n\nµo¦æ¯¸¥x¡G%s\n¬å«HºØÃş¡G%s\n¤¹³\\¬å«H¡G%s", 
-    ncm->issuer, ncm->type, ncm->perm ? "¡³" : "¢®");
+  /* \n\nç™¼è¡Œç«™å°ï¼š%s\nç ä¿¡ç¨®é¡ï¼š%s\nå…è¨±ç ä¿¡ï¼š%s */
+  prints("\n\n\xB5\x6F\xA6\xE6\xAF\xB8\xA5\x78\xA1\x47%s\n\xAC\xE5\xAB\x48\xBA\xD8\xC3\xFE\xA1\x47%s\n\xA4\xB9\xB3\x5C\xAC\xE5\xAB\x48\xA1\x47%s", 
+    /* â—‹ */
+    /* â•³ */
+    ncm->issuer, ncm->type, ncm->perm ? "\xA1\xB3" : "\xA2\xAE");
   vmsg(NULL);
 }
 
 
-static int	/* 1:¦¨¥\ 0:¥¢±Ñ */
+static int	/* 1:æˆåŠŸ 0:å¤±æ•— */
 ncm_add(fpath, old, pos)
   char *fpath;
   ncmperm_t *old;
@@ -322,10 +354,13 @@ ncm_add(fpath, old, pos)
   else
     memset(&ncm, 0, sizeof(ncmperm_t));
 
-  if (vget(b_lines, 0, "µo¦æ¡G", ncm.issuer, /* sizeof(ncm.issuer) */ 70, GCARRY) &&
-    vget(b_lines, 0, "ºØÃş¡G", ncm.type, sizeof(ncm.type), GCARRY))
+  /* ç™¼è¡Œï¼š */
+  if (vget(b_lines, 0, "\xB5\x6F\xA6\xE6\xA1\x47", ncm.issuer, /* sizeof(ncm.issuer) */ 70, GCARRY) &&
+    /* ç¨®é¡ï¼š */
+    vget(b_lines, 0, "\xBA\xD8\xC3\xFE\xA1\x47", ncm.type, sizeof(ncm.type), GCARRY))
   {
-    ncm.perm = (vans("¤¹³\\¦¹ NCM message ¬å«H(Y/N)¡H[N] ") == 'y');
+    /* å…è¨±æ­¤ NCM message ç ä¿¡(Y/N)ï¼Ÿ[N]  */
+    ncm.perm = (vans("\xA4\xB9\xB3\x5C\xA6\xB9 NCM message \xAC\xE5\xAB\x48(Y/N)\xA1\x48[N] ") == 'y');
 
     if (old)
       rec_put(fpath, &ncm, sizeof(ncmperm_t), pos, NULL);
@@ -341,7 +376,7 @@ static int
 ncm_cmp(a, b)
   ncmperm_t *a, *b;
 {
-  /* issuer/type ¥æ¤e¤ñ¹ï */
+  /* issuer/type äº¤å‰æ¯”å° */
   int k = str_cmp(a->issuer, b->issuer);
   return k ? k : str_cmp(a->type, b->type);
 }
@@ -357,7 +392,7 @@ ncm_search(ncm, key)
 
 
 /* ----------------------------------------------------- */
-/* spamrule.bbs ¤l¨ç¦¡					 */
+/* spamrule.bbs å­å‡½å¼					 */
 /* ----------------------------------------------------- */
 
 
@@ -366,22 +401,30 @@ spam_compare(xmode)
   int xmode;
 {
   if (xmode & INN_SPAMADDR)
-    return "§@ªÌ";
+    /* ä½œè€… */
+    return "\xA7\x40\xAA\xCC";
   if (xmode & INN_SPAMNICK)
-    return "¼ÊºÙ";
+    /* æš±ç¨± */
+    return "\xBC\xCA\xBA\xD9";
   if (xmode & INN_SPAMSUBJECT)
-    return "¼ĞÃD";
+    /* æ¨™é¡Œ */
+    return "\xBC\xD0\xC3\x44";
   if (xmode & INN_SPAMPATH)
-    return "¸ô®|";
+    /* è·¯å¾‘ */
+    return "\xB8\xF4\xAE\x7C";
   if (xmode & INN_SPAMMSGID)
     return "MSID";
   if (xmode & INN_SPAMBODY)
-    return "¥»¤å";
+    /* æœ¬æ–‡ */
+    return "\xA5\xBB\xA4\xE5";
   if (xmode & INN_SPAMSITE)
-    return "²ÕÂ´";
+    /* çµ„ç¹” */
+    return "\xB2\xD5\xC2\xB4";
   if (xmode & INN_SPAMPOSTHOST)
-    return "¨Ó·½";
-  return "¡H¡H";
+    /* ä¾†æº */
+    return "\xA8\xD3\xB7\xBD";
+  /* ï¼Ÿï¼Ÿ */
+  return "\xA1\x48\xA1\x48";
 }
 
 
@@ -394,8 +437,11 @@ spam_item(num, spam)
 
   path = spam->path;
   board = spam->board;
-  prints("%6d %-13s%-13s[%s] ¥]§t %.*s\n", 
-    num, *path ? path : "©Ò¦³¯¸¥x", *board ? board : "©Ò¦³¬İªO", 
+  /* %6d %-13s%-13s[%s] åŒ…å« %.*s\n */
+  prints("%6d %-13s%-13s[%s] \xA5\x5D\xA7\x74 %.*s\n", 
+    /* æ‰€æœ‰ç«™å° */
+    /* æ‰€æœ‰çœ‹æ¿ */
+    num, *path ? path : "\xA9\xD2\xA6\xB3\xAF\xB8\xA5\x78", *board ? board : "\xA9\xD2\xA6\xB3\xAC\xDD\xAA\x4F", 
     spam_compare(spam->xmode), d_cols + 30, spam->detail);
 }
 
@@ -411,13 +457,17 @@ spam_query(spam)
 
   move(3, 0);
   clrtobot();
-  prints("\n\n¾A¥Î¯¸¥x¡G%s\n¾A¥Î¬İªO¡G%s\n¤ñ¸û¶µ¥Ø¡G%s\n¤ñ¸û¤º®e¡G%s", 
-    *path ? path : "©Ò¦³¯¸¥x", *board ? board : "©Ò¦³¬İªO", spam_compare(spam->xmode), spam->detail);
-  vmsg("­Yº¡¨¬¦¹³W«h¡A·|³Qµø¬°¼s§i¦ÓµLªkÂà«H¶i¨Ó");
+  /* \n\né©ç”¨ç«™å°ï¼š%s\né©ç”¨çœ‹æ¿ï¼š%s\næ¯”è¼ƒé …ç›®ï¼š%s\næ¯”è¼ƒå…§å®¹ï¼š%s */
+  prints("\n\n\xBE\x41\xA5\xCE\xAF\xB8\xA5\x78\xA1\x47%s\n\xBE\x41\xA5\xCE\xAC\xDD\xAA\x4F\xA1\x47%s\n\xA4\xF1\xB8\xFB\xB6\xB5\xA5\xD8\xA1\x47%s\n\xA4\xF1\xB8\xFB\xA4\xBA\xAE\x65\xA1\x47%s", 
+    /* æ‰€æœ‰ç«™å° */
+    /* æ‰€æœ‰çœ‹æ¿ */
+    *path ? path : "\xA9\xD2\xA6\xB3\xAF\xB8\xA5\x78", *board ? board : "\xA9\xD2\xA6\xB3\xAC\xDD\xAA\x4F", spam_compare(spam->xmode), spam->detail);
+  /* è‹¥æ»¿è¶³æ­¤è¦å‰‡ï¼Œæœƒè¢«è¦–ç‚ºå»£å‘Šè€Œç„¡æ³•è½‰ä¿¡é€²ä¾† */
+  vmsg("\xAD\x59\xBA\xA1\xA8\xAC\xA6\xB9\xB3\x57\xAB\x68\xA1\x41\xB7\x7C\xB3\x51\xB5\xF8\xAC\xB0\xBC\x73\xA7\x69\xA6\xD3\xB5\x4C\xAA\x6B\xC2\xE0\xAB\x48\xB6\x69\xA8\xD3");
 }
 
 
-static int	/* 1:¦¨¥\ 0:¥¢±Ñ */
+static int	/* 1:æˆåŠŸ 0:å¤±æ•— */
 spam_add(fpath, old, pos)
   char *fpath;
   spamrule_t *old;
@@ -430,10 +480,12 @@ spam_add(fpath, old, pos)
   else
     memset(&spam, 0, sizeof(spamrule_t));
 
-  vget(b_lines, 0, "­^¤å¯¸¦W¡G", spam.path, sizeof(spam.path), GCARRY);
+  /* è‹±æ–‡ç«™åï¼š */
+  vget(b_lines, 0, "\xAD\x5E\xA4\xE5\xAF\xB8\xA6\x57\xA1\x47", spam.path, sizeof(spam.path), GCARRY);
   ask_board(spam.board, BRD_L_BIT, NULL);
 
-  switch (vans("¾×«H³W«h 1)§@ªÌ 2)¼ÊºÙ 3)¼ĞÃD 4)¸ô®| 5)MSGID 6)¥»¤å 7)²ÕÂ´ 8)¨Ó·½ [Q] "))
+  /* æ“‹ä¿¡è¦å‰‡ 1)ä½œè€… 2)æš±ç¨± 3)æ¨™é¡Œ 4)è·¯å¾‘ 5)MSGID 6)æœ¬æ–‡ 7)çµ„ç¹” 8)ä¾†æº [Q]  */
+  switch (vans("\xBE\xD7\xAB\x48\xB3\x57\xAB\x68 1)\xA7\x40\xAA\xCC 2)\xBC\xCA\xBA\xD9 3)\xBC\xD0\xC3\x44 4)\xB8\xF4\xAE\x7C 5)MSGID 6)\xA5\xBB\xA4\xE5 7)\xB2\xD5\xC2\xB4 8)\xA8\xD3\xB7\xBD [Q] "))
   {
   case '1':
     spam.xmode = INN_SPAMADDR;
@@ -463,7 +515,8 @@ spam_add(fpath, old, pos)
     return 0;
   }
 
-  if (vget(b_lines, 0, "¥]§t¡G", spam.detail, /* sizeof(spam.detail) */ 70, GCARRY))
+  /* åŒ…å«ï¼š */
+  if (vget(b_lines, 0, "\xA5\x5D\xA7\x74\xA1\x47", spam.detail, /* sizeof(spam.detail) */ 70, GCARRY))
   {
     if (old)
       rec_put(fpath, &spam, sizeof(spamrule_t), pos, NULL);
@@ -479,7 +532,7 @@ static int
 spam_cmp(a, b)
   spamrule_t *a, *b;
 {
-  /* path/board/xmode/detail ¥æ¤e¤ñ¹ï */
+  /* path/board/xmode/detail äº¤å‰æ¯”å° */
   int i = strcmp(a->path, b->path);
   int j = strcmp(a->board, b->board);
   int k = a->xmode - b->xmode;
@@ -497,7 +550,7 @@ spam_search(spam, key)
 
 
 /* ----------------------------------------------------- */
-/* Âà«H³]©w¥D¨ç¦¡					 */
+/* è½‰ä¿¡è¨­å®šä¸»å‡½å¼					 */
 /* ----------------------------------------------------- */
 
 
@@ -514,10 +567,12 @@ a_innbbs()
   void (*item_func)(), (*query_func)();
   int (*add_func)(), (*sync_func)(), (*search_func)();
 
-  vs_bar("Âà«H³]©w");
+  /* è½‰ä¿¡è¨­å®š */
+  vs_bar("\xC2\xE0\xAB\x48\xB3\x5D\xA9\x77");
   more("etc/innbbs.hlp", (char *) -1);
 
-  switch (vans("½Ğ¿ï¾Ü 1)Âà¤å¯¸¥x¦Cªí 2)Âà¤å¬İªO¦Cªí 3)NoCeM¾×¤å³W«h 4)¼s§i¤å¦W³æ¡G[Q] "))
+  /* è«‹é¸æ“‡ 1)è½‰æ–‡ç«™å°åˆ—è¡¨ 2)è½‰æ–‡çœ‹æ¿åˆ—è¡¨ 3)NoCeMæ“‹æ–‡è¦å‰‡ 4)å»£å‘Šæ–‡åå–®ï¼š[Q]  */
+  switch (vans("\xBD\xD0\xBF\xEF\xBE\xDC 1)\xC2\xE0\xA4\xE5\xAF\xB8\xA5\x78\xA6\x43\xAA\xED 2)\xC2\xE0\xA4\xE5\xAC\xDD\xAA\x4F\xA6\x43\xAA\xED 3)NoCeM\xBE\xD7\xA4\xE5\xB3\x57\xAB\x68 4)\xBC\x73\xA7\x69\xA4\xE5\xA6\x57\xB3\xE6\xA1\x47[Q] "))
   {
   case '1':
     fpath = "innd/nodelist.bbs";
@@ -563,7 +618,7 @@ a_innbbs()
     return 0;
   }
 
-  dirty = 0;	/* 1:¦³·s¼W/§R°£¸ê®Æ */
+  dirty = 0;	/* 1:æœ‰æ–°å¢/åˆªé™¤è³‡æ–™ */
   reload = 1;
   pageno = 0;
   cur = 0;
@@ -605,8 +660,9 @@ a_innbbs()
 
     if (redraw)
     {
-      /* itoc.µù¸Ñ: ºÉ¶q°µ±o¹³ xover ®æ¦¡ */
-      vs_head("Âà«H³]©w", str_site);
+      /* itoc.è¨»è§£: ç›¡é‡åšå¾—åƒ xover æ ¼å¼ */
+      /* è½‰ä¿¡è¨­å®š */
+      vs_head("\xC2\xE0\xAB\x48\xB3\x5D\xA9\x77", str_site);
       prints(NECKER_INNBBS, d_cols, "");
 
       i = pageno * XO_TALL;
@@ -641,7 +697,7 @@ a_innbbs()
       {
 	dirty = 1;
 	num++;
-	cur = num % XO_TALL;		/* ´å¼Ğ©ñ¦b·s¥[¤Jªº³o½g */
+	cur = num % XO_TALL;		/* æ¸¸æ¨™æ”¾åœ¨æ–°åŠ å…¥çš„é€™ç¯‡ */
 	pageno = num / XO_TALL;
 	reload = 1;
       }
@@ -654,7 +710,7 @@ a_innbbs()
 	dirty = 1;
 	i = cur + pageno * XO_TALL;
 	rec_del(fpath, recsiz, i, NULL);
-	cur = i ? ((i - 1) % XO_TALL) : 0;	/* ´å¼Ğ©ñ¦b¬å±¼ªº«e¤@½g */
+	cur = i ? ((i - 1) % XO_TALL) : 0;	/* æ¸¸æ¨™æ”¾åœ¨ç æ‰çš„å‰ä¸€ç¯‡ */
 	reload = 1;
       }
       redraw = 1;
@@ -671,10 +727,11 @@ a_innbbs()
       break;
 
     case '/':
-      if (vget(b_lines, 0, "ÃöÁä¦r¡G", buf, sizeof(buf), DOECHO))
+      /* é—œéµå­—ï¼š */
+      if (vget(b_lines, 0, "\xC3\xF6\xC1\xE4\xA6\x72\xA1\x47", buf, sizeof(buf), DOECHO))
       {
 	str_lower(buf, buf);
-	for (i = pageno * XO_TALL + cur + 1; i <= num; i++)	/* ±q´å¼Ğ¤U¤@­Ó¶}©l§ä */
+	for (i = pageno * XO_TALL + cur + 1; i <= num; i++)	/* å¾æ¸¸æ¨™ä¸‹ä¸€å€‹é–‹å§‹æ‰¾ */
 	{
 	  if (search_func(data + i * recsiz, buf))
 	  {

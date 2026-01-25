@@ -15,15 +15,15 @@ extern XZ xz[];
 
 
 /*-------------------------------------------------------*/
-/* ¿ï³æ¦¡²á¤Ñ¤¶­±					 */
+/* é¸å–®å¼èŠå¤©ä»‹é¢					 */
 /*-------------------------------------------------------*/
 
 
-static int pickup_ship = 0;	/* 0:¬G¶m !=0:¤Í½Ë±Ô­z */
+static int pickup_ship = 0;	/* 0:æ•…é„‰ !=0:å‹èª¼æ•˜è¿° */
 
 typedef UTMP *pickup;
 
-/* ¦¹¶¶§Ç§Y¬°±Æ§Çªº¶¶§Ç */
+/* æ­¤é †åºå³ç‚ºæ’åºçš„é †åº */
 #define FTYPE_SELF	0x01
 #define FTYPE_BOTHGOOD	0x02
 #define FTYPE_MYGOOD	0x04
@@ -31,12 +31,12 @@ typedef UTMP *pickup;
 #define FTYPE_NORMAL	0x10
 #define FTYPE_MYBAD	0x20
 
-static int mygood_num;		/* ¹ï¤è³]§Ú¬°¦n¤Í */
-static int ogood_num;		/* §Ú³]¹ï¤è¬°¦n¤Í */
+static int mygood_num;		/* å°æ–¹è¨­æˆ‘ç‚ºå¥½å‹ */
+static int ogood_num;		/* æˆ‘è¨­å°æ–¹ç‚ºå¥½å‹ */
 
 static pickup ulist_pool[MAXACTIVE];
-/* static */ int ulist_userno[MAXACTIVE];	/* ¹ïÀ³ ushm ¤¤¦UÄæªº userno */
-static int ulist_ftype[MAXACTIVE];		/* ¹ïÀ³ ushm ¤¤¦UÄæªºªB¤ÍºØÃş */
+/* static */ int ulist_userno[MAXACTIVE];	/* å°æ‡‰ ushm ä¸­å„æ¬„çš„ userno */
+static int ulist_ftype[MAXACTIVE];		/* å°æ‡‰ ushm ä¸­å„æ¬„çš„æœ‹å‹ç¨®é¡ */
 
 static int ulist_init();
 static int ulist_head();
@@ -45,7 +45,7 @@ static XO ulist_xo;
 
 #if 0
 static char *
-pal_ship(ftype, userno)	/* itoc.020811: ¶Ç¦^ªB¤Í±Ô­z */
+pal_ship(ftype, userno)	/* itoc.020811: å‚³å›æœ‹å‹æ•˜è¿° */
   int ftype, userno;
 {
   int fd;
@@ -53,7 +53,7 @@ pal_ship(ftype, userno)	/* itoc.020811: ¶Ç¦^ªB¤Í±Ô­z */
   char fpath[64];
   static char palship[46];
 
-  if (ftype & (FTYPE_BOTHGOOD | FTYPE_MYGOOD | FTYPE_MYBAD))	/* ¤¬³]¦n¤Í¡B§Úªº¦n¤Í¡BÃa¤H¤~¦³¤Í½Ë±Ô­z */
+  if (ftype & (FTYPE_BOTHGOOD | FTYPE_MYGOOD | FTYPE_MYBAD))	/* äº’è¨­å¥½å‹ã€æˆ‘çš„å¥½å‹ã€å£äººæ‰æœ‰å‹èª¼æ•˜è¿° */
   {
     usr_fpath(fpath, cuser.userid, fn_pal);
     if ((fd = open(fpath, O_RDONLY)) >= 0)
@@ -76,29 +76,29 @@ pal_ship(ftype, userno)	/* itoc.020811: ¶Ç¦^ªB¤Í±Ô­z */
 #endif
 
 
-#if 1	/* itoc.020901: ¥Î cache ÁöµM¤ñ¸û¦n¡A¦ı¬OÆZ®ö¶O°O¾ĞÅéªº */
+#if 1	/* itoc.020901: ç”¨ cache é›–ç„¶æ¯”è¼ƒå¥½ï¼Œä½†æ˜¯è »æµªè²»è¨˜æ†¶é«”çš„ */
 typedef struct
 {
   int userno;
-  char ship[20];	/* ¤£»İ­n©M PAL.ship ¤@¼Ë¤j¡A¥u­n°÷ ulist_body() Åã¥Ü§Y¥i */
+  char ship[20];	/* ä¸éœ€è¦å’Œ PAL.ship ä¸€æ¨£å¤§ï¼Œåªè¦å¤  ulist_body() é¡¯ç¤ºå³å¯ */
 }	PALSHIP;
 
         
 static char *
-pal_ship(ftype, userno)	/* itoc.020811: ¶Ç¦^ªB¤Í±Ô­z */
+pal_ship(ftype, userno)	/* itoc.020811: å‚³å›æœ‹å‹æ•˜è¿° */
   int ftype, userno;
 {
   static PALSHIP palship[PAL_MAX] = {0};
   PALSHIP *pp;
 
-  /* itoc.020901: §â palship ¦¬¶i°O¾ĞÅé¡A¤£­n¤@ª½ I/O ¤F */
+  /* itoc.020901: æŠŠ palship æ”¶é€²è¨˜æ†¶é«”ï¼Œä¸è¦ä¸€ç›´ I/O äº† */
   if (!palship[0].userno)	/* initialize *palship[] */
   {
     int fd;
     char fpath[64];
     PAL *pal;
 
-    /* ¬°¨D®Ä²v¡A¨C¦¸¤W¯¸¶È°µ¤@¦¸¡A¬G­Y§ïÅÜªB¤Í±Ô­z¡A­n­«·s¤W¯¸¤~¥Í®Ä */
+    /* ç‚ºæ±‚æ•ˆç‡ï¼Œæ¯æ¬¡ä¸Šç«™åƒ…åšä¸€æ¬¡ï¼Œæ•…è‹¥æ”¹è®Šæœ‹å‹æ•˜è¿°ï¼Œè¦é‡æ–°ä¸Šç«™æ‰ç”Ÿæ•ˆ */
     usr_fpath(fpath, cuser.userid, fn_pal);
     if ((fd = open(fpath, O_RDONLY)) >= 0)
     {
@@ -106,7 +106,7 @@ pal_ship(ftype, userno)	/* itoc.020811: ¶Ç¦^ªB¤Í±Ô­z */
       mgets(-1);
       while (pal = mread(fd, sizeof(PAL)))
       {
-	if (pal->ship[0])	/* ¦³¤Í½Ë¤~¦¬¤J palship[] */
+	if (pal->ship[0])	/* æœ‰å‹èª¼æ‰æ”¶å…¥ palship[] */
 	{
 	  pp->userno = pal->userno;
 	  str_ncpy(pp->ship, pal->ship, sizeof(pp->ship));
@@ -117,9 +117,9 @@ pal_ship(ftype, userno)	/* itoc.020811: ¶Ç¦^ªB¤Í±Ô­z */
     }    
   }
 
-  if (ftype & (FTYPE_BOTHGOOD | FTYPE_MYGOOD | FTYPE_MYBAD))	/* ¤¬³]¦n¤Í¡B§Úªº¦n¤Í¡BÃa¤H¤~¦³¤Í½Ë±Ô­z */
+  if (ftype & (FTYPE_BOTHGOOD | FTYPE_MYGOOD | FTYPE_MYBAD))	/* äº’è¨­å¥½å‹ã€æˆ‘çš„å¥½å‹ã€å£äººæ‰æœ‰å‹èª¼æ•˜è¿° */
   {
-    /* ¸g pal_sync ¥H«áªºªB¤Í¦W³æ¬O¨Ì ID ±Æ§Çªº¡A¦Ò¼{¬O§_¥Î binary search? */
+    /* ç¶“ pal_sync ä»¥å¾Œçš„æœ‹å‹åå–®æ˜¯ä¾ ID æ’åºçš„ï¼Œè€ƒæ…®æ˜¯å¦ç”¨ binary search? */
     pp = palship;
     while (pp->userno)
     {
@@ -147,19 +147,21 @@ ulist_item(num, up, slot, now, sysop)
 
   if (!(userno = up->userno))
   {
-    outs("      < ¦¹¦ìºô¤Í¥¿¥©Â÷¶} >\n");
+    /*       < æ­¤ä½ç¶²å‹æ­£å·§é›¢é–‹ >\n */
+    outs("      < \xA6\xB9\xA6\xEC\xBA\xF4\xA4\xCD\xA5\xBF\xA5\xA9\xC2\xF7\xB6\x7D >\n");
     return;
   }
 
-  /* itoc.011022: ­Y¥Í¤é·í¤Ñ¤W¯¸¡A­É¥Î idle Äæ¦ì¨Ó©ñ¹Ø¬P */
+  /* itoc.011022: è‹¥ç”Ÿæ—¥ç•¶å¤©ä¸Šç«™ï¼Œå€Ÿç”¨ idle æ¬„ä½ä¾†æ”¾å£½æ˜Ÿ */
   if (up->status & STATUS_BIRTHDAY)
   {
-    strcpy(buf, "\033[1;31m¹Ø¬P\033[m");
+    /* \033[1;31må£½æ˜Ÿ\033[m */
+    strcpy(buf, "\033[1;31m\xB9\xD8\xAC\x50\033[m");
   }
   else
   {
 #ifdef DETAIL_IDLETIME
-    if ((diff = now - up->idle_time) >= 60)	/* ¶W¹L 60 ¬í¤~ºâ¶¢¸m */
+    if ((diff = now - up->idle_time) >= 60)	/* è¶…é 60 ç§’æ‰ç®—é–’ç½® */
       sprintf(buf, "%3d'%02d", diff / 60, diff % 60);
 #else
     if (diff = up->idle_time)
@@ -171,12 +173,12 @@ ulist_item(num, up, slot, now, sysop)
 
   ufo = up->ufo;
 
-  /*         pager ª¬ºA                       */
-  /*  #¡G¤£±µ¨ü¥ô¦ó¤H©I¥s¡A¤]¤£±µ¨ü¥ô¦ó¤H¼s¼½ */
-  /*  *¡G¥u±µ¨ü¦n¤Í©I¥s¡A¥B¥u±µ¨ü¦n¤Í¼s¼½     */
-  /*  !¡G¥u±µ¨ü¦n¤Í©I¥s¡A¦ı¤£±µ¨ü¥ô¦ó¤H¼s¼½   */
-  /*  -¡G±µ¨ü¥ô¦ó¤H©I¥s¡A¦ı¤£±µ¨ü¥ô¦ó¤H¼s¼½   */
-  /*   ¡G³£¨S¦³´N¬O¨S¦³­­¨î°Õ                 */
+  /*         pager ç‹€æ…‹                       */
+  /*  #ï¼šä¸æ¥å—ä»»ä½•äººå‘¼å«ï¼Œä¹Ÿä¸æ¥å—ä»»ä½•äººå»£æ’­ */
+  /*  *ï¼šåªæ¥å—å¥½å‹å‘¼å«ï¼Œä¸”åªæ¥å—å¥½å‹å»£æ’­     */
+  /*  !ï¼šåªæ¥å—å¥½å‹å‘¼å«ï¼Œä½†ä¸æ¥å—ä»»ä½•äººå»£æ’­   */
+  /*  -ï¼šæ¥å—ä»»ä½•äººå‘¼å«ï¼Œä½†ä¸æ¥å—ä»»ä½•äººå»£æ’­   */
+  /*   ï¼šéƒ½æ²’æœ‰å°±æ˜¯æ²’æœ‰é™åˆ¶å•¦                 */
   if (ufo & UFO_QUIET)
   {
     pager = '#';
@@ -226,9 +228,9 @@ ulist_item(num, up, slot, now, sysop)
     d_cols - (d_cols >> 1) + 19, d_cols - (d_cols >> 1) + 18, 
     pickup_ship ? pal_ship(ftype, up->userno) : 
 #ifdef GUEST_WHERE
-    (pager == ' ' || sysop || ftype & (FTYPE_SELF | FTYPE_BOTHGOOD | FTYPE_OGOOD) || !up->userlevel) ? 	/* ¥i¬İ¨£ guest ªº¬G¶m */
+    (pager == ' ' || sysop || ftype & (FTYPE_SELF | FTYPE_BOTHGOOD | FTYPE_OGOOD) || !up->userlevel) ? 	/* å¯çœ‹è¦‹ guest çš„æ•…é„‰ */
 #else
-    (pager == ' ' || sysop || ftype & (FTYPE_SELF | FTYPE_BOTHGOOD | FTYPE_OGOOD)) ?			/* ¹ï¤è³]§Ú¬°¦n¤Í¥i¬İ¨£¹ï¤è¨Ó·½ */
+    (pager == ' ' || sysop || ftype & (FTYPE_SELF | FTYPE_BOTHGOOD | FTYPE_OGOOD)) ?			/* å°æ–¹è¨­æˆ‘ç‚ºå¥½å‹å¯çœ‹è¦‹å°æ–¹ä¾†æº */
 #endif
     up->from : "*", bmode(up, 0), buf);
 }
@@ -251,7 +253,8 @@ ulist_body(xo)
   max = xo->max;
   if (max <= 0)
   {
-    if (vans("¥Ø«e¨S¦³¦n¤Í¤W¯¸¡A­n¬İ¬İ¨ä¥L¨Ï¥ÎªÌ¶Ü(Y/N)¡H[Y] ") != 'n')
+    /* ç›®å‰æ²’æœ‰å¥½å‹ä¸Šç«™ï¼Œè¦çœ‹çœ‹å…¶ä»–ä½¿ç”¨è€…å—(Y/N)ï¼Ÿ[Y]  */
+    if (vans("\xA5\xD8\xAB\x65\xA8\x53\xA6\xB3\xA6\x6E\xA4\xCD\xA4\x57\xAF\xB8\xA1\x41\xAD\x6E\xAC\xDD\xAC\xDD\xA8\xE4\xA5\x4C\xA8\xCF\xA5\xCE\xAA\xCC\xB6\xDC(Y/N)\xA1\x48[Y] ") != 'n')
     {
       cuser.ufo ^= UFO_PAL;
       cutmp->ufo = cuser.ufo;
@@ -281,7 +284,7 @@ ulist_body(xo)
     up = *pp;
     slot = up - ushm->uslot;
 
-    /* itoc.011124: ¦pªG¦b ulist_body() ¤¤µo²{ userno ¤£¦X¡Aªí¥Ü¤â¤W³o¥÷¦W³æ¹ê¦b¤ÓÂÂ¤F¡A±j­¢§ó·s */
+    /* itoc.011124: å¦‚æœåœ¨ ulist_body() ä¸­ç™¼ç¾ userno ä¸åˆï¼Œè¡¨ç¤ºæ‰‹ä¸Šé€™ä»½åå–®å¯¦åœ¨å¤ªèˆŠäº†ï¼Œå¼·è¿«æ›´æ–° */
     if (ulist_userno[slot] != up->userno)
       return ulist_init(xo);
 
@@ -296,7 +299,7 @@ ulist_body(xo)
   clrtobot();
 
   /* return XO_NONE; */
-  return XO_FOOT;	/* itoc.010403: §â b_lines ¶ñ¤W feeter */
+  return XO_FOOT;	/* itoc.010403: æŠŠ b_lines å¡«ä¸Š feeter */
 }
 
 
@@ -315,7 +318,7 @@ ulist_cmp_host(i, j)
 {
   int k = ulist_ftype[(*i) - ushm->uslot] - ulist_ftype[(*j) - ushm->uslot];
   /* return k ? k : (*i)->in_addr - (*j)->in_addr; */
-  /* Kyo.050112: in_addr ¬O unsigned int (u_long)¡Aª½±µ´î·|³y¦¨ int »~§P */
+  /* Kyo.050112: in_addr æ˜¯ unsigned int (u_long)ï¼Œç›´æ¥æ¸›æœƒé€ æˆ int èª¤åˆ¤ */
   return k ? k : (*i)->in_addr > (*j)->in_addr ? 1 : (*i)->in_addr < (*j)->in_addr ? -1 : 0;
 }
 
@@ -335,20 +338,20 @@ ulist_cmp_brdmate(i, j)
   UTMP **i, **j;
 {
 #ifdef HAVE_ANONYMOUS
-  if (!(currbattr & BRD_ANONYMOUS) || HAS_PERM(PERM_SYSOP))	/* ¾\Åª°Î¦WªO«h¤£¦C¤J */
+  if (!(currbattr & BRD_ANONYMOUS) || HAS_PERM(PERM_SYSOP))	/* é–±è®€åŒ¿åæ¿å‰‡ä¸åˆ—å…¥ */
 #endif
   {
     int ibrdmate = (*i)->mode == M_READA && !strcmp(currboard, (*i)->reading);
     int jbrdmate = (*j)->mode == M_READA && !strcmp(currboard, (*j)->reading);
 
-    /* ªO¦ñÀu¥ı */
+    /* æ¿ä¼´å„ªå…ˆ */
     if (ibrdmate && !jbrdmate)
       return -1;
     if (jbrdmate && !ibrdmate)
       return 1;
   }
 
-  /* ³£¤£¬O©Î³£¬OªO¦ñªº¸Ü¡A«ö ID ±Æ§Ç */
+  /* éƒ½ä¸æ˜¯æˆ–éƒ½æ˜¯æ¿ä¼´çš„è©±ï¼ŒæŒ‰ ID æ’åº */
   return ulist_cmp_userid(i, j);
 }
 #endif
@@ -360,7 +363,7 @@ ulist_cmp_brdmate(i, j)
 #define PICKUP_WAYS	3
 #endif
 
-static int pickup_way = 0;	/* ¹w³]±Æ¦C¤è¦¡ 0:¥N¸¹ 1:¬G¶m 2:°ÊºA 3:ªO¦ñ */
+static int pickup_way = 0;	/* é è¨­æ’åˆ—æ–¹å¼ 0:ä»£è™Ÿ 1:æ•…é„‰ 2:å‹•æ…‹ 3:æ¿ä¼´ */
 
 
 static int (*ulist_cmp[PICKUP_WAYS]) () =
@@ -376,17 +379,21 @@ static int (*ulist_cmp[PICKUP_WAYS]) () =
 
 static char *msg_pickup_way[PICKUP_WAYS] =
 {
-  "ºô¤Í¥N¸¹",
-  "«È³~¬G¶m",
-  "ºô¤Í°ÊºA",
+  /* ç¶²å‹ä»£è™Ÿ */
+  "\xBA\xF4\xA4\xCD\xA5\x4E\xB8\xB9",
+  /* å®¢é€”æ•…é„‰ */
+  "\xAB\xC8\xB3\x7E\xAC\x47\xB6\x6D",
+  /* ç¶²å‹å‹•æ…‹ */
+  "\xBA\xF4\xA4\xCD\xB0\xCA\xBA\x41",
 #ifdef HAVE_BRDMATE
-  "ªO¦ñ¥N¸¹",
+  /* æ¿ä¼´ä»£è™Ÿ */
+  "\xAA\x4F\xA6\xF1\xA5\x4E\xB8\xB9",
 #endif
 };
 
 
 static int
-ulist_paltype(up)		/* ªB¤ÍºØÃş */
+ulist_paltype(up)		/* æœ‹å‹ç¨®é¡ */
   UTMP *up;
 {
   const int userno = up->userno;
@@ -401,27 +408,27 @@ ulist_paltype(up)		/* ªB¤ÍºØÃş */
 }
 
 
-#if 0	/* itoc.041001: ulist_init() µù¸Ñ */
+#if 0	/* itoc.041001: ulist_init() è¨»è§£ */
 
-  1. ushm->uslot °O¿ı¥ş¯¸ªº UTMP (¨Ï¥ÎªÌ¦W³æ¸ê®Æ)¡A³o¬OÅı©Ò¦³¤H¦@¥Îªº
+  1. ushm->uslot è¨˜éŒ„å…¨ç«™çš„ UTMP (ä½¿ç”¨è€…åå–®è³‡æ–™)ï¼Œé€™æ˜¯è®“æ‰€æœ‰äººå…±ç”¨çš„
 
-  2. ¨C­Ó¤H¤â¤W¡A¦U¦³¥H¤U¤T¥÷¡G
-     ulist_pool ¬O ushm->uslot ªº¯Á¤Ş¡A°O¿ıµÛ§Ú¥i¥H¬İ¨ì­ş¨Ç¤H
-     ulist_userno[i] °O¿ıµÛ ushm->uslot[i] ³o¦ì¤l§¤¤F½Ö
-     ulist_ftype[i] °O¿ıµÛ ushm->uslot[i] ³o¦ì¤l¬O§Úªº ¦n¤Í/Ãa¤H/¤@¯ë¤H
+  2. æ¯å€‹äººæ‰‹ä¸Šï¼Œå„æœ‰ä»¥ä¸‹ä¸‰ä»½ï¼š
+     ulist_pool æ˜¯ ushm->uslot çš„ç´¢å¼•ï¼Œè¨˜éŒ„è‘—æˆ‘å¯ä»¥çœ‹åˆ°å“ªäº›äºº
+     ulist_userno[i] è¨˜éŒ„è‘— ushm->uslot[i] é€™ä½å­åäº†èª°
+     ulist_ftype[i] è¨˜éŒ„è‘— ushm->uslot[i] é€™ä½å­æ˜¯æˆ‘çš„ å¥½å‹/å£äºº/ä¸€èˆ¬äºº
 
-  3. ¦b ulist_init() ¸Ì­±¥h ushm->uslot ÂsÄı©Ò¦³¦ì¤l¡A¦Ò¼{ ushm->uslot[i]
-     ¦pªG§Ú¥i¥H¬İ¨ì³o­Ó¤H¡A´N§â¥¦§Û¶i¨Ó ulist_pool
-     ­Y ushm->uslot[i].userno != ulist_userno[i]¡Aªí¥Ü³o­Ó¦ì¤l§¤¤F¤@­Ó·s¤W¯¸ªº¤H¡A
-     §Ú´N¥h¬d¥L¬O¤£¬O§Úªº¦n¤Í/Ãa¤H¡A¨Ã°O¿ı¦b ulist_ftype[i]¡F
-     ­Y ushm->uslot[i].userno == ulist_userno[i]¡Aªí¥Ü³o­Ó¦ì¤l¨S´«¤H¡A
-     §Ú´Nª½±µ®³ ulist_ftype[i] ¨Ó·í§@ªB¤ÍºØÃş
+  3. åœ¨ ulist_init() è£¡é¢å» ushm->uslot ç€è¦½æ‰€æœ‰ä½å­ï¼Œè€ƒæ…® ushm->uslot[i]
+     å¦‚æœæˆ‘å¯ä»¥çœ‹åˆ°é€™å€‹äººï¼Œå°±æŠŠå®ƒæŠ„é€²ä¾† ulist_pool
+     è‹¥ ushm->uslot[i].userno != ulist_userno[i]ï¼Œè¡¨ç¤ºé€™å€‹ä½å­åäº†ä¸€å€‹æ–°ä¸Šç«™çš„äººï¼Œ
+     æˆ‘å°±å»æŸ¥ä»–æ˜¯ä¸æ˜¯æˆ‘çš„å¥½å‹/å£äººï¼Œä¸¦è¨˜éŒ„åœ¨ ulist_ftype[i]ï¼›
+     è‹¥ ushm->uslot[i].userno == ulist_userno[i]ï¼Œè¡¨ç¤ºé€™å€‹ä½å­æ²’æ›äººï¼Œ
+     æˆ‘å°±ç›´æ¥æ‹¿ ulist_ftype[i] ä¾†ç•¶ä½œæœ‹å‹ç¨®é¡
 
-  4. ¦³¤F ulist_pool[] ¥H«á¡A¦A§â ulist_pool[] ¨Ì§Ú·Q­nªº¤è¦¡±Æ§Ç¡A
-     ¦b ulist_item() ¦L¥X¨ÓªºÃC¦â«h¬O°Ñ·Ó ulist_ftype[]
+  4. æœ‰äº† ulist_pool[] ä»¥å¾Œï¼Œå†æŠŠ ulist_pool[] ä¾æˆ‘æƒ³è¦çš„æ–¹å¼æ’åºï¼Œ
+     åœ¨ ulist_item() å°å‡ºä¾†çš„é¡è‰²å‰‡æ˜¯åƒç…§ ulist_ftype[]
 
-  5. ­Y¦³¤H±N§Ú¦b¥LªºªB¤Í¦W³æ¤¤²§°Ê¡A¨º¥L·|§ó°Ê§Úªº cutmp->status¡A
-     ©Ò¥H·í§ÚÀË¬d¨ì HAS_STATUS(STATUS_PALDIRTY)¡A§Ú´N­n­«¾ã§Úªº ulist_ftype[]
+  5. è‹¥æœ‰äººå°‡æˆ‘åœ¨ä»–çš„æœ‹å‹åå–®ä¸­ç•°å‹•ï¼Œé‚£ä»–æœƒæ›´å‹•æˆ‘çš„ cutmp->statusï¼Œ
+     æ‰€ä»¥ç•¶æˆ‘æª¢æŸ¥åˆ° HAS_STATUS(STATUS_PALDIRTY)ï¼Œæˆ‘å°±è¦é‡æ•´æˆ‘çš„ ulist_ftype[]
 
 #endif
 
@@ -445,14 +452,14 @@ ulist_init(xo)
 
   mygood_num = ogood_num = 0;
 
-  /* ±q ushm->uslot[] §Û¨ì ulist_pool[] */
+  /* å¾ ushm->uslot[] æŠ„åˆ° ulist_pool[] */
   do
   {
     userno = up->userno;
 
     if (userno > 0)
     {
-      /* ·s¤W¯¸ªº¨Ï¥ÎªÌ¡A¬İ¬İ¥L¬O­ş¤@ÃşªºªB¤Í¡FSTATUS_PALDIRTY ­«¾ã ulist_ftype[] */
+      /* æ–°ä¸Šç«™çš„ä½¿ç”¨è€…ï¼Œçœ‹çœ‹ä»–æ˜¯å“ªä¸€é¡çš„æœ‹å‹ï¼›STATUS_PALDIRTY é‡æ•´ ulist_ftype[] */
       if (ulist_userno[slot] != userno || paldirty)
       {
 	ulist_userno[slot] = userno;
@@ -465,7 +472,7 @@ ulist_init(xo)
 	if (!filter || userno & (FTYPE_SELF | FTYPE_BOTHGOOD | FTYPE_MYGOOD))
 	  *pp++ = up;
 
-	/* ºâ¦³´X­Ó¦n¤Í */
+	/* ç®—æœ‰å¹¾å€‹å¥½å‹ */
 	if (userno & (FTYPE_BOTHGOOD | FTYPE_MYGOOD))
 	  mygood_num++;
 	if (userno & (FTYPE_BOTHGOOD | FTYPE_OGOOD))
@@ -483,8 +490,8 @@ ulist_init(xo)
   if (slot > 1)
     qsort(ulist_pool, slot, sizeof(pickup), ulist_cmp[pickup_way]);
 
-  /* itoc.010928: ¥Ñ©ó ushm->count ±`¤£¹ï¡A©Ò¥H¥Î total_user ¨Ó®Õ¥¿¡A
-     ­è¤W¯¸®É´N±Ò©l¤Æ total_user ¬° ushm->count¡A¦¹«á­Y¨Ï¥ÎªÌ¨S¦³¨Ó¨Ï¥ÎªÌ¦W³æ¡A´N¤£§ó·s total_user */
+  /* itoc.010928: ç”±æ–¼ ushm->count å¸¸ä¸å°ï¼Œæ‰€ä»¥ç”¨ total_user ä¾†æ ¡æ­£ï¼Œ
+     å‰›ä¸Šç«™æ™‚å°±å•Ÿå§‹åŒ– total_user ç‚º ushm->countï¼Œæ­¤å¾Œè‹¥ä½¿ç”¨è€…æ²’æœ‰ä¾†ä½¿ç”¨è€…åå–®ï¼Œå°±ä¸æ›´æ–° total_user */
   if (!filter)
     total_user = slot;
 
@@ -498,13 +505,20 @@ ulist_neck(xo)
 {
   move(1, 0);
 
-  prints("  ±Æ¦C¤è¦¡¡G[\033[1m%s/%s\033[m] ¯¸¤W¤H¼Æ¡G%d "
-    COLOR_MYGOOD " §Úªº¦n¤Í¡G%d " COLOR_OGOOD " »P§Ú¬°¤Í¡G%d\033[m", 
+  /*   æ’åˆ—æ–¹å¼ï¼š[\033[1m%s/%s\033[m] ç«™ä¸Šäººæ•¸ï¼š%d  */
+  prints("  \xB1\xC6\xA6\x43\xA4\xE8\xA6\xA1\xA1\x47[\033[1m%s/%s\033[m] \xAF\xB8\xA4\x57\xA4\x48\xBC\xC6\xA1\x47%d "
+    /*  æˆ‘çš„å¥½å‹ï¼š%d  */
+    /*  èˆ‡æˆ‘ç‚ºå‹ï¼š%d\033[m */
+    COLOR_MYGOOD " \xA7\xDA\xAA\xBA\xA6\x6E\xA4\xCD\xA1\x47%d " COLOR_OGOOD " \xBB\x50\xA7\xDA\xAC\xB0\xA4\xCD\xA1\x47%d\033[m", 
     msg_pickup_way[pickup_way], 
-    cuser.ufo & UFO_PAL ? "¦n¤Í" : "¥ş³¡", 
+    /* å¥½å‹ */
+    /* å…¨éƒ¨ */
+    cuser.ufo & UFO_PAL ? "\xA6\x6E\xA4\xCD" : "\xA5\xFE\xB3\xA1", 
     total_user, mygood_num, ogood_num);
 
-  prints(NECKER_ULIST, d_cols >> 1, "", d_cols - (d_cols >> 1) + 4, pickup_ship ? "¤Í½Ë" : "¬G¶m");
+  /* å‹èª¼ */
+  /* æ•…é„‰ */
+  prints(NECKER_ULIST, d_cols >> 1, "", d_cols - (d_cols >> 1) + 4, pickup_ship ? "\xA4\xCD\xBD\xCB" : "\xAC\x47\xB6\x6D");
   return ulist_body(xo);
 }
 
@@ -513,7 +527,8 @@ static int
 ulist_head(xo)
   XO *xo;
 {
-  vs_head("ºô¤Í¦Cªí", str_site);
+  /* ç¶²å‹åˆ—è¡¨ */
+  vs_head("\xBA\xF4\xA4\xCD\xA6\x43\xAA\xED", str_site);
   return ulist_neck(xo);
 }
 
@@ -525,9 +540,11 @@ ulist_toggle(xo)
   int ans, max;
 
 #ifdef HAVE_BRDMATE
-  ans = vans("±Æ¦C¤è¦¡ [1]¥N¸¹ [2]¨Ó·½ [3]°ÊºA [4]ªO¦ñ ") - '1';
+  /* æ’åˆ—æ–¹å¼ [1]ä»£è™Ÿ [2]ä¾†æº [3]å‹•æ…‹ [4]æ¿ä¼´  */
+  ans = vans("\xB1\xC6\xA6\x43\xA4\xE8\xA6\xA1 [1]\xA5\x4E\xB8\xB9 [2]\xA8\xD3\xB7\xBD [3]\xB0\xCA\xBA\x41 [4]\xAA\x4F\xA6\xF1 ") - '1';
 #else
-  ans = vans("±Æ¦C¤è¦¡ [1]¥N¸¹ [2]¨Ó·½ [3]°ÊºA ") - '1';
+  /* æ’åˆ—æ–¹å¼ [1]ä»£è™Ÿ [2]ä¾†æº [3]å‹•æ…‹  */
+  ans = vans("\xB1\xC6\xA6\x43\xA4\xE8\xA6\xA1 [1]\xA5\x4E\xB8\xB9 [2]\xA8\xD3\xB7\xBD [3]\xB0\xCA\xBA\x41 ") - '1';
 #endif
   if (ans >= 0 && ans < PICKUP_WAYS && ans != pickup_way)	/* Thor.980705: from 0 .. PICKUP_WAYS-1 */
   {
@@ -564,7 +581,8 @@ ulist_search(xo, step)
   pickup *pp;
   char buf[IDLEN + 1];
 
-  if (vget(b_lines, 0, "½Ğ¿é¤J¥N¸¹©Î¼ÊºÙ¡G", buf, IDLEN + 1, DOECHO))
+  /* è«‹è¼¸å…¥ä»£è™Ÿæˆ–æš±ç¨±ï¼š */
+  if (vget(b_lines, 0, "\xBD\xD0\xBF\xE9\xA4\x4A\xA5\x4E\xB8\xB9\xA9\xCE\xBC\xCA\xBA\xD9\xA1\x47", buf, IDLEN + 1, DOECHO))
   {
     str_lowest(buf, buf);
     
@@ -574,15 +592,15 @@ ulist_search(xo, step)
     do
     {
       pos += step;
-      if (pos < 0) /* Thor.990124: °²³] max ¤£¬°0 */
+      if (pos < 0) /* Thor.990124: å‡è¨­ max ä¸ç‚º0 */
 	 pos = max - 1;
       else if (pos >= max)
 	pos = 0;
 
-      if (str_str(pp[pos]->userid, buf) ||	/* lkchu.990127: §ä³¡¥÷ id ¦n¹³¤ñ¸û¦n¥Î :p */
-	str_sub(pp[pos]->username, buf)) 	/* Thor.990124: ¥i¥H§ä ³¡¤À nickname */
+      if (str_str(pp[pos]->userid, buf) ||	/* lkchu.990127: æ‰¾éƒ¨ä»½ id å¥½åƒæ¯”è¼ƒå¥½ç”¨ :p */
+	str_sub(pp[pos]->username, buf)) 	/* Thor.990124: å¯ä»¥æ‰¾ éƒ¨åˆ† nickname */
       {
-	outf(FEETER_ULIST);	/* itoc.010913: §â b_lines ¶ñ¤W feeter */	
+	outf(FEETER_ULIST);	/* itoc.010913: æŠŠ b_lines å¡«ä¸Š feeter */	
 	return pos + XO_MOVE;
       }
 
@@ -620,8 +638,8 @@ ulist_addpal(xo)
 
     up = ulist_pool[xo->pos];
     userno = up->userno;
-    if (userno > 0 && (userno != cuser.userno) &&	/* lkchu.981217: ¦Û¤v¤£¥i¬°ªB¤Í */
-      !is_mygood(userno) && !is_mybad(userno))		/* ©|¥¼¦C¤JªB¤Í¦W³æ */
+    if (userno > 0 && (userno != cuser.userno) &&	/* lkchu.981217: è‡ªå·±ä¸å¯ç‚ºæœ‹å‹ */
+      !is_mygood(userno) && !is_mybad(userno))		/* å°šæœªåˆ—å…¥æœ‹å‹åå–® */
     {
       PAL pal;
       char fpath[64];
@@ -631,17 +649,18 @@ ulist_addpal(xo)
       strcpy(pal.userid, up->userid);
       usr_fpath(fpath, cuser.userid, fn_pal);
 
-      /* itoc.001222: ÀË¬dªB¤Í­Ó¼Æ */
+      /* itoc.001222: æª¢æŸ¥æœ‹å‹å€‹æ•¸ */
       if (rec_num(fpath, sizeof(PAL)) < PAL_MAX)
       {
 	rec_add(fpath, &pal, sizeof(PAL));
-	pal_cache();				/* ªB¤Í¦W³æ¦P¨B */
+	pal_cache();				/* æœ‹å‹åå–®åŒæ­¥ */
 	utmp_admset(userno, STATUS_PALDIRTY);
 	return ulist_init(xo);
       }
       else
       {
-	vmsg("±zªºªB¤Í¦W³æ¤Ó¦h¡A½Ğµ½¥[¾ã²z");
+	/* æ‚¨çš„æœ‹å‹åå–®å¤ªå¤šï¼Œè«‹å–„åŠ æ•´ç† */
+	vmsg("\xB1\x7A\xAA\xBA\xAA\x42\xA4\xCD\xA6\x57\xB3\xE6\xA4\xD3\xA6\x68\xA1\x41\xBD\xD0\xB5\xBD\xA5\x5B\xBE\xE3\xB2\x7A");
 	return XO_FOOT;
       }
     }
@@ -669,7 +688,7 @@ ulist_delpal(xo)
 
     up = ulist_pool[xo->pos];
     userno = up->userno;
-    if (userno > 0 && (is_mygood(userno) || is_mybad(userno)))	/* ¦bªB¤Í¦W³æ¤¤ */
+    if (userno > 0 && (is_mygood(userno) || is_mybad(userno)))	/* åœ¨æœ‹å‹åå–®ä¸­ */
     {
       if (vans(msg_del_ny) == 'y')
       {
@@ -680,7 +699,7 @@ ulist_delpal(xo)
 	currchrono = userno;
 	if (!rec_del(fpath, sizeof(PAL), 0, cmppal))
 	{
-	  pal_cache();				/* ªB¤Í¦W³æ¦P¨B */
+	  pal_cache();				/* æœ‹å‹åå–®åŒæ­¥ */
 	  utmp_admset(userno, STATUS_PALDIRTY);
 	  return ulist_init(xo);
 	}
@@ -698,7 +717,7 @@ ulist_mail(xo)
 {
   char userid[IDLEN + 1];
 
-  /* ¥ı½Æ»s¤@¥÷¨ì¤â¤W¡A¥H§K¦b¼g«H®É ushm ÅÜ°Ê¤F */
+  /* å…ˆè¤‡è£½ä¸€ä»½åˆ°æ‰‹ä¸Šï¼Œä»¥å…åœ¨å¯«ä¿¡æ™‚ ushm è®Šå‹•äº† */
   strcpy(userid, ulist_pool[xo->pos]->userid);
 
   if (!*userid)
@@ -737,18 +756,19 @@ ulist_broadcast(xo)
     return XO_NONE;
 
   num = xo->max;
-  if (num <= 1)		/* ¦pªG¥u¦³¦Û¤v¡A¤£¯à¼s¼½ */
+  if (num <= 1)		/* å¦‚æœåªæœ‰è‡ªå·±ï¼Œä¸èƒ½å»£æ’­ */
     return XO_NONE;
 
-  /* itoc.030101: ¦pªG¯¸ªø¥Îªº¬O¦n¤Í¼s¼½¡Aµø¦P¤@¯ë ID ¼s¼½ */
+  /* itoc.030101: å¦‚æœç«™é•·ç”¨çš„æ˜¯å¥½å‹å»£æ’­ï¼Œè¦–åŒä¸€èˆ¬ ID å»£æ’­ */
   sysop = sysop && !(cuser.ufo & UFO_PAL);
 
   bmw.caller = NULL;
-  bmw_edit(NULL, "¡¹¼s¼½¡G", &bmw);
+  /* â˜…å»£æ’­ï¼š */
+  bmw_edit(NULL, "\xA1\xB9\xBC\x73\xBC\xBD\xA1\x47", &bmw);
 
-  if (bmw.caller)	/* bmw_edit() ¤¤¦^µª Yes ­n°e¥X¼s¼½ */
+  if (bmw.caller)	/* bmw_edit() ä¸­å›ç­” Yes è¦é€å‡ºå»£æ’­ */
   {
-    /* itoc.000213: ¥[ "> " ¬°¤F»P¤@¯ë¤ô²y°Ï¤À */
+    /* itoc.000213: åŠ  "> " ç‚ºäº†èˆ‡ä¸€èˆ¬æ°´çƒå€åˆ† */
     sprintf(bmw.userid, "%s> ", cuser.userid);
 
     pp = ulist_pool;
@@ -763,8 +783,8 @@ ulist_broadcast(xo)
 	  continue;
 #endif
 
-	/* itoc.011126: ­Y up-> ¤w¤U¯¸¡A³Q¨ä¥L user ©Ò¨ú¥N®É¡A
-	   ·|¦³¼s¼½»~´Óªº°İÃD¡A±o­«·sÀË¬d¬O§_¬°§Úªº¦n¤Í */
+	/* itoc.011126: è‹¥ up-> å·²ä¸‹ç«™ï¼Œè¢«å…¶ä»– user æ‰€å–ä»£æ™‚ï¼Œ
+	   æœƒæœ‰å»£æ’­èª¤æ¤çš„å•é¡Œï¼Œå¾—é‡æ–°æª¢æŸ¥æ˜¯å¦ç‚ºæˆ‘çš„å¥½å‹ */
 	if (!is_mygood(up->userno))
 	  continue;
       }
@@ -813,7 +833,7 @@ ulist_write(xo)
 
 
 static int
-ulist_edit(xo)			/* Thor: ¥i½u¤W¬d¬İ¤Î­×§ï¨Ï¥ÎªÌ */
+ulist_edit(xo)			/* Thor: å¯ç·šä¸ŠæŸ¥çœ‹åŠä¿®æ”¹ä½¿ç”¨è€… */
   XO *xo;
 {
   ACCT acct;
@@ -821,7 +841,8 @@ ulist_edit(xo)			/* Thor: ¥i½u¤W¬d¬İ¤Î­×§ï¨Ï¥ÎªÌ */
   if (!HAS_PERM(PERM_ALLACCT) || acct_load(&acct, ulist_pool[xo->pos]->userid) < 0)
     return XO_NONE;
 
-  vs_bar("¨Ï¥ÎªÌ³]©w");
+  /* ä½¿ç”¨è€…è¨­å®š */
+  vs_bar("\xA8\xCF\xA5\xCE\xAA\xCC\xB3\x5D\xA9\x77");
   acct_setup(&acct, 1);
   return ulist_head(xo);
 }
@@ -848,7 +869,7 @@ ulist_kick(xo)
       if ((kill(pid, SIGTERM) == -1) && (errno == ESRCH))
 	utmp_free(up);
       else
-	sleep(3);		/* ³Q½ğªº¤H³o®É­Ô¥¿¦b¦Û§Ú¤FÂ_ */
+	sleep(3);		/* è¢«è¸¢çš„äººé€™æ™‚å€™æ­£åœ¨è‡ªæˆ‘äº†æ–· */
 
       blog("KICK", buf);
       return ulist_init(xo);
@@ -869,12 +890,13 @@ ulist_nickchange(xo)
     return XO_NONE;
 
   strcpy(buf, str = cutmp->username);
-  if (vget(b_lines, 0, "½Ğ¿é¤J·sªº¼ÊºÙ¡G", buf, UNLEN + 1, GCARRY))
+  /* è«‹è¼¸å…¥æ–°çš„æš±ç¨±ï¼š */
+  if (vget(b_lines, 0, "\xBD\xD0\xBF\xE9\xA4\x4A\xB7\x73\xAA\xBA\xBC\xCA\xBA\xD9\xA1\x47", buf, UNLEN + 1, GCARRY))
   {  
     if (strcmp(buf, str))
     {
       strcpy(str, buf);
-      strcpy(cuser.username, buf);	/* ¼ÊºÙ¤]¤@¨Ö§ó´« cuser. */
+      strcpy(cuser.username, buf);	/* æš±ç¨±ä¹Ÿä¸€ä½µæ›´æ› cuser. */
       return ulist_body(xo);
     }
   }
@@ -894,7 +916,8 @@ ulist_fromchange(xo)
     return XO_NONE;
   
   strcpy(buf, str = cutmp->from);
-  if (vget(b_lines, 0, "½Ğ¿é¤J·sªº¬G¶m¡G", buf, sizeof(cutmp->from), GCARRY))
+  /* è«‹è¼¸å…¥æ–°çš„æ•…é„‰ï¼š */
+  if (vget(b_lines, 0, "\xBD\xD0\xBF\xE9\xA4\x4A\xB7\x73\xAA\xBA\xAC\x47\xB6\x6D\xA1\x47", buf, sizeof(cutmp->from), GCARRY))
   {
     if (strcmp(buf, str))
     {
@@ -915,14 +938,15 @@ ulist_idchange(xo)
 {
   char *str, buf[IDLEN + 1];
 
-  /* itoc.010717.µù¸Ñ: ³o¥\¯à´£¨Ñ¯¸ªø¥i¥H¦b¨Ï¥ÎªÌ¦W³æ¼È®É§ï¦Û¤vªº ID¡A
-     ¦ı¬O¥Ñ©ó ulist ¤j³¡¤À¬O¥Î userno ¨Ó§PÂ_¡A©Ò¥H¥u¦³¦n¬İ¦Ó¤w */
+  /* itoc.010717.è¨»è§£: é€™åŠŸèƒ½æä¾›ç«™é•·å¯ä»¥åœ¨ä½¿ç”¨è€…åå–®æš«æ™‚æ”¹è‡ªå·±çš„ IDï¼Œ
+     ä½†æ˜¯ç”±æ–¼ ulist å¤§éƒ¨åˆ†æ˜¯ç”¨ userno ä¾†åˆ¤æ–·ï¼Œæ‰€ä»¥åªæœ‰å¥½çœ‹è€Œå·² */
   
   if (!HAS_PERM(PERM_ALLADMIN))
     return XO_NONE;
   
   strcpy(buf, str = cutmp->userid);
-  if (vget(b_lines, 0, "½Ğ¿é¤J·sªº¢×¢Ò¡G", buf, IDLEN + 1, GCARRY))
+  /* è«‹è¼¸å…¥æ–°çš„ï¼©ï¼¤ï¼š */
+  if (vget(b_lines, 0, "\xBD\xD0\xBF\xE9\xA4\x4A\xB7\x73\xAA\xBA\xA2\xD7\xA2\xD2\xA1\x47", buf, IDLEN + 1, GCARRY))
   {
     if (strcmp(buf, str))
     {
@@ -937,7 +961,7 @@ ulist_idchange(xo)
 
 
 static int  
-ulist_cloak(xo)			/* itoc.010908: §Ö³tÁô¨­ */
+ulist_cloak(xo)			/* itoc.010908: å¿«é€Ÿéš±èº« */
   XO *xo;
 {
   if (HAS_PERM(PERM_CLOAK))
@@ -952,16 +976,16 @@ ulist_cloak(xo)			/* itoc.010908: §Ö³tÁô¨­ */
 
 #ifdef HAVE_SUPERCLOAK
 static int
-ulist_supercloak(xo)		/* itoc.010908: §Ö³tµµÁô */
+ulist_supercloak(xo)		/* itoc.010908: å¿«é€Ÿç´«éš± */
   XO *xo;
 {
-  if (cuser.ufo & UFO_SUPERCLOAK)	/* ¨ú®øµµÁô¡A¤£¥²ºŞÅv­­ */
+  if (cuser.ufo & UFO_SUPERCLOAK)	/* å–æ¶ˆç´«éš±ï¼Œä¸å¿…ç®¡æ¬Šé™ */
   {
     cuser.ufo &= ~(UFO_CLOAK | UFO_SUPERCLOAK);
     cutmp->ufo = cuser.ufo;
     return ulist_init(xo);
   }
-  else if (HAS_PERM(PERM_ALLADMIN))	/* ¶i¤JµµÁô */
+  else if (HAS_PERM(PERM_ALLADMIN))	/* é€²å…¥ç´«éš± */
   {
     cuser.ufo |= (UFO_CLOAK | UFO_SUPERCLOAK);
     cutmp->ufo = cuser.ufo;
@@ -1021,20 +1045,20 @@ static KeyFunc ulist_cb[] =
   XO_INIT, ulist_init,
   XO_LOAD, ulist_body,
   XO_HEAD, ulist_head,
-  /* XO_BODY, ulist_body, */	/* ¨S¦³¥Î¨ì */
+  /* XO_BODY, ulist_body, */	/* æ²’æœ‰ç”¨åˆ° */
 
   'f', ulist_pal,
-  'y', ulist_pal,		/* itoc.010205: ¦³¤H·|§â yank ªº·N«ä¥Î¦b³o */
+  'y', ulist_pal,		/* itoc.010205: æœ‰äººæœƒæŠŠ yank çš„æ„æ€ç”¨åœ¨é€™ */
   'a', ulist_addpal,
   'd', ulist_delpal,
   't', ulist_talk,
   'w', ulist_write,
-  'l', ulist_recall,		/* ¤ô²y¦^ÅU */
+  'l', ulist_recall,		/* æ°´çƒå›é¡§ */
   'L', ulist_display,
   'r', ulist_query,
-  'q', ulist_query,		/* itoc.020109: ¨Ï¥ÎªÌ²ßºD¥Î q ¬d¸ß */
+  'q', ulist_query,		/* itoc.020109: ä½¿ç”¨è€…ç¿’æ…£ç”¨ q æŸ¥è©¢ */
   'B', ulist_broadcast,
-  's', ulist_init,		/* refresh status Thor: À³user­n¨D */
+  's', ulist_init,		/* refresh status Thor: æ‡‰userè¦æ±‚ */
   'S', ulist_ship,
 
   Ctrl('K'), ulist_kick,
@@ -1054,7 +1078,7 @@ static KeyFunc ulist_cb[] =
 #if 0
   '/', ulist_search,
 #endif
-  /* Thor.990125: ¥i«e«á·j´M, id or nickname */
+  /* Thor.990125: å¯å‰å¾Œæœå°‹, id or nickname */
   '/', ulist_search_forward,
   '?', ulist_search_backward,
 
@@ -1078,7 +1102,7 @@ talk_main()
   xz[XZ_ULIST - XO_ZONE].xo = &ulist_xo;
   xz[XZ_ULIST - XO_ZONE].cb = ulist_cb;
 
-  /* itoc.010715: ¥Ñ©ó erevy_Z ¥i¥Hª½±µ¶i¤J bmw¡A©Ò¥H¤@¤W¯¸´N­n¸ü¤J */
+  /* itoc.010715: ç”±æ–¼ erevy_Z å¯ä»¥ç›´æ¥é€²å…¥ bmwï¼Œæ‰€ä»¥ä¸€ä¸Šç«™å°±è¦è¼‰å…¥ */
   usr_fpath(fpath, cuser.userid, fn_bmw);
   xz[XZ_BMW - XO_ZONE].xo = xo_new(fpath);
 }

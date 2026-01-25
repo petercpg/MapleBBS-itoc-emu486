@@ -14,16 +14,16 @@ extern XZ xz[];
 extern char xo_pool[];
 
 
-static int pal_max = 0;		/* �Y cutmp->pal_max�A�]���ӱ`�ˬd�B�ͦW��A�ҥH�O�U�ӥ[�t */
-static int *pal_pool = NULL;	/* �Y cutmp->pal_spool�A�]���ӱ`�ˬd�B�ͦW��A�ҥH�O�U�ӥ[�t */
+static int pal_max = 0;		/* 即 cutmp->pal_max，因為太常檢查朋友名單，所以記下來加速 */
+static int *pal_pool = NULL;	/* 即 cutmp->pal_spool，因為太常檢查朋友名單，所以記下來加速 */
 
 
 /* ----------------------------------------------------- */
-/* �B�ͧP�O						 */
+/* 朋友判別						 */
 /* ----------------------------------------------------- */
 
 
-static int			/* 1: userno �b pool �W��W */
+static int			/* 1: userno 在 pool 名單上 */
 belong_pal(pool, max, userno)
   int *pool;
   int max;
@@ -54,7 +54,7 @@ belong_pal(pool, max, userno)
 
 
 int
-is_mygood(userno)		/*  1: �ڳ]��謰�n�� */
+is_mygood(userno)		/*  1: 我設對方為好友 */
   int userno;
 {
   return belong_pal(pal_pool, pal_max, userno);
@@ -62,7 +62,7 @@ is_mygood(userno)		/*  1: �ڳ]��謰�n�� */
 
 
 int
-is_mybad(userno)		/*  1: �ڳ]��謰�a�H */
+is_mybad(userno)		/*  1: 我設對方為壞人 */
   int userno;
 {
 #ifdef HAVE_BADPAL
@@ -74,7 +74,7 @@ is_mybad(userno)		/*  1: �ڳ]��謰�a�H */
 
 
 int
-is_ogood(up)			/* 1: ���]�ڬ��n�� */
+is_ogood(up)			/* 1: 對方設我為好友 */
   UTMP *up;
 {
   return belong_pal(up->pal_spool, up->pal_max, cuser.userno);
@@ -82,7 +82,7 @@ is_ogood(up)			/* 1: ���]�ڬ��n�� */
 
 
 int
-is_obad(up)			/* 1: ���]�ڬ��a�H */
+is_obad(up)			/* 1: 對方設我為壞人 */
   UTMP *up;
 {
 #ifdef HAVE_BADPAL
@@ -95,7 +95,7 @@ is_obad(up)			/* 1: ���]�ڬ��a�H */
 
 #ifdef HAVE_MODERATED_BOARD
 int
-is_bgood(bpal)			/* 1: �ڬO�ӪO���O�n */
+is_bgood(bpal)			/* 1: 我是該板的板好 */
   BPAL *bpal;
 {
   return belong_pal(bpal->pal_spool, bpal->pal_max, cuser.userno);
@@ -103,7 +103,7 @@ is_bgood(bpal)			/* 1: �ڬO�ӪO���O�n */
 
 
 int
-is_bbad(bpal)			/* 1: �ڬO�ӪO���O�a */
+is_bbad(bpal)			/* 1: 我是該板的板壞 */
   BPAL *bpal;
 {
 #ifdef HAVE_BADPAL
@@ -116,7 +116,7 @@ is_bbad(bpal)			/* 1: �ڬO�ӪO���O�a */
 
 
 /* ----------------------------------------------------- */
-/* �B�ͦW��G�s�W�B�R���B�ק�B���J�B�P�B		 */
+/* 朋友名單：新增、刪除、修改、載入、同步		 */
 /* ----------------------------------------------------- */
 
 
@@ -141,7 +141,7 @@ image_pal(fpath, pool)
 
   if (fimage = f_img(fpath, &fsize))
   {
-    if (fsize <= PAL_MAX * sizeof(PAL))	/* �p�G�W�L PAL_MAX�A�N�����J */
+    if (fsize <= PAL_MAX * sizeof(PAL))	/* 如果超過 PAL_MAX，就不載入 */
     {
       plist = pool;
       phead = (PAL *) fimage;
@@ -150,7 +150,7 @@ image_pal(fpath, pool)
 
       do
       {
-	/* �Y�O�a�H�A�s -userno�F�Y�O�n�͡A�s +userno */
+	/* 若是壞人，存 -userno；若是好友，存 +userno */
 	*plist++ = (phead->ftype & PAL_BAD) ? -(phead->userno) : phead->userno;
       } while (++phead < ptail);
 
@@ -177,7 +177,7 @@ pal_cache()
 {
   char fpath[64];
 
-  if (!pal_pool)	/* �Ĥ@���]�w�A�O�b utmp_new() �̭� */
+  if (!pal_pool)	/* 第一次設定，是在 utmp_new() 裡面 */
     pal_pool = cutmp->pal_spool;
 
   usr_fpath(fpath, cuser.userid, fn_pal);
@@ -227,13 +227,16 @@ pal_list(reciper)
   for (;;)
   {
 #ifdef HAVE_LIST
-    switch (ch = vget(1, 0, "(A)�W�[ (D)�R�� (F)�n�� (G)�s�� (M)�w�� (1~5)�S�O�W�� (Q)�����H[M] ", buf, 3, LCECHO))
+    /* (A)增加 (D)刪除 (F)好友 (G)群組 (M)定案 (1~5)特別名單 (Q)取消？[M]  */
+    switch (ch = vget(1, 0, "(A)\xBC\x57\xA5\x5B (D)\xA7\x52\xB0\xA3 (F)\xA6\x6E\xA4\xCD (G)\xB8\x73\xB2\xD5 (M)\xA9\x77\xAE\xD7 (1~5)\xAF\x53\xA7\x4F\xA6\x57\xB3\xE6 (Q)\xA8\xFA\xAE\xF8\xA1\x48[M] ", buf, 3, LCECHO))
 #else
-    switch (vget(1, 0, "(A)�W�[ (D)�R�� (F)�n�� (G)�s�� (M)�w�� (Q)�����H[M] ", buf, 3, LCECHO))
+    /* (A)增加 (D)刪除 (F)好友 (G)群組 (M)定案 (Q)取消？[M]  */
+    switch (vget(1, 0, "(A)\xBC\x57\xA5\x5B (D)\xA7\x52\xB0\xA3 (F)\xA6\x6E\xA4\xCD (G)\xB8\x73\xB2\xD5 (M)\xA9\x77\xAE\xD7 (Q)\xA8\xFA\xAE\xF8\xA1\x48[M] ", buf, 3, LCECHO))
 #endif
     {
     case 'a':
-      while (acct_get("�п�J�N��(�u�� ENTER �����s�W): ", &acct) > 0)
+      /* 請輸入代號(只按 ENTER 結束新增):  */
+      while (acct_get("\xBD\xD0\xBF\xE9\xA4\x4A\xA5\x4E\xB8\xB9(\xA5\x75\xAB\xF6 ENTER \xB5\xB2\xA7\xF4\xB7\x73\xBC\x57): ", &acct) > 0)
       {
 	if (!ll_has(acct.userid))
 	{
@@ -247,7 +250,8 @@ pal_list(reciper)
     case 'd':
       while (reciper)
       {
-	if (!vget(1, 0, "�п�J�N��(�u�� ENTER �����R��): ", buf, IDLEN + 1, GET_LIST))
+	/* 請輸入代號(只按 ENTER 結束刪除):  */
+	if (!vget(1, 0, "\xBD\xD0\xBF\xE9\xA4\x4A\xA5\x4E\xB8\xB9(\xA5\x75\xAB\xF6 ENTER \xB5\xB2\xA7\xF4\xA7\x52\xB0\xA3): ", buf, IDLEN + 1, GET_LIST))
 	  break;
 	if (ll_del(buf))
 	  reciper--;
@@ -261,13 +265,14 @@ pal_list(reciper)
     case '3':
     case '4':
     case '5':
-      /* itoc.010923: �ޥίS�O�W��A���K�ϥθs�ձ��� */
+      /* itoc.010923: 引用特別名單，順便使用群組條件 */
       sprintf(buf, "%s.%c", FN_LIST, ch);
       usr_fpath(fpath, cuser.userid, buf);
 #endif
 
     case 'g':
-      if (userno = vget(b_lines, 0, "�s�ձ���G", buf, 16, DOECHO))
+      /* 群組條件： */
+      if (userno = vget(b_lines, 0, "\xB8\x73\xB2\xD5\xB1\xF8\xA5\xF3\xA1\x47", buf, 16, DOECHO))
 	str_lowest(buf, buf);
 
     case 'f':
@@ -311,7 +316,7 @@ pal_list(reciper)
 
 
 /* ----------------------------------------------------- */
-/* �B�ͦW��G��榡�ާ@�ɭ��y�z				 */
+/* 朋友名單：選單式操作界面描述				 */
 /* ----------------------------------------------------- */
 
 
@@ -327,11 +332,13 @@ pal_item(num, pal)
   UTMP *online = utmp_get(pal->userno, NULL);
 
   prints("%6d%c%-3s%s%-14s%s%s\n", 
-    num, tag_char(pal->userno), pal->ftype & PAL_BAD ? "��" : "", 
+    /* Ｘ */
+    num, tag_char(pal->userno), pal->ftype & PAL_BAD ? "\xA2\xE6" : "", 
     online ? COLOR7 : "", pal->userid, online ? str_ransi : "", pal->ship);
 #else
   prints("%6d%c%-3s%-14s%s\n", 
-    num, tag_char(pal->userno), pal->ftype & PAL_BAD ? "��" : "", pal->userid, pal->ship);
+    /* Ｘ */
+    num, tag_char(pal->userno), pal->ftype & PAL_BAD ? "\xA2\xE6" : "", pal->userid, pal->ship);
 #endif
 }
 
@@ -346,7 +353,8 @@ pal_body(xo)
   max = xo->max;
   if (max <= 0)
   {
-    if (vans("�n��s�B�Ͷ�(Y/N)�H[N] ") == 'y')
+    /* 要交新朋友嗎(Y/N)？[N]  */
+    if (vans("\xAD\x6E\xA5\xE6\xB7\x73\xAA\x42\xA4\xCD\xB6\xDC(Y/N)\xA1\x48[N] ") == 'y')
       return pal_add(xo);
     return XO_QUIT;
   }
@@ -365,7 +373,7 @@ pal_body(xo)
   clrtobot();
 
   /* return XO_NONE; */
-  return XO_FOOT;	/* itoc.010403: �� b_lines ��W feeter */
+  return XO_FOOT;	/* itoc.010403: 把 b_lines 填上 feeter */
 }
 
 
@@ -373,7 +381,11 @@ static int
 pal_head(xo)
   XO *xo;
 {
-  char *head[] = {"�B�ͦW��", "�s�զW��", "�O�ͦW��", "����벼�W��"};
+  /* 朋友名單 */
+  /* 群組名單 */
+  /* 板友名單 */
+  /* 限制投票名單 */
+  char *head[] = {"\xAA\x42\xA4\xCD\xA6\x57\xB3\xE6", "\xB8\x73\xB2\xD5\xA6\x57\xB3\xE6", "\xAA\x4F\xA4\xCD\xA6\x57\xB3\xE6", "\xAD\xAD\xA8\xEE\xA7\xEB\xB2\xBC\xA6\x57\xB3\xE6"};
 
   vs_head(head[xo->key], str_site);
   prints(NECKER_PAL, d_cols, "");
@@ -407,19 +419,21 @@ pal_edit(key, pal, echo)
 {
   if (echo == DOECHO)
     memset(pal, 0, sizeof(PAL));
-  vget(b_lines, 0, "�ͽˡG", pal->ship, sizeof(pal->ship), echo);
+  /* 友誼： */
+  vget(b_lines, 0, "\xA4\xCD\xBD\xCB\xA1\x47", pal->ship, sizeof(pal->ship), echo);
 #ifdef HAVE_BADPAL
-  if (key != PALTYPE_VOTE)	/* ����벼�W��S���a�H */
-    pal->ftype = vans("�a�H(Y/N)�H[N] ") == 'y' ? PAL_BAD : 0;
+  if (key != PALTYPE_VOTE)	/* 限制投票名單沒有壞人 */
+    /* 壞人(Y/N)？[N]  */
+    pal->ftype = vans("\xC3\x61\xA4\x48(Y/N)\xA1\x48[N] ") == 'y' ? PAL_BAD : 0;
   else
 #endif
     pal->ftype = 0;
 }
 
 
-/* static */ 			/* itoc.020117: �� vote.c �� */
+/* static */ 			/* itoc.020117: 給 vote.c 用 */
 int
-pal_find(fpath, userno)		/* itoc.010923: �B�ͦW�椤�O�_�w�����H */
+pal_find(fpath, userno)		/* itoc.010923: 朋友名單中是否已有此人 */
   char *fpath;
   int userno;
 {
@@ -458,13 +472,15 @@ pal_add(xo)
 
   userno = acct_get(msg_uid, &acct);
 
-  if (userno == cuser.userno)	/* lkchu.981201: �B�ͦW�椣�i�[�ۤv */
+  if (userno == cuser.userno)	/* lkchu.981201: 朋友名單不可加自己 */
   {
-    vmsg("�ۤv�����[�J�B�ͦW�椤");
+    /* 自己不須加入朋友名單中 */
+    vmsg("\xA6\xDB\xA4\x76\xA4\xA3\xB6\xB7\xA5\x5B\xA4\x4A\xAA\x42\xA4\xCD\xA6\x57\xB3\xE6\xA4\xA4");
   }
   else if (pal_find(xo->dir, userno))
   {
-    vmsg("�W�椤�w�����H");
+    /* 名單中已有此人 */
+    vmsg("\xA6\x57\xB3\xE6\xA4\xA4\xA4\x77\xA6\xB3\xA6\xB9\xA4\x48");
   }
   else if (userno > 0)
   {
@@ -478,7 +494,7 @@ pal_add(xo)
     if (xo->key == PALTYPE_PAL)
       utmp_admset(userno, STATUS_PALDIRTY);
 
-    xo->pos = XO_TAIL;		/* ��b�̫� */
+    xo->pos = XO_TAIL;		/* 放在最後 */
     return pal_init(xo);
   }
 
@@ -611,11 +627,12 @@ pal_broadcast(xo)
     return XO_NONE;
 
   bmw.caller = NULL;
-  bmw_edit(NULL, "���s���G", &bmw);
+  /* ★廣播： */
+  bmw_edit(NULL, "\xA1\xB9\xBC\x73\xBC\xBD\xA1\x47", &bmw);
 
-  if (bmw.caller)	/* bmw_edit() ���^�� Yes �n�e�X�s�� */
+  if (bmw.caller)	/* bmw_edit() 中回答 Yes 要送出廣播 */
   {
-    /* itoc.000213: �[ "> " ���F�P�@����y�Ϥ� */
+    /* itoc.000213: 加 "> " 為了與一般水球區分 */
     sprintf(bmw.userid, "%s> ", cuser.userid);
 
     if ((fd = open(xo->dir, O_RDONLY)) >= 0)
@@ -657,14 +674,18 @@ pal_cite(xo)
   char fpath[64], *dir;
   PAL *pal;
 
-  fd = vans("�n�ޤJ (P)�B�ͦW�� "
+  /* 要引入 (P)朋友名單  */
+  fd = vans("\xAD\x6E\xA4\xDE\xA4\x4A (P)\xAA\x42\xA4\xCD\xA6\x57\xB3\xE6 "
 #ifdef HAVE_MODERATED_BOARD
-    "(B)�O�ͦW�� "
+    /* (B)板友名單  */
+    "(B)\xAA\x4F\xA4\xCD\xA6\x57\xB3\xE6 "
 #endif
 #ifdef HAVE_LIST
-    "(1-5)�S�O�W��"
+    /* (1-5)特別名單 */
+    "(1-5)\xAF\x53\xA7\x4F\xA6\x57\xB3\xE6"
 #endif
-    "�H[Q] ");
+    /* ？[Q]  */
+    "\xA1\x48[Q] ");
 
   if (fd == 'p')
   {
@@ -675,7 +696,8 @@ pal_cite(xo)
   {
     if (currbno < 0 || !(bbstate & STAT_BOARD))
     {
-      vmsg("�z�|����w�ݪO�A�άO�z���O�ӪO���O�D");
+      /* 您尚未選定看板，或是您不是該板的板主 */
+      vmsg("\xB1\x7A\xA9\x7C\xA5\xBC\xBF\xEF\xA9\x77\xAC\xDD\xAA\x4F\xA1\x41\xA9\xCE\xAC\x4F\xB1\x7A\xA4\xA3\xAC\x4F\xB8\xD3\xAA\x4F\xAA\xBA\xAA\x4F\xA5\x44");
       return XO_FOOT;
     }
     brd_fpath(fpath, currboard, fn_pal);
@@ -697,7 +719,8 @@ pal_cite(xo)
   dir = xo->dir;
   if (!strcmp(dir, fpath))
   {
-    vmsg("����ޤJ�P�@���W��");
+    /* 不能引入同一份名單 */
+    vmsg("\xA4\xA3\xAF\xE0\xA4\xDE\xA4\x4A\xA6\x50\xA4\x40\xA5\xF7\xA6\x57\xB3\xE6");
     return XO_FOOT;
   }
 
@@ -711,11 +734,11 @@ pal_cite(xo)
   {
     if (!(pal->ftype & PAL_BAD) && !pal_find(dir, pal->userno))
     {
-      if (--num < 0)		/* itoc.001224: �ޤJ�W��u�[�� PAL_MAX */
+      if (--num < 0)		/* itoc.001224: 引入名單只加到 PAL_MAX */
 	break;
 
       rec_add(dir, pal, sizeof(PAL));
-      xo->pos = XO_TAIL;	/* �Y���ޤJ�W��A�N���Щ�b�̫� */
+      xo->pos = XO_TAIL;	/* 若有引入名單，就把游標放在最後 */
     }
   }
   close(fd);
@@ -766,7 +789,7 @@ pal_tag(xo)
   }
 
   /* return XO_NONE; */
-  return xo->pos + 1 + XO_MOVE;	/* lkchu.981201: ���ܤU�@�� */
+  return xo->pos + 1 + XO_MOVE;	/* lkchu.981201: 跳至下一項 */
 }
 
 
@@ -819,16 +842,16 @@ t_pal()
   xover(XZ_PAL);
   free(xo);
 
-  /* itoc.041211.����: �b���}�B�ͦW��A�@�֦P�B cache �O�����D���A
-     ���ک|�����}�B�ͦW��ɡA���� cutmp->pal_spool �|���P�B�A
-     ���Q�ڲ��ʪB�ͪ��A�����w�g�[�J�F STATUS_PALDIRTY�A
-     �Y���b�ک|�����}�B�ͦW��ɴN����i�J�ϥΪ̦W��A
-     �o�����M�L�w�g����ڵ��L�� STATUS_PALDIRTY�A�M�ӫo�]���ڪ� pal_spool �|���P�B�A
-     ��O�L�èS�����\�ܧ�ڪ��B�ͪ��A�A�� STATUS_PALDIRTY �w�����C
-     �n�ѨM�o�Ӱ��D�A�o�b���ʨC�@���B�ͮɪ� utmp_admset(STATUS_PALDIRTY) ���e�N�� pal_cache()�A
-     ���L�{�b�٨S���H���o���D�A�ҥH�N���I�u�n�F :p */
+  /* itoc.041211.註解: 在離開朋友名單再一併同步 cache 是有問題的，
+     當我尚未離開朋友名單時，此時 cutmp->pal_spool 尚未同步，
+     但被我異動朋友狀態的對方已經加入了 STATUS_PALDIRTY，
+     若對方在我尚未離開朋友名單時就先行進入使用者名單，
+     這時雖然他已經收到我給他的 STATUS_PALDIRTY，然而卻因為我的 pal_spool 尚未同步，
+     於是他並沒有成功變更我的朋友狀態，但 STATUS_PALDIRTY 已消失。
+     要解決這個問題，得在異動每一筆朋友時的 utmp_admset(STATUS_PALDIRTY) 之前就先 pal_cache()，
+     不過現在還沒有人抱怨這問題，所以就省點工好了 :p */
 
-  pal_cache();	/* itoc.010923: ���}�B�ͦW��A�@�֦P�B cache */
+  pal_cache();	/* itoc.010923: 離開朋友名單再一併同步 cache */
 
   return 0;
 }
@@ -848,24 +871,27 @@ t_list()
   for (n = 1; n <= 5; n++)
   {
     move(n + MENU_XPOS - 1, MENU_YPOS - 1);
-    prints("(\033[1;36m%d\033[m) �s�զW��.%d", n, n);
+    /* (\033[1;36m%d\033[m) 群組名單.%d */
+    prints("(\033[1;36m%d\033[m) \xB8\x73\xB2\xD5\xA6\x57\xB3\xE6.%d", n, n);
   }
 
-  n = vans("�п���ɮ׽s���A�Ϋ� [0] �����G") - '0';
+  /* 請選擇檔案編號，或按 [0] 取消： */
+  n = vans("\xBD\xD0\xBF\xEF\xBE\xDC\xC0\xC9\xAE\xD7\xBD\x73\xB8\xB9\xA1\x41\xA9\xCE\xAB\xF6 [0] \xA8\xFA\xAE\xF8\xA1\x47") - '0';
   if (n <= 0 || n > 5)
     return 0;
 
   sprintf(buf, "%s.%d", FN_LIST, n);
   usr_fpath(fpath, cuser.userid, buf);
 
-  switch (vget(b_lines, 36, "(D)�R�� (E)�s�� [Q]�����H", buf, 3, LCECHO))
+  /* (D)刪除 (E)編輯 [Q]取消？ */
+  switch (vget(b_lines, 36, "(D)\xA7\x52\xB0\xA3 (E)\xBD\x73\xBF\xE8 [Q]\xA8\xFA\xAE\xF8\xA1\x48", buf, 3, LCECHO))
   {
   case 'd':
     unlink(fpath);
     break;
 
   case 'e':
-    /* �ɥ� XZ_PAL �Y�i */
+    /* 借用 XZ_PAL 即可 */
     xz[XZ_PAL - XO_ZONE].xo = xo = xo_new(fpath);
     xo->key = PALTYPE_LIST;
     xover(XZ_PAL);

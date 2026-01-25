@@ -11,7 +11,7 @@
 CC	= gcc
 RANLIB	= ranlib
 CPROTO	= cproto -E"gcc -pipe -E" -I../include # -s -v
-CFLAGS	= -finput-charset=big5 -fPIC  -O2 -s -pipe -fomit-frame-pointer -Wunused -I../include
+CFLAGS	= -finput-charset=utf-8 -fPIC  -O2 -s -pipe -fomit-frame-pointer -Wunused -I../include
 
 
 # ------------------------------------------------------ #

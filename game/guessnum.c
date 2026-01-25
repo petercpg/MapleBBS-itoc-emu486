@@ -141,13 +141,14 @@ valid_guess(num)
 
 static int 
 mainNum(fighting)
-  int fighting;	/* Thor.990317: ¹ï¾Ô¼Ò¦¡ */
+  int fighting;	/* Thor.990317: å°æˆ°æ¨¡å¼ */
 {
   Num myNumber;
 
-  if (vans("·Q¦n±zªº¼Æ¦r¤F¶Ü(Y/N)¡H[N] ") != 'y')
+  /* æƒ³å¥½æ‚¨çš„æ•¸å­—äº†å—Ž(Y/N)ï¼Ÿ[N]  */
+  if (vans("\xB7\x51\xA6\x6E\xB1\x7A\xAA\xBA\xBC\xC6\xA6\x72\xA4\x46\xB6\xDC(Y/N)\xA1\x48[N] ") != 'y')
   {
-    /* vmsg(MSG_QUITGAME); */	/* itoc.010312: ¤£­n¤F */
+    /* vmsg(MSG_QUITGAME); */	/* itoc.010312: ä¸è¦äº† */
     return XEASY;
   }
 
@@ -160,11 +161,13 @@ mainNum(fighting)
   numNum = 10 * 9 * 8 * 7;
   memset(numSet, 0, 10 * 9 * 8 * 7 * sizeof(char));
 
-  /* Thor.990317:¹ï¾Ô¼Ò¦¡ */
-  vs_bar(fighting ? "²q¼Æ¦r¤j¾Ô" : "¶Ì¥Ê²q¼Æ¦r");
+  /* Thor.990317:å°æˆ°æ¨¡å¼ */
+  /* çŒœæ•¸å­—å¤§æˆ° */
+  /* å‚»ç“œçŒœæ•¸å­— */
+  vs_bar(fighting ? "\xB2\x71\xBC\xC6\xA6\x72\xA4\x6A\xBE\xD4" : "\xB6\xCC\xA5\xCA\xB2\x71\xBC\xC6\xA6\x72");
 
   if (fighting)
-    ord2Num(rnd(numNum), myNumber);	/* Thor.990317:¹ï¾Ô¼Ò¦¡ */
+    ord2Num(rnd(numNum), myNumber);	/* Thor.990317:å°æˆ°æ¨¡å¼ */
 
   /* while there is possibility */
   for (;;)
@@ -172,11 +175,12 @@ mainNum(fighting)
     Num myGuess, yourGuess;
     int youA, youB, myA, myB;
 
-    if (fighting)		/* Thor.990317:¹ï¾Ô¼Ò¦¡ */
+    if (fighting)		/* Thor.990317:å°æˆ°æ¨¡å¼ */
     {
       int i;
       char tmp[50];
-      vget(b_lines - 3, 0, "±z²q§Úªº¼Æ¦r¬O[????]¡G", tmp, 5, DOECHO);
+      /* æ‚¨çŒœæˆ‘çš„æ•¸å­—æ˜¯[????]ï¼š */
+      vget(b_lines - 3, 0, "\xB1\x7A\xB2\x71\xA7\xDA\xAA\xBA\xBC\xC6\xA6\x72\xAC\x4F[????]\xA1\x47", tmp, 5, DOECHO);
       if (!valid_guess(tmp))
 	goto abort_game;
 
@@ -184,12 +188,14 @@ mainNum(fighting)
 	yourGuess[i] = tmp[i] - '0';
       AB(myNumber, yourGuess, &myA, &myB);
       move(b_lines - 2, 0);
-      prints("§Ú»¡ \033[1m%dA%dB \033[m", myA, myB);
+      /* æˆ‘èªª \033[1m%dA%dB \033[m */
+      prints("\xA7\xDA\xBB\xA1 \033[1m%dA%dB \033[m", myA, myB);
 
       if (myA == 4)
       {
 	/* you win  */
-	finish("±zÄ¹¤F! ¦n±R«ô ^O^");
+	/* æ‚¨è´äº†! å¥½å´‡æ‹œ ^O^ */
+	finish("\xB1\x7A\xC4\xB9\xA4\x46! \xA6\x6E\xB1\x52\xAB\xF4 ^O^");
 	return 0;
       }
     }
@@ -214,14 +220,16 @@ mainNum(fighting)
 
     /* show the picked number */
     move(b_lines - 1, 0);
-    prints("§Ú²q±zªº¼Æ¦r¬O \033[1;37m%d%d%d%d\033[m", myGuess[0], myGuess[1], myGuess[2], myGuess[3]);
+    /* æˆ‘çŒœæ‚¨çš„æ•¸å­—æ˜¯ \033[1;37m%d%d%d%d\033[m */
+    prints("\xA7\xDA\xB2\x71\xB1\x7A\xAA\xBA\xBC\xC6\xA6\x72\xAC\x4F \033[1;37m%d%d%d%d\033[m", myGuess[0], myGuess[1], myGuess[2], myGuess[3]);
 
     /* get ?A?B */
     for (;;)
     {
       char buf[5];
       /* get response */
-      vget(b_lines, 0, "±zªº¦^µª[?A?B]¡G", buf, 5, DOECHO);
+      /* æ‚¨çš„å›žç­”[?A?B]ï¼š */
+      vget(b_lines, 0, "\xB1\x7A\xAA\xBA\xA6\x5E\xB5\xAA[?A?B]\xA1\x47", buf, 5, DOECHO);
 
       if (!buf[0])
       {
@@ -243,7 +251,8 @@ mainNum(fighting)
 	  if (youA == 4)
 	  {
 	    /* I win  */
-	    finish("§ÚÄ¹¤F! ¼F®`§a ^O^");
+	    /* æˆ‘è´äº†! åŽ²å®³å§ ^O^ */
+	    finish("\xA7\xDA\xC4\xB9\xA4\x46! \xBC\x46\xAE\x60\xA7\x61 ^O^");
 	    return 0;
 	  }
 	  else
@@ -253,7 +262,8 @@ mainNum(fighting)
 	}
       }
       /* err A B */
-      zmsg("¿é¤J®æ¦¡¦³»~");
+      /* è¼¸å…¥æ ¼å¼æœ‰èª¤ */
+      zmsg("\xBF\xE9\xA4\x4A\xAE\xE6\xA6\xA1\xA6\xB3\xBB\x7E");
     }
     /* put in history */
     hisNum++;
@@ -263,15 +273,18 @@ mainNum(fighting)
     hisList[hisNum - 1].B = youB;
 
     move(hisNum + 2, 0);
-    if (fighting)		/* Thor.990317: ¹ï¾Ô¼Ò¦¡ */
-      prints("²Ä \033[1;37m%d\033[m ¦¸, ±z²q \033[1;36m%d%d%d%d\033[m, §Ú»¡ \033[1;33m%dA%dB\033[m; §Ú²q \033[1;33m%d%d%d%d\033[m, ±z»¡ \033[1;36m%dA%dB\033[m", hisNum, yourGuess[0], yourGuess[1], yourGuess[2], yourGuess[3], myA, myB, myGuess[0], myGuess[1], myGuess[2], myGuess[3], youA, youB);
+    if (fighting)		/* Thor.990317: å°æˆ°æ¨¡å¼ */
+      /* ç¬¬ \033[1;37m%d\033[m æ¬¡, æ‚¨çŒœ \033[1;36m%d%d%d%d\033[m, æˆ‘èªª \033[1;33m%dA%dB\033[m; æˆ‘çŒœ \033[1;33m%d%d%d%d\033[m, æ‚¨èªª \033[1;36m%dA%dB\033[m */
+      prints("\xB2\xC4 \033[1;37m%d\033[m \xA6\xB8, \xB1\x7A\xB2\x71 \033[1;36m%d%d%d%d\033[m, \xA7\xDA\xBB\xA1 \033[1;33m%dA%dB\033[m; \xA7\xDA\xB2\x71 \033[1;33m%d%d%d%d\033[m, \xB1\x7A\xBB\xA1 \033[1;36m%dA%dB\033[m", hisNum, yourGuess[0], yourGuess[1], yourGuess[2], yourGuess[3], myA, myB, myGuess[0], myGuess[1], myGuess[2], myGuess[3], youA, youB);
     else
-      prints("²Ä \033[1;37m%d\033[m ¦¸, §Ú²q \033[1;33m%d%d%d%d\033[m, ±z»¡ \033[1;36m%dA%dB\033[m", hisNum, myGuess[0], myGuess[1], myGuess[2], myGuess[3], youA, youB);
+      /* ç¬¬ \033[1;37m%d\033[m æ¬¡, æˆ‘çŒœ \033[1;33m%d%d%d%d\033[m, æ‚¨èªª \033[1;36m%dA%dB\033[m */
+      prints("\xB2\xC4 \033[1;37m%d\033[m \xA6\xB8, \xA7\xDA\xB2\x71 \033[1;33m%d%d%d%d\033[m, \xB1\x7A\xBB\xA1 \033[1;36m%dA%dB\033[m", hisNum, myGuess[0], myGuess[1], myGuess[2], myGuess[3], youA, youB);
   }
 
 foolme:
   /* there is no posibility, show "you fool me" */
-  finish("±zÄF§Ú¡I¤£¸ò±zª±¤F ~~~>_<~~~");
+  /* æ‚¨é¨™æˆ‘ï¼ä¸è·Ÿæ‚¨çŽ©äº† ~~~>_<~~~ */
+  finish("\xB1\x7A\xC4\x46\xA7\xDA\xA1\x49\xA4\xA3\xB8\xF2\xB1\x7A\xAA\xB1\xA4\x46 ~~~>_<~~~");
 
   return 0;
 }

@@ -1,7 +1,7 @@
 /*-------------------------------------------------------*/
 /* util/transbmw.c                   			 */
 /*-------------------------------------------------------*/
-/* target : WD �� Maple 3.02 ���y�O���ഫ           	 */
+/* target : WD 至 Maple 3.02 水球記錄轉換           	 */
 /* create : 02/01/22                     		 */
 /* update :   /  /                   			 */
 /* author : itoc.bbs@bbs.ee.nctu.edu.tw          	 */
@@ -12,10 +12,10 @@
 
 #if 0
 
-   1. �ק� transbmw()
+   1. 修改 transbmw()
 
-   ps. �ϥΫe�Х���ƥ��Ause on ur own risk. �{����H�Х]�[ :p
-   ps. �P�� lkchu �� Maple 3.02 for FreeBSD
+   ps. 使用前請先行備份，use on ur own risk. 程式拙劣請包涵 :p
+   ps. 感謝 lkchu 的 Maple 3.02 for FreeBSD
 
 #endif
 
@@ -29,11 +29,11 @@
 
 
 static void
-_mail_self(userid, fpath, owner, title)		/* itoc.011115: �H�ɮ׵��ۤv */
-  char *userid;		/* ����� */
-  char *fpath;		/* �ɮ׸��| */
-  char *owner;		/* �H��H */
-  char *title;		/* �l����D */
+_mail_self(userid, fpath, owner, title)		/* itoc.011115: 寄檔案給自己 */
+  char *userid;		/* 收件者 */
+  char *fpath;		/* 檔案路徑 */
+  char *owner;		/* 寄件人 */
+  char *title;		/* 郵件標題 */
 {
   HDR fhdr;
   char folder[64];
@@ -48,7 +48,7 @@ _mail_self(userid, fpath, owner, title)		/* itoc.011115: �H�ɮ׵��ۤv */
 
 
 /* ----------------------------------------------------- */
-/* �ഫ�D�{��                                            */
+/* 轉換主程式                                            */
 /* ----------------------------------------------------- */
 
 
@@ -60,7 +60,7 @@ transbmw(userid)
   int fd;
   char buf[64];
 
-  /* sob �� usr �ؿ������j�p�g�A�ҥH�n�����o�j�p�g */
+  /* sob 的 usr 目錄有分大小寫，所以要先取得大小寫 */
   usr_fpath(buf, userid, FN_ACCT);
   if ((fd = open(buf, O_RDONLY)) >= 0)
   {
@@ -72,10 +72,12 @@ transbmw(userid)
     return;
   }
 
-  sprintf(buf, OLD_BBSHOME"/home/%s/writelog", acct.userid);	/* �ª����y�O�� */
+  sprintf(buf, OLD_BBSHOME"/home/%s/writelog", acct.userid);	/* 舊的水球記錄 */
 
   if (dashf(buf))
-    _mail_self(acct.userid, buf, "[�Ƨѿ�]", "���u\033[41m�O��\033[m");
+    /* [備忘錄] */
+    /* 熱線\033[41m記錄\033[m */
+    _mail_self(acct.userid, buf, "[\xB3\xC6\xA7\xD1\xBF\xFD]", "\xBC\xF6\xBD\x75\033[41m\xB0\x4F\xBF\xFD\033[m");
 }
 
 
@@ -89,8 +91,8 @@ main(argc, argv)
   struct dirent *de;
   DIR *dirp;
 
-  /* argc == 1 ������ϥΪ� */
-  /* argc == 2 ��Y�S�w�ϥΪ� */
+  /* argc == 1 轉全部使用者 */
+  /* argc == 2 轉某特定使用者 */
 
   if (argc > 2)
   {
@@ -106,7 +108,7 @@ main(argc, argv)
     exit(1);
   }
 
-  /* �ഫ�ϥΪ̤��y�O�� */
+  /* 轉換使用者水球記錄 */
   for (c = 'a'; c <= 'z'; c++)
   {
     sprintf(buf, "usr/%c", c);

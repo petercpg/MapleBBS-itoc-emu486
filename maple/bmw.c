@@ -20,60 +20,62 @@ extern char xo_pool[];
 /* ----------------------------------------------------- */
 
 
-#define BMW_FORMAT	"\033[1;33;46m¡¹%s \033[37;45m %s \033[m"	/* ¦¬¨ìªº¤ô²y */
-#define BMW_FORMAT2	"\033[1;33;41m¡¸%s \033[34;47m %s \033[m"	/* °e¥Xªº¤ô²y */
+/* \033[1;33;46mâ˜…%s \033[37;45m %s \033[m */
+#define BMW_FORMAT	"\033[1;33;46m\xA1\xB9%s \033[37;45m %s \033[m"	/* æ”¶åˆ°çš„æ°´çƒ */
+/* \033[1;33;41mâ˜†%s \033[34;47m %s \033[m */
+#define BMW_FORMAT2	"\033[1;33;41m\xA1\xB8%s \033[34;47m %s \033[m"	/* é€å‡ºçš„æ°´çƒ */
 
-static int bmw_locus = 0;		/* Á`¦@«O¦s´X­Ó¤ô²y («O¯d³Ìªñ¦¬¨ì BMW_LOCAL_MAX ­Ó) */
-static BMW bmw_lslot[BMW_LOCAL_MAX];	/* «O¯d¦¬¨ìªº¤ô²y */
+static int bmw_locus = 0;		/* ç¸½å…±ä¿å­˜å¹¾å€‹æ°´çƒ (ä¿ç•™æœ€è¿‘æ”¶åˆ° BMW_LOCAL_MAX å€‹) */
+static BMW bmw_lslot[BMW_LOCAL_MAX];	/* ä¿ç•™æ”¶åˆ°çš„æ°´çƒ */
 
-static int bmw_locat = 0;		/* Á`¦@«O¦s´X­Ó¤ô²y («O¯d³Ìªñ°e¥X BMW_LOCAL_MAX ­Ó) */
-static BMW bmw_lword[BMW_LOCAL_MAX];	/* «O¯d°e¥Xªº¤ô²y */
+static int bmw_locat = 0;		/* ç¸½å…±ä¿å­˜å¹¾å€‹æ°´çƒ (ä¿ç•™æœ€è¿‘é€å‡º BMW_LOCAL_MAX å€‹) */
+static BMW bmw_lword[BMW_LOCAL_MAX];	/* ä¿ç•™é€å‡ºçš„æ°´çƒ */
 
 
-int			/* 1:¥i¥H¶Ç¤ô²yµ¹¹ï¤è/»P¹ï¤èTalk  0:¤£¯à¶Ç¤ô²yµ¹¹ï¤è/»P¹ï¤èTalk */
+int			/* 1:å¯ä»¥å‚³æ°´çƒçµ¦å°æ–¹/èˆ‡å°æ–¹Talk  0:ä¸èƒ½å‚³æ°´çƒçµ¦å°æ–¹/èˆ‡å°æ–¹Talk */
 can_override(up)
   UTMP *up;
 {
   int ufo;
 
-  if (up->userno == cuser.userno)	/* ¤£¯à¶Ç¤ô²yµ¹¦Û¤v(§Y¨Ï¬O¤À¨­) */
+  if (up->userno == cuser.userno)	/* ä¸èƒ½å‚³æ°´çƒçµ¦è‡ªå·±(å³ä½¿æ˜¯åˆ†èº«) */
     return 0;
 
   ufo = up->ufo;
 
 #ifdef HAVE_SUPERCLOAK
-  if ((ufo & UFO_SUPERCLOAK) && !(cuser.ufo & UFO_SUPERCLOAK))	/* µµÁô¥u¦³µµÁôªº¤~¬İªº¨£ */
+  if ((ufo & UFO_SUPERCLOAK) && !(cuser.ufo & UFO_SUPERCLOAK))	/* ç´«éš±åªæœ‰ç´«éš±çš„æ‰çœ‹çš„è¦‹ */
     return 0;
 #endif
 
-  /* itoc.010909.µù¸Ñ: ¯¸ªø¥i¥H¶Ç¤ô²yµ¹ Âê©w/BBSNET... ªº¤H¡A³o¼Ë¦n¶Ü¡HÆ[¹î¤¤ */
+  /* itoc.010909.è¨»è§£: ç«™é•·å¯ä»¥å‚³æ°´çƒçµ¦ é–å®š/BBSNET... çš„äººï¼Œé€™æ¨£å¥½å—ï¼Ÿè§€å¯Ÿä¸­ */
 
-  if (HAS_PERM(PERM_ALLACCT))	/* ¯¸ªø¡B±b¸¹ºŞ²z­û¥i¥H¶Çµ¹¥ô¦ó¤H */
+  if (HAS_PERM(PERM_ALLACCT))	/* ç«™é•·ã€å¸³è™Ÿç®¡ç†å“¡å¯ä»¥å‚³çµ¦ä»»ä½•äºº */
     return 1;
 
-  /* itoc.010909: Âê©w®É¤£¯à³Q¶Ç¤ô²y */
-  if ((ufo & UFO_QUIET) || (up->status & STATUS_REJECT))	/* »·Â÷¹ĞÄÛ/Âê©w®É ¤£¯à³Q¶Ç */
+  /* itoc.010909: é–å®šæ™‚ä¸èƒ½è¢«å‚³æ°´çƒ */
+  if ((ufo & UFO_QUIET) || (up->status & STATUS_REJECT))	/* é é›¢å¡µå›‚/é–å®šæ™‚ ä¸èƒ½è¢«å‚³ */
     return 0;
 
   if (!(up->ufo & UFO_CLOAK) || HAS_PERM(PERM_SEECLOAK))
   {
-    /* itoc.001223: ¥Î is_ogood/is_obad ¨Ó°µ§PÂ_ */
+    /* itoc.001223: ç”¨ is_ogood/is_obad ä¾†åšåˆ¤æ–· */
     if (ufo & UFO_PAGER)
-      return is_ogood(up);		/* pager Ãö³¬®É¥u¦³³Q³]¦n¤Í¯à¶Ç¤ô²y */
+      return is_ogood(up);		/* pager é—œé–‰æ™‚åªæœ‰è¢«è¨­å¥½å‹èƒ½å‚³æ°´çƒ */
     else
-      return !is_obad(up);		/* pager ¥´¶}®É¥u­n¨S¦³³Q³]Ãa¤H§Y¥i¶Ç¤ô²y */
+      return !is_obad(up);		/* pager æ‰“é–‹æ™‚åªè¦æ²’æœ‰è¢«è¨­å£äººå³å¯å‚³æ°´çƒ */
   }
   else
   {
-    /* itoc.020321: ¹ï¤è­YÁô§Î¶Ç§Ú¤ô²y¡A§Ú¤]¥i¥H³Q°Ê¦^ */
+    /* itoc.020321: å°æ–¹è‹¥éš±å½¢å‚³æˆ‘æ°´çƒï¼Œæˆ‘ä¹Ÿå¯ä»¥è¢«å‹•å› */
     BMW *bmw;
 
     for (ufo = bmw_locus - 1; ufo >= 0; ufo--)
     {
       bmw = &bmw_lslot[ufo];
 
-      /* itoc.030718: ¦pªG§Ú­«·s¤W¯¸¤F¡A¨º»ò§Y¨Ï§Ú¤W¤@¦¸¤W¯¸¦³¥á¹ï¤è¤ô²y¡A¹ï¤è¤]¤£¥i¥H¦^§Ú
-         ¤£¹L³oÀË¬dÁÙ¬O¦³­Óº|¬}¡A´N¬O¦pªG­«·s¤W¯¸¥H«á¤S­è¦n§¤¦P¤@­Ó ushm ªº¦ì¸m¡A¨º»ò¹ï¤èÁÙ¬O¥i¥H¦^§Ú */
+      /* itoc.030718: å¦‚æœæˆ‘é‡æ–°ä¸Šç«™äº†ï¼Œé‚£éº¼å³ä½¿æˆ‘ä¸Šä¸€æ¬¡ä¸Šç«™æœ‰ä¸Ÿå°æ–¹æ°´çƒï¼Œå°æ–¹ä¹Ÿä¸å¯ä»¥å›æˆ‘
+         ä¸éé€™æª¢æŸ¥é‚„æ˜¯æœ‰å€‹æ¼æ´ï¼Œå°±æ˜¯å¦‚æœé‡æ–°ä¸Šç«™ä»¥å¾Œåˆå‰›å¥½ååŒä¸€å€‹ ushm çš„ä½ç½®ï¼Œé‚£éº¼å°æ–¹é‚„æ˜¯å¯ä»¥å›æˆ‘ */
       if (bmw->caller == up && bmw->sender == up->userno)
 	return 1;
     }
@@ -83,14 +85,14 @@ can_override(up)
 }
 
 
-int			/* 1:¥i¬İ¨£ 0:¤£¥i¬İ¨£ */
+int			/* 1:å¯çœ‹è¦‹ 0:ä¸å¯çœ‹è¦‹ */
 can_see(my, up)
   UTMP *my;
   UTMP *up;
 {
   usint mylevel, myufo, urufo;
 
-  if (my == cutmp)	/* ¥Î cuser. ¨Ó¥N´À cutmp-> */
+  if (my == cutmp)	/* ç”¨ cuser. ä¾†ä»£æ›¿ cutmp-> */
   {
     mylevel = cuser.userlevel;
     myufo = cuser.ufo;
@@ -111,12 +113,12 @@ can_see(my, up)
 #endif
 
 #ifdef HAVE_BADPAL
-  if (my == cutmp)	/* ÀË¬d§Ú¥i¤£¥i¥H¬İ¨ì¹ï¤è */
+  if (my == cutmp)	/* æª¢æŸ¥æˆ‘å¯ä¸å¯ä»¥çœ‹åˆ°å°æ–¹ */
   {
     if (!(mylevel & PERM_SEECLOAK) && is_obad(up))
       return 0;
   }
-  else			/* ÀË¬d¹ï¤è¥i¤£¥i¥H¬İ¨ì§Ú */
+  else			/* æª¢æŸ¥å°æ–¹å¯ä¸å¯ä»¥çœ‹åˆ°æˆ‘ */
   {
     if (!(mylevel & PERM_SEECLOAK) && is_mybad(my->userno))
       return 0;
@@ -177,9 +179,9 @@ bmw_send(callee, bmw)
 
   *mhead = *bmw;
   ushm->mbase = mslot[i] = mhead;
-  /* Thor.981206: »İª`·N, ­Yushm mapping¤£¦P, 
-                  «h¤£¦P°¦ bbsd ¤¬call·|core dump,
-                  °£«D³o¤]¥Îoffset, ¤£¹L°£¤F -i, À³¸Ó¬O«D¥²­n */
+  /* Thor.981206: éœ€æ³¨æ„, è‹¥ushm mappingä¸åŒ, 
+                  å‰‡ä¸åŒéš» bbsd äº’callæœƒcore dump,
+                  é™¤éé€™ä¹Ÿç”¨offset, ä¸éé™¤äº† -i, æ‡‰è©²æ˜¯éå¿…è¦ */
 
 
   /* sem_lock(BSEM_LEAVE); */
@@ -189,7 +191,7 @@ bmw_send(callee, bmw)
 
 #ifdef BMW_DISPLAY		
 static void
-bmw_display(max)	/* itoc.010313: display ¥H«eªº¤ô²y */
+bmw_display(max)	/* itoc.010313: display ä»¥å‰çš„æ°´çƒ */
   int max;
 {
   int i;
@@ -197,11 +199,12 @@ bmw_display(max)	/* itoc.010313: display ¥H«eªº¤ô²y */
 
   move(1, 0);
   clrtoeol();
-  outs("\033[1;36m¢~¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w\033[37;44m [Ctrl-T]©¹¤W¤Á´« \033[36;40m¢w¢w¢w¢w¢w¢w¢¡\033[m");
+  /* \033[1;36mâ•­â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€\033[37;44m [Ctrl-T]å¾€ä¸Šåˆ‡æ› \033[36;40mâ”€â”€â”€â”€â”€â”€â•®\033[m */
+  outs("\033[1;36m\xA2\x7E\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\033[37;44m [Ctrl-T]\xA9\xB9\xA4\x57\xA4\xC1\xB4\xAB \033[36;40m\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\xA1\033[m");
 
   i = 2;
   for (; max >= 0; max--)
-  {	/* ±q¸û·sªº¤ô²y©¹¤U¦L */
+  {	/* å¾è¼ƒæ–°çš„æ°´çƒå¾€ä¸‹å° */
     bmw = &bmw_lslot[max];
     move(i, 0);
     clrtoeol();
@@ -211,19 +214,20 @@ bmw_display(max)	/* itoc.010313: display ¥H«eªº¤ô²y */
 
   move(i, 0);
   clrtoeol();
-  outs("\033[1;36m¢¢¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w\033[37;44m [Ctrl-R]©¹¤U¤Á´« \033[36;40m¢w¢w¢w¢w¢w¢w¢£\033[m");
+  /* \033[1;36mâ•°â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€\033[37;44m [Ctrl-R]å¾€ä¸‹åˆ‡æ› \033[36;40mâ”€â”€â”€â”€â”€â”€â•¯\033[m */
+  outs("\033[1;36m\xA2\xA2\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\033[37;44m [Ctrl-R]\xA9\xB9\xA4\x55\xA4\xC1\xB4\xAB \033[36;40m\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\xA3\033[m");
 }
 #endif
 
 
-static int bmw_pos;	/* ¥Ø«e«ü¦V bmw_lslot ªº­ş¤@Äæ */
-static UTMP *bmw_up;	/* ¥Ø«e¦^­ş­Ó utmp */
-static int bmw_request;	/* 1: ¦³·sªº¤ô²y¶i¨Ó */
+static int bmw_pos;	/* ç›®å‰æŒ‡å‘ bmw_lslot çš„å“ªä¸€æ¬„ */
+static UTMP *bmw_up;	/* ç›®å‰å›å“ªå€‹ utmp */
+static int bmw_request;	/* 1: æœ‰æ–°çš„æ°´çƒé€²ä¾† */
 
 
 void
 bmw_edit(up, hint, bmw)
-  UTMP *up;		/* °eªº¹ï¶H¡A­Y¬O NULL ªí¥Ü¼s¼½ */
+  UTMP *up;		/* é€çš„å°è±¡ï¼Œè‹¥æ˜¯ NULL è¡¨ç¤ºå»£æ’­ */
   char *hint;
   BMW *bmw;
 {
@@ -232,7 +236,7 @@ bmw_edit(up, hint, bmw)
   char *userid, fpath[64];
   FILE *fp;
 
-  if (bbsmode != M_BMW_REPLY)	/* ­Y¬O reply ªº¸Ü¡A¦b bmw_reply() ·|¦Û¦æ³B²zµe­±­«Ã¸ */
+  if (bbsmode != M_BMW_REPLY)	/* è‹¥æ˜¯ reply çš„è©±ï¼Œåœ¨ bmw_reply() æœƒè‡ªè¡Œè™•ç†ç•«é¢é‡ç¹ª */
     save_foot(slp);
 
   recver = up ? up->userno : 0;
@@ -245,17 +249,17 @@ bmw_edit(up, hint, bmw)
 
     ch = vget(0, 0, hint, bmw->msg, 62, GCARRY);
 
-    if (!ch)		/* ¨S¿é¤JªF¦è */
+    if (!ch)		/* æ²’è¼¸å…¥æ±è¥¿ */
     {
       if (bbsmode != M_BMW_REPLY)
 	restore_foot(slp, 1);
       return;
     }
 
-    if (ch != Ctrl('R') && ch != Ctrl('T'))	/* §¹¦¨¤ô²y¿é¤J */
+    if (ch != Ctrl('R') && ch != Ctrl('T'))	/* å®Œæˆæ°´çƒè¼¸å…¥ */
       break;
 
-    /* ¦³·sªº¤ô²y¶i¨Ó¡A­«Ã¸¤ô²y¦^ÅU¡A¨Ã±N bmw_pos «ü¦V­ì¨Ó¨º­Ó¤ô²y */
+    /* æœ‰æ–°çš„æ°´çƒé€²ä¾†ï¼Œé‡ç¹ªæ°´çƒå›é¡§ï¼Œä¸¦å°‡ bmw_pos æŒ‡å‘åŸä¾†é‚£å€‹æ°´çƒ */
     if (bmw_request)
     {
       bmw_request = 0;
@@ -266,17 +270,20 @@ bmw_edit(up, hint, bmw)
       continue;
     }
 
-    /* ¦b vget ¤¤«ö ^R ´« reply §Oªº¤ô²y */
+    /* åœ¨ vget ä¸­æŒ‰ ^R æ› reply åˆ¥çš„æ°´çƒ */
     benz = &bmw_lslot[bmw_pos];
-    if (benz->sender != up->userno)	/* reply ¤£¦P¤H */
+    if (benz->sender != up->userno)	/* reply ä¸åŒäºº */
     {
       up = bmw_up;
       recver = up->userno;
-      sprintf(hint, "¡¹[%s]", up->userid);
+      /* â˜…[%s] */
+      sprintf(hint, "\xA1\xB9[%s]", up->userid);
     }
   }
 
-  sprintf(fpath, "½T©w­n°e¥X¡m¤ô²y¡nµ¹ %s ¶Ü(Y/N)¡H[Y] ", up ? up->userid : "¼s¼½");
+  /* ç¢ºå®šè¦é€å‡ºã€Šæ°´çƒã€‹çµ¦ %s å—(Y/N)ï¼Ÿ[Y]  */
+  /* å»£æ’­ */
+  sprintf(fpath, "\xBD\x54\xA9\x77\xAD\x6E\xB0\x65\xA5\x58\xA1\x6D\xA4\xF4\xB2\x79\xA1\x6E\xB5\xB9 %s \xB6\xDC(Y/N)\xA1\x48[Y] ", up ? up->userid : "\xBC\x73\xBC\xBD");
   if (vans(fpath) != 'n')
   {
     int i;
@@ -285,12 +292,12 @@ bmw_edit(up, hint, bmw)
     bmw->sender = cuser.userno;
     userid = cuser.userid;
 
-    if (up)	/* ¤£¬O¼s¼½ */
+    if (up)	/* ä¸æ˜¯å»£æ’­ */
     {
-      /* °e¥X¤ô²y */
+      /* é€å‡ºæ°´çƒ */
       bmw->recver = recver;
       strcpy(bmw->userid, userid);
-      if (bmw_send(up, bmw))	/* ¤ô²y°e¤£¥X¥h¡A¤£¼g¤J¤ô²y¬ö¿ıÀÉ */
+      if (bmw_send(up, bmw))	/* æ°´çƒé€ä¸å‡ºå»ï¼Œä¸å¯«å…¥æ°´çƒç´€éŒ„æª” */
       {
 	vmsg(MSG_USR_LEFT);
 	if (bbsmode != M_BMW_REPLY)
@@ -298,16 +305,16 @@ bmw_edit(up, hint, bmw)
 	return;
       }
 
-      /* lkchu.990103: ­Y¬O¦Û¤v°e¥Xªº¤ô²y¡A¦s¹ï¤èªº userid */
+      /* lkchu.990103: è‹¥æ˜¯è‡ªå·±é€å‡ºçš„æ°´çƒï¼Œå­˜å°æ–¹çš„ userid */
       strcpy(bmw->userid, up->userid);
     }
-    else	/* ¼s¼½ */
+    else	/* å»£æ’­ */
     {
-      /* °e¥X¼s¼½ªºµ{¦¡¡A¦b ulist_broadcast() ³B²z */
+      /* é€å‡ºå»£æ’­çš„ç¨‹å¼ï¼Œåœ¨ ulist_broadcast() è™•ç† */
 
-      bmw->recver = 0;	/* ¦s 0 ¨Ï¤£¯à write ¦^¼s¼½ */
+      bmw->recver = 0;	/* å­˜ 0 ä½¿ä¸èƒ½ write å›å»£æ’­ */
 
-      /* itoc.000213: ¥[ "> " ¬°¤F»P¤@¯ë¤ô²y°Ï¤À */
+      /* itoc.000213: åŠ  "> " ç‚ºäº†èˆ‡ä¸€èˆ¬æ°´çƒå€åˆ† */
       sprintf(bmw->userid, "%s> ", cuser.userid);
     }
       
@@ -315,7 +322,7 @@ bmw_edit(up, hint, bmw)
     usr_fpath(fpath, userid, fn_bmw);
     rec_add(fpath, bmw, sizeof(BMW));
 
-    /* itoc.020126: ¥[¤J FN_AMW */
+    /* itoc.020126: åŠ å…¥ FN_AMW */
     usr_fpath(fpath, userid, fn_amw);
     if (fp = fopen(fpath, "a"))
     {
@@ -323,10 +330,10 @@ bmw_edit(up, hint, bmw)
       fclose(fp);
     }
 
-    /* itoc.030621: «O¯d°e¥Xªº¤ô²y */
+    /* itoc.030621: ä¿ç•™é€å‡ºçš„æ°´çƒ */
     if (bmw_locat >= BMW_LOCAL_MAX)
     {
-      /* ÂÂªº©¹«e®¿ */
+      /* èˆŠçš„å¾€å‰æŒª */
       i = BMW_LOCAL_MAX - 1;
       memcpy(bmw_lword, bmw_lword + 1, i * sizeof(BMW));
     }
@@ -350,14 +357,14 @@ bmw_outz()
   int i;
   BMW *bmw, *benz;
 
-  /* ¦C¦Lªº¦ì¸m­n©M save/restore_foot ©Ò­«Ã¸ªº³¡¤À¬O¬Û¦Pªº */
+  /* åˆ—å°çš„ä½ç½®è¦å’Œ save/restore_foot æ‰€é‡ç¹ªçš„éƒ¨åˆ†æ˜¯ç›¸åŒçš„ */
 
   bmw = &bmw_lslot[bmw_pos];
   move(b_lines, 0);
   clrtoeol();
   prints(BMW_FORMAT, bmw->userid, bmw->msg);
 
-  /* itoc.030621: ¥Ñ«O¯dªº°e¥X¤ô²y¤¤¡A§ä¥X¤W¦¸¦^³o¤Hªº¤ô²y¬O¤°»ò */
+  /* itoc.030621: ç”±ä¿ç•™çš„é€å‡ºæ°´çƒä¸­ï¼Œæ‰¾å‡ºä¸Šæ¬¡å›é€™äººçš„æ°´çƒæ˜¯ä»€éº¼ */
   for (i = bmw_locat; i >= 0; i--)
   {
     benz = &bmw_lword[i];
@@ -366,7 +373,8 @@ bmw_outz()
   }
   move(b_lines - 1, 0);
   clrtoeol();
-  prints(BMW_FORMAT2, bmw->userid, i >= 0 ? benz->msg : "¡i±z³Ìªñ¨S¦³¶Ç¤ô²yµ¹³o¦ì¨Ï¥ÎªÌ¡j");
+  /* ã€æ‚¨æœ€è¿‘æ²’æœ‰å‚³æ°´çƒçµ¦é€™ä½ä½¿ç”¨è€…ã€‘ */
+  prints(BMW_FORMAT2, bmw->userid, i >= 0 ? benz->msg : "\xA1\x69\xB1\x7A\xB3\xCC\xAA\xF1\xA8\x53\xA6\xB3\xB6\xC7\xA4\xF4\xB2\x79\xB5\xB9\xB3\x6F\xA6\xEC\xA8\xCF\xA5\xCE\xAA\xCC\xA1\x6A");
 }
 
 
@@ -382,19 +390,19 @@ can_reply(uhead, pos)
   bmw = &bmw_lslot[pos];
 
   userno = bmw->sender;
-  if (!userno)		/* Thor.980805: ¨¾¤î¨t²Î¨ó´M¦^¦© */
+  if (!userno)		/* Thor.980805: é˜²æ­¢ç³»çµ±å”å°‹å›æ‰£ */
     return NULL;
 
   up = bmw->caller;
   if ((up < uhead) || (up > uhead + ushm->offset) || (up->userno != userno))
   {
-    /* ¦pªG up-> ¤£¦b ushm ¤º¡A©Î¬O up-> ¤£¬O call-in §Úªº¤H¡Aªí¥Ü³o¤H¤U¯¸¤F¡A
-       ¦ı¬O¥L¥i¯à¤S¤W¯¸©Î¦³ multi¡A©Ò¥H­«§ä¤@¦¸ */
-    if (!(up = utmp_find(userno)))	/* ¦pªG¦A§ä¤@¦¸ÁÙ¬O¨S¦³ */
+    /* å¦‚æœ up-> ä¸åœ¨ ushm å…§ï¼Œæˆ–æ˜¯ up-> ä¸æ˜¯ call-in æˆ‘çš„äººï¼Œè¡¨ç¤ºé€™äººä¸‹ç«™äº†ï¼Œ
+       ä½†æ˜¯ä»–å¯èƒ½åˆä¸Šç«™æˆ–æœ‰ multiï¼Œæ‰€ä»¥é‡æ‰¾ä¸€æ¬¡ */
+    if (!(up = utmp_find(userno)))	/* å¦‚æœå†æ‰¾ä¸€æ¬¡é‚„æ˜¯æ²’æœ‰ */
       return NULL;
   }
 
-  /* itoc.010909: ¥i¥H³Q°Ê¦^µ¹ Áô§Î/»·Â÷¹ĞÄÛ/Ãö³¬pager ªº¤H¡A¦ı¬O¤£¯à¦^µ¹Âê©wªº¤H */
+  /* itoc.010909: å¯ä»¥è¢«å‹•å›çµ¦ éš±å½¢/é é›¢å¡µå›‚/é—œé–‰pager çš„äººï¼Œä½†æ˜¯ä¸èƒ½å›çµ¦é–å®šçš„äºº */
   if (bmw->caller != up || up->status & STATUS_REJECT)
     return NULL;
 
@@ -403,7 +411,7 @@ can_reply(uhead, pos)
 
 
 static UTMP *
-bmw_lastslot(pos)	/* §ä¥X³Ìªñ¤@­Ó¥i¥H¦^¤ô²yªº¹ï¶H */
+bmw_lastslot(pos)	/* æ‰¾å‡ºæœ€è¿‘ä¸€å€‹å¯ä»¥å›æ°´çƒçš„å°è±¡ */
   int pos;
 {
   int max, times;
@@ -420,7 +428,7 @@ bmw_lastslot(pos)	/* §ä¥X³Ìªñ¤@­Ó¥i¥H¦^¤ô²yªº¹ï¶H */
       return up;
     }
 
-    /* ©¹¤U´`Àô§ä¤@°é */
+    /* å¾€ä¸‹å¾ªç’°æ‰¾ä¸€åœˆ */
     pos = (pos == 0) ? max : pos - 1;
   }
 
@@ -429,7 +437,7 @@ bmw_lastslot(pos)	/* §ä¥X³Ìªñ¤@­Ó¥i¥H¦^¤ô²yªº¹ï¶H */
 
 
 static UTMP *
-bmw_firstslot(pos)	/* §ä¥X³Ì»·¤@­Ó¥i¥H¦^¤ô²yªº¹ï¶H */
+bmw_firstslot(pos)	/* æ‰¾å‡ºæœ€é ä¸€å€‹å¯ä»¥å›æ°´çƒçš„å°è±¡ */
   int pos;
 {
   int max, times;
@@ -446,7 +454,7 @@ bmw_firstslot(pos)	/* §ä¥X³Ì»·¤@­Ó¥i¥H¦^¤ô²yªº¹ï¶H */
       return up;
     }
 
-    /* ©¹¤W´`Àô§ä¤@°é */
+    /* å¾€ä¸Šå¾ªç’°æ‰¾ä¸€åœˆ */
     pos = (pos == max) ? 0 : pos + 1;
   }
 
@@ -461,17 +469,17 @@ bmw_reply_CtrlRT(key)
   int max, pos;
 
   max = bmw_locus - 1;
-  if (max == 0)		/* ¨S¨ä¥Lªº¤ô²y¥i¥H¿ï */
+  if (max == 0)		/* æ²’å…¶ä»–çš„æ°´çƒå¯ä»¥é¸ */
     return 0;
 
-  pos = bmw_pos;	/* ÂÂªº bmw_pos */
+  pos = bmw_pos;	/* èˆŠçš„ bmw_pos */
 
   if (key == Ctrl('R'))
-    bmw_up = bmw_lastslot(pos == 0 ? max : pos - 1);	/* ¥Ñ¥Ø«e©Ò¦b pos ©¹¤U§ä¤@­Ó¥i¥H¦^¤ô²yªº¹ï¶H */
+    bmw_up = bmw_lastslot(pos == 0 ? max : pos - 1);	/* ç”±ç›®å‰æ‰€åœ¨ pos å¾€ä¸‹æ‰¾ä¸€å€‹å¯ä»¥å›æ°´çƒçš„å°è±¡ */
   else /* if (key == Ctrl('T')) */
-    bmw_up = bmw_firstslot(pos == max ? 0 : pos + 1);	/* ¥Ñ¥Ø«e©Ò¦b pos ©¹¤W§ä¤@­Ó¥i¥H¦^¤ô²yªº¹ï¶H */
+    bmw_up = bmw_firstslot(pos == max ? 0 : pos + 1);	/* ç”±ç›®å‰æ‰€åœ¨ pos å¾€ä¸Šæ‰¾ä¸€å€‹å¯ä»¥å›æ°´çƒçš„å°è±¡ */
 
-  if (!bmw_up)		/* §ä¤£¨ì§Oªº¤ô²y */
+  if (!bmw_up)		/* æ‰¾ä¸åˆ°åˆ¥çš„æ°´çƒ */
   {
     bmw_pos = pos;
     return 0;
@@ -511,22 +519,23 @@ bmw_reply()
   if (!(up = bmw_lastslot(max)))
   {
     save_foot(slt);
-    vmsg("¥ı«e¨ÃµL¤ô²y©I¥s¡A©Î¹ï¤è¬Ò¤w¤U¯¸");
+    /* å…ˆå‰ä¸¦ç„¡æ°´çƒå‘¼å«ï¼Œæˆ–å°æ–¹çš†å·²ä¸‹ç«™ */
+    vmsg("\xA5\xFD\xAB\x65\xA8\xC3\xB5\x4C\xA4\xF4\xB2\x79\xA9\x49\xA5\x73\xA1\x41\xA9\xCE\xB9\xEF\xA4\xE8\xAC\xD2\xA4\x77\xA4\x55\xAF\xB8");
     restore_foot(slt, 2);
     cursor_restore();
     refresh();
     return;
   }
 
-  tmpmode = bbsmode;	/* lkchu.981201: Àx¦s bbsmode */
+  tmpmode = bbsmode;	/* lkchu.981201: å„²å­˜ bbsmode */
   utmp_mode(M_BMW_REPLY);
 
 #ifdef BMW_DISPLAY
   display = cuser.ufo & UFO_BMWDISPLAY;
   if (display)
   {
-    vs_save(slt);	/* itoc.010313: °O¿ı bmd_display ¤§«eªº screen */
-    bmw_display(max);	/* itoc.010313: display ¥H«eªº¤ô²y */
+    vs_save(slt);	/* itoc.010313: è¨˜éŒ„ bmd_display ä¹‹å‰çš„ screen */
+    bmw_display(max);	/* itoc.010313: display ä»¥å‰çš„æ°´çƒ */
     move(2 + max - bmw_pos, 0);
     outc('>');
     bmw_request = 0;
@@ -537,24 +546,25 @@ bmw_reply()
 
   bmw_outz();
 
-  sprintf(buf, "¡¹[%s]", up->userid);
+  /* â˜…[%s] */
+  sprintf(buf, "\xA1\xB9[%s]", up->userid);
   bmw_edit(up, buf, &bmw);
 
 #ifdef BMW_DISPLAY
   if (display)
   {
     cursor_restore();
-    vs_restore(slt);	/* itoc.010313: ÁÙ­ì bmw_display ¤§«eªº screen */
+    vs_restore(slt);	/* itoc.010313: é‚„åŸ bmw_display ä¹‹å‰çš„ screen */
   }
   else  
 #endif
   {
-    restore_foot(slt, 3);	/* ¤w bmw_outz¡A­nÁÙ­ì¤T¦C */
+    restore_foot(slt, 3);	/* å·² bmw_outzï¼Œè¦é‚„åŸä¸‰åˆ— */
     cursor_restore();
     refresh();
   }
 
-  utmp_mode(tmpmode);	/* lkchu.981201: ¦^´_ bbsmode */
+  utmp_mode(tmpmode);	/* lkchu.981201: å›å¾© bbsmode */
 }
 
 
@@ -598,7 +608,7 @@ bmw_rqst()
       memcpy(bmw_lslot, bmw_lslot + i, locus * sizeof(BMW));
     }
 
-    /* itoc.020126: ¥[¤J FN_AMW */
+    /* itoc.020126: åŠ å…¥ FN_AMW */
     usr_fpath(buf, cuser.userid, fn_amw);
     fp = fopen(buf, "a");
 
@@ -607,11 +617,11 @@ bmw_rqst()
     {
       mptr = &bmw[i];
 
-      /* lkchu.981230: §Q¥Î xover ¾ã¦X bmw */
+      /* lkchu.981230: åˆ©ç”¨ xover æ•´åˆ bmw */
       usr_fpath(buf, cuser.userid, fn_bmw);
       rec_add(buf, mptr, sizeof(BMW));
 
-      /* itoc.020126: ¥[¤J FN_AMW */
+      /* itoc.020126: åŠ å…¥ FN_AMW */
       fprintf(fp, BMW_FORMAT " %s\n", mptr->userid, mptr->msg, Btime(mptr->btime));
 
       bmw_lslot[locus++] = *mptr;	/* structure copy */
@@ -621,22 +631,22 @@ bmw_rqst()
 
     bmw_locus = locus;
     if (bbsmode == M_BMW_REPLY)
-      bmw_request = 1;		/* ­n¨D§ó·s */
+      bmw_request = 1;		/* è¦æ±‚æ›´æ–° */
 
-    /* Thor.980827: ¬°¤F¨¾¤î¦C¦L¤@¥b(more)®É¤ô²y¦Ó«á¦C¦L¶W¹L½d³ò½ğ¤H, ¬G¦s¤U´å¼Ğ¦ì¸m */
+    /* Thor.980827: ç‚ºäº†é˜²æ­¢åˆ—å°ä¸€åŠ(more)æ™‚æ°´çƒè€Œå¾Œåˆ—å°è¶…éç¯„åœè¸¢äºº, æ•…å­˜ä¸‹æ¸¸æ¨™ä½ç½® */
     cursor_save(); 
 
     sprintf(buf, BMW_FORMAT, mptr->userid, mptr->msg);
     outz(buf);
 
-    /* Thor.980827: ¬°¤F¨¾¤î¦C¦L¤@¥b(more)®É¤ô²y¦Ó«á¦C¦L¶W¹L½d³ò½ğ¤H, ¬GÁÙ­ì´å¼Ğ¦ì¸m */
+    /* Thor.980827: ç‚ºäº†é˜²æ­¢åˆ—å°ä¸€åŠ(more)æ™‚æ°´çƒè€Œå¾Œåˆ—å°è¶…éç¯„åœè¸¢äºº, æ•…é‚„åŸæ¸¸æ¨™ä½ç½® */
     cursor_restore();
 
     refresh();
     bell();
 
 #ifdef BMW_COUNT
-    /* itoc.010312: ¦h¤¤¤@­Ó¤ô²y */
+    /* itoc.010312: å¤šä¸­ä¸€å€‹æ°´çƒ */
     cutmp->bmw_count++;
 #endif
   }
@@ -652,14 +662,15 @@ do_write(up)
     BMW bmw;
     char buf[20];
 
-    sprintf(buf, "¡¹[%s]", up->userid);
+    /* â˜…[%s] */
+    sprintf(buf, "\xA1\xB9[%s]", up->userid);
     bmw_edit(up, buf, &bmw);
   }
 }
 
 
 /* ----------------------------------------------------- */
-/* ¤ô²y¦Cªí: ¿ï³æ¦¡¾Ş§@¬É­±´y­z by lkchu		 */
+/* æ°´çƒåˆ—è¡¨: é¸å–®å¼æ“ä½œç•Œé¢æè¿° by lkchu		 */
 /* ----------------------------------------------------- */
 
 
@@ -670,12 +681,12 @@ bmw_item(num, bmw)
 {
   struct tm *ptime = localtime(&bmw->btime);
 
-  if (bmw->sender == cuser.userno)	/* °e¥Xªº¤ô²y */
+  if (bmw->sender == cuser.userno)	/* é€å‡ºçš„æ°´çƒ */
   {
     prints("%6d%c\033[33m%-13s\033[36m%-*.*s\033[33m%02d:%02d\033[m\n",
       num, tag_char(bmw->btime), bmw->userid, d_cols + 53, d_cols + 53, bmw->msg, ptime->tm_hour, ptime->tm_min);
   }
-  else					/* ¦¬¨ìªº¤ô²y */
+  else					/* æ”¶åˆ°çš„æ°´çƒ */
   {
     prints("%6d%c%-13s\033[32m%-*.*s\033[m%02d:%02d\n",
       num, tag_char(bmw->btime), bmw->userid, d_cols + 53, d_cols + 53, bmw->msg, ptime->tm_hour, ptime->tm_min);
@@ -693,7 +704,8 @@ bmw_body(xo)
   max = xo->max;
   if (max <= 0)
   {
-    vmsg("¥ı«e¨ÃµL¤ô²y©I¥s");
+    /* å…ˆå‰ä¸¦ç„¡æ°´çƒå‘¼å« */
+    vmsg("\xA5\xFD\xAB\x65\xA8\xC3\xB5\x4C\xA4\xF4\xB2\x79\xA9\x49\xA5\x73");
     return XO_QUIT;
   }
 
@@ -711,7 +723,7 @@ bmw_body(xo)
   clrtobot();
 
   /* return XO_NONE; */
-  return XO_FOOT;	/* itoc.010403: §â b_lines ¶ñ¤W feeter */
+  return XO_FOOT;	/* itoc.010403: æŠŠ b_lines å¡«ä¸Š feeter */
 }
 
 
@@ -719,7 +731,8 @@ static int
 bmw_head(xo)
   XO *xo;
 {
-  vs_head("¹î¬İ¤ô²y", str_site);
+  /* å¯Ÿçœ‹æ°´çƒ */
+  vs_head("\xB9\xEE\xAC\xDD\xA4\xF4\xB2\x79", str_site);
   prints(NECKER_BMW, d_cols, "");
   return bmw_body(xo);
 }
@@ -758,7 +771,7 @@ bmw_delete(xo)
 
 
 static int
-bmw_rangedel(xo)	/* itoc.001126: ·s¼W¤ô²y°Ï¬q§R°£ */
+bmw_rangedel(xo)	/* itoc.001126: æ–°å¢æ°´çƒå€æ®µåˆªé™¤ */
   XO *xo;
 {
   return xo_rangedel(xo, sizeof(BMW), NULL, NULL);
@@ -791,7 +804,7 @@ bmw_mail(xo)
 
   bmw = (BMW *) xo_pool + (xo->pos - xo->top);
   strcpy(userid, bmw->userid);
-  if (str = strchr(userid, '>'))	/* ¼s¼½ */
+  if (str = strchr(userid, '>'))	/* å»£æ’­ */
     *str = '\0';
   return my_send(userid);
 }
@@ -808,7 +821,7 @@ bmw_query(xo)
   move(1, 0);
   clrtobot();
   strcpy(userid, bmw->userid);
-  if (str = strchr(userid, '>'))	/* ¼s¼½ */
+  if (str = strchr(userid, '>'))	/* å»£æ’­ */
     *str = '\0';
   my_query(userid);
   return bmw_head(xo);
@@ -827,8 +840,8 @@ bmw_write(xo)
 
     bmw = (BMW *) xo_pool + (xo->pos - xo->top);
 
-    /* itoc.010304: Åı¶Ç°Tªº bmw ¤]¥i¥H¦^ */
-    /* §Ú°e¤ô²yµ¹§O¤H¡A¦^µ¹¦¬°TªÌ¡F§O¤H°e¤ô²yµ¹§Ú¡A¦^µ¹°e°TªÌ */
+    /* itoc.010304: è®“å‚³è¨Šçš„ bmw ä¹Ÿå¯ä»¥å› */
+    /* æˆ‘é€æ°´çƒçµ¦åˆ¥äººï¼Œå›çµ¦æ”¶è¨Šè€…ï¼›åˆ¥äººé€æ°´çƒçµ¦æˆ‘ï¼Œå›çµ¦é€è¨Šè€… */
     userno = (bmw->sender == cuser.userno) ? bmw->recver : bmw->sender;
     if (!userno)
       return XO_NONE;
@@ -849,8 +862,8 @@ bmw_store(fpath)
   char buf[64], folder[64];
   HDR fhdr;
 
-  /* itoc.020126.µù¸Ñ: ¥i¥Hª½±µ®³ FN_AMW ¨ÓÀx¦s§Y¥i¡A
-     ¥i¬O¦pªG¥Î FN_BMW ­«°µ¤@¦¸ªº¸Ü¡A¥i¥HÅı¨Ï¥ÎªÌ¦b t_bmw() ¤¤¦Û¥Ñ d ±¼¤£­nªº¤ô²y */
+  /* itoc.020126.è¨»è§£: å¯ä»¥ç›´æ¥æ‹¿ FN_AMW ä¾†å„²å­˜å³å¯ï¼Œ
+     å¯æ˜¯å¦‚æœç”¨ FN_BMW é‡åšä¸€æ¬¡çš„è©±ï¼Œå¯ä»¥è®“ä½¿ç”¨è€…åœ¨ t_bmw() ä¸­è‡ªç”± d æ‰ä¸è¦çš„æ°´çƒ */
 
   if ((fd = open(fpath, O_RDONLY)) < 0)
     return;
@@ -860,7 +873,8 @@ bmw_store(fpath)
   {
     BMW bmw;
 
-    fprintf(fp, "              == ¤ô²y°O¿ı %s ==\n\n", Now());
+    /*               == æ°´çƒè¨˜éŒ„ %s ==\n\n */
+    fprintf(fp, "              == \xA4\xF4\xB2\x79\xB0\x4F\xBF\xFD %s ==\n\n", Now());
 
     while (read(fd, &bmw, sizeof(BMW)) == sizeof(BMW)) 
     {
@@ -873,7 +887,8 @@ bmw_store(fpath)
   close(fd);
 
   fhdr.xmode = MAIL_READ | MAIL_NOREPLY;
-  strcpy(fhdr.title, "[³Æ §Ñ ¿ı] ¤ô²y¬ö¿ı");
+  /* [å‚™ å¿˜ éŒ„] æ°´çƒç´€éŒ„ */
+  strcpy(fhdr.title, "[\xB3\xC6 \xA7\xD1 \xBF\xFD] \xA4\xF4\xB2\x79\xAC\xF6\xBF\xFD");
   strcpy(fhdr.owner, cuser.userid);
   rec_add(folder, &fhdr, sizeof(HDR));
 }
@@ -883,7 +898,8 @@ static int
 bmw_save(xo)
   XO *xo;
 {
-  if (vans("±z½T©w­n§â¤ô²y¦s¨ì«H½c¸Ì¶Ü(Y/N)¡H[N] ") == 'y')
+  /* æ‚¨ç¢ºå®šè¦æŠŠæ°´çƒå­˜åˆ°ä¿¡ç®±è£¡å—(Y/N)ï¼Ÿ[N]  */
+  if (vans("\xB1\x7A\xBD\x54\xA9\x77\xAD\x6E\xA7\xE2\xA4\xF4\xB2\x79\xA6\x73\xA8\xEC\xAB\x48\xBD\x63\xB8\xCC\xB6\xDC(Y/N)\xA1\x48[N] ") == 'y')
   {
     char fpath[64];
 
@@ -918,7 +934,8 @@ bmw_save_user(xo)
       {
 	BMW bmw;
 
-	fprintf(fp, "       == »P %s ¥áªº¤ô²y¬ö¿ı %s ==\n\n", acct.userid, Now());
+	/*        == èˆ‡ %s ä¸Ÿçš„æ°´çƒç´€éŒ„ %s ==\n\n */
+	fprintf(fp, "       == \xBB\x50 %s \xA5\xE1\xAA\xBA\xA4\xF4\xB2\x79\xAC\xF6\xBF\xFD %s ==\n\n", acct.userid, Now());
 
 	while (read(fd, &bmw, sizeof(BMW)) == sizeof(BMW)) 
 	{
@@ -933,10 +950,12 @@ bmw_save_user(xo)
       close(fd);
 
       fhdr.xmode = MAIL_READ | MAIL_NOREPLY;
-      strcpy(fhdr.title, "[³Æ §Ñ ¿ı] ¤ô²y¬ö¿ı");
+      /* [å‚™ å¿˜ éŒ„] æ°´çƒç´€éŒ„ */
+      strcpy(fhdr.title, "[\xB3\xC6 \xA7\xD1 \xBF\xFD] \xA4\xF4\xB2\x79\xAC\xF6\xBF\xFD");
       strcpy(fhdr.owner, cuser.userid);
       rec_add(folder, &fhdr, sizeof(HDR));
-      vmsg("¤ô²y¬ö¿ı¤w±H¨ì«H½c");
+      /* æ°´çƒç´€éŒ„å·²å¯„åˆ°ä¿¡ç®± */
+      vmsg("\xA4\xF4\xB2\x79\xAC\xF6\xBF\xFD\xA4\x77\xB1\x48\xA8\xEC\xAB\x48\xBD\x63");
     }
   }
 
@@ -948,7 +967,8 @@ static int
 bmw_clear(xo)
   XO *xo;
 {
-  if (vans("¬O§_§R°£©Ò¦³¤ô²y¬ö¿ı(Y/N)¡H[N] ") == 'y')
+  /* æ˜¯å¦åˆªé™¤æ‰€æœ‰æ°´çƒç´€éŒ„(Y/N)ï¼Ÿ[N]  */
+  if (vans("\xAC\x4F\xA7\x5F\xA7\x52\xB0\xA3\xA9\xD2\xA6\xB3\xA4\xF4\xB2\x79\xAC\xF6\xBF\xFD(Y/N)\xA1\x48[N] ") == 'y')
   {
     char fpath[64];
 
@@ -981,7 +1001,7 @@ bmw_tag(xo)
   }
 
   /* return XO_NONE; */
-  return xo->pos + 1 + XO_MOVE;	/* lkchu.981201: ¸õ¦Ü¤U¤@¶µ */
+  return xo->pos + 1 + XO_MOVE;	/* lkchu.981201: è·³è‡³ä¸‹ä¸€é … */
 }
 
 
@@ -1021,7 +1041,7 @@ KeyFunc bmw_cb[] =
 int
 t_bmw()
 {
-#if 0	/* itoc.010715: ¥Ñ©ó every_Z ­n¥Î¡A·h¥h talk_main ±`¾n */
+#if 0	/* itoc.010715: ç”±æ–¼ every_Z è¦ç”¨ï¼Œæ¬å» talk_main å¸¸é§ */
   XO *xo;
   char fpath[64];
 
@@ -1042,7 +1062,7 @@ t_display()		/* itoc.020126: display FN_AMW */
   char fpath[64];
 
   usr_fpath(fpath, cuser.userid, fn_amw);
-  return more(fpath, NULL);	/* Thor.990204: ¥u­n¤£¬O XEASY ´N¥i¥H reload menu ¤F */
+  return more(fpath, NULL);	/* Thor.990204: åªè¦ä¸æ˜¯ XEASY å°±å¯ä»¥ reload menu äº† */
 }
 
 
@@ -1057,7 +1077,8 @@ bmw_retain(fpath)
   usr_fpath(folder, str_sysop, fn_dir);
   hdr_stamp(folder, HDR_COPY, &fhdr, fpath);
   strcpy(fhdr.owner, cuser.userid);
-  strcpy(fhdr.title, "¤ô²y¦sÃÒ");
+  /* æ°´çƒå­˜è­‰ */
+  strcpy(fhdr.title, "\xA4\xF4\xB2\x79\xA6\x73\xC3\xD2");
   fhdr.xmode = 0;
   rec_add(folder, &fhdr, sizeof(HDR));
 }
@@ -1072,24 +1093,26 @@ bmw_log()
   char fpath[64], buf[64];
   struct stat st;
 
-  /* lkchu.981201: ©ñ¶i¨p¤H«H½c¤º/²M°£/«O¯d */  
+  /* lkchu.981201: æ”¾é€²ç§äººä¿¡ç®±å…§/æ¸…é™¤/ä¿ç•™ */  
   usr_fpath(fpath, cuser.userid, fn_bmw);
 
   if (!stat(fpath, &st) && S_ISREG(st.st_mode))
   {
     usr_fpath(buf, cuser.userid, fn_amw);
 
-    if ((cuser.ufo & UFO_NWLOG) || !st.st_size)	/* itoc.000512: ¤£Àx¦s¤ô²y°O¿ı */
-    {						/* itoc.020711: ¦pªG bmw size ¬O 0 ´N²M°£ */
+    if ((cuser.ufo & UFO_NWLOG) || !st.st_size)	/* itoc.000512: ä¸å„²å­˜æ°´çƒè¨˜éŒ„ */
+    {						/* itoc.020711: å¦‚æœ bmw size æ˜¯ 0 å°±æ¸…é™¤ */
       op = 'c';
     }
     else
     {
       more(buf, (char *) -1);
 #ifdef RETAIN_BMW
-      op = vans("¥»¦¸¤W¯¸¤ô²y³B²z (M)²¾¦Ü³Æ§Ñ¿ı (R)«O¯d (C)²M°£ (S)¦sÃÒ¡H[R] ");
+      /* æœ¬æ¬¡ä¸Šç«™æ°´çƒè™•ç† (M)ç§»è‡³å‚™å¿˜éŒ„ (R)ä¿ç•™ (C)æ¸…é™¤ (S)å­˜è­‰ï¼Ÿ[R]  */
+      op = vans("\xA5\xBB\xA6\xB8\xA4\x57\xAF\xB8\xA4\xF4\xB2\x79\xB3\x42\xB2\x7A (M)\xB2\xBE\xA6\xDC\xB3\xC6\xA7\xD1\xBF\xFD (R)\xAB\x4F\xAF\x64 (C)\xB2\x4D\xB0\xA3 (S)\xA6\x73\xC3\xD2\xA1\x48[R] ");
 #else
-      op = vans("¥»¦¸¤W¯¸¤ô²y³B²z (M)²¾¦Ü³Æ§Ñ¿ı (R)«O¯d (C)²M°£¡H[R] ");
+      /* æœ¬æ¬¡ä¸Šç«™æ°´çƒè™•ç† (M)ç§»è‡³å‚™å¿˜éŒ„ (R)ä¿ç•™ (C)æ¸…é™¤ï¼Ÿ[R]  */
+      op = vans("\xA5\xBB\xA6\xB8\xA4\x57\xAF\xB8\xA4\xF4\xB2\x79\xB3\x42\xB2\x7A (M)\xB2\xBE\xA6\xDC\xB3\xC6\xA7\xD1\xBF\xFD (R)\xAB\x4F\xAF\x64 (C)\xB2\x4D\xB0\xA3\xA1\x48[R] ");
 #endif
     }
       
@@ -1105,8 +1128,9 @@ bmw_log()
 
 #ifdef RETAIN_BMW
     case 's':
-      if (vans("¦sÃÒ¬O§â¤ô²yÂà±Hµ¹¯¸ªø¥HÀËÁ|¨ä¥L¨Ï¥ÎªÌ¡A±z½T©w­n¦sÃÒ¶Ü(Y/N)¡H[N] ") == 'y')
-	bmw_retain(buf);	/* ¥Î¤£¯à§ïªº amw ¨Ó¦sÃÒ */
+      /* å­˜è­‰æ˜¯æŠŠæ°´çƒè½‰å¯„çµ¦ç«™é•·ä»¥æª¢èˆ‰å…¶ä»–ä½¿ç”¨è€…ï¼Œæ‚¨ç¢ºå®šè¦å­˜è­‰å—(Y/N)ï¼Ÿ[N]  */
+      if (vans("\xA6\x73\xC3\xD2\xAC\x4F\xA7\xE2\xA4\xF4\xB2\x79\xC2\xE0\xB1\x48\xB5\xB9\xAF\xB8\xAA\xF8\xA5\x48\xC0\xCB\xC1\x7C\xA8\xE4\xA5\x4C\xA8\xCF\xA5\xCE\xAA\xCC\xA1\x41\xB1\x7A\xBD\x54\xA9\x77\xAD\x6E\xA6\x73\xC3\xD2\xB6\xDC(Y/N)\xA1\x48[N] ") == 'y')
+	bmw_retain(buf);	/* ç”¨ä¸èƒ½æ”¹çš„ amw ä¾†å­˜è­‰ */
       break;
 #endif
 

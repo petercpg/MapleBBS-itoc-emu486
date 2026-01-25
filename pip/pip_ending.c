@@ -1,7 +1,7 @@
 /*-------------------------------------------------------*/
 /* pip_ending.c       ( NTHU CS MapleBBS Ver 3.10 )      */
 /*-------------------------------------------------------*/
-/* target : µ²§½¨ç¦¡                                     */
+/* target : çµå±€å‡½å¼                                     */
 /* create :   /  /                                       */
 /* update : 01/08/14                                     */
 /* author : dsyan.bbs@forever.twbbs.org                  */
@@ -17,163 +17,329 @@
 
 
 /* ------------------------------------------------------- */
-/* µ²§½°Ñ¼Æ³]©w                                            */
+/* çµå±€åƒæ•¸è¨­å®š                                            */
 /* ------------------------------------------------------- */
 
 
 struct endingset
 {
-  char *girl;			/* ¤k¥Íµ²§½ªºÂ¾·~ */
-  char *boy;			/* ¨k¥Íµ²§½ªºÂ¾·~ */
-  int grade;			/* µû¤À */
+  char *girl;			/* å¥³ç”Ÿçµå±€çš„è·æ¥­ */
+  char *boy;			/* ç”·ç”Ÿçµå±€çš„è·æ¥­ */
+  int grade;			/* è©•åˆ† */
 };
 typedef struct endingset endingset;
 
 
-/* ¸U¯àÃş */
+/* è¬èƒ½é¡ */
 struct endingset endmodeallpurpose[] = 
 {
-  "¤k©ÊÂ¾·~",		"¨k¥ÍÂ¾·~",		0, 
-  "¦¨¬°³o­Ó°ê®a·s¤k¤ı",	"¦¨¬°³o­Ó°ê®a·s°ê¤ı",	500, 
-  "¦¨¬°°ê®aªº®_¬Û",	"¦¨¬°°ê®aªº®_¬Û",	400, 
-  "¦¨¬°±Ğ·|¤¤ªº¤j¥D±Ğ",	"¦¨¬°±Ğ·|¤¤ªº±Ğ©v",	350, 
-  "¦¨¬°°ê®aªº¤j¦Ú",	"¦¨¬°°ê®aªº¤j¦Ú",	320, 
-  "¦¨¬°¤@¦ì³Õ¤h",	"¦¨¬°¤@¦ì³Õ¤h",		300, 
-  "¦¨¬°±Ğ·|¤¤ªº­×¤k",	"¦¨¬°±Ğ·|¤¤ªº¯«¤÷",	150, 
-  "¦¨¬°ªk®x¤Wªºªk©x",	"¦¨¬°ªk®x¤Wªºªk©x",	200, 
-  "¦¨¬°ª¾¦Wªº¾ÇªÌ",	"¦¨¬°ª¾¦Wªº¾ÇªÌ",	120, 
-  "¦¨¬°¤@¦W¤k©x",	"¦¨¬°¤@¦W¨k©x",		100, 
-  "¦b¨|¥®°|¤u§@",	"¦b¨|¥®°|¤u§@",		100, 
-  "¦b®ÈÀ]¤u§@",		"¦b®ÈÀ]¤u§@",		100, 
-  "¦b¹A³õ¤u§@",		"¦b¹A³õ¤u§@",		100, 
-  "¦bÀ\\ÆU¤u§@",	"¦bÀ\\ÆU¤u§@",		100, 
-  "¦b±Ğ°ó¤u§@",		"¦b±Ğ°ó¤u§@",		100, 
-  "¦b¦aÅu¤u§@",		"¦b¦aÅu¤u§@",		100, 
-  "¦b¥ï¤ì³õ¤u§@",	"¦b¥ï¤ì³õ¤u§@",		100, 
-  "¦b¬ü®e°|¤u§@",	"¦b¬ü®e°|¤u§@",		100, 
-  "¦b¬¼Ây°Ï¤u§@",	"¦b¬¼Ây°Ï¤u§@",		100, 
-  "¦b¤u¦a¤u§@",		"¦b¤u¦a¤u§@",		100, 
-  "¦b¹Ó¶é¤u§@",		"¦b¹Ó¶é¤u§@",		100, 
-  "¾á¥ô®a®x±Ğ®v¤u§@",	"¾á¥ô®a®x±Ğ®v¤u§@",	100, 
-  "¦b°s®a¤u§@",		"¦b°s®a¤u§@",		100, 
-  "¦b°s©±¤u§@",		"¦b°s©±¤u§@",		100, 
-  "¦b¤j©]Á`·|¤u§@",	"¦b¤j©]Á`·|¤u§@",	100, 
-  "¦b®a¤¤À°¦£",		"¦b®a¤¤À°¦£",		50, 
-  "¦b¨|¥®°|­İ®t",	"¦b¨|¥®°|­İ®t",		50, 
-  "¦b®ÈÀ]­İ®t",		"¦b®ÈÀ]­İ®t",		50, 
-  "¦b¹A³õ­İ®t",		"¦b¹A³õ­İ®t",		50, 
-  "¦bÀ\\ÆU­İ®t",	"¦bÀ\\ÆU­İ®t",		50, 
-  "¦b±Ğ°ó­İ®t",		"¦b±Ğ°ó­İ®t",		50, 
-  "¦b¦aÅu­İ®t",		"¦b¦aÅu­İ®t",		50, 
-  "¦b¥ï¤ì³õ­İ®t",	"¦b¥ï¤ì³õ­İ®t",		50, 
-  "¦b¬ü®e°|­İ®t",	"¦b¬ü®e°|­İ®t",		50, 
-  "¦b¬¼Ây°Ï­İ®t",	"¦b¬¼Ây°Ï­İ®t",		50, 
-  "¦b¤u¦a­İ®t",		"¦b¤u¦a­İ®t",		50, 
-  "¦b¹Ó¶é­İ®t",		"¦b¹Ó¶é­İ®t",		50, 
-  "¾á¥ô®a®x±Ğ®v­İ®t",	"¾á¥ô®a®x±Ğ®v­İ®t",	50, 
-  "¦b°s®a­İ®t",		"¦b°s®a­İ®t",		50, 
-  "¦b°s©±­İ®t",		"¦b°s©±­İ®t",		50, 
-  "¦b¤j©]Á`·|­İ®t",	"¦b¤j©]Á`·|­İ®t",	50, 
+  /* å¥³æ€§è·æ¥­ */
+  /* ç”·ç”Ÿè·æ¥­ */
+  "\xA4\x6B\xA9\xCA\xC2\xBE\xB7\x7E",		"\xA8\x6B\xA5\xCD\xC2\xBE\xB7\x7E",		0, 
+  /* æˆç‚ºé€™å€‹åœ‹å®¶æ–°å¥³ç‹ */
+  /* æˆç‚ºé€™å€‹åœ‹å®¶æ–°åœ‹ç‹ */
+  "\xA6\xA8\xAC\xB0\xB3\x6F\xAD\xD3\xB0\xEA\xAE\x61\xB7\x73\xA4\x6B\xA4\xFD",	"\xA6\xA8\xAC\xB0\xB3\x6F\xAD\xD3\xB0\xEA\xAE\x61\xB7\x73\xB0\xEA\xA4\xFD",	500, 
+  /* æˆç‚ºåœ‹å®¶çš„å®°ç›¸ */
+  /* æˆç‚ºåœ‹å®¶çš„å®°ç›¸ */
+  "\xA6\xA8\xAC\xB0\xB0\xEA\xAE\x61\xAA\xBA\xAE\x5F\xAC\xDB",	"\xA6\xA8\xAC\xB0\xB0\xEA\xAE\x61\xAA\xBA\xAE\x5F\xAC\xDB",	400, 
+  /* æˆç‚ºæ•™æœƒä¸­çš„å¤§ä¸»æ•™ */
+  /* æˆç‚ºæ•™æœƒä¸­çš„æ•™å®— */
+  "\xA6\xA8\xAC\xB0\xB1\xD0\xB7\x7C\xA4\xA4\xAA\xBA\xA4\x6A\xA5\x44\xB1\xD0",	"\xA6\xA8\xAC\xB0\xB1\xD0\xB7\x7C\xA4\xA4\xAA\xBA\xB1\xD0\xA9\x76",	350, 
+  /* æˆç‚ºåœ‹å®¶çš„å¤§è‡£ */
+  /* æˆç‚ºåœ‹å®¶çš„å¤§è‡£ */
+  "\xA6\xA8\xAC\xB0\xB0\xEA\xAE\x61\xAA\xBA\xA4\x6A\xA6\xDA",	"\xA6\xA8\xAC\xB0\xB0\xEA\xAE\x61\xAA\xBA\xA4\x6A\xA6\xDA",	320, 
+  /* æˆç‚ºä¸€ä½åšå£« */
+  /* æˆç‚ºä¸€ä½åšå£« */
+  "\xA6\xA8\xAC\xB0\xA4\x40\xA6\xEC\xB3\xD5\xA4\x68",	"\xA6\xA8\xAC\xB0\xA4\x40\xA6\xEC\xB3\xD5\xA4\x68",		300, 
+  /* æˆç‚ºæ•™æœƒä¸­çš„ä¿®å¥³ */
+  /* æˆç‚ºæ•™æœƒä¸­çš„ç¥çˆ¶ */
+  "\xA6\xA8\xAC\xB0\xB1\xD0\xB7\x7C\xA4\xA4\xAA\xBA\xAD\xD7\xA4\x6B",	"\xA6\xA8\xAC\xB0\xB1\xD0\xB7\x7C\xA4\xA4\xAA\xBA\xAF\xAB\xA4\xF7",	150, 
+  /* æˆç‚ºæ³•åº­ä¸Šçš„æ³•å®˜ */
+  /* æˆç‚ºæ³•åº­ä¸Šçš„æ³•å®˜ */
+  "\xA6\xA8\xAC\xB0\xAA\x6B\xAE\x78\xA4\x57\xAA\xBA\xAA\x6B\xA9\x78",	"\xA6\xA8\xAC\xB0\xAA\x6B\xAE\x78\xA4\x57\xAA\xBA\xAA\x6B\xA9\x78",	200, 
+  /* æˆç‚ºçŸ¥åçš„å­¸è€… */
+  /* æˆç‚ºçŸ¥åçš„å­¸è€… */
+  "\xA6\xA8\xAC\xB0\xAA\xBE\xA6\x57\xAA\xBA\xBE\xC7\xAA\xCC",	"\xA6\xA8\xAC\xB0\xAA\xBE\xA6\x57\xAA\xBA\xBE\xC7\xAA\xCC",	120, 
+  /* æˆç‚ºä¸€åå¥³å®˜ */
+  /* æˆç‚ºä¸€åç”·å®˜ */
+  "\xA6\xA8\xAC\xB0\xA4\x40\xA6\x57\xA4\x6B\xA9\x78",	"\xA6\xA8\xAC\xB0\xA4\x40\xA6\x57\xA8\x6B\xA9\x78",		100, 
+  /* åœ¨è‚²å¹¼é™¢å·¥ä½œ */
+  /* åœ¨è‚²å¹¼é™¢å·¥ä½œ */
+  "\xA6\x62\xA8\x7C\xA5\xAE\xB0\x7C\xA4\x75\xA7\x40",	"\xA6\x62\xA8\x7C\xA5\xAE\xB0\x7C\xA4\x75\xA7\x40",		100, 
+  /* åœ¨æ—…é¤¨å·¥ä½œ */
+  /* åœ¨æ—…é¤¨å·¥ä½œ */
+  "\xA6\x62\xAE\xC8\xC0\x5D\xA4\x75\xA7\x40",		"\xA6\x62\xAE\xC8\xC0\x5D\xA4\x75\xA7\x40",		100, 
+  /* åœ¨è¾²å ´å·¥ä½œ */
+  /* åœ¨è¾²å ´å·¥ä½œ */
+  "\xA6\x62\xB9\x41\xB3\xF5\xA4\x75\xA7\x40",		"\xA6\x62\xB9\x41\xB3\xF5\xA4\x75\xA7\x40",		100, 
+  /* åœ¨é¤å»³å·¥ä½œ */
+  /* åœ¨é¤å»³å·¥ä½œ */
+  "\xA6\x62\xC0\x5C\xC6\x55\xA4\x75\xA7\x40",	"\xA6\x62\xC0\x5C\xC6\x55\xA4\x75\xA7\x40",		100, 
+  /* åœ¨æ•™å ‚å·¥ä½œ */
+  /* åœ¨æ•™å ‚å·¥ä½œ */
+  "\xA6\x62\xB1\xD0\xB0\xF3\xA4\x75\xA7\x40",		"\xA6\x62\xB1\xD0\xB0\xF3\xA4\x75\xA7\x40",		100, 
+  /* åœ¨åœ°æ”¤å·¥ä½œ */
+  /* åœ¨åœ°æ”¤å·¥ä½œ */
+  "\xA6\x62\xA6\x61\xC5\x75\xA4\x75\xA7\x40",		"\xA6\x62\xA6\x61\xC5\x75\xA4\x75\xA7\x40",		100, 
+  /* åœ¨ä¼æœ¨å ´å·¥ä½œ */
+  /* åœ¨ä¼æœ¨å ´å·¥ä½œ */
+  "\xA6\x62\xA5\xEF\xA4\xEC\xB3\xF5\xA4\x75\xA7\x40",	"\xA6\x62\xA5\xEF\xA4\xEC\xB3\xF5\xA4\x75\xA7\x40",		100, 
+  /* åœ¨ç¾å®¹é™¢å·¥ä½œ */
+  /* åœ¨ç¾å®¹é™¢å·¥ä½œ */
+  "\xA6\x62\xAC\xFC\xAE\x65\xB0\x7C\xA4\x75\xA7\x40",	"\xA6\x62\xAC\xFC\xAE\x65\xB0\x7C\xA4\x75\xA7\x40",		100, 
+  /* åœ¨ç‹©çµå€å·¥ä½œ */
+  /* åœ¨ç‹©çµå€å·¥ä½œ */
+  "\xA6\x62\xAC\xBC\xC2\x79\xB0\xCF\xA4\x75\xA7\x40",	"\xA6\x62\xAC\xBC\xC2\x79\xB0\xCF\xA4\x75\xA7\x40",		100, 
+  /* åœ¨å·¥åœ°å·¥ä½œ */
+  /* åœ¨å·¥åœ°å·¥ä½œ */
+  "\xA6\x62\xA4\x75\xA6\x61\xA4\x75\xA7\x40",		"\xA6\x62\xA4\x75\xA6\x61\xA4\x75\xA7\x40",		100, 
+  /* åœ¨å¢“åœ’å·¥ä½œ */
+  /* åœ¨å¢“åœ’å·¥ä½œ */
+  "\xA6\x62\xB9\xD3\xB6\xE9\xA4\x75\xA7\x40",		"\xA6\x62\xB9\xD3\xB6\xE9\xA4\x75\xA7\x40",		100, 
+  /* æ“”ä»»å®¶åº­æ•™å¸«å·¥ä½œ */
+  /* æ“”ä»»å®¶åº­æ•™å¸«å·¥ä½œ */
+  "\xBE\xE1\xA5\xF4\xAE\x61\xAE\x78\xB1\xD0\xAE\x76\xA4\x75\xA7\x40",	"\xBE\xE1\xA5\xF4\xAE\x61\xAE\x78\xB1\xD0\xAE\x76\xA4\x75\xA7\x40",	100, 
+  /* åœ¨é…’å®¶å·¥ä½œ */
+  /* åœ¨é…’å®¶å·¥ä½œ */
+  "\xA6\x62\xB0\x73\xAE\x61\xA4\x75\xA7\x40",		"\xA6\x62\xB0\x73\xAE\x61\xA4\x75\xA7\x40",		100, 
+  /* åœ¨é…’åº—å·¥ä½œ */
+  /* åœ¨é…’åº—å·¥ä½œ */
+  "\xA6\x62\xB0\x73\xA9\xB1\xA4\x75\xA7\x40",		"\xA6\x62\xB0\x73\xA9\xB1\xA4\x75\xA7\x40",		100, 
+  /* åœ¨å¤§å¤œç¸½æœƒå·¥ä½œ */
+  /* åœ¨å¤§å¤œç¸½æœƒå·¥ä½œ */
+  "\xA6\x62\xA4\x6A\xA9\x5D\xC1\x60\xB7\x7C\xA4\x75\xA7\x40",	"\xA6\x62\xA4\x6A\xA9\x5D\xC1\x60\xB7\x7C\xA4\x75\xA7\x40",	100, 
+  /* åœ¨å®¶ä¸­å¹«å¿™ */
+  /* åœ¨å®¶ä¸­å¹«å¿™ */
+  "\xA6\x62\xAE\x61\xA4\xA4\xC0\xB0\xA6\xA3",		"\xA6\x62\xAE\x61\xA4\xA4\xC0\xB0\xA6\xA3",		50, 
+  /* åœ¨è‚²å¹¼é™¢å…¼å·® */
+  /* åœ¨è‚²å¹¼é™¢å…¼å·® */
+  "\xA6\x62\xA8\x7C\xA5\xAE\xB0\x7C\xAD\xDD\xAE\x74",	"\xA6\x62\xA8\x7C\xA5\xAE\xB0\x7C\xAD\xDD\xAE\x74",		50, 
+  /* åœ¨æ—…é¤¨å…¼å·® */
+  /* åœ¨æ—…é¤¨å…¼å·® */
+  "\xA6\x62\xAE\xC8\xC0\x5D\xAD\xDD\xAE\x74",		"\xA6\x62\xAE\xC8\xC0\x5D\xAD\xDD\xAE\x74",		50, 
+  /* åœ¨è¾²å ´å…¼å·® */
+  /* åœ¨è¾²å ´å…¼å·® */
+  "\xA6\x62\xB9\x41\xB3\xF5\xAD\xDD\xAE\x74",		"\xA6\x62\xB9\x41\xB3\xF5\xAD\xDD\xAE\x74",		50, 
+  /* åœ¨é¤å»³å…¼å·® */
+  /* åœ¨é¤å»³å…¼å·® */
+  "\xA6\x62\xC0\x5C\xC6\x55\xAD\xDD\xAE\x74",	"\xA6\x62\xC0\x5C\xC6\x55\xAD\xDD\xAE\x74",		50, 
+  /* åœ¨æ•™å ‚å…¼å·® */
+  /* åœ¨æ•™å ‚å…¼å·® */
+  "\xA6\x62\xB1\xD0\xB0\xF3\xAD\xDD\xAE\x74",		"\xA6\x62\xB1\xD0\xB0\xF3\xAD\xDD\xAE\x74",		50, 
+  /* åœ¨åœ°æ”¤å…¼å·® */
+  /* åœ¨åœ°æ”¤å…¼å·® */
+  "\xA6\x62\xA6\x61\xC5\x75\xAD\xDD\xAE\x74",		"\xA6\x62\xA6\x61\xC5\x75\xAD\xDD\xAE\x74",		50, 
+  /* åœ¨ä¼æœ¨å ´å…¼å·® */
+  /* åœ¨ä¼æœ¨å ´å…¼å·® */
+  "\xA6\x62\xA5\xEF\xA4\xEC\xB3\xF5\xAD\xDD\xAE\x74",	"\xA6\x62\xA5\xEF\xA4\xEC\xB3\xF5\xAD\xDD\xAE\x74",		50, 
+  /* åœ¨ç¾å®¹é™¢å…¼å·® */
+  /* åœ¨ç¾å®¹é™¢å…¼å·® */
+  "\xA6\x62\xAC\xFC\xAE\x65\xB0\x7C\xAD\xDD\xAE\x74",	"\xA6\x62\xAC\xFC\xAE\x65\xB0\x7C\xAD\xDD\xAE\x74",		50, 
+  /* åœ¨ç‹©çµå€å…¼å·® */
+  /* åœ¨ç‹©çµå€å…¼å·® */
+  "\xA6\x62\xAC\xBC\xC2\x79\xB0\xCF\xAD\xDD\xAE\x74",	"\xA6\x62\xAC\xBC\xC2\x79\xB0\xCF\xAD\xDD\xAE\x74",		50, 
+  /* åœ¨å·¥åœ°å…¼å·® */
+  /* åœ¨å·¥åœ°å…¼å·® */
+  "\xA6\x62\xA4\x75\xA6\x61\xAD\xDD\xAE\x74",		"\xA6\x62\xA4\x75\xA6\x61\xAD\xDD\xAE\x74",		50, 
+  /* åœ¨å¢“åœ’å…¼å·® */
+  /* åœ¨å¢“åœ’å…¼å·® */
+  "\xA6\x62\xB9\xD3\xB6\xE9\xAD\xDD\xAE\x74",		"\xA6\x62\xB9\xD3\xB6\xE9\xAD\xDD\xAE\x74",		50, 
+  /* æ“”ä»»å®¶åº­æ•™å¸«å…¼å·® */
+  /* æ“”ä»»å®¶åº­æ•™å¸«å…¼å·® */
+  "\xBE\xE1\xA5\xF4\xAE\x61\xAE\x78\xB1\xD0\xAE\x76\xAD\xDD\xAE\x74",	"\xBE\xE1\xA5\xF4\xAE\x61\xAE\x78\xB1\xD0\xAE\x76\xAD\xDD\xAE\x74",	50, 
+  /* åœ¨é…’å®¶å…¼å·® */
+  /* åœ¨é…’å®¶å…¼å·® */
+  "\xA6\x62\xB0\x73\xAE\x61\xAD\xDD\xAE\x74",		"\xA6\x62\xB0\x73\xAE\x61\xAD\xDD\xAE\x74",		50, 
+  /* åœ¨é…’åº—å…¼å·® */
+  /* åœ¨é…’åº—å…¼å·® */
+  "\xA6\x62\xB0\x73\xA9\xB1\xAD\xDD\xAE\x74",		"\xA6\x62\xB0\x73\xA9\xB1\xAD\xDD\xAE\x74",		50, 
+  /* åœ¨å¤§å¤œç¸½æœƒå…¼å·® */
+  /* åœ¨å¤§å¤œç¸½æœƒå…¼å·® */
+  "\xA6\x62\xA4\x6A\xA9\x5D\xC1\x60\xB7\x7C\xAD\xDD\xAE\x74",	"\xA6\x62\xA4\x6A\xA9\x5D\xC1\x60\xB7\x7C\xAD\xDD\xAE\x74",	50, 
   NULL,			NULL,			0
 };
 
 
-/* ¾Ô°«Ãş */
+/* æˆ°é¬¥é¡ */
 struct endingset endmodecombat[] = 
 {
-  "¤k©ÊÂ¾·~",		"¨k¥ÍÂ¾·~",		0, 
-  "³Q«Ê¬°«iªÌ ¾Ô¤h«¬",	"³Q«Ê¬°«iªÌ ¾Ô¤h«¬",	420, 
-  "³Q©ŞÀÂ¬°¤@°êªº±N­x",	"³Q©ŞÀÂ¬°¤@°êªº±N­x",	300, 
-  "·í¤W°ê®aªñ½Ã¶¤¶¤ªø",	"·í¤W°ê®aªñ½Ã¶¤¶¤ªø",	200, 
-  "·í¤FªZ³N¦Ñ®v",	"·í¤FªZ³N¦Ñ®v",		150, 
-  "ÅÜ¦¨ÃM¤h³ø®Ä°ê®a",	"ÅÜ¦¨ÃM¤h³ø®Ä°ê®a",	160, 
-  "§ë¨­­x®È¦¨¬°¤h§L",	"§ë¨­­x®È¦¨¬°¤h§L",	80, 
-  "ÅÜ¦¨¼úª÷Ây¤H",	"ÅÜ¦¨¼úª÷Ây¤H",		10, 
-  "¥H¶Ä§L¤u§@ºû¥Í",	"¥H¶Ä§L¤u§@ºû¥Í",	10, 
+  /* å¥³æ€§è·æ¥­ */
+  /* ç”·ç”Ÿè·æ¥­ */
+  "\xA4\x6B\xA9\xCA\xC2\xBE\xB7\x7E",		"\xA8\x6B\xA5\xCD\xC2\xBE\xB7\x7E",		0, 
+  /* è¢«å°ç‚ºå‹‡è€… æˆ°å£«å‹ */
+  /* è¢«å°ç‚ºå‹‡è€… æˆ°å£«å‹ */
+  "\xB3\x51\xAB\xCA\xAC\xB0\xAB\x69\xAA\xCC \xBE\xD4\xA4\x68\xAB\xAC",	"\xB3\x51\xAB\xCA\xAC\xB0\xAB\x69\xAA\xCC \xBE\xD4\xA4\x68\xAB\xAC",	420, 
+  /* è¢«æ‹”æ“¢ç‚ºä¸€åœ‹çš„å°‡è» */
+  /* è¢«æ‹”æ“¢ç‚ºä¸€åœ‹çš„å°‡è» */
+  "\xB3\x51\xA9\xDE\xC0\xC2\xAC\xB0\xA4\x40\xB0\xEA\xAA\xBA\xB1\x4E\xAD\x78",	"\xB3\x51\xA9\xDE\xC0\xC2\xAC\xB0\xA4\x40\xB0\xEA\xAA\xBA\xB1\x4E\xAD\x78",	300, 
+  /* ç•¶ä¸Šåœ‹å®¶è¿‘è¡›éšŠéšŠé•· */
+  /* ç•¶ä¸Šåœ‹å®¶è¿‘è¡›éšŠéšŠé•· */
+  "\xB7\xED\xA4\x57\xB0\xEA\xAE\x61\xAA\xF1\xBD\xC3\xB6\xA4\xB6\xA4\xAA\xF8",	"\xB7\xED\xA4\x57\xB0\xEA\xAE\x61\xAA\xF1\xBD\xC3\xB6\xA4\xB6\xA4\xAA\xF8",	200, 
+  /* ç•¶äº†æ­¦è¡“è€å¸« */
+  /* ç•¶äº†æ­¦è¡“è€å¸« */
+  "\xB7\xED\xA4\x46\xAA\x5A\xB3\x4E\xA6\xD1\xAE\x76",	"\xB7\xED\xA4\x46\xAA\x5A\xB3\x4E\xA6\xD1\xAE\x76",		150, 
+  /* è®Šæˆé¨å£«å ±æ•ˆåœ‹å®¶ */
+  /* è®Šæˆé¨å£«å ±æ•ˆåœ‹å®¶ */
+  "\xC5\xDC\xA6\xA8\xC3\x4D\xA4\x68\xB3\xF8\xAE\xC4\xB0\xEA\xAE\x61",	"\xC5\xDC\xA6\xA8\xC3\x4D\xA4\x68\xB3\xF8\xAE\xC4\xB0\xEA\xAE\x61",	160, 
+  /* æŠ•èº«è»æ—…æˆç‚ºå£«å…µ */
+  /* æŠ•èº«è»æ—…æˆç‚ºå£«å…µ */
+  "\xA7\xEB\xA8\xAD\xAD\x78\xAE\xC8\xA6\xA8\xAC\xB0\xA4\x68\xA7\x4C",	"\xA7\xEB\xA8\xAD\xAD\x78\xAE\xC8\xA6\xA8\xAC\xB0\xA4\x68\xA7\x4C",	80, 
+  /* è®Šæˆçé‡‘çµäºº */
+  /* è®Šæˆçé‡‘çµäºº */
+  "\xC5\xDC\xA6\xA8\xBC\xFA\xAA\xF7\xC2\x79\xA4\x48",	"\xC5\xDC\xA6\xA8\xBC\xFA\xAA\xF7\xC2\x79\xA4\x48",		10, 
+  /* ä»¥å‚­å…µå·¥ä½œç¶­ç”Ÿ */
+  /* ä»¥å‚­å…µå·¥ä½œç¶­ç”Ÿ */
+  "\xA5\x48\xB6\xC4\xA7\x4C\xA4\x75\xA7\x40\xBA\xFB\xA5\xCD",	"\xA5\x48\xB6\xC4\xA7\x4C\xA4\x75\xA7\x40\xBA\xFB\xA5\xCD",	10, 
   NULL,			NULL,			0
 };
 
 
-/* Å]ªkÃş */
+/* é­”æ³•é¡ */
 struct endingset endmodemagic[] = 
 {
-  "¤k©ÊÂ¾·~",		"¨k¥ÍÂ¾·~",		0, 
-  "³Q«Ê¬°«iªÌ Å]ªk«¬",	"³Q«Ê¬°«iªÌ Å]ªk«¬",	420, 
-  "³Q¸u¬°¤ı®cÅ]ªk®v",	"³Q¸u¬°¤ı©xÅ]ªk®v",	280, 
-  "·í¤FÅ]ªk¦Ñ®v",	"·í¤FÅ]ªk¦Ñ®v",		160, 
-  "ÅÜ¦¨¤@¦ìÅ]¾É¤h",	"ÅÜ¦¨¤@¦ìÅ]¾É¤h",	180, 
-  "·í¤FÅ]ªk®v",		"·í¤FÅ]ªk®v",		120, 
-  "¥H¥e¤RÀ°¤Hºâ©R¬°¥Í",	"¥H¥e¤RÀ°¤Hºâ©R¬°¥Í",	40, 
-  "¦¨¬°¤@­ÓÅ]³N®v",	"¦¨¬°¤@­ÓÅ]³N®v",	20, 
-  "¦¨¬°µóÀYÃÀ¤H",	"¦¨¬°µóÀYÃÀ¤H",		10, 
+  /* å¥³æ€§è·æ¥­ */
+  /* ç”·ç”Ÿè·æ¥­ */
+  "\xA4\x6B\xA9\xCA\xC2\xBE\xB7\x7E",		"\xA8\x6B\xA5\xCD\xC2\xBE\xB7\x7E",		0, 
+  /* è¢«å°ç‚ºå‹‡è€… é­”æ³•å‹ */
+  /* è¢«å°ç‚ºå‹‡è€… é­”æ³•å‹ */
+  "\xB3\x51\xAB\xCA\xAC\xB0\xAB\x69\xAA\xCC \xC5\x5D\xAA\x6B\xAB\xAC",	"\xB3\x51\xAB\xCA\xAC\xB0\xAB\x69\xAA\xCC \xC5\x5D\xAA\x6B\xAB\xAC",	420, 
+  /* è¢«è˜ç‚ºç‹å®®é­”æ³•å¸« */
+  /* è¢«è˜ç‚ºç‹å®˜é­”æ³•å¸« */
+  "\xB3\x51\xB8\x75\xAC\xB0\xA4\xFD\xAE\x63\xC5\x5D\xAA\x6B\xAE\x76",	"\xB3\x51\xB8\x75\xAC\xB0\xA4\xFD\xA9\x78\xC5\x5D\xAA\x6B\xAE\x76",	280, 
+  /* ç•¶äº†é­”æ³•è€å¸« */
+  /* ç•¶äº†é­”æ³•è€å¸« */
+  "\xB7\xED\xA4\x46\xC5\x5D\xAA\x6B\xA6\xD1\xAE\x76",	"\xB7\xED\xA4\x46\xC5\x5D\xAA\x6B\xA6\xD1\xAE\x76",		160, 
+  /* è®Šæˆä¸€ä½é­”å°å£« */
+  /* è®Šæˆä¸€ä½é­”å°å£« */
+  "\xC5\xDC\xA6\xA8\xA4\x40\xA6\xEC\xC5\x5D\xBE\xC9\xA4\x68",	"\xC5\xDC\xA6\xA8\xA4\x40\xA6\xEC\xC5\x5D\xBE\xC9\xA4\x68",	180, 
+  /* ç•¶äº†é­”æ³•å¸« */
+  /* ç•¶äº†é­”æ³•å¸« */
+  "\xB7\xED\xA4\x46\xC5\x5D\xAA\x6B\xAE\x76",		"\xB7\xED\xA4\x46\xC5\x5D\xAA\x6B\xAE\x76",		120, 
+  /* ä»¥å åœå¹«äººç®—å‘½ç‚ºç”Ÿ */
+  /* ä»¥å åœå¹«äººç®—å‘½ç‚ºç”Ÿ */
+  "\xA5\x48\xA5\x65\xA4\x52\xC0\xB0\xA4\x48\xBA\xE2\xA9\x52\xAC\xB0\xA5\xCD",	"\xA5\x48\xA5\x65\xA4\x52\xC0\xB0\xA4\x48\xBA\xE2\xA9\x52\xAC\xB0\xA5\xCD",	40, 
+  /* æˆç‚ºä¸€å€‹é­”è¡“å¸« */
+  /* æˆç‚ºä¸€å€‹é­”è¡“å¸« */
+  "\xA6\xA8\xAC\xB0\xA4\x40\xAD\xD3\xC5\x5D\xB3\x4E\xAE\x76",	"\xA6\xA8\xAC\xB0\xA4\x40\xAD\xD3\xC5\x5D\xB3\x4E\xAE\x76",	20, 
+  /* æˆç‚ºè¡—é ­è—äºº */
+  /* æˆç‚ºè¡—é ­è—äºº */
+  "\xA6\xA8\xAC\xB0\xB5\xF3\xC0\x59\xC3\xC0\xA4\x48",	"\xA6\xA8\xAC\xB0\xB5\xF3\xC0\x59\xC3\xC0\xA4\x48",		10, 
   NULL,			NULL,			0
 };
 
 
-/* ªÀ¥æÃş */
+/* ç¤¾äº¤é¡ */
 struct endingset endmodesocial[] = 
 {
-  "¤k©ÊÂ¾·~",		"¨k¥ÍÂ¾·~",		0, 
-  "¦¨¬°°ê¤ıªºÃd¦m",	"¦¨¬°¤k¤ıªº¾t°¨·İ",	170, 
-  "³Q¬D¿ï¦¨¬°¤ı¦m",	"³Q¿ï¤¤·í¤k¤ıªº¤Ò´B",	260, 
-  "¦¨¬°§BÀïªº¤Ò¤H",	"¦¨¬°¤F¤k§BÀïªº¤Ò´B",	130, 
-  "¦¨¬°´I»¨ªº©d¤l",	"¦¨¬°¤k´I»¨ªº¤Ò´B",	100, 
-  "¦¨¬°°Ó¤Hªº©d¤l",	"¦¨¬°¤k°Ó¤Hªº¤Ò´B",	80, 
-  "¦¨¬°¹A¤Hªº©d¤l",	"¦¨¬°¤k¹A¤Hªº¤Ò´B",	80, 
-  "¦¨¬°¦a¥Dªº±¡°ü",	"¦¨¬°¤k¦a¥Dªº±¡¤Ò",	-40, 
+  /* å¥³æ€§è·æ¥­ */
+  /* ç”·ç”Ÿè·æ¥­ */
+  "\xA4\x6B\xA9\xCA\xC2\xBE\xB7\x7E",		"\xA8\x6B\xA5\xCD\xC2\xBE\xB7\x7E",		0, 
+  /* æˆç‚ºåœ‹ç‹çš„å¯µå¦ƒ */
+  /* æˆç‚ºå¥³ç‹çš„é§™é¦¬çˆº */
+  "\xA6\xA8\xAC\xB0\xB0\xEA\xA4\xFD\xAA\xBA\xC3\x64\xA6\x6D",	"\xA6\xA8\xAC\xB0\xA4\x6B\xA4\xFD\xAA\xBA\xBE\x74\xB0\xA8\xB7\xDD",	170, 
+  /* è¢«æŒ‘é¸æˆç‚ºç‹å¦ƒ */
+  /* è¢«é¸ä¸­ç•¶å¥³ç‹çš„å¤«å©¿ */
+  "\xB3\x51\xAC\x44\xBF\xEF\xA6\xA8\xAC\xB0\xA4\xFD\xA6\x6D",	"\xB3\x51\xBF\xEF\xA4\xA4\xB7\xED\xA4\x6B\xA4\xFD\xAA\xBA\xA4\xD2\xB4\x42",	260, 
+  /* æˆç‚ºä¼¯çˆµçš„å¤«äºº */
+  /* æˆç‚ºäº†å¥³ä¼¯çˆµçš„å¤«å©¿ */
+  "\xA6\xA8\xAC\xB0\xA7\x42\xC0\xEF\xAA\xBA\xA4\xD2\xA4\x48",	"\xA6\xA8\xAC\xB0\xA4\x46\xA4\x6B\xA7\x42\xC0\xEF\xAA\xBA\xA4\xD2\xB4\x42",	130, 
+  /* æˆç‚ºå¯Œè±ªçš„å¦»å­ */
+  /* æˆç‚ºå¥³å¯Œè±ªçš„å¤«å©¿ */
+  "\xA6\xA8\xAC\xB0\xB4\x49\xBB\xA8\xAA\xBA\xA9\x64\xA4\x6C",	"\xA6\xA8\xAC\xB0\xA4\x6B\xB4\x49\xBB\xA8\xAA\xBA\xA4\xD2\xB4\x42",	100, 
+  /* æˆç‚ºå•†äººçš„å¦»å­ */
+  /* æˆç‚ºå¥³å•†äººçš„å¤«å©¿ */
+  "\xA6\xA8\xAC\xB0\xB0\xD3\xA4\x48\xAA\xBA\xA9\x64\xA4\x6C",	"\xA6\xA8\xAC\xB0\xA4\x6B\xB0\xD3\xA4\x48\xAA\xBA\xA4\xD2\xB4\x42",	80, 
+  /* æˆç‚ºè¾²äººçš„å¦»å­ */
+  /* æˆç‚ºå¥³è¾²äººçš„å¤«å©¿ */
+  "\xA6\xA8\xAC\xB0\xB9\x41\xA4\x48\xAA\xBA\xA9\x64\xA4\x6C",	"\xA6\xA8\xAC\xB0\xA4\x6B\xB9\x41\xA4\x48\xAA\xBA\xA4\xD2\xB4\x42",	80, 
+  /* æˆç‚ºåœ°ä¸»çš„æƒ…å©¦ */
+  /* æˆç‚ºå¥³åœ°ä¸»çš„æƒ…å¤« */
+  "\xA6\xA8\xAC\xB0\xA6\x61\xA5\x44\xAA\xBA\xB1\xA1\xB0\xFC",	"\xA6\xA8\xAC\xB0\xA4\x6B\xA6\x61\xA5\x44\xAA\xBA\xB1\xA1\xA4\xD2",	-40, 
   NULL,			NULL,			0
 };
 
 
-/* ÃÀ³NÃş */
+/* è—è¡“é¡ */
 struct endingset endmodeart[] = 
 {
-  "¤k©ÊÂ¾·~",		"¨k¥ÍÂ¾·~",		0, 
-  "¦¨¬°¤F¤p¤¡",		"¦¨¬°¤F¤p¤¡",		100, 
-  "¦¨¬°¤F§@®a",		"¦¨¬°¤F§@®a",		100, 
-  "¦¨¬°¤Fµe®a",		"¦¨¬°¤Fµe®a",		100, 
-  "¦¨¬°¤F»RÁĞ®a",	"¦¨¬°¤F»RÁĞ®a",		100, 
+  /* å¥³æ€§è·æ¥­ */
+  /* ç”·ç”Ÿè·æ¥­ */
+  "\xA4\x6B\xA9\xCA\xC2\xBE\xB7\x7E",		"\xA8\x6B\xA5\xCD\xC2\xBE\xB7\x7E",		0, 
+  /* æˆç‚ºäº†å°ä¸‘ */
+  /* æˆç‚ºäº†å°ä¸‘ */
+  "\xA6\xA8\xAC\xB0\xA4\x46\xA4\x70\xA4\xA1",		"\xA6\xA8\xAC\xB0\xA4\x46\xA4\x70\xA4\xA1",		100, 
+  /* æˆç‚ºäº†ä½œå®¶ */
+  /* æˆç‚ºäº†ä½œå®¶ */
+  "\xA6\xA8\xAC\xB0\xA4\x46\xA7\x40\xAE\x61",		"\xA6\xA8\xAC\xB0\xA4\x46\xA7\x40\xAE\x61",		100, 
+  /* æˆç‚ºäº†ç•«å®¶ */
+  /* æˆç‚ºäº†ç•«å®¶ */
+  "\xA6\xA8\xAC\xB0\xA4\x46\xB5\x65\xAE\x61",		"\xA6\xA8\xAC\xB0\xA4\x46\xB5\x65\xAE\x61",		100, 
+  /* æˆç‚ºäº†èˆè¹ˆå®¶ */
+  /* æˆç‚ºäº†èˆè¹ˆå®¶ */
+  "\xA6\xA8\xAC\xB0\xA4\x46\xBB\x52\xC1\xD0\xAE\x61",	"\xA6\xA8\xAC\xB0\xA4\x46\xBB\x52\xC1\xD0\xAE\x61",		100, 
   NULL,			NULL,			0
 };
 
 
-/* ·t¶ÂÃş */
+/* æš—é»‘é¡ */
 struct endingset endmodeblack[] = 
 {
-  "¤k©ÊÂ¾·~",		"¨k¥ÍÂ¾·~",		0,
-  "ÅÜ¦¨¤F¤kÅ]¤ı",	"ÅÜ¦¨¤F¤jÅ]¤ı",		-1000,
-  "²V¦¨¤F¤Ó©f",		"²V¦¨¤F¬yª]",		-350,
-  "°µ¤F¢á¢Û¤k¤ıªº¤u§@",	"°µ¤F¢á¢Û°ê¤ıªº¤u§@",	-150,
-  "·í¤F¶Âµóªº¤j©j",	"·í¤F¶Âµóªº¦Ñ¤j",	-500,
-  "ÅÜ¦¨°ª¯Å±@°ü",	"ÅÜ¦¨°ª¯Å±¡¤Ò",		-350,
-  "ÅÜ¦¨¶B´Û®v¶B´Û§O¤H",	"ÅÜ¦¨ª÷¥úÄÒÄF§O¤H¿ú",	-350,
-  "¥H¬yÅaªº¤u§@¥Í¬¡",	"¥H¤û­¦ªº¤u§@¥Í¬¡",	-350,
+  /* å¥³æ€§è·æ¥­ */
+  /* ç”·ç”Ÿè·æ¥­ */
+  "\xA4\x6B\xA9\xCA\xC2\xBE\xB7\x7E",		"\xA8\x6B\xA5\xCD\xC2\xBE\xB7\x7E",		0,
+  /* è®Šæˆäº†å¥³é­”ç‹ */
+  /* è®Šæˆäº†å¤§é­”ç‹ */
+  "\xC5\xDC\xA6\xA8\xA4\x46\xA4\x6B\xC5\x5D\xA4\xFD",	"\xC5\xDC\xA6\xA8\xA4\x46\xA4\x6A\xC5\x5D\xA4\xFD",		-1000,
+  /* æ··æˆäº†å¤ªå¦¹ */
+  /* æ··æˆäº†æµæ°“ */
+  "\xB2\x56\xA6\xA8\xA4\x46\xA4\xD3\xA9\x66",		"\xB2\x56\xA6\xA8\xA4\x46\xAC\x79\xAA\x5D",		-350,
+  /* åšäº†ï¼³ï¼­å¥³ç‹çš„å·¥ä½œ */
+  /* åšäº†ï¼³ï¼­åœ‹ç‹çš„å·¥ä½œ */
+  "\xB0\xB5\xA4\x46\xA2\xE1\xA2\xDB\xA4\x6B\xA4\xFD\xAA\xBA\xA4\x75\xA7\x40",	"\xB0\xB5\xA4\x46\xA2\xE1\xA2\xDB\xB0\xEA\xA4\xFD\xAA\xBA\xA4\x75\xA7\x40",	-150,
+  /* ç•¶äº†é»‘è¡—çš„å¤§å§ */
+  /* ç•¶äº†é»‘è¡—çš„è€å¤§ */
+  "\xB7\xED\xA4\x46\xB6\xC2\xB5\xF3\xAA\xBA\xA4\x6A\xA9\x6A",	"\xB7\xED\xA4\x46\xB6\xC2\xB5\xF3\xAA\xBA\xA6\xD1\xA4\x6A",	-500,
+  /* è®Šæˆé«˜ç´šå¨¼å©¦ */
+  /* è®Šæˆé«˜ç´šæƒ…å¤« */
+  "\xC5\xDC\xA6\xA8\xB0\xAA\xAF\xC5\xB1\x40\xB0\xFC",	"\xC5\xDC\xA6\xA8\xB0\xAA\xAF\xC5\xB1\xA1\xA4\xD2",		-350,
+  /* è®Šæˆè©æ¬ºå¸«è©æ¬ºåˆ¥äºº */
+  /* è®Šæˆé‡‘å…‰é»¨é¨™åˆ¥äººéŒ¢ */
+  "\xC5\xDC\xA6\xA8\xB6\x42\xB4\xDB\xAE\x76\xB6\x42\xB4\xDB\xA7\x4F\xA4\x48",	"\xC5\xDC\xA6\xA8\xAA\xF7\xA5\xFA\xC4\xD2\xC4\x46\xA7\x4F\xA4\x48\xBF\xFA",	-350,
+  /* ä»¥æµé¶¯çš„å·¥ä½œç”Ÿæ´» */
+  /* ä»¥ç‰›éƒçš„å·¥ä½œç”Ÿæ´» */
+  "\xA5\x48\xAC\x79\xC5\x61\xAA\xBA\xA4\x75\xA7\x40\xA5\xCD\xAC\xA1",	"\xA5\x48\xA4\xFB\xAD\xA6\xAA\xBA\xA4\x75\xA7\x40\xA5\xCD\xAC\xA1",	-350,
   NULL,			NULL,			0
 };
 
 
-/* ®a¨ÆÃş */
+/* å®¶äº‹é¡ */
 struct endingset endmodefamily[] = 
 {
-  "¤k©ÊÂ¾·~",		"¨k¥ÍÂ¾·~",		0,
-  "¥¿¦b·s®Q­×¦æ",	"¥¿¦b·s­¦­×¦æ",		50,
-  "¥¿¦b®a¸Ì¶¢®Ì",	"¥¿¦b®a¸Ì¶¢®Ì",		10,
+  /* å¥³æ€§è·æ¥­ */
+  /* ç”·ç”Ÿè·æ¥­ */
+  "\xA4\x6B\xA9\xCA\xC2\xBE\xB7\x7E",		"\xA8\x6B\xA5\xCD\xC2\xBE\xB7\x7E",		0,
+  /* æ­£åœ¨æ–°å¨˜ä¿®è¡Œ */
+  /* æ­£åœ¨æ–°éƒä¿®è¡Œ */
+  "\xA5\xBF\xA6\x62\xB7\x73\xAE\x51\xAD\xD7\xA6\xE6",	"\xA5\xBF\xA6\x62\xB7\x73\xAD\xA6\xAD\xD7\xA6\xE6",		50,
+  /* æ­£åœ¨å®¶è£¡é–’æ™ƒ */
+  /* æ­£åœ¨å®¶è£¡é–’æ™ƒ */
+  "\xA5\xBF\xA6\x62\xAE\x61\xB8\xCC\xB6\xA2\xAE\xCC",	"\xA5\xBF\xA6\x62\xAE\x61\xB8\xCC\xB6\xA2\xAE\xCC",		10,
   NULL,			NULL,			0
 };
 
 
 /*-------------------------------------------------------*/
-/* µ²§½¨ç¦¡              				 */
+/* çµå±€å‡½å¼              				 */
 /*-------------------------------------------------------*/
 
 
-/* ¤u§@³õ©Ò§PÂ_ */
+/* å·¥ä½œå ´æ‰€åˆ¤æ–· */
 static int
-pip_max_worktime()		/* workind: ¦b­ş¸Ì¤u§@³Ì¦h¦¸ */
+pip_max_worktime()		/* workind: åœ¨å“ªè£¡å·¥ä½œæœ€å¤šæ¬¡ */
 {
-  int workind, times;		/* ´X¦¸ */
+  int workind, times;		/* å¹¾æ¬¡ */
 
-  times = 20;		/* ­Y¨S¦³¶W¹L 20 ¦¸ªº¤u§@³õ©Ò¡A«h¶Ç¦^ workind = 0 */
+  times = 20;		/* è‹¥æ²’æœ‰è¶…é 20 æ¬¡çš„å·¥ä½œå ´æ‰€ï¼Œå‰‡å‚³å› workind = 0 */
   workind = 0;
 
   if (d.workA > times)
@@ -261,20 +427,20 @@ pip_max_worktime()		/* workind: ¦b­ş¸Ì¤u§@³Ì¦h¦¸ */
 }
 
 
-/* µ²§½§PÂ_ */
-static int		/* return 1:·t¶Â 2:ÃÀ³N 3:¸U¯à 4:¾Ô¤h 5:Å]ªk 6:ªÀ¥æ 7:®a¨Æ */
+/* çµå±€åˆ¤æ–· */
+static int		/* return 1:æš—é»‘ 2:è—è¡“ 3:è¬èƒ½ 4:æˆ°å£« 5:é­”æ³• 6:ç¤¾äº¤ 7:å®¶äº‹ */
 pip_future_decide(modeallpurpose)
-  int *modeallpurpose;	/* ¦pªG¬O¸U¯àµ²§½¡A¨º»òÁÙ­n return ¬O­ş¤@Ãşªº¸U¯à */
+  int *modeallpurpose;	/* å¦‚æœæ˜¯è¬èƒ½çµå±€ï¼Œé‚£éº¼é‚„è¦ return æ˜¯å“ªä¸€é¡çš„è¬èƒ½ */
 {
-  *modeallpurpose = 0;	/* ¹w³] 0 */
+  *modeallpurpose = 0;	/* é è¨­ 0 */
 
-  /* ·t¶Â */
+  /* æš—é»‘ */
   if ((d.etchics == 0 && d.sin >= 100) || (d.etchics > 0 && d.etchics < 50 && d.sin >= 250))
   {
     return 1;
   }
 
-  /* ÃÀ³N */
+  /* è—è¡“ */
   if (d.art > d.hexp && d.art > d.mexp && d.art > d.hskill &&
     d.art > d.mskill && d.art > d.social && d.art > d.family &&
     d.art > d.homework && d.art > d.wisdom && d.art > d.charm &&
@@ -284,7 +450,7 @@ pip_future_decide(modeallpurpose)
     return 2;
   }
 
-  /* ¾Ô°« */
+  /* æˆ°é¬¥ */
   if (d.hexp >= d.social && d.hexp >= d.mexp && d.hexp >= d.family)
   {
     *modeallpurpose = 1;
@@ -293,7 +459,7 @@ pip_future_decide(modeallpurpose)
     return 3;
   }
 
-  /* Å]ªk */
+  /* é­”æ³• */
   if (d.mexp >= d.hexp && d.mexp >= d.social && d.mexp >= d.family)
   {
     *modeallpurpose = 2;
@@ -302,7 +468,7 @@ pip_future_decide(modeallpurpose)
     return 3;
   }
 
-  /* ªÀ¥æ */
+  /* ç¤¾äº¤ */
   if (d.social >= d.hexp && d.social >= d.mexp && d.social >= d.family)
   {
     *modeallpurpose = 3;
@@ -311,7 +477,7 @@ pip_future_decide(modeallpurpose)
     return 3;
   }
 
-  /* ®a¨Æ */
+  /* å®¶äº‹ */
   *modeallpurpose = 4;
   if (d.family > d.hexp + 50 || d.family > d.mexp + 50 || d.family > d.social + 50)
     return 7;
@@ -319,13 +485,13 @@ pip_future_decide(modeallpurpose)
 }
 
 
-/* µ²±Bªº§PÂ_ */
+/* çµå©šçš„åˆ¤æ–· */
 static int		/* return grade */
 pip_marry_decide()
 {
-  if (d.lover)		/* °Ó¤H */
+  if (d.lover)		/* å•†äºº */
   {
-    /* d.lover = 3 4 5 6 7:°Ó¤H */
+    /* d.lover = 3 4 5 6 7:å•†äºº */
     return 80;
   }
 
@@ -333,7 +499,7 @@ pip_marry_decide()
   {
     if (d.royalJ >= 100)
     {
-      d.lover = 1;	/* ¤ı¤l */
+      d.lover = 1;	/* ç‹å­ */
       return 200;
     }
   }
@@ -341,35 +507,35 @@ pip_marry_decide()
   {
     if (d.relation >= 100)
     {
-      d.lover = 2;	/* ¤÷¿Ë©Î¥À¿Ë */
+      d.lover = 2;	/* çˆ¶è¦ªæˆ–æ¯è¦ª */
       return 0;
     }
   }
 
-  /* d.lover = 0; */	/* ³æ¨­ */
+  /* d.lover = 0; */	/* å–®èº« */
   return 40;
 }
 
 
 static int
-pip_endwith_black(buf)	/* ·t¶Â */
+pip_endwith_black(buf)	/* æš—é»‘ */
   char *buf;
 {
   int m;
 
-  if (d.sin > 500 && d.mexp > 500)		/* Å]¤ı */
+  if (d.sin > 500 && d.mexp > 500)		/* é­”ç‹ */
     m = 1;
-  else if (d.hexp > 600)			/* ¬yª] */
+  else if (d.hexp > 600)			/* æµæ°“ */
     m = 2;
   else if (d.speech > 100 && d.art >= 80)	/* SM */
     m = 3;
-  else if (d.hexp > 320 && d.character > 200 && d.charm < 200)	/* ¶Âµó¦Ñ¤j */
+  else if (d.hexp > 320 && d.character > 200 && d.charm < 200)	/* é»‘è¡—è€å¤§ */
     m = 4;
-  else if (d.character > 200 && d.charm > 200 && d.speech > 70 && d.toman > 70)	/* °ª¯Å±@°ü */
+  else if (d.character > 200 && d.charm > 200 && d.speech > 70 && d.toman > 70)	/* é«˜ç´šå¨¼å©¦ */
     m = 5;
-  else if (d.wisdom > 450)			/* ¶BÄF®v */
+  else if (d.wisdom > 450)			/* è©é¨™å¸« */
     m = 6;
-  else						/* ¬yÅa */
+  else						/* æµé¶¯ */
     m = 7;
 
   if (d.sex == 1)
@@ -382,7 +548,7 @@ pip_endwith_black(buf)	/* ·t¶Â */
 
 
 static int
-pip_endwith_social(buf)	/* ªÀ¥æ */
+pip_endwith_social(buf)	/* ç¤¾äº¤ */
   char *buf;
 {
   int m;
@@ -410,7 +576,7 @@ pip_endwith_social(buf)	/* ªÀ¥æ */
 
 
 static int
-pip_endwith_magic(buf)	/* Å]ªk */
+pip_endwith_magic(buf)	/* é­”æ³• */
   char *buf;
 {
   int m;
@@ -436,7 +602,7 @@ pip_endwith_magic(buf)	/* Å]ªk */
 
 
 static int
-pip_endwith_combat(buf)	/* ¾Ô°« */
+pip_endwith_combat(buf)	/* æˆ°é¬¥ */
   char *buf;
 {
   int m;
@@ -460,7 +626,7 @@ pip_endwith_combat(buf)	/* ¾Ô°« */
 
 
 static int
-pip_endwith_family(buf)	/* ®a¨Æ */
+pip_endwith_family(buf)	/* å®¶äº‹ */
   char *buf;
 {
   int m;
@@ -480,14 +646,14 @@ pip_endwith_family(buf)	/* ®a¨Æ */
 
 
 static int
-pip_endwith_allpurpose(buf, mode)	/* ¸U¯à */
+pip_endwith_allpurpose(buf, mode)	/* è¬èƒ½ */
   char *buf;
   int mode;
 {
   int m;
   int point, workind;
 
-  /* ¨Ì¬O­ş¤@Ãşªº¸U¯à¡A¨Ó¨M©w point ÂI¼Æ */
+  /* ä¾æ˜¯å“ªä¸€é¡çš„è¬èƒ½ï¼Œä¾†æ±ºå®š point é»æ•¸ */
 
   if (mode == 1)
     point = d.hexp;
@@ -533,7 +699,7 @@ pip_endwith_allpurpose(buf, mode)	/* ¸U¯à */
 
 
 static int
-pip_endwith_art(buf)		/* ÃÀ³N */
+pip_endwith_art(buf)		/* è—è¡“ */
   char *buf;
 {
   int m;
@@ -557,7 +723,7 @@ pip_endwith_art(buf)		/* ÃÀ³N */
 
 
 /* ------------------------------------------------------- */
-/* µ²§½¨M©w                                                */
+/* çµå±€æ±ºå®š                                                */
 /* ------------------------------------------------------- */
 
 static void
@@ -567,23 +733,39 @@ pip_endwith_decide(endbuf1, endbuf2, endmode, endgrade)
 {
   char *name[8][2] = 
   {
-    {"¨kªº", "¤kªº"},
-    {"¶ùµ¹¤ı¤l", "°ù¤F¤½¥D"},
-    {"¶ùµ¹±z", "°ù¤F±z"},
-    {"¶ùµ¹°Ó¤H¢Ï", "°ù¤F¤k°Ó¤H¢Ï"},
-    {"¶ùµ¹°Ó¤H¢Ğ", "°ù¤F¤k°Ó¤H¢Ğ"},
-    {"¶ùµ¹°Ó¤H¢Ñ", "°ù¤F¤k°Ó¤H¢Ñ"},
-    {"¶ùµ¹°Ó¤H¢Ò", "°ù¤F¤k°Ó¤H¢Ò"},
-    {"¶ùµ¹°Ó¤H¢Ó", "°ù¤F¤k°Ó¤H¢Ó"}
+    /* ç”·çš„ */
+    /* å¥³çš„ */
+    {"\xA8\x6B\xAA\xBA", "\xA4\x6B\xAA\xBA"},
+    /* å«çµ¦ç‹å­ */
+    /* å¨¶äº†å…¬ä¸» */
+    {"\xB6\xF9\xB5\xB9\xA4\xFD\xA4\x6C", "\xB0\xF9\xA4\x46\xA4\xBD\xA5\x44"},
+    /* å«çµ¦æ‚¨ */
+    /* å¨¶äº†æ‚¨ */
+    {"\xB6\xF9\xB5\xB9\xB1\x7A", "\xB0\xF9\xA4\x46\xB1\x7A"},
+    /* å«çµ¦å•†äººï¼¡ */
+    /* å¨¶äº†å¥³å•†äººï¼¡ */
+    {"\xB6\xF9\xB5\xB9\xB0\xD3\xA4\x48\xA2\xCF", "\xB0\xF9\xA4\x46\xA4\x6B\xB0\xD3\xA4\x48\xA2\xCF"},
+    /* å«çµ¦å•†äººï¼¢ */
+    /* å¨¶äº†å¥³å•†äººï¼¢ */
+    {"\xB6\xF9\xB5\xB9\xB0\xD3\xA4\x48\xA2\xD0", "\xB0\xF9\xA4\x46\xA4\x6B\xB0\xD3\xA4\x48\xA2\xD0"},
+    /* å«çµ¦å•†äººï¼£ */
+    /* å¨¶äº†å¥³å•†äººï¼£ */
+    {"\xB6\xF9\xB5\xB9\xB0\xD3\xA4\x48\xA2\xD1", "\xB0\xF9\xA4\x46\xA4\x6B\xB0\xD3\xA4\x48\xA2\xD1"},
+    /* å«çµ¦å•†äººï¼¤ */
+    /* å¨¶äº†å¥³å•†äººï¼¤ */
+    {"\xB6\xF9\xB5\xB9\xB0\xD3\xA4\x48\xA2\xD2", "\xB0\xF9\xA4\x46\xA4\x6B\xB0\xD3\xA4\x48\xA2\xD2"},
+    /* å«çµ¦å•†äººï¼¥ */
+    /* å¨¶äº†å¥³å•†äººï¼¥ */
+    {"\xB6\xF9\xB5\xB9\xB0\xD3\xA4\x48\xA2\xD3", "\xB0\xF9\xA4\x46\xA4\x6B\xB0\xD3\xA4\x48\xA2\xD3"}
   };
 
   int modeallpurpose;
 
-  /* ³B²z endbuf1 */
+  /* è™•ç† endbuf1 */
   *endmode = pip_future_decide(&modeallpurpose);
   switch (*endmode)
   {
-  /* 1:·t¶Â 2:ÃÀ³N 3:¸U¯à 4:¾Ô¤h 5:Å]ªk 6:ªÀ¥æ 7:®a¨Æ */
+  /* 1:æš—é»‘ 2:è—è¡“ 3:è¬èƒ½ 4:æˆ°å£« 5:é­”æ³• 6:ç¤¾äº¤ 7:å®¶äº‹ */
   case 1:
     *endgrade = pip_endwith_black(endbuf1);
     break;
@@ -609,7 +791,7 @@ pip_endwith_decide(endbuf1, endbuf2, endmode, endgrade)
 
   *endgrade += pip_marry_decide();
 
-  /* ³B²z endbuf2 */
+  /* è™•ç† endbuf2 */
   if (d.lover >= 1 && d.lover <= 7)
   {
     if (d.sex == 1)
@@ -617,16 +799,18 @@ pip_endwith_decide(endbuf1, endbuf2, endmode, endgrade)
     else
       strcpy(endbuf2, name[d.lover][0]);
   }
-  else if (d.lover == 10)			/* ªÀ¥æÃşªºÂ¾·~¦P®É¤]¬O±B«Ãª¬ªp */
+  else if (d.lover == 10)			/* ç¤¾äº¤é¡çš„è·æ¥­åŒæ™‚ä¹Ÿæ˜¯å©šå§»ç‹€æ³ */
   {
     strcpy(endbuf2, endbuf1);
   }
   else /* if (d.lover == 0) */
   {
     if (d.sex == 1)
-      strcpy(endbuf2, "°ù¤F¦P¦æªº¤k«Ä");
+      /* å¨¶äº†åŒè¡Œçš„å¥³å­© */
+      strcpy(endbuf2, "\xB0\xF9\xA4\x46\xA6\x50\xA6\xE6\xAA\xBA\xA4\x6B\xAB\xC4");
     else
-      strcpy(endbuf2, "¶ùµ¹¤F¦P¦æªº¨k¥Í");
+      /* å«çµ¦äº†åŒè¡Œçš„ç”·ç”Ÿ */
+      strcpy(endbuf2, "\xB6\xF9\xB5\xB9\xA4\x46\xA6\x50\xA6\xE6\xAA\xBA\xA8\x6B\xA5\xCD");
   }
 }
 
@@ -637,16 +821,20 @@ pip_ending_grade(endgrade)
 {
   clrfromto(1, 23);
   move(8, 17);
-  outs("\033[1;36m·PÁÂ±zª±§¹¾ã­Ó" BBSNAME "¤pÂûªº¹CÀ¸\033[m");
+  /* \033[1;36mæ„Ÿè¬æ‚¨ç©å®Œæ•´å€‹ */
+  /* å°é›çš„éŠæˆ²\033[m */
+  outs("\033[1;36m\xB7\x50\xC1\xC2\xB1\x7A\xAA\xB1\xA7\xB9\xBE\xE3\xAD\xD3" BBSNAME "\xA4\x70\xC2\xFB\xAA\xBA\xB9\x43\xC0\xB8\033[m");
   move(10, 17);
-  outs("\033[1;37m¸g¹L¨t²Î­pºâªºµ²ªG¡G\033[m");
+  /* \033[1;37mç¶“éç³»çµ±è¨ˆç®—çš„çµæœï¼š\033[m */
+  outs("\033[1;37m\xB8\x67\xB9\x4C\xA8\x74\xB2\xCE\xAD\x70\xBA\xE2\xAA\xBA\xB5\xB2\xAA\x47\xA1\x47\033[m");
   move(12, 17);
-  prints("\033[1;36m±zªº¤pÂû\033[37m%s\033[36mÁ`±o¤À¡×\033[1;5;33m%d\033[m", d.name, endgrade);
+  /* \033[1;36mæ‚¨çš„å°é›\033[37m%s\033[36mç¸½å¾—åˆ†ï¼\033[1;5;33m%d\033[m */
+  prints("\033[1;36m\xB1\x7A\xAA\xBA\xA4\x70\xC2\xFB\033[37m%s\033[36m\xC1\x60\xB1\x6F\xA4\xC0\xA1\xD7\033[1;5;33m%d\033[m", d.name, endgrade);
 }
 
 
 int
-pip_ending_screen()		/* µ²§½µe­± */
+pip_ending_screen()		/* çµå±€ç•«é¢ */
 {
   char endbuf1[50], endbuf2[50];
   int endgrade = 0;
@@ -656,74 +844,113 @@ pip_ending_screen()		/* µ²§½µe­± */
 
   clear();
   move(1, 0);
-  outs("        \033[1;33mùİùùùùùùùßùİùùùù¢¡ùßùİùùùùùù¢¡ùİùùùùùùùßùİùùùù¢¡ùß¢~ùùùùùù¢¡\033[m\n");
-  outs("        \033[1;37mùø      ùøùø    ùøùøùø      ùøùø      ùøùø    ùøùøùø      ùø\033[m\n");
-  outs("        \033[1;33mùø    ùùùâùø    ùøùøùø  ¢~¢¡ùøùãùùùßùİùåùø    ùøùøùø  ùİùùùß\033[m\n");
-  outs("        \033[1;32mùø    ùùùâùø  ùø  ùøùø  ¢¢¢£ùøùİùùùåùãùßùø  ùø  ùøùø  ¢¢¢£ùø\033[m\n");
-  outs("        \033[1;37mùø      ùøùø  ùø  ùøùø      ùøùø      ùøùø  ùø  ùøùø      ùø\033[m\n");
-  outs("        \033[1;35mùãùùùùùùùåùãùù¢¢ùùùåùãùùùùùù¢£ùãùùùùùùùåùãùù¢¢ùùùå¢¢ùùùùùù¢£\033[m\n");
-  outs("        \033[1;31m¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w\033[41;37m " BBSNAME PIPNAME "µ²§½³ø§i\033[0;1;31m¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w\033[m\n");
-  outs("        \033[1;36m  ³o­Ó®É¶¡¤£ª¾¤£Ä±¦aÁÙ¬O¨ìÁ{¤F..\033[m\n");
-  prints("        \033[1;37m  \033[33m%s\033[37m ±oÂ÷¶}±zªº·Å·xÃh©ê¡A¦Û¤v¤@°¦Âû¦b¥~­±¨D¥Í¦s¤F..\033[m\n", d.name);
-  outs("        \033[1;36m  ¦b±z·ÓÅU±Ğ¾É¥Lªº³o¬q®É¥ú¡AÅı¥L±µÄ²¤F«Ü¦h»â°ì¡A°ö¾i¤F«Ü¦hªº¯à¤O..\033[m\n");
-  prints("        \033[1;37m  ¦]¬°³o¨Ç¡AÅı¤pÂû \033[33m%s\033[37m ¤§«áªº¥Í¬¡¡AÅÜ±o§ó¦hªö¦h«º¤F..\033[m\n", d.name);
-  outs("        \033[1;36m  ¹ï©ó±zªºÃö¤ß¡A±zªº¥I¥X¡A±z©Ò¦³ªº·R..\033[m\n");
-  prints("        \033[1;37m  \033[33m%s\033[37m ·|¥Ã»·³£»Ê°O¦b¤ßªº..\033[m", d.name);
-  vmsg("±µ¤U¨Ó¬İ¥¼¨Óµo®i");
+  /*         \033[1;33mâ•”â•â•â•â•—â•”â•â•â•®â•—â•”â•â•â•â•®â•”â•â•â•â•—â•”â•â•â•®â•—â•­â•â•â•â•®\033[m\n */
+  outs("        \033[1;33m\xF9\xDD\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xDF\xF9\xDD\xF9\xF9\xF9\xF9\xA2\xA1\xF9\xDF\xF9\xDD\xF9\xF9\xF9\xF9\xF9\xF9\xA2\xA1\xF9\xDD\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xDF\xF9\xDD\xF9\xF9\xF9\xF9\xA2\xA1\xF9\xDF\xA2\x7E\xF9\xF9\xF9\xF9\xF9\xF9\xA2\xA1\033[m\n");
+  /*         \033[1;37mâ•‘      â•‘â•‘    â•‘â•‘â•‘      â•‘â•‘      â•‘â•‘    â•‘â•‘â•‘      â•‘\033[m\n */
+  outs("        \033[1;37m\xF9\xF8      \xF9\xF8\xF9\xF8    \xF9\xF8\xF9\xF8\xF9\xF8      \xF9\xF8\xF9\xF8      \xF9\xF8\xF9\xF8    \xF9\xF8\xF9\xF8\xF9\xF8      \xF9\xF8\033[m\n");
+  /*         \033[1;33mâ•‘    â•â•£â•‘    â•‘â•‘â•‘  â•­â•®â•‘â•šâ•â•—â•”â•â•‘    â•‘â•‘â•‘  â•”â•â•—\033[m\n */
+  outs("        \033[1;33m\xF9\xF8    \xF9\xF9\xF9\xE2\xF9\xF8    \xF9\xF8\xF9\xF8\xF9\xF8  \xA2\x7E\xA2\xA1\xF9\xF8\xF9\xE3\xF9\xF9\xF9\xDF\xF9\xDD\xF9\xE5\xF9\xF8    \xF9\xF8\xF9\xF8\xF9\xF8  \xF9\xDD\xF9\xF9\xF9\xDF\033[m\n");
+  /*         \033[1;32mâ•‘    â•â•£â•‘  â•‘  â•‘â•‘  â•°â•¯â•‘â•”â•â•â•šâ•—â•‘  â•‘  â•‘â•‘  â•°â•¯â•‘\033[m\n */
+  outs("        \033[1;32m\xF9\xF8    \xF9\xF9\xF9\xE2\xF9\xF8  \xF9\xF8  \xF9\xF8\xF9\xF8  \xA2\xA2\xA2\xA3\xF9\xF8\xF9\xDD\xF9\xF9\xF9\xE5\xF9\xE3\xF9\xDF\xF9\xF8  \xF9\xF8  \xF9\xF8\xF9\xF8  \xA2\xA2\xA2\xA3\xF9\xF8\033[m\n");
+  /*         \033[1;37mâ•‘      â•‘â•‘  â•‘  â•‘â•‘      â•‘â•‘      â•‘â•‘  â•‘  â•‘â•‘      â•‘\033[m\n */
+  outs("        \033[1;37m\xF9\xF8      \xF9\xF8\xF9\xF8  \xF9\xF8  \xF9\xF8\xF9\xF8      \xF9\xF8\xF9\xF8      \xF9\xF8\xF9\xF8  \xF9\xF8  \xF9\xF8\xF9\xF8      \xF9\xF8\033[m\n");
+  /*         \033[1;35mâ•šâ•â•â•â•â•šâ•â•°â•â•â•šâ•â•â•â•¯â•šâ•â•â•â•â•šâ•â•°â•â•â•°â•â•â•â•¯\033[m\n */
+  outs("        \033[1;35m\xF9\xE3\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xE5\xF9\xE3\xF9\xF9\xA2\xA2\xF9\xF9\xF9\xE5\xF9\xE3\xF9\xF9\xF9\xF9\xF9\xF9\xA2\xA3\xF9\xE3\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xE5\xF9\xE3\xF9\xF9\xA2\xA2\xF9\xF9\xF9\xE5\xA2\xA2\xF9\xF9\xF9\xF9\xF9\xF9\xA2\xA3\033[m\n");
+  /*         \033[1;31mâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€\033[41;37m  */
+  /* çµå±€å ±å‘Š\033[0;1;31mâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€\033[m\n */
+  outs("        \033[1;31m\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\033[41;37m " BBSNAME PIPNAME "\xB5\xB2\xA7\xBD\xB3\xF8\xA7\x69\033[0;1;31m\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\033[m\n");
+  /*         \033[1;36m  é€™å€‹æ™‚é–“ä¸çŸ¥ä¸è¦ºåœ°é‚„æ˜¯åˆ°è‡¨äº†..\033[m\n */
+  outs("        \033[1;36m  \xB3\x6F\xAD\xD3\xAE\xC9\xB6\xA1\xA4\xA3\xAA\xBE\xA4\xA3\xC4\xB1\xA6\x61\xC1\xD9\xAC\x4F\xA8\xEC\xC1\x7B\xA4\x46..\033[m\n");
+  /*         \033[1;37m  \033[33m%s\033[37m å¾—é›¢é–‹æ‚¨çš„æº«æš–æ‡·æŠ±ï¼Œè‡ªå·±ä¸€éš»é›åœ¨å¤–é¢æ±‚ç”Ÿå­˜äº†..\033[m\n */
+  prints("        \033[1;37m  \033[33m%s\033[37m \xB1\x6F\xC2\xF7\xB6\x7D\xB1\x7A\xAA\xBA\xB7\xC5\xB7\x78\xC3\x68\xA9\xEA\xA1\x41\xA6\xDB\xA4\x76\xA4\x40\xB0\xA6\xC2\xFB\xA6\x62\xA5\x7E\xAD\xB1\xA8\x44\xA5\xCD\xA6\x73\xA4\x46..\033[m\n", d.name);
+  /*         \033[1;36m  åœ¨æ‚¨ç…§é¡§æ•™å°ä»–çš„é€™æ®µæ™‚å…‰ï¼Œè®“ä»–æ¥è§¸äº†å¾ˆå¤šé ˜åŸŸï¼ŒåŸ¹é¤Šäº†å¾ˆå¤šçš„èƒ½åŠ›..\033[m\n */
+  outs("        \033[1;36m  \xA6\x62\xB1\x7A\xB7\xD3\xC5\x55\xB1\xD0\xBE\xC9\xA5\x4C\xAA\xBA\xB3\x6F\xAC\x71\xAE\xC9\xA5\xFA\xA1\x41\xC5\xFD\xA5\x4C\xB1\xB5\xC4\xB2\xA4\x46\xAB\xDC\xA6\x68\xBB\xE2\xB0\xEC\xA1\x41\xB0\xF6\xBE\x69\xA4\x46\xAB\xDC\xA6\x68\xAA\xBA\xAF\xE0\xA4\x4F..\033[m\n");
+  /*         \033[1;37m  å› ç‚ºé€™äº›ï¼Œè®“å°é› \033[33m%s\033[37m ä¹‹å¾Œçš„ç”Ÿæ´»ï¼Œè®Šå¾—æ›´å¤šé‡‡å¤šå§¿äº†..\033[m\n */
+  prints("        \033[1;37m  \xA6\x5D\xAC\xB0\xB3\x6F\xA8\xC7\xA1\x41\xC5\xFD\xA4\x70\xC2\xFB \033[33m%s\033[37m \xA4\xA7\xAB\xE1\xAA\xBA\xA5\xCD\xAC\xA1\xA1\x41\xC5\xDC\xB1\x6F\xA7\xF3\xA6\x68\xAA\xF6\xA6\x68\xAB\xBA\xA4\x46..\033[m\n", d.name);
+  /*         \033[1;36m  å°æ–¼æ‚¨çš„é—œå¿ƒï¼Œæ‚¨çš„ä»˜å‡ºï¼Œæ‚¨æ‰€æœ‰çš„æ„›..\033[m\n */
+  outs("        \033[1;36m  \xB9\xEF\xA9\xF3\xB1\x7A\xAA\xBA\xC3\xF6\xA4\xDF\xA1\x41\xB1\x7A\xAA\xBA\xA5\x49\xA5\x58\xA1\x41\xB1\x7A\xA9\xD2\xA6\xB3\xAA\xBA\xB7\x52..\033[m\n");
+  /*         \033[1;37m  \033[33m%s\033[37m æœƒæ°¸é éƒ½éŠ˜è¨˜åœ¨å¿ƒçš„..\033[m */
+  prints("        \033[1;37m  \033[33m%s\033[37m \xB7\x7C\xA5\xC3\xBB\xB7\xB3\xA3\xBB\xCA\xB0\x4F\xA6\x62\xA4\xDF\xAA\xBA..\033[m", d.name);
+  /* æ¥ä¸‹ä¾†çœ‹æœªä¾†ç™¼å±• */
+  vmsg("\xB1\xB5\xA4\x55\xA8\xD3\xAC\xDD\xA5\xBC\xA8\xD3\xB5\x6F\xAE\x69");
 
   clrfromto(7, 19);
-  outs("        \033[1;34m¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w\033[44;37m " BBSNAME PIPNAME "¥¼¨Óµo®i\033[0;1;34m¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w\033[m\n");
-  prints("        \033[1;36m  ³z¹L¤ô´¹²y¡AÅı§Ú­Ì¤@°_¨Ó¬İ \033[33m%s\033[36m ªº¥¼¨Óµo®i§a..\033[m\n", d.name);
-  prints("        \033[1;37m¤pÂû \033[33m%s\033[37m «á¨Ó%s..\033[m\n", d.name, endbuf1);
-  prints("        \033[1;37m¦Ü©ó¤pÂûªº±B«Ãª¬ªp¡A¥L«á¨Ó%s¡A±B«Ãºâ¬O«Ü¬üº¡..\033[m\n", endbuf2);
-  outs("        \033[1;36m¶â..³o¬O¤@­Ó¤£¿ùªºµ²§½­ò..\033[m");
-  vmsg("§Ú·Q±z¤@©w«Ü·P°Ê§a");
+  /*         \033[1;34mâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€\033[44;37m  */
+  /* æœªä¾†ç™¼å±•\033[0;1;34mâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€\033[m\n */
+  outs("        \033[1;34m\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\033[44;37m " BBSNAME PIPNAME "\xA5\xBC\xA8\xD3\xB5\x6F\xAE\x69\033[0;1;34m\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\033[m\n");
+  /*         \033[1;36m  é€éæ°´æ™¶çƒï¼Œè®“æˆ‘å€‘ä¸€èµ·ä¾†çœ‹ \033[33m%s\033[36m çš„æœªä¾†ç™¼å±•å§..\033[m\n */
+  prints("        \033[1;36m  \xB3\x7A\xB9\x4C\xA4\xF4\xB4\xB9\xB2\x79\xA1\x41\xC5\xFD\xA7\xDA\xAD\xCC\xA4\x40\xB0\x5F\xA8\xD3\xAC\xDD \033[33m%s\033[36m \xAA\xBA\xA5\xBC\xA8\xD3\xB5\x6F\xAE\x69\xA7\x61..\033[m\n", d.name);
+  /*         \033[1;37må°é› \033[33m%s\033[37m å¾Œä¾†%s..\033[m\n */
+  prints("        \033[1;37m\xA4\x70\xC2\xFB \033[33m%s\033[37m \xAB\xE1\xA8\xD3%s..\033[m\n", d.name, endbuf1);
+  /*         \033[1;37mè‡³æ–¼å°é›çš„å©šå§»ç‹€æ³ï¼Œä»–å¾Œä¾†%sï¼Œå©šå§»ç®—æ˜¯å¾ˆç¾æ»¿..\033[m\n */
+  prints("        \033[1;37m\xA6\xDC\xA9\xF3\xA4\x70\xC2\xFB\xAA\xBA\xB1\x42\xAB\xC3\xAA\xAC\xAA\x70\xA1\x41\xA5\x4C\xAB\xE1\xA8\xD3%s\xA1\x41\xB1\x42\xAB\xC3\xBA\xE2\xAC\x4F\xAB\xDC\xAC\xFC\xBA\xA1..\033[m\n", endbuf2);
+  /*         \033[1;36må—¯..é€™æ˜¯ä¸€å€‹ä¸éŒ¯çš„çµå±€å”·..\033[m */
+  outs("        \033[1;36m\xB6\xE2..\xB3\x6F\xAC\x4F\xA4\x40\xAD\xD3\xA4\xA3\xBF\xF9\xAA\xBA\xB5\xB2\xA7\xBD\xAD\xF2..\033[m");
+  /* æˆ‘æƒ³æ‚¨ä¸€å®šå¾ˆæ„Ÿå‹•å§ */
+  vmsg("\xA7\xDA\xB7\x51\xB1\x7A\xA4\x40\xA9\x77\xAB\xDC\xB7\x50\xB0\xCA\xA7\x61");
 
   show_ending_pic(0);
-  vmsg("¬İ¤@¬İ¤À¼ÆÅo");
+  /* çœ‹ä¸€çœ‹åˆ†æ•¸å›‰ */
+  vmsg("\xAC\xDD\xA4\x40\xAC\xDD\xA4\xC0\xBC\xC6\xC5\x6F");
 
   pip_ending_grade(endgrade);
-  vmsg("¤U¤@­¶¬O¤pÂû¸ê®Æ¡A»°§Ö copy ¤U¨Ó°µ¬ö©À");
+  /* ä¸‹ä¸€é æ˜¯å°é›è³‡æ–™ï¼Œè¶•å¿« copy ä¸‹ä¾†åšç´€å¿µ */
+  vmsg("\xA4\x55\xA4\x40\xAD\xB6\xAC\x4F\xA4\x70\xC2\xFB\xB8\xEA\xAE\xC6\xA1\x41\xBB\xB0\xA7\xD6 copy \xA4\x55\xA8\xD3\xB0\xB5\xAC\xF6\xA9\xC0");
 
   pip_query_self();
-  vmsg("Åwªï¦A¨Ó¬D¾Ô..");
+  /* æ­¡è¿å†ä¾†æŒ‘æˆ°.. */
+  vmsg("\xC5\x77\xAA\xEF\xA6\x41\xA8\xD3\xAC\x44\xBE\xD4..");
 
-  pipdie("\033[1;31m¹CÀ¸µ²§ôÅo..\033[m  ", 3);
+  /* \033[1;31méŠæˆ²çµæŸå›‰..\033[m   */
+  pipdie("\033[1;31m\xB9\x43\xC0\xB8\xB5\xB2\xA7\xF4\xC5\x6F..\033[m  ", 3);
   return 0;
 }
 
 
 /* ------------------------------------------------------- */
-/* ÀH¾÷¾÷½t                                                */
+/* éš¨æ©Ÿæ©Ÿç·£                                                */
 /* ------------------------------------------------------- */
 
 
-int				/* 1:±µ¨ü¨D±B  0:©Úµ´¨D±B */
-pip_marriage_offer()		/* ¨D±B */
+int				/* 1:æ¥å—æ±‚å©š  0:æ‹’çµ•æ±‚å©š */
+pip_marriage_offer()		/* æ±‚å©š */
 {
   char buf[128];
   int money, who;
-  char *name[5][2] = {{"¤k°Ó¤H¢Ï", "°Ó¤H¢Ï"}, {"¤k°Ó¤H¢Ğ", "°Ó¤H¢Ğ"}, {"¤k°Ó¤H¢Ñ", "°Ó¤H¢Ñ"}, {"¤k°Ó¤H¢Ò", "°Ó¤H¢Ò"}, {"¤k°Ó¤H¢Ó", "°Ó¤H¢Ó"}};
+  /* å¥³å•†äººï¼¡ */
+  /* å•†äººï¼¡ */
+  /* å¥³å•†äººï¼¢ */
+  /* å•†äººï¼¢ */
+  /* å¥³å•†äººï¼£ */
+  /* å•†äººï¼£ */
+  /* å¥³å•†äººï¼¤ */
+  /* å•†äººï¼¤ */
+  /* å¥³å•†äººï¼¥ */
+  /* å•†äººï¼¥ */
+  char *name[5][2] = {{"\xA4\x6B\xB0\xD3\xA4\x48\xA2\xCF", "\xB0\xD3\xA4\x48\xA2\xCF"}, {"\xA4\x6B\xB0\xD3\xA4\x48\xA2\xD0", "\xB0\xD3\xA4\x48\xA2\xD0"}, {"\xA4\x6B\xB0\xD3\xA4\x48\xA2\xD1", "\xB0\xD3\xA4\x48\xA2\xD1"}, {"\xA4\x6B\xB0\xD3\xA4\x48\xA2\xD2", "\xB0\xD3\xA4\x48\xA2\xD2"}, {"\xA4\x6B\xB0\xD3\xA4\x48\xA2\xD3", "\xB0\xD3\xA4\x48\xA2\xD3"}};
 
   do
   {
     who = rand() % 5;
-  } while (d.lover == (who + 3));	/* ¨Ó¨D±BªÌ­n¤£¬O²{¦bªº¥¼±B©d */
+  } while (d.lover == (who + 3));	/* ä¾†æ±‚å©šè€…è¦ä¸æ˜¯ç¾åœ¨çš„æœªå©šå¦» */
 
   money = rand() % 5000 + 4000;
-  sprintf(buf, " %s±a¨Ó¤Fª÷¿ú %d¡A­n¦V±zªº¤pÂû¨D±B¡A±zÄ@·N¶Ü(Y/N)¡H[N] ", name[who][d.sex - 1], money);
+  /*  %så¸¶ä¾†äº†é‡‘éŒ¢ %dï¼Œè¦å‘æ‚¨çš„å°é›æ±‚å©šï¼Œæ‚¨é¡˜æ„å—(Y/N)ï¼Ÿ[N]  */
+  sprintf(buf, " %s\xB1\x61\xA8\xD3\xA4\x46\xAA\xF7\xBF\xFA %d\xA1\x41\xAD\x6E\xA6\x56\xB1\x7A\xAA\xBA\xA4\x70\xC2\xFB\xA8\x44\xB1\x42\xA1\x41\xB1\x7A\xC4\x40\xB7\x4E\xB6\xDC(Y/N)\xA1\x48[N] ", name[who][d.sex - 1], money);
   if (ians(b_lines - 1, 0, buf) == 'y')
   {
     if (d.wantend != 1 && d.wantend != 4)
     {
-      sprintf(buf, " £«¡ã¤§«e¤w¸g¦³±B¬ù¤F¡A±z½T©w­n¸Ñ°£ÂÂ±B¬ù¡A§ï¥ß±B¬ù¶Ü(Y/N)¡H[N] ");
+      /*  ã„šï½ä¹‹å‰å·²ç¶“æœ‰å©šç´„äº†ï¼Œæ‚¨ç¢ºå®šè¦è§£é™¤èˆŠå©šç´„ï¼Œæ”¹ç«‹å©šç´„å—(Y/N)ï¼Ÿ[N]  */
+      sprintf(buf, " \xA3\xAB\xA1\xE3\xA4\xA7\xAB\x65\xA4\x77\xB8\x67\xA6\xB3\xB1\x42\xAC\xF9\xA4\x46\xA1\x41\xB1\x7A\xBD\x54\xA9\x77\xAD\x6E\xB8\xD1\xB0\xA3\xC2\xC2\xB1\x42\xAC\xF9\xA1\x41\xA7\xEF\xA5\xDF\xB1\x42\xAC\xF9\xB6\xDC(Y/N)\xA1\x48[N] ");
       if (ians(b_lines - 1, 0, buf) != 'y')
       {
-	d.social += 10;			/* ºû«ùÂÂ±B¬ù¥[ªÀ¥æ */
-	vmsg("ÁÙ¬Oºû«ùÂÂ±B¬ù¦n¤F..");
+	d.social += 10;			/* ç¶­æŒèˆŠå©šç´„åŠ ç¤¾äº¤ */
+	/* é‚„æ˜¯ç¶­æŒèˆŠå©šç´„å¥½äº†.. */
+	vmsg("\xC1\xD9\xAC\x4F\xBA\xFB\xAB\xF9\xC2\xC2\xB1\x42\xAC\xF9\xA6\x6E\xA4\x46..");
 	return 0;
       }
-      d.social -= rand() % 50 + 100;	/* ¤ù­±·´±ó±B¬ù­°ªÀ¥æ */
+      d.social -= rand() % 50 + 100;	/* ç‰‡é¢æ¯€æ£„å©šç´„é™ç¤¾äº¤ */
     }
     d.charm -= rand() % 5 + 20;
     d.lover = who + 3;
@@ -734,7 +961,8 @@ pip_marriage_offer()		/* ¨D±B */
       d.wantend = 2;
     else
       d.wantend = 5;
-    vmsg("§Ú·Q¹ï¤è¬O¤@­Ó«Ü¦nªº¦ñ«Q..");
+    /* æˆ‘æƒ³å°æ–¹æ˜¯ä¸€å€‹å¾ˆå¥½çš„ä¼´ä¾¶.. */
+    vmsg("\xA7\xDA\xB7\x51\xB9\xEF\xA4\xE8\xAC\x4F\xA4\x40\xAD\xD3\xAB\xDC\xA6\x6E\xAA\xBA\xA6\xF1\xAB\x51..");
     d.money += money;
     return 1;
   }
@@ -743,37 +971,44 @@ pip_marriage_offer()		/* ¨D±B */
     d.charm += rand() % 5 + 20;
     d.relation += 20;
     if (d.wantend == 1 || d.wantend == 4)
-      vmsg("§ÚÁÙ¦~»´..¤ß±¡ÁÙ¤£©w..");
+      /* æˆ‘é‚„å¹´è¼•..å¿ƒæƒ…é‚„ä¸å®š.. */
+      vmsg("\xA7\xDA\xC1\xD9\xA6\x7E\xBB\xB4..\xA4\xDF\xB1\xA1\xC1\xD9\xA4\xA3\xA9\x77..");
     else
-      vmsg("§Ú¦­¤w¦³±B¬ù¤F..¹ï¤£°_..");
+      /* æˆ‘æ—©å·²æœ‰å©šç´„äº†..å°ä¸èµ·.. */
+      vmsg("\xA7\xDA\xA6\xAD\xA4\x77\xA6\xB3\xB1\x42\xAC\xF9\xA4\x46..\xB9\xEF\xA4\xA3\xB0\x5F..");
     return 0;
   }
 }
 
 
-int			/* 1:³Q¥e¤R 0:©ñ±ó©Î¨S¿ú */
-pip_meet_divine()	/* ¥e¤R®v¨Ó³X */
+int			/* 1:è¢«å åœ 0:æ”¾æ£„æˆ–æ²’éŒ¢ */
+pip_meet_divine()	/* å åœå¸«ä¾†è¨ª */
 {
   char buf[80];
   int money;
 
   clrfromto(6, 17);
   move(7, 14);
-  outs("\033[1;33;5m¥n¥n¥n..\033[0;1;37m¬ğµM¶Ç¨Ó°}°}ªººVªùÁn..\033[m");
+  /* \033[1;33;5må©å©å©..\033[0;1;37mçªç„¶å‚³ä¾†é™£é™£çš„æ•²é–€è²..\033[m */
+  outs("\033[1;33;5m\xA5\x6E\xA5\x6E\xA5\x6E..\033[0;1;37m\xAC\xF0\xB5\x4D\xB6\xC7\xA8\xD3\xB0\x7D\xB0\x7D\xAA\xBA\xBA\x56\xAA\xF9\xC1\x6E..\033[m");
   move(9, 14);
-  outs("\033[1;37;46m    ­ì¨Ó¬O¶³¹C¥|®üªº¥e¤R®v¨Ó³X¤F.......   \033[m");
-  vmsg("¶}ªùÅı¥L¶i¨Ó§a..");
+  /* \033[1;37;46m    åŸä¾†æ˜¯é›²éŠå››æµ·çš„å åœå¸«ä¾†è¨ªäº†.......   \033[m */
+  outs("\033[1;37;46m    \xAD\xEC\xA8\xD3\xAC\x4F\xB6\xB3\xB9\x43\xA5\x7C\xAE\xFC\xAA\xBA\xA5\x65\xA4\x52\xAE\x76\xA8\xD3\xB3\x58\xA4\x46.......   \033[m");
+  /* é–‹é–€è®“ä»–é€²ä¾†å§.. */
+  vmsg("\xB6\x7D\xAA\xF9\xC5\xFD\xA5\x4C\xB6\x69\xA8\xD3\xA7\x61..");
 
-  money = 300 * (d.bbtime / 60 / 30 + 1);	/* ¦~¬ö¶V¤j¡A­nªáªº¿ú¶V¦h */
+  money = 300 * (d.bbtime / 60 / 30 + 1);	/* å¹´ç´€è¶Šå¤§ï¼Œè¦èŠ±çš„éŒ¢è¶Šå¤š */
   if (d.money >= money)
   {
-    sprintf(buf, "±z­nªá %d ¤¸¥e¤R¶Ü(Y/N)¡H[N] ", money);
+    /* æ‚¨è¦èŠ± %d å…ƒå åœå—(Y/N)ï¼Ÿ[N]  */
+    sprintf(buf, "\xB1\x7A\xAD\x6E\xAA\xE1 %d \xA4\xB8\xA5\x65\xA4\x52\xB6\xDC(Y/N)\xA1\x48[N] ", money);
     if (ians(11, 14, buf) == 'y')
     {
-      sprintf(buf, "±zªº¤pÂû%s¥H«á¥i¯àªº¨­¤À¬O", d.name);
-      switch (rand() % 4)	/* ÀH«K§Ë¤@ºØ */
+      /* æ‚¨çš„å°é›%sä»¥å¾Œå¯èƒ½çš„èº«åˆ†æ˜¯ */
+      sprintf(buf, "\xB1\x7A\xAA\xBA\xA4\x70\xC2\xFB%s\xA5\x48\xAB\xE1\xA5\x69\xAF\xE0\xAA\xBA\xA8\xAD\xA4\xC0\xAC\x4F", d.name);
+      switch (rand() % 4)	/* éš¨ä¾¿å¼„ä¸€ç¨® */
       {
-        /* ¥H¤U©Ò strcat ªº end message ¬O¨k¤k¬Û¦Pªº */
+        /* ä»¥ä¸‹æ‰€ strcat çš„ end message æ˜¯ç”·å¥³ç›¸åŒçš„ */
       case 0:
 	strcat(buf, endmodemagic[2 + rand() % 5].girl);
 	break;
@@ -790,59 +1025,73 @@ pip_meet_divine()	/* ¥e¤R®v¨Ó³X */
       d.money -= money;
       
       move(13, 14);
-      outs("\033[1;33m¦b§Ú¥e¤Rµ²ªG¬İ¨Ó..\033[m");
+      /* \033[1;33måœ¨æˆ‘å åœçµæœçœ‹ä¾†..\033[m */
+      outs("\033[1;33m\xA6\x62\xA7\xDA\xA5\x65\xA4\x52\xB5\xB2\xAA\x47\xAC\xDD\xA8\xD3..\033[m");
       move(15, 14);
       outs(buf);
-      vmsg("ÁÂÁÂ´fÅU¡A¦³½t¦A¨£­±¤F¡A¤£·Ç¤£¯à©Ç§Ú³á");
+      /* è¬è¬æƒ é¡§ï¼Œæœ‰ç·£å†è¦‹é¢äº†ï¼Œä¸æº–ä¸èƒ½æ€ªæˆ‘å–” */
+      vmsg("\xC1\xC2\xC1\xC2\xB4\x66\xC5\x55\xA1\x41\xA6\xB3\xBD\x74\xA6\x41\xA8\xA3\xAD\xB1\xA4\x46\xA1\x41\xA4\xA3\xB7\xC7\xA4\xA3\xAF\xE0\xA9\xC7\xA7\xDA\xB3\xE1");
       return 1;
     }
     else
     {
-      vmsg("±z¤£·Q¥e¤R°Ú¡H..¯u¥i±¤..¨º¥u¦³µ¥¤U¦¸§a..");
+      /* æ‚¨ä¸æƒ³å åœå•Šï¼Ÿ..çœŸå¯æƒœ..é‚£åªæœ‰ç­‰ä¸‹æ¬¡å§.. */
+      vmsg("\xB1\x7A\xA4\xA3\xB7\x51\xA5\x65\xA4\x52\xB0\xDA\xA1\x48..\xAF\x75\xA5\x69\xB1\xA4..\xA8\xBA\xA5\x75\xA6\xB3\xB5\xA5\xA4\x55\xA6\xB8\xA7\x61..");
     }
   }
   else
   {
-    vmsg("±zªº¿ú¤£°÷³á..¯u¬O¥i±¤..µ¥¤U¦¸§a..");
+    /* æ‚¨çš„éŒ¢ä¸å¤ å–”..çœŸæ˜¯å¯æƒœ..ç­‰ä¸‹æ¬¡å§.. */
+    vmsg("\xB1\x7A\xAA\xBA\xBF\xFA\xA4\xA3\xB0\xF7\xB3\xE1..\xAF\x75\xAC\x4F\xA5\x69\xB1\xA4..\xB5\xA5\xA4\x55\xA6\xB8\xA7\x61..");
   }
   return 0;
 }
 
 
 int
-pip_meet_sysop()	/* itoc.000416: ¹J¤W¯¸ªø¤j¤j */
+pip_meet_sysop()	/* itoc.000416: é‡ä¸Šç«™é•·å¤§å¤§ */
 {
   char msg[5][40] =
   {
-    "¬ğµM¤ô­±¾_°Ê¤F°_¨Ó..",   "¤@°}­»®ğÀH­·¦Ó¦Ü..",
-    "³ç..¦³¤H©ç©ç±zªºªÓ»H..", "©P³ò¬ğµM¼ö¾x¤F°_¨Ó..",
-    "»·»·¦a¬İ¨ì¤@­Ó¤H¼v.."
+    /* çªç„¶æ°´é¢éœ‡å‹•äº†èµ·ä¾†.. */
+    /* ä¸€é™£é¦™æ°£éš¨é¢¨è€Œè‡³.. */
+    "\xAC\xF0\xB5\x4D\xA4\xF4\xAD\xB1\xBE\x5F\xB0\xCA\xA4\x46\xB0\x5F\xA8\xD3..",   "\xA4\x40\xB0\x7D\xAD\xBB\xAE\xF0\xC0\x48\xAD\xB7\xA6\xD3\xA6\xDC..",
+    /* å–Ÿ..æœ‰äººæ‹æ‹æ‚¨çš„è‚©è†€.. */
+    /* å‘¨åœçªç„¶ç†±é¬§äº†èµ·ä¾†.. */
+    "\xB3\xE7..\xA6\xB3\xA4\x48\xA9\xE7\xA9\xE7\xB1\x7A\xAA\xBA\xAA\xD3\xBB\x48..", "\xA9\x50\xB3\xF2\xAC\xF0\xB5\x4D\xBC\xF6\xBE\x78\xA4\x46\xB0\x5F\xA8\xD3..",
+    /* é é åœ°çœ‹åˆ°ä¸€å€‹äººå½±.. */
+    "\xBB\xB7\xBB\xB7\xA6\x61\xAC\xDD\xA8\xEC\xA4\x40\xAD\xD3\xA4\x48\xBC\x76.."
   };
 
   clrfromto(6, 17);
   move(7, 14);
-  outs(msg[rand() % 5]);	/* ¶Ã¼Æ¨M©w¥X³õ±Ô­z */
-  vmsg("­ì¨Ó¬O»®»®¦³¦Wªº" SYSOPNICK "¥X²{¤F");
+  outs(msg[rand() % 5]);	/* äº‚æ•¸æ±ºå®šå‡ºå ´æ•˜è¿° */
+  /* åŸä¾†æ˜¯èµ«èµ«æœ‰åçš„ */
+  /* å‡ºç¾äº† */
+  vmsg("\xAD\xEC\xA8\xD3\xAC\x4F\xBB\xAE\xBB\xAE\xA6\xB3\xA6\x57\xAA\xBA" SYSOPNICK "\xA5\x58\xB2\x7B\xA4\x46");
   move(9, 14);
 
-  switch (rand() % 4)		/* ÀH¾÷¨M©w¯¸ªø¨Æ¥ó (¥H¤£¦P¶Ã¼Æ¼W¥[½ì¨ı) */
+  switch (rand() % 4)		/* éš¨æ©Ÿæ±ºå®šç«™é•·äº‹ä»¶ (ä»¥ä¸åŒäº‚æ•¸å¢åŠ è¶£å‘³) */
   {
   case 0:
     if (d.weight > 50)
     {
       d.weight -= 20;
-      outs("±z¤Ó­D¤F¡A§Ú¬°±z¶i¦æ©â¯×¤â³N..");
+      /* æ‚¨å¤ªèƒ–äº†ï¼Œæˆ‘ç‚ºæ‚¨é€²è¡ŒæŠ½è„‚æ‰‹è¡“.. */
+      outs("\xB1\x7A\xA4\xD3\xAD\x44\xA4\x46\xA1\x41\xA7\xDA\xAC\xB0\xB1\x7A\xB6\x69\xA6\xE6\xA9\xE2\xAF\xD7\xA4\xE2\xB3\x4E..");
     } 
     else
     {
       d.weight += 20;
-      outs("±z¤Ó½G¤F¡A§Ú¬°±z¶i¦æ¼WªÎ¤â³N..");
+      /* æ‚¨å¤ªç˜¦äº†ï¼Œæˆ‘ç‚ºæ‚¨é€²è¡Œå¢è‚¥æ‰‹è¡“.. */
+      outs("\xB1\x7A\xA4\xD3\xBD\x47\xA4\x46\xA1\x41\xA7\xDA\xAC\xB0\xB1\x7A\xB6\x69\xA6\xE6\xBC\x57\xAA\xCE\xA4\xE2\xB3\x4E..");
     }
     break;
 
   case 1:
     d.money += 1000;
-    outs("¯¸ªø¤µ¤Ñ¤ß±¡¦n¡A°e±z¤@¨ÇÂûª÷·í¦n®Æªº..");
+    /* ç«™é•·ä»Šå¤©å¿ƒæƒ…å¥½ï¼Œé€æ‚¨ä¸€äº›é›é‡‘ç•¶å¥½æ–™çš„.. */
+    outs("\xAF\xB8\xAA\xF8\xA4\xB5\xA4\xD1\xA4\xDF\xB1\xA1\xA6\x6E\xA1\x41\xB0\x65\xB1\x7A\xA4\x40\xA8\xC7\xC2\xFB\xAA\xF7\xB7\xED\xA6\x6E\xAE\xC6\xAA\xBA..");
     break;
 
   case 2:
@@ -850,15 +1099,17 @@ pip_meet_sysop()	/* itoc.000416: ¹J¤W¯¸ªø¤j¤j */
     d.mp = d.maxmp;
     d.vp = d.maxvp;
     d.sp = d.maxsp;
-    outs(SYSOPNICK "°e±z¤@Áû¤d¦~¯QÂû¤Y¡A±zªºÅé¤O§¹¥ş«ì´_..");
+    /* é€æ‚¨ä¸€é¡†åƒå¹´çƒé›ä¸¸ï¼Œæ‚¨çš„é«”åŠ›å®Œå…¨æ¢å¾©.. */
+    outs(SYSOPNICK "\xB0\x65\xB1\x7A\xA4\x40\xC1\xFB\xA4\x64\xA6\x7E\xAF\x51\xC2\xFB\xA4\x59\xA1\x41\xB1\x7A\xAA\xBA\xC5\xE9\xA4\x4F\xA7\xB9\xA5\xFE\xAB\xEC\xB4\x5F..");
     break;
 
   case 3:
     if (d.money >= 100000)
     {
-      if (ians(9, 14, "±z­nªá 100000 ¤¸±µ¨ü±K©v³e³»¤jªk¶Ü(Y/N)¡H[N] ") == 'y')
+      /* æ‚¨è¦èŠ± 100000 å…ƒæ¥å—å¯†å®—è²«é ‚å¤§æ³•å—(Y/N)ï¼Ÿ[N]  */
+      if (ians(9, 14, "\xB1\x7A\xAD\x6E\xAA\xE1 100000 \xA4\xB8\xB1\xB5\xA8\xFC\xB1\x4B\xA9\x76\xB3\x65\xB3\xBB\xA4\x6A\xAA\x6B\xB6\xDC(Y/N)\xA1\x48[N] ") == 'y')
       {
-	/* Äİ©Ê¤W¤É 5% */
+	/* å±¬æ€§ä¸Šå‡ 5% */
 	d.money -= 100000;
 	d.maxhp = d.maxhp * 105 / 100;
 	d.maxmp = d.maxmp * 105 / 100;
@@ -874,114 +1125,133 @@ pip_meet_sysop()	/* itoc.000416: ¹J¤W¯¸ªø¤j¤j */
 	d.brave = d.brave * 105 / 100;
 	d.homework = d.homework * 105 / 100;
         move(11, 14);
-	outs("¸g¹L¤j¯«ªº³e³»¤§«á¡A±zµo²{©Ò¦³¯à¤O³£¤Wª@¤F..");
+	/* ç¶“éå¤§ç¥çš„è²«é ‚ä¹‹å¾Œï¼Œæ‚¨ç™¼ç¾æ‰€æœ‰èƒ½åŠ›éƒ½ä¸Šæ˜‡äº†.. */
+	outs("\xB8\x67\xB9\x4C\xA4\x6A\xAF\xAB\xAA\xBA\xB3\x65\xB3\xBB\xA4\xA7\xAB\xE1\xA1\x41\xB1\x7A\xB5\x6F\xB2\x7B\xA9\xD2\xA6\xB3\xAF\xE0\xA4\x4F\xB3\xA3\xA4\x57\xAA\x40\xA4\x46..");
       }
       else
       {
         move(11, 14);
-	outs("±z¤£·Q­n°Ú¡H..¯u¥i±¤¡A¨º¥u¦³µ¥¤U¦¸§a..");
+	/* æ‚¨ä¸æƒ³è¦å•Šï¼Ÿ..çœŸå¯æƒœï¼Œé‚£åªæœ‰ç­‰ä¸‹æ¬¡å§.. */
+	outs("\xB1\x7A\xA4\xA3\xB7\x51\xAD\x6E\xB0\xDA\xA1\x48..\xAF\x75\xA5\x69\xB1\xA4\xA1\x41\xA8\xBA\xA5\x75\xA6\xB3\xB5\xA5\xA4\x55\xA6\xB8\xA7\x61..");
       }
     }    
     else
     {
-      outs("¤j¯«Ä±±o©M±z¨S¦³½t¥÷..");
+      /* å¤§ç¥è¦ºå¾—å’Œæ‚¨æ²’æœ‰ç·£ä»½.. */
+      outs("\xA4\x6A\xAF\xAB\xC4\xB1\xB1\x6F\xA9\x4D\xB1\x7A\xA8\x53\xA6\xB3\xBD\x74\xA5\xF7..");
     }
     break;
   }
   
-  vmsg("¤@Âà²´¡A" SYSOPNICK "´N¤£¨£¤F..");
+  /* ä¸€è½‰çœ¼ï¼Œ */
+  /* å°±ä¸è¦‹äº†.. */
+  vmsg("\xA4\x40\xC2\xE0\xB2\xB4\xA1\x41" SYSOPNICK "\xB4\x4E\xA4\xA3\xA8\xA3\xA4\x46..");
   return 0;
 }
 
 
 int
-pip_meet_smith()	/* itoc.021101: ¹J¤WÅK¦K */
+pip_meet_smith()	/* itoc.021101: é‡ä¸ŠéµåŒ  */
 {
   int randnum;
   char *equip;
 
   clrfromto(6, 17);
   move(7, 14);
-  outs("¤p¥ë¤l­n¥h­ş¨à°Ú¡H");
-  vmsg("¦³¤H¦b­I«á¥s¤F±z¤@Án¡A­ì¨ÓÅK¦K¥ı¥Í");
+  /* å°ä¼™å­è¦å»å“ªå…’å•Šï¼Ÿ */
+  outs("\xA4\x70\xA5\xEB\xA4\x6C\xAD\x6E\xA5\x68\xAD\xFE\xA8\xE0\xB0\xDA\xA1\x48");
+  /* æœ‰äººåœ¨èƒŒå¾Œå«äº†æ‚¨ä¸€è²ï¼ŒåŸä¾†éµåŒ å…ˆç”Ÿ */
+  vmsg("\xA6\xB3\xA4\x48\xA6\x62\xAD\x49\xAB\xE1\xA5\x73\xA4\x46\xB1\x7A\xA4\x40\xC1\x6E\xA1\x41\xAD\xEC\xA8\xD3\xC5\x4B\xA6\x4B\xA5\xFD\xA5\xCD");
   move(9, 14);
-  outs("±z¥Îªº¬O¤°»òÄê¸Ë³Æ¡AÅı§Ú°e±z¤@¥ó·sªº§a");
+  /* æ‚¨ç”¨çš„æ˜¯ä»€éº¼çˆ›è£å‚™ï¼Œè®“æˆ‘é€æ‚¨ä¸€ä»¶æ–°çš„å§ */
+  outs("\xB1\x7A\xA5\xCE\xAA\xBA\xAC\x4F\xA4\xB0\xBB\xF2\xC4\xEA\xB8\xCB\xB3\xC6\xA1\x41\xC5\xFD\xA7\xDA\xB0\x65\xB1\x7A\xA4\x40\xA5\xF3\xB7\x73\xAA\xBA\xA7\x61");
 
   randnum = rand();
 
   switch (randnum % 5)
   {
-  case 0:			/* ÀY³¡ªZ¾¹ */
+  case 0:			/* é ­éƒ¨æ­¦å™¨ */
     randnum = randnum % 10;
     d.weaponhead += randnum;
     pip_weapon_wear(0, randnum);
     equip = d.equiphead;
     if (!*equip)
-      strcpy(equip, "ÅK¦Kªº¿Oªw");
+      /* éµåŒ çš„ç‡ˆæ³¡ */
+      strcpy(equip, "\xC5\x4B\xA6\x4B\xAA\xBA\xBF\x4F\xAA\x77");
     break;
 
-  case 1:			/* ¤â³¡ªZ¾¹ */
+  case 1:			/* æ‰‹éƒ¨æ­¦å™¨ */
     randnum = randnum % 10;
     d.weaponhand += randnum;
     pip_weapon_wear(1, randnum);
     equip = d.equiphand;
     if (!*equip)
-      strcpy(equip, "ÅK¦Kªº®±®M");
+      /* éµåŒ çš„æ‹³å¥— */
+      strcpy(equip, "\xC5\x4B\xA6\x4B\xAA\xBA\xAE\xB1\xAE\x4D");
     break;
 
-  case 2:			/* ¬ŞµPªZ¾¹ */
+  case 2:			/* ç›¾ç‰Œæ­¦å™¨ */
     randnum = randnum % 10;
     d.weaponshield += randnum;
     pip_weapon_wear(2, randnum);
     equip = d.equipshield;
     if (!*equip)
-      strcpy(equip, "ÅK¦Kªº¬Ş¥Ò");
+      /* éµåŒ çš„ç›¾ç”² */
+      strcpy(equip, "\xC5\x4B\xA6\x4B\xAA\xBA\xAC\xDE\xA5\xD2");
     break;
 
-  case 3:			/* ¨­ÅéªZ¾¹ */
+  case 3:			/* èº«é«”æ­¦å™¨ */
     randnum = randnum % 10;
     d.weaponbody += randnum;
     pip_weapon_wear(3, randnum);
     equip = d.equipbody;
     if (!*equip)
-      strcpy(equip, "ÅK¦Kªº¹D³T");
+      /* éµåŒ çš„é“è¢ */
+      strcpy(equip, "\xC5\x4B\xA6\x4B\xAA\xBA\xB9\x44\xB3\x54");
     break;
 
-  case 4:			/* ¸}³¡ªZ¾¹ */
+  case 4:			/* è…³éƒ¨æ­¦å™¨ */
     randnum = randnum % 10;
     d.weaponfoot += randnum;
     pip_weapon_wear(4, randnum);
     equip = d.equipfoot;
     if (!*equip)
-      strcpy(equip, "ÅK¦KªºÅ@×H");
+      /* éµåŒ çš„è­·è„› */
+      strcpy(equip, "\xC5\x4B\xA6\x4B\xAA\xBA\xC5\x40\xD7\x48");
     break;
   }
 
-  while (!vget(b_lines, 0, "½Ğ¬°¸Ë³Æ¨ú­Ó·s¦W¦r¡G", equip, 11, GCARRY))
+  /* è«‹ç‚ºè£å‚™å–å€‹æ–°åå­—ï¼š */
+  while (!vget(b_lines, 0, "\xBD\xD0\xAC\xB0\xB8\xCB\xB3\xC6\xA8\xFA\xAD\xD3\xB7\x73\xA6\x57\xA6\x72\xA1\x47", equip, 11, GCARRY))
     ;
 
-  vmsg("ÅK¦K©ç©ç±zªºªÓ»H¡A²H²HÂ÷¶}");
+  /* éµåŒ æ‹æ‹æ‚¨çš„è‚©è†€ï¼Œæ·¡æ·¡é›¢é–‹ */
+  vmsg("\xC5\x4B\xA6\x4B\xA9\xE7\xA9\xE7\xB1\x7A\xAA\xBA\xAA\xD3\xBB\x48\xA1\x41\xB2\x48\xB2\x48\xC2\xF7\xB6\x7D");
   return 0;
 }
 
 
 int
-pip_meet_angel()	/* itoc.010814: ¹J¨ì¤Ñ¨Ï */
+pip_meet_angel()	/* itoc.010814: é‡åˆ°å¤©ä½¿ */
 {
   clear();
   show_system_pic(0);
   move(17, 10);
-  prints("\033[1;36m¿Ë·Rªº\033[1;33m%s ¡ã\033[m", d.name);
+  /* \033[1;36mè¦ªæ„›çš„\033[1;33m%s ï½\033[m */
+  prints("\033[1;36m\xBF\xCB\xB7\x52\xAA\xBA\033[1;33m%s \xA1\xE3\033[m", d.name);
   move(18, 10);
-  outs("\033[1;37m¬İ¨ì±z³o¼Ë§V¤Oªº°ö¾i¦Û¤vªº¯à¤O  Åı§Ú¤ß¤¤¤Q¤Àªº°ª¿³³á..\033[m");
+  /* \033[1;37mçœ‹åˆ°æ‚¨é€™æ¨£åŠªåŠ›çš„åŸ¹é¤Šè‡ªå·±çš„èƒ½åŠ›  è®“æˆ‘å¿ƒä¸­ååˆ†çš„é«˜èˆˆå–”..\033[m */
+  outs("\033[1;37m\xAC\xDD\xA8\xEC\xB1\x7A\xB3\x6F\xBC\xCB\xA7\x56\xA4\x4F\xAA\xBA\xB0\xF6\xBE\x69\xA6\xDB\xA4\x76\xAA\xBA\xAF\xE0\xA4\x4F  \xC5\xFD\xA7\xDA\xA4\xDF\xA4\xA4\xA4\x51\xA4\xC0\xAA\xBA\xB0\xAA\xBF\xB3\xB3\xE1..\033[m");
   move(19, 10);
-  outs("\033[1;36m¤p¤Ñ¨Ï§Ú¨M©wµ¹±z¼ú½à¹ªÀy¹ªÀy  °½°½¦aÀ°§U±z¤@¤U..^_^\033[m");
+  /* \033[1;36må°å¤©ä½¿æˆ‘æ±ºå®šçµ¦æ‚¨çè³é¼“å‹µé¼“å‹µ  å·å·åœ°å¹«åŠ©æ‚¨ä¸€ä¸‹..^_^\033[m */
+  outs("\033[1;36m\xA4\x70\xA4\xD1\xA8\xCF\xA7\xDA\xA8\x4D\xA9\x77\xB5\xB9\xB1\x7A\xBC\xFA\xBD\xE0\xB9\xAA\xC0\x79\xB9\xAA\xC0\x79  \xB0\xBD\xB0\xBD\xA6\x61\xC0\xB0\xA7\x55\xB1\x7A\xA4\x40\xA4\x55..^_^\033[m");
   move(20, 10);
 
   switch (rand() % 8)
   {
   case 1:
-    outs("\033[1;33m§Ú±NÀ°±zªº¦U¶µ¯à¤O¥ş³¡´£¤É¦Ê¤À¤§¤­³á..\033[m");
+    /* \033[1;33mæˆ‘å°‡å¹«æ‚¨çš„å„é …èƒ½åŠ›å…¨éƒ¨æå‡ç™¾åˆ†ä¹‹äº”å–”..\033[m */
+    outs("\033[1;33m\xA7\xDA\xB1\x4E\xC0\xB0\xB1\x7A\xAA\xBA\xA6\x55\xB6\xB5\xAF\xE0\xA4\x4F\xA5\xFE\xB3\xA1\xB4\xA3\xA4\xC9\xA6\xCA\xA4\xC0\xA4\xA7\xA4\xAD\xB3\xE1..\033[m");
     d.maxhp = d.maxhp * 105 / 100;
     d.hp = d.maxhp;
     d.maxmp = d.maxmp * 105 / 100;
@@ -1003,7 +1273,8 @@ pip_meet_angel()	/* itoc.010814: ¹J¨ì¤Ñ¨Ï */
 
   case 2:
   case 3:
-    outs("\033[1;33m§Ú±NÀ°±zªº¾Ô°«¯à¤O¥ş³¡´£¤É¦Ê¤À¤§¤Q³á..\033[m");
+    /* \033[1;33mæˆ‘å°‡å¹«æ‚¨çš„æˆ°é¬¥èƒ½åŠ›å…¨éƒ¨æå‡ç™¾åˆ†ä¹‹åå–”..\033[m */
+    outs("\033[1;33m\xA7\xDA\xB1\x4E\xC0\xB0\xB1\x7A\xAA\xBA\xBE\xD4\xB0\xAB\xAF\xE0\xA4\x4F\xA5\xFE\xB3\xA1\xB4\xA3\xA4\xC9\xA6\xCA\xA4\xC0\xA4\xA7\xA4\x51\xB3\xE1..\033[m");
     d.attack = d.attack * 110 / 100;
     d.resist = d.resist * 110 / 100;
     d.speed = d.speed * 110 / 100;
@@ -1012,7 +1283,8 @@ pip_meet_angel()	/* itoc.010814: ¹J¨ì¤Ñ¨Ï */
 
   case 4:
   case 5:
-    outs("\033[1;33m§Ú±NÀ°±zªº¥Í©R¡Bªk¤O¡B²¾°Ê¡B¤º¤O¥ş³¡´£¤É¦Ê¤À¤§¤K³á..\033[m");
+    /* \033[1;33mæˆ‘å°‡å¹«æ‚¨çš„ç”Ÿå‘½ã€æ³•åŠ›ã€ç§»å‹•ã€å…§åŠ›å…¨éƒ¨æå‡ç™¾åˆ†ä¹‹å…«å–”..\033[m */
+    outs("\033[1;33m\xA7\xDA\xB1\x4E\xC0\xB0\xB1\x7A\xAA\xBA\xA5\xCD\xA9\x52\xA1\x42\xAA\x6B\xA4\x4F\xA1\x42\xB2\xBE\xB0\xCA\xA1\x42\xA4\xBA\xA4\x4F\xA5\xFE\xB3\xA1\xB4\xA3\xA4\xC9\xA6\xCA\xA4\xC0\xA4\xA7\xA4\x4B\xB3\xE1..\033[m");
     d.maxhp = d.maxhp * 108 / 100;
     d.hp = d.maxhp;
     d.maxmp = d.maxmp * 108 / 100;
@@ -1025,7 +1297,8 @@ pip_meet_angel()	/* itoc.010814: ¹J¨ì¤Ñ¨Ï */
 
   case 6:
   case 7:
-    outs("\033[1;33m§Ú±NÀ°±zªº·P¨ü¯à¤O¥ş³¡´£¤É¦Ê¤À¤§¤G¤Q³á..\033[m");
+    /* \033[1;33mæˆ‘å°‡å¹«æ‚¨çš„æ„Ÿå—èƒ½åŠ›å…¨éƒ¨æå‡ç™¾åˆ†ä¹‹äºŒåå–”..\033[m */
+    outs("\033[1;33m\xA7\xDA\xB1\x4E\xC0\xB0\xB1\x7A\xAA\xBA\xB7\x50\xA8\xFC\xAF\xE0\xA4\x4F\xA5\xFE\xB3\xA1\xB4\xA3\xA4\xC9\xA6\xCA\xA4\xC0\xA4\xA7\xA4\x47\xA4\x51\xB3\xE1..\033[m");
     d.character = d.character * 120 / 100;
     d.love = d.love * 120 / 100;
     d.wisdom = d.wisdom * 120 / 100;
@@ -1034,7 +1307,8 @@ pip_meet_angel()	/* itoc.010814: ¹J¨ì¤Ñ¨Ï */
     break;
   }
 
-  vmsg("½ĞÄ~Äò¥[ªo³á..");
+  /* è«‹ç¹¼çºŒåŠ æ²¹å–”.. */
+  vmsg("\xBD\xD0\xC4\x7E\xC4\xF2\xA5\x5B\xAA\x6F\xB3\xE1..");
   return 0;
 }
 #endif	/* HAVE_GAME */

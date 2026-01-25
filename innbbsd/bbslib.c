@@ -58,7 +58,7 @@ read_nodelist()
   NLCOUNT = size / sizeof(nodelist_t);
   if (NLCOUNT > 1)
   {
-    /* ±N NODELIST[] ¨Ì name ±Æ§Ç¡A¨º»ò¦b search_nodelist_byname() ¥i¥H§ä§Ö¤@ÂI */
+    /* å°‡ NODELIST[] ä¾ name æ’åºï¼Œé‚£éº¼åœ¨ search_nodelist_byname() å¯ä»¥æ‰¾å¿«ä¸€é» */
     qsort(NODELIST, NLCOUNT, sizeof(nodelist_t), nl_bynamecmp);
   }
 
@@ -112,7 +112,7 @@ read_newsfeeds()
   read(fd, NEWSFEEDS, size);
   close(fd);
 
-  /* ¥t¥~·Ç³Æ¤G¥÷¬Û¦Pªº¸ê°T¡A¦ı¬O±Æ§Ç¤èªk¤£¦P */
+  /* å¦å¤–æº–å‚™äºŒä»½ç›¸åŒçš„è³‡è¨Šï¼Œä½†æ˜¯æ’åºæ–¹æ³•ä¸åŒ */
   NEWSFEEDS_B = !NEWSFEEDS_B ? (newsfeeds_t *) malloc(size) : (newsfeeds_t *) realloc(NEWSFEEDS_B, size);
   memcpy(NEWSFEEDS_B, NEWSFEEDS, size);
   NEWSFEEDS_G = !NEWSFEEDS_G ? (newsfeeds_t *) malloc(size) : (newsfeeds_t *) realloc(NEWSFEEDS_G, size);
@@ -121,12 +121,12 @@ read_newsfeeds()
   NFCOUNT = size / sizeof(newsfeeds_t);
   if (NFCOUNT > 1)
   {
-    /* NEWSFEEDS[] ¤£ÅÜ°Ê¡A¹w³]¨Ì¯¸¥x¦WºÙ±Æ§Ç */
+    /* NEWSFEEDS[] ä¸è®Šå‹•ï¼Œé è¨­ä¾ç«™å°åç¨±æ’åº */
 
-    /* ±N NEWSFEEDS_B[] ¨Ì board ±Æ§Ç¡A¨º»ò¦b search_newsfeeds_byboard() ¥i¥H§ä§Ö¤@ÂI */
+    /* å°‡ NEWSFEEDS_B[] ä¾ board æ’åºï¼Œé‚£éº¼åœ¨ search_newsfeeds_byboard() å¯ä»¥æ‰¾å¿«ä¸€é» */
     qsort(NEWSFEEDS_B, NFCOUNT, sizeof(newsfeeds_t), nf_byboardcmp);
 
-    /* ±N NEWSFEEDS_G[] ¨Ì group ±Æ§Ç¡A¨º»ò¦b search_newsfeeds_bygroup() ¥i¥H§ä§Ö¤@ÂI */
+    /* å°‡ NEWSFEEDS_G[] ä¾ group æ’åºï¼Œé‚£éº¼åœ¨ search_newsfeeds_bygroup() å¯ä»¥æ‰¾å¿«ä¸€é» */
     qsort(NEWSFEEDS_G, NFCOUNT, sizeof(newsfeeds_t), nf_bygroupcmp);
   }
 
@@ -203,7 +203,7 @@ read_spamrule()
   SPAMCOUNT = size / sizeof(spamrule_t);
   for (fd = 0; fd < SPAMCOUNT; fd++)
   {
-    /* ±N SPAMRULE[] ³£ÅÜ¦¨¤p¼g¡A³o¼Ë¤ñ¹ï®É´N¥i¥H¤j¤p¼g³q¦Y */
+    /* å°‡ SPAMRULE[] éƒ½è®Šæˆå°å¯«ï¼Œé€™æ¨£æ¯”å°æ™‚å°±å¯ä»¥å¤§å°å¯«é€šåƒ */
     spam = SPAMRULE + fd;
     detail = spam->detail;
     str_lowest(detail, detail);
@@ -223,32 +223,36 @@ initial_bbs()
 {
   chdir(BBSHOME);		/* chdir to bbs_home first */
 
-  /* ¨Ì§Ç¸ü¤J nodelist.bbs¡Bnewsfeeds.bbs¡Bncmperm.bbs¡Bspamrule.bbs */
+  /* ä¾åºè¼‰å…¥ nodelist.bbsã€newsfeeds.bbsã€ncmperm.bbsã€spamrule.bbs */
 
   if (read_nodelist() < 0)
   {
-    printf("½ĞÀË¬d nodelist.bbs¡AµLªkÅªÀÉ\n");
+    /* è«‹æª¢æŸ¥ nodelist.bbsï¼Œç„¡æ³•è®€æª”\n */
+    printf("\xBD\xD0\xC0\xCB\xAC\x64 nodelist.bbs\xA1\x41\xB5\x4C\xAA\x6B\xC5\xAA\xC0\xC9\n");
     return 0;
   }
 
   if (read_newsfeeds() < 0)
   {
-    printf("½ĞÀË¬d newsfeeds.bbs¡AµLªkÅªÀÉ\n");
+    /* è«‹æª¢æŸ¥ newsfeeds.bbsï¼Œç„¡æ³•è®€æª”\n */
+    printf("\xBD\xD0\xC0\xCB\xAC\x64 newsfeeds.bbs\xA1\x41\xB5\x4C\xAA\x6B\xC5\xAA\xC0\xC9\n");
     return 0;
   }
 
 #ifdef _NoCeM_
   if (read_ncmperm() < 0)
   {
-    printf("½ĞÀË¬d ncmperm.bbs¡AµLªkÅªÀÉ¡F¦pªG±z¤£·Q³]©w NoCeM¡A¨º»ò½Ğ©¿²¤¦¹°T®§\n");
-    /* return 0; */	/* ncmperm.bbs ¥i¥H¬OªÅªº */
+    /* è«‹æª¢æŸ¥ ncmperm.bbsï¼Œç„¡æ³•è®€æª”ï¼›å¦‚æœæ‚¨ä¸æƒ³è¨­å®š NoCeMï¼Œé‚£éº¼è«‹å¿½ç•¥æ­¤è¨Šæ¯\n */
+    printf("\xBD\xD0\xC0\xCB\xAC\x64 ncmperm.bbs\xA1\x41\xB5\x4C\xAA\x6B\xC5\xAA\xC0\xC9\xA1\x46\xA6\x70\xAA\x47\xB1\x7A\xA4\xA3\xB7\x51\xB3\x5D\xA9\x77 NoCeM\xA1\x41\xA8\xBA\xBB\xF2\xBD\xD0\xA9\xBF\xB2\xA4\xA6\xB9\xB0\x54\xAE\xA7\n");
+    /* return 0; */	/* ncmperm.bbs å¯ä»¥æ˜¯ç©ºçš„ */
   }
 #endif
 
   if (read_spamrule() < 0)
   {
-    printf("½ĞÀË¬d spamrule.bbs¡AµLªkÅªÀÉ¡F¦pªG±z¤£·Q³]©w¾×«H³W«h¡A¨º»ò½Ğ©¿²¤¦¹°T®§\n");
-    /* return 0; */	/* spamrule.bbs ¥i¥H¬OªÅªº */
+    /* è«‹æª¢æŸ¥ spamrule.bbsï¼Œç„¡æ³•è®€æª”ï¼›å¦‚æœæ‚¨ä¸æƒ³è¨­å®šæ“‹ä¿¡è¦å‰‡ï¼Œé‚£éº¼è«‹å¿½ç•¥æ­¤è¨Šæ¯\n */
+    printf("\xBD\xD0\xC0\xCB\xAC\x64 spamrule.bbs\xA1\x41\xB5\x4C\xAA\x6B\xC5\xAA\xC0\xC9\xA1\x46\xA6\x70\xAA\x47\xB1\x7A\xA4\xA3\xB7\x51\xB3\x5D\xA9\x77\xBE\xD7\xAB\x48\xB3\x57\xAB\x68\xA1\x41\xA8\xBA\xBB\xF2\xBD\xD0\xA9\xBF\xB2\xA4\xA6\xB9\xB0\x54\xAE\xA7\n");
+    /* return 0; */	/* spamrule.bbs å¯ä»¥æ˜¯ç©ºçš„ */
   }
 
   return 1;

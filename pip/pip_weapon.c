@@ -1,7 +1,7 @@
 /* ----------------------------------------------------- */
 /* pip_weapon.c     ( NTHU CS MapleBBS Ver 3.10 )        */
 /* ----------------------------------------------------- */
-/* target : ¤pÂû weapon structure                        */
+/* target : å°é› weapon structure                        */
 /* create :   /  /                                       */
 /* update : 01/08/15                                     */
 /* author : dsyan.bbs@forever.twbbs.org                  */
@@ -17,35 +17,106 @@
 
 
 /* ------------------------------------------------------- */
-/* ªZ¾¹ÁÊ¶R¨ç¦¡                                            */
+/* æ­¦å™¨è³¼è²·å‡½å¼                                            */
 /* ------------------------------------------------------- */
 
 
 /* name[11] quality cost */
-static weapon p[9];		/* °O¿ıªZ¾¹ */
+static weapon p[9];		/* è¨˜éŒ„æ­¦å™¨ */
 
 
-/* itoc.021031: ¬°¤F¼W¥[¹CÀ¸ªº¦h¼Ë©Ê¡A¼g¤@¤äªZ¾¹²£¥Í¾¹ */
+/* itoc.021031: ç‚ºäº†å¢åŠ éŠæˆ²çš„å¤šæ¨£æ€§ï¼Œå¯«ä¸€æ”¯æ­¦å™¨ç”¢ç”Ÿå™¨ */
 static void
 weapon_generate(type)
-  int type;			/* ­ş¤@³¡¤À¸Ë³Æ */
+  int type;			/* å“ªä¸€éƒ¨åˆ†è£å‚™ */
 {
   int i, num;
 
-  char adje[14][5] = {"·lÃa", "¦A¥Í", "¤G¤â", "µ´ª©", "¶ì½¦", "¤û¥Ö", "¿ûÅK", "¶Àª÷", "¯S¯Å", "±OÀs", "§Ñ±¡", "±OÀs", "­¸¤Ñ", "¶Ç©_"};
-  char prep[13][3] = {"¯}",   "Äê",   "³¾",   "¤§",   "¨g",   "¯P",   "¬¯",   "¸t",   "Å]",   "Ä_",   "¥ú",   "¯«",   ""};
+  /* æå£ */
+  /* å†ç”Ÿ */
+  /* äºŒæ‰‹ */
+  /* çµ•ç‰ˆ */
+  /* å¡‘è†  */
+  /* ç‰›çš® */
+  /* é‹¼éµ */
+  /* é»ƒé‡‘ */
+  /* ç‰¹ç´š */
+  /* å± é¾ */
+  /* å¿˜æƒ… */
+  /* å± é¾ */
+  /* é£›å¤© */
+  /* å‚³å¥‡ */
+  char adje[14][5] = {"\xB7\x6C\xC3\x61", "\xA6\x41\xA5\xCD", "\xA4\x47\xA4\xE2", "\xB5\xB4\xAA\xA9", "\xB6\xEC\xBD\xA6", "\xA4\xFB\xA5\xD6", "\xBF\xFB\xC5\x4B", "\xB6\xC0\xAA\xF7", "\xAF\x53\xAF\xC5", "\xB1\x4F\xC0\x73", "\xA7\xD1\xB1\xA1", "\xB1\x4F\xC0\x73", "\xAD\xB8\xA4\xD1", "\xB6\xC7\xA9\x5F"};
+  /* ç ´ */
+  /* çˆ› */
+  /* é³¥ */
+  /* ä¹‹ */
+  /* ç‹‚ */
+  /* çƒˆ */
+  /* ç‚« */
+  /* è– */
+  /* é­” */
+  /* å¯¶ */
+  /* å…‰ */
+  /* ç¥ */
+  char prep[13][3] = {"\xAF\x7D",   "\xC4\xEA",   "\xB3\xBE",   "\xA4\xA7",   "\xA8\x67",   "\xAF\x50",   "\xAC\xAF",   "\xB8\x74",   "\xC5\x5D",   "\xC4\x5F",   "\xA5\xFA",   "\xAF\xAB",   ""};
   char noun[5][9][5] =
   {
-    /* ÀY³¡ªZ¾¹ */    "´U",   "ÀY²¯", "ÀY¸n", "ÀY¤y", "ÀY¹¢", "¦Õ¾÷", "²´Ãè", "¾vãT", "¶µÁå", 
-    /* ¤â³¡ªZ¾¹ */    "¼C",   "¤M",   "§ú",   "´Î",   "ºj",   "¥Ù",   "¤}",   "Âñ",   "§æ¤â", 
-    /* ¬ŞµPªZ¾¹ */    "¿ö",   "¬Ş",   "§Ù«ü", "¤â®M", "¤âÀô", "Áu³¹", "¬ŞµP", "½Ò¥»", "Á¿¸q", 
-    /* ¨­ÅéªZ¾¹ */    "²¯¥Ò", "«`¥Ò", "¥Ö¥Ò", "©Ü­·", "®M¸Ë", "¬v¸Ë", "¦çªA", "¢â«ò", "¤ò¦ç", 
-    /* ¸}³¡ªZ¾¹ */    "¾c",   "¹u",   "®j",   "¼i",   "¶³",   "½ü",   "Äû",   "´à",   "½ñ"
+    /* å¸½ */
+    /* é ­ç›” */
+    /* é ­ç½© */
+    /* é ­å·¾ */
+    /* é ­é£¾ */
+    /* è€³æ©Ÿ */
+    /* çœ¼é¡ */
+    /* é«®ç® */
+    /* é …éŠ */
+    /* é ­éƒ¨æ­¦å™¨ */    "\xB4\x55",   "\xC0\x59\xB2\xAF", "\xC0\x59\xB8\x6E", "\xC0\x59\xA4\x79", "\xC0\x59\xB9\xA2", "\xA6\xD5\xBE\xF7", "\xB2\xB4\xC3\xE8", "\xBE\x76\xE3\x54", "\xB6\xB5\xC1\xE5", 
+    /* åŠ */
+    /* åˆ€ */
+    /* æ– */
+    /* æ£’ */
+    /* æ§ */
+    /* çŸ› */
+    /* å¼“ */
+    /* éš */
+    /* æ‰³æ‰‹ */
+    /* æ‰‹éƒ¨æ­¦å™¨ */    "\xBC\x43",   "\xA4\x4D",   "\xA7\xFA",   "\xB4\xCE",   "\xBA\x6A",   "\xA5\xD9",   "\xA4\x7D",   "\xC2\xF1",   "\xA7\xE6\xA4\xE2", 
+    /* éŒ¶ */
+    /* ç›¾ */
+    /* æˆ’æŒ‡ */
+    /* æ‰‹å¥— */
+    /* æ‰‹ç’° */
+    /* è‡‚ç«  */
+    /* ç›¾ç‰Œ */
+    /* èª²æœ¬ */
+    /* è¬›ç¾© */
+    /* ç›¾ç‰Œæ­¦å™¨ */    "\xBF\xF6",   "\xAC\xDE",   "\xA7\xD9\xAB\xFC", "\xA4\xE2\xAE\x4D", "\xA4\xE2\xC0\xF4", "\xC1\x75\xB3\xB9", "\xAC\xDE\xB5\x50", "\xBD\xD2\xA5\xBB", "\xC1\xBF\xB8\x71", 
+    /* ç›”ç”² */
+    /* å†‘ç”² */
+    /* çš®ç”² */
+    /* æŠ«é¢¨ */
+    /* å¥—è£ */
+    /* æ´‹è£ */
+    /* è¡£æœ */
+    /* ï¼´æ¤ */
+    /* æ¯›è¡£ */
+    /* èº«é«”æ­¦å™¨ */    "\xB2\xAF\xA5\xD2", "\xAB\x60\xA5\xD2", "\xA5\xD6\xA5\xD2", "\xA9\xDC\xAD\xB7", "\xAE\x4D\xB8\xCB", "\xAC\x76\xB8\xCB", "\xA6\xE7\xAA\x41", "\xA2\xE2\xAB\xF2", "\xA4\xF2\xA6\xE7", 
+    /* é‹ */
+    /* é´ */
+    /* å± */
+    /* å±¥ */
+    /* é›² */
+    /* è¼ª */
+    /* è¥ª */
+    /* æ¯¯ */
+    /* è¸ */
+    /* è…³éƒ¨æ­¦å™¨ */    "\xBE\x63",   "\xB9\x75",   "\xAE\x6A",   "\xBC\x69",   "\xB6\xB3",   "\xBD\xFC",   "\xC4\xFB",   "\xB4\xE0",   "\xBD\xF1"
   };
 
   for (i = 0; i < 9; i++)
   {
-    /* ¨Ì¯à¤O¤Î¤âÀYªº¿ú¨Ó¨M©wªZ¾¹ªº¦nÃa */
+    /* ä¾èƒ½åŠ›åŠæ‰‹é ­çš„éŒ¢ä¾†æ±ºå®šæ­¦å™¨çš„å¥½å£ */
 
     if (d.money < 12)
     {
@@ -62,40 +133,40 @@ weapon_generate(type)
       p[i].cost = 3 * num * num;
     }
 
-    num = rand();	/* ¥Î¦P¤@¶Ã¼Æ¨Ó¨M©w adj+prep+noun¡A©Ò¥H mod ªº¼Æ¤£­n¤@¼Ë */
-    /* ¨Ì­ş¤@³¡¤À¸Ë³Æ¨Ó¨M©wªZ¾¹¦WºÙ¡Aª`·N¦r¦êªø«× */
+    num = rand();	/* ç”¨åŒä¸€äº‚æ•¸ä¾†æ±ºå®š adj+prep+nounï¼Œæ‰€ä»¥ mod çš„æ•¸ä¸è¦ä¸€æ¨£ */
+    /* ä¾å“ªä¸€éƒ¨åˆ†è£å‚™ä¾†æ±ºå®šæ­¦å™¨åç¨±ï¼Œæ³¨æ„å­—ä¸²é•·åº¦ */
     sprintf(p[i].name, "%s%s%s", adje[num % 14], prep[num % 13], noun[type][num % 9]);
   }
 }
 
 
 void
-pip_weapon_wear(type, variance)	/* ¸Ë³ÆªZ¾¹¡A­pºâ¯à¤Oªº§ïÅÜ */
-  int type;			/* ­ş¤@³¡¤À¸Ë³Æ */
-  int variance;			/* ·sÂÂªZ¾¹ªº«~½è®t²§ */
+pip_weapon_wear(type, variance)	/* è£å‚™æ­¦å™¨ï¼Œè¨ˆç®—èƒ½åŠ›çš„æ”¹è®Š */
+  int type;			/* å“ªä¸€éƒ¨åˆ†è£å‚™ */
+  int variance;			/* æ–°èˆŠæ­¦å™¨çš„å“è³ªå·®ç•° */
 {
-  /* ¨Ì¸Ë³Æ³¡¦ì¤£¦P¨Ó§ïÅÜ«ü¼Æ */
-  if (type == 0)	/* ÀY³¡ªZ¾¹ */
+  /* ä¾è£å‚™éƒ¨ä½ä¸åŒä¾†æ”¹è®ŠæŒ‡æ•¸ */
+  if (type == 0)	/* é ­éƒ¨æ­¦å™¨ */
   {
     d.speed += variance;
     d.immune += variance;
   }
-  else if (type == 1)	/* ¤â³¡ªZ¾¹ */
+  else if (type == 1)	/* æ‰‹éƒ¨æ­¦å™¨ */
   {
     d.attack += variance;
     d.immune += variance;
   }
-  else if (type == 2)	/* ¬ŞµPªZ¾¹ */
+  else if (type == 2)	/* ç›¾ç‰Œæ­¦å™¨ */
   {
     d.attack += variance;
     d.resist += variance;
   }
-  else if (type == 3)	/* ¨­ÅéªZ¾¹ */
+  else if (type == 3)	/* èº«é«”æ­¦å™¨ */
   {
     d.resist += variance;
     d.immune += variance;
   }
-  else if (type == 4)	/* ¸}³¡ªZ¾¹ */
+  else if (type == 4)	/* è…³éƒ¨æ­¦å™¨ */
   {
     d.attack += variance;
     d.speed += variance;
@@ -104,56 +175,68 @@ pip_weapon_wear(type, variance)	/* ¸Ë³ÆªZ¾¹¡A­pºâ¯à¤Oªº§ïÅÜ */
 
 
 static int
-pip_weapon_doing_menu(quality, type, name)	/* ªZ¾¹ÁÊ¶Rµe­± */
-  int quality;			/* ¶Ç¤J¥Ø«e°tÀ¹ */
-  int type;			/* ­ş¤@³¡¤À¸Ë³Æ */
+pip_weapon_doing_menu(quality, type, name)	/* æ­¦å™¨è³¼è²·ç•«é¢ */
+  int quality;			/* å‚³å…¥ç›®å‰é…æˆ´ */
+  int type;			/* å“ªä¸€éƒ¨åˆ†è£å‚™ */
   char *name;
 {
-  char menutitle[5][11] = {"ÀY³¡¸Ë³Æ°Ï", "¤â³¡¸Ë³Æ°Ï", "¬ŞµP¸Ë³Æ°Ï", "¨­Åé¸Ë³Æ°Ï", "¸}³¡¸Ë³Æ°Ï"};
+  /* é ­éƒ¨è£å‚™å€ */
+  /* æ‰‹éƒ¨è£å‚™å€ */
+  /* ç›¾ç‰Œè£å‚™å€ */
+  /* èº«é«”è£å‚™å€ */
+  /* è…³éƒ¨è£å‚™å€ */
+  char menutitle[5][11] = {"\xC0\x59\xB3\xA1\xB8\xCB\xB3\xC6\xB0\xCF", "\xA4\xE2\xB3\xA1\xB8\xCB\xB3\xC6\xB0\xCF", "\xAC\xDE\xB5\x50\xB8\xCB\xB3\xC6\xB0\xCF", "\xA8\xAD\xC5\xE9\xB8\xCB\xB3\xC6\xB0\xCF", "\xB8\x7D\xB3\xA1\xB8\xCB\xB3\xC6\xB0\xCF"};
   char buf[80];
   int n;
 
-  /* ¶Ã¼Æ²£¥ÍªZ¾¹ */
+  /* äº‚æ•¸ç”¢ç”Ÿæ­¦å™¨ */
   weapon_generate(type);
 
-  /* ¦L¥XªZ¾¹¦Cªí */
+  /* å°å‡ºæ­¦å™¨åˆ—è¡¨ */
   vs_head(menutitle[type], str_site);
   show_weapon_pic(0);
   move(11, 0);
-  outs("  \033[1;37;41m [NO]  [ªZ¾¹¦WºÙ]  [«~½è]  [°â»ù] \033[m\n");
+  /*   \033[1;37;41m [NO]  [æ­¦å™¨åç¨±]  [å“è³ª]  [å”®åƒ¹] \033[m\n */
+  outs("  \033[1;37;41m [NO]  [\xAA\x5A\xBE\xB9\xA6\x57\xBA\xD9]  [\xAB\x7E\xBD\xE8]  [\xB0\xE2\xBB\xF9] \033[m\n");
 
-  /* ¦L¥XªZ¾¹³æ¶µ */    
+  /* å°å‡ºæ­¦å™¨å–®é … */    
   for (n = 0; n < 9; n++)
     prints("   %d     %-10s  %6d  %6d\n", n, p[n].name, p[n].quality, p[n].cost);
 
-  /* ¿ï³æ³B²z */
+  /* é¸å–®è™•ç† */
   while (1)
   {
-    out_cmd("", COLOR1 " ±Ä¶R " COLOR2 " (­x¤õ³c¤l) [B]ÁÊ¶RªZ¾¹ [E]±j¤ÆªZ¾¹ [D]©ß±óªZ¾¹ [Q]¸õ¥X                 \033[m");
+    /*  æ¡è²·  */
+    /*  (è»ç«è²©å­) [B]è³¼è²·æ­¦å™¨ [E]å¼·åŒ–æ­¦å™¨ [D]æ‹‹æ£„æ­¦å™¨ [Q]è·³å‡º                 \033[m */
+    out_cmd("", COLOR1 " \xB1\xC4\xB6\x52 " COLOR2 " (\xAD\x78\xA4\xF5\xB3\x63\xA4\x6C) [B]\xC1\xCA\xB6\x52\xAA\x5A\xBE\xB9 [E]\xB1\x6A\xA4\xC6\xAA\x5A\xBE\xB9 [D]\xA9\xDF\xB1\xF3\xAA\x5A\xBE\xB9 [Q]\xB8\xF5\xA5\x58                 \033[m");
 
     switch (vkey())
     {
     case 'b':
-      sprintf(buf, "±z¦³ %d ¤¸¡A·Q­nÁÊ¶RÔ£©O¡H[Q] ", d.money);
+      /* æ‚¨æœ‰ %d å…ƒï¼Œæƒ³è¦è³¼è²·å•¥å‘¢ï¼Ÿ[Q]  */
+      sprintf(buf, "\xB1\x7A\xA6\xB3 %d \xA4\xB8\xA1\x41\xB7\x51\xAD\x6E\xC1\xCA\xB6\x52\xD4\xA3\xA9\x4F\xA1\x48[Q] ", d.money);
       n = ians(b_lines - 2, 1, buf) - '0';
 
       if (n >= 0 && n < 9)
       {
-	sprintf(buf, "½T©w­nÁÊ¶R»ù­È %d ¤¸ ªº%s¶Ü(Y/N)¡H[N] ", p[n].cost, p[n].name);
+	/* ç¢ºå®šè¦è³¼è²·åƒ¹å€¼ %d å…ƒ çš„%så—(Y/N)ï¼Ÿ[N]  */
+	sprintf(buf, "\xBD\x54\xA9\x77\xAD\x6E\xC1\xCA\xB6\x52\xBB\xF9\xAD\xC8 %d \xA4\xB8 \xAA\xBA%s\xB6\xDC(Y/N)\xA1\x48[N] ", p[n].cost, p[n].name);
 	if (ians(b_lines - 2, 1, buf) == 'y')
 	{
-	  /* ´«ªZ¾¹ */
+	  /* æ›æ­¦å™¨ */
 	  d.money -= p[n].cost;
 	  strcpy(name, p[n].name);
 	  pip_weapon_wear(type, p[n].quality - quality);
 	  quality = p[n].quality;
 
-	  sprintf(buf, "¤pÂû¤w¸g¸Ë°t¤W%s¤F", name);
+	  /* å°é›å·²ç¶“è£é…ä¸Š%säº† */
+	  sprintf(buf, "\xA4\x70\xC2\xFB\xA4\x77\xB8\x67\xB8\xCB\xB0\x74\xA4\x57%s\xA4\x46", name);
 	  vmsg(buf);
 	}
 	else
 	{
-	  vmsg("©ñ±óÁÊ¶R");
+	  /* æ”¾æ£„è³¼è²· */
+	  vmsg("\xA9\xF1\xB1\xF3\xC1\xCA\xB6\x52");
 	}
       }
       break;
@@ -162,10 +245,11 @@ pip_weapon_doing_menu(quality, type, name)	/* ªZ¾¹ÁÊ¶Rµe­± */
       n = quality * 100;
       if (quality && d.money >= n)
       {
-        sprintf(buf, "½T©w­nªá %d ¤¸¨Ó´£¤É%sªº¼ç¯à¶Ü(Y/N)¡H[N] ", n, name);
+        /* ç¢ºå®šè¦èŠ± %d å…ƒä¾†æå‡%sçš„æ½›èƒ½å—(Y/N)ï¼Ÿ[N]  */
+        sprintf(buf, "\xBD\x54\xA9\x77\xAD\x6E\xAA\xE1 %d \xA4\xB8\xA8\xD3\xB4\xA3\xA4\xC9%s\xAA\xBA\xBC\xE7\xAF\xE0\xB6\xDC(Y/N)\xA1\x48[N] ", n, name);
         if (ians(b_lines - 2, 1, buf) == 'y')
         {
-          /* «~½è¶V¦nªºªZ¾¹±j¤Æ¦¬¶O¶V°ª */
+          /* å“è³ªè¶Šå¥½çš„æ­¦å™¨å¼·åŒ–æ”¶è²»è¶Šé«˜ */
           d.money -= n;
           quality++;
           pip_weapon_wear(type, 1);
@@ -174,7 +258,8 @@ pip_weapon_doing_menu(quality, type, name)	/* ªZ¾¹ÁÊ¶Rµe­± */
       break;
 
     case 'd':
-      sprintf(buf, "½T©w­n©ß±ó%s¶Ü(Y/N)¡H[N] ", name);
+      /* ç¢ºå®šè¦æ‹‹æ£„%så—(Y/N)ï¼Ÿ[N]  */
+      sprintf(buf, "\xBD\x54\xA9\x77\xAD\x6E\xA9\xDF\xB1\xF3%s\xB6\xDC(Y/N)\xA1\x48[N] ", name);
       if (ians(b_lines - 2, 1, buf) == 'y')
       {
         pip_weapon_wear(type, -quality);
@@ -188,7 +273,7 @@ pip_weapon_doing_menu(quality, type, name)	/* ªZ¾¹ÁÊ¶Rµe­± */
       return quality;
     }
 
-    /* itoc.010816: ®ø±¼ ians() ¯d¤Uªº´İÀe */
+    /* itoc.010816: æ¶ˆæ‰ ians() ç•™ä¸‹çš„æ®˜éª¸ */
     move (b_lines - 2, 0);
     clrtoeol();
   }
@@ -196,12 +281,12 @@ pip_weapon_doing_menu(quality, type, name)	/* ªZ¾¹ÁÊ¶Rµe­± */
 
 
 /*-------------------------------------------------------*/
-/* ªZ¾¹°Ó©±¿ï³æ: ¦U³¡¦ì                                  */
+/* æ­¦å™¨å•†åº—é¸å–®: å„éƒ¨ä½                                  */
 /*-------------------------------------------------------*/
 
 
 int
-pip_store_weapon_head()		/* ÀY³¡ªZ¾¹ */
+pip_store_weapon_head()		/* é ­éƒ¨æ­¦å™¨ */
 {
   d.weaponhead = pip_weapon_doing_menu(d.weaponhead, 0, d.equiphead);
   return 0;
@@ -209,7 +294,7 @@ pip_store_weapon_head()		/* ÀY³¡ªZ¾¹ */
 
 
 int
-pip_store_weapon_hand()		/* ¤â³¡ªZ¾¹ */
+pip_store_weapon_hand()		/* æ‰‹éƒ¨æ­¦å™¨ */
 {
   d.weaponhand = pip_weapon_doing_menu(d.weaponhand, 1, d.equiphand);
   return 0;
@@ -217,7 +302,7 @@ pip_store_weapon_hand()		/* ¤â³¡ªZ¾¹ */
 
 
 int
-pip_store_weapon_shield()	/* ¬ŞµPªZ¾¹ */
+pip_store_weapon_shield()	/* ç›¾ç‰Œæ­¦å™¨ */
 {
   d.weaponshield = pip_weapon_doing_menu(d.weaponshield, 2, d.equipshield);
   return 0;
@@ -225,7 +310,7 @@ pip_store_weapon_shield()	/* ¬ŞµPªZ¾¹ */
 
 
 int
-pip_store_weapon_body()		/* ¨­ÅéªZ¾¹ */
+pip_store_weapon_body()		/* èº«é«”æ­¦å™¨ */
 {
   d.weaponbody = pip_weapon_doing_menu(d.weaponbody, 3, d.equipbody);
   return 0;
@@ -233,7 +318,7 @@ pip_store_weapon_body()		/* ¨­ÅéªZ¾¹ */
 
 
 int
-pip_store_weapon_foot()		/* ¸}³¡ªZ¾¹ */
+pip_store_weapon_foot()		/* è…³éƒ¨æ­¦å™¨ */
 {
   d.weaponfoot = pip_weapon_doing_menu(d.weaponfoot, 4, d.equipfoot);
   return 0;

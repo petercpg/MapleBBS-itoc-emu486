@@ -16,7 +16,7 @@ extern char xo_pool[];
 
 
 /* ----------------------------------------------------- */
-/* ¤W¯¸³qª¾¦W³æ						 */
+/* ä¸Šç«™é€šçŸ¥åå–®						 */
 /* ----------------------------------------------------- */
 
 
@@ -94,7 +94,7 @@ aloha_sync(fpath)
 
 
 /* ----------------------------------------------------- */
-/* ¤W¯¸³qª¾¦W³æ¡G¿ï³æ¦¡¾Þ§@¬É­±´y­z			 */
+/* ä¸Šç«™é€šçŸ¥åå–®ï¼šé¸å–®å¼æ“ä½œç•Œé¢æè¿°			 */
 /* ----------------------------------------------------- */
 
 
@@ -127,7 +127,8 @@ aloha_body(xo)
   max = xo->max;
   if (max <= 0)
   {
-    if (vans("­n·s¼W¦W³æ¶Ü(Y/N)¡H[N] ") == 'y')
+    /* è¦æ–°å¢žåå–®å—Ž(Y/N)ï¼Ÿ[N]  */
+    if (vans("\xAD\x6E\xB7\x73\xBC\x57\xA6\x57\xB3\xE6\xB6\xDC(Y/N)\xA1\x48[N] ") == 'y')
       return aloha_add(xo);
     return XO_QUIT;
   }
@@ -146,7 +147,7 @@ aloha_body(xo)
   clrtobot();
 
   /* return XO_NONE; */
-  return XO_FOOT;	/* itoc.010403: §â b_lines ¶ñ¤W feeter */
+  return XO_FOOT;	/* itoc.010403: æŠŠ b_lines å¡«ä¸Š feeter */
 }
 
 
@@ -154,7 +155,8 @@ static int
 aloha_head(xo)
   XO *xo;
 {
-  vs_head("¤W¯¸³qª¾", str_site);
+  /* ä¸Šç«™é€šçŸ¥ */
+  vs_head("\xA4\x57\xAF\xB8\xB3\x71\xAA\xBE", str_site);
   prints(NECKER_ALOHA, d_cols, "");
   return aloha_body(xo);
 }
@@ -188,12 +190,13 @@ aloha_loadpal(xo)
   PAL pal;
   ALOHA aloha;
   
-  if (vans("­n¤Þ¤J¦n¤Í¦W³æ¶Ü(Y/N)¡H[N] ") == 'y')
+  /* è¦å¼•å…¥å¥½å‹åå–®å—Ž(Y/N)ï¼Ÿ[N]  */
+  if (vans("\xAD\x6E\xA4\xDE\xA4\x4A\xA6\x6E\xA4\xCD\xA6\x57\xB3\xE6\xB6\xDC(Y/N)\xA1\x48[N] ") == 'y')
   {
     usr_fpath(fpath, cuser.userid, FN_PAL);
     if ((fd = open(fpath, O_RDONLY)) >= 0)
     {
-      /* itoc.001224: ¤Þ¤J¦W³æ¥u¥[¨ì ALOHA_MAX */
+      /* itoc.001224: å¼•å…¥åå–®åªåŠ åˆ° ALOHA_MAX */
       quota = ALOHA_MAX - xo->max;
 
       memset(&frienz, 0, sizeof(FRIENZ));
@@ -212,7 +215,7 @@ aloha_loadpal(xo)
 	  usr_fpath(fpath, aloha.userid, FN_FRIENZ);
 	  rec_add(fpath, &frienz, sizeof(FRIENZ));
 
-	  /* ¥u­n¦³¤Þ¤J¥ô¦ó¤@¤H¡A´N§â´å¼Ð©ñ¦b³Ì«á */
+	  /* åªè¦æœ‰å¼•å…¥ä»»ä½•ä¸€äººï¼Œå°±æŠŠæ¸¸æ¨™æ”¾åœ¨æœ€å¾Œ */
 	  xo->pos = XO_TAIL;
 
 	  if (quota < 0)
@@ -248,7 +251,8 @@ aloha_add(xo)
 
   if (userno == cuser.userno)   
   {
-    vmsg("¦Û¤v¤£¶·¥[¤J¤W¯¸³qª¾¦W³æ¤¤");
+    /* è‡ªå·±ä¸é ˆåŠ å…¥ä¸Šç«™é€šçŸ¥åå–®ä¸­ */
+    vmsg("\xA6\xDB\xA4\x76\xA4\xA3\xB6\xB7\xA5\x5B\xA4\x4A\xA4\x57\xAF\xB8\xB3\x71\xAA\xBE\xA6\x57\xB3\xE6\xA4\xA4");
     return aloha_head(xo);
   }
 
@@ -284,7 +288,7 @@ aloha_delete(xo)
     aloha = (ALOHA *) xo_pool + (xo->pos - xo->top);
 
     usr_fpath(fpath, aloha->userid, FN_FRIENZ);
-    /* itoc.030310: µù¸Ñ: ©È frienz ¸Ì­±¦³­«ÂÐªº */
+    /* itoc.030310: è¨»è§£: æ€• frienz è£¡é¢æœ‰é‡è¦†çš„ */
     while (!rec_del(fpath, sizeof(FRIENZ), 0, cmpfrienz))
       ;
 
@@ -391,7 +395,7 @@ aloha_tag(xo)
   }
 
   /* return XO_NONE; */
-  return xo->pos + 1 + XO_MOVE;	/* lkchu.981201: ¸õ¦Ü¤U¤@¶µ */
+  return xo->pos + 1 + XO_MOVE;	/* lkchu.981201: è·³è‡³ä¸‹ä¸€é … */
 }
 
       

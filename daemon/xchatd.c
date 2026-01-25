@@ -22,9 +22,9 @@
 
 #define	SERVER_USAGE
 #define WATCH_DOG
-#undef	DEBUG			/* µ{¦¡°£¿ù¤§¥Î */
-#undef	MONITOR			/* ºÊ·þ chatroom ¬¡°Ê¥H¸Ñ¨MªÈ¯É */
-#undef	STAND_ALONE		/* ¤£·f°t BBS ¿W¥ß°õ¦æ */
+#undef	DEBUG			/* ç¨‹å¼é™¤éŒ¯ä¹‹ç”¨ */
+#undef	MONITOR			/* ç›£ç£ chatroom æ´»å‹•ä»¥è§£æ±ºç³¾ç´› */
+#undef	STAND_ALONE		/* ä¸æ­é… BBS ç¨ç«‹åŸ·è¡Œ */
 
 
 #ifdef	DEBUG
@@ -50,7 +50,8 @@ static int gline;
 
 
 #define	MAIN_NAME	"main"
-#define	MAIN_TOPIC	"¦³½t¤d¨½¨Ó¬Û·|"
+/* æœ‰ç·£åƒé‡Œä¾†ç›¸æœƒ */
+#define	MAIN_TOPIC	"\xA6\xB3\xBD\x74\xA4\x64\xA8\xBD\xA8\xD3\xAC\xDB\xB7\x7C"
 
 
 #define ROOM_LOCKED	1
@@ -66,10 +67,10 @@ static int gline;
 
 #define RESTRICTED(usr)	(usr->uflag == 0)	/* guest */
 #define CHATSYSOP(usr)	(usr->uflag & PERM_ALLCHAT)
-#define	PERM_ROOMOP	PERM_CHAT	/* Thor: ­É PERM_CHAT ¬° PERM_ROOMOP */
-#define	PERM_CHATOP	PERM_DENYCHAT	/* Thor: ­É PERM_DENYCHAT ¬° PERM_CHATOP */
+#define	PERM_ROOMOP	PERM_CHAT	/* Thor: å€Ÿ PERM_CHAT ç‚º PERM_ROOMOP */
+#define	PERM_CHATOP	PERM_DENYCHAT	/* Thor: å€Ÿ PERM_DENYCHAT ç‚º PERM_CHATOP */
 /* #define ROOMOP(usr)  (usr->uflag & (PERM_ROOMOP | PERM_ALLCHAT)) */
-/* Thor.980603: PERM_ALLCHAT §ï¬° default ¨S¦³ roomop, ¦ý¥i¥H¦Û¤v¨ú±o chatop */
+/* Thor.980603: PERM_ALLCHAT æ”¹ç‚º default æ²’æœ‰ roomop, ä½†å¯ä»¥è‡ªå·±å–å¾— chatop */
 #define ROOMOP(usr)	(usr->uflag & (PERM_ROOMOP | PERM_CHATOP))
 #define CLOAK(usr)	(usr->uflag & PERM_CLOAK)
 
@@ -150,9 +151,12 @@ static int userno_inc = 0;	/* userno auto-incrementer */
 #endif
 
 
-static char msg_not_op[] = "¡» ±z¤£¬O³o¶¡²á¤Ñ«Çªº Op";
-static char msg_no_such_id[] = "¡» ¥Ø«e¨S¦³¤H¨Ï¥Î [%s] ³o­Ó²á¤Ñ¥N¸¹";
-static char msg_not_here[] = "¡» [%s] ¤£¦b³o¶¡²á¤Ñ«Ç";
+/* â—† æ‚¨ä¸æ˜¯é€™é–“èŠå¤©å®¤çš„ Op */
+static char msg_not_op[] = "\xA1\xBB \xB1\x7A\xA4\xA3\xAC\x4F\xB3\x6F\xB6\xA1\xB2\xE1\xA4\xD1\xAB\xC7\xAA\xBA Op";
+/* â—† ç›®å‰æ²’æœ‰äººä½¿ç”¨ [%s] é€™å€‹èŠå¤©ä»£è™Ÿ */
+static char msg_no_such_id[] = "\xA1\xBB \xA5\xD8\xAB\x65\xA8\x53\xA6\xB3\xA4\x48\xA8\xCF\xA5\xCE [%s] \xB3\x6F\xAD\xD3\xB2\xE1\xA4\xD1\xA5\x4E\xB8\xB9";
+/* â—† [%s] ä¸åœ¨é€™é–“èŠå¤©å®¤ */
+static char msg_not_here[] = "\xA1\xBB [%s] \xA4\xA3\xA6\x62\xB3\x6F\xB6\xA1\xB2\xE1\xA4\xD1\xAB\xC7";
 
 
 #define	FUZZY_USER	((ChatUser *) -1)
@@ -306,7 +310,7 @@ valid_chatid(id)
   int ch, len;
 
   for (len = 0; ch = *id; id++)
-  { /* Thor.980921: ªÅ¥Õ¬°¤£¦X²zchatid, ©Ègetnext§PÂ_¿ù»~µ¥µ¥ */
+  { /* Thor.980921: ç©ºç™½ç‚ºä¸åˆç†chatid, æ€•getnextåˆ¤æ–·éŒ¯èª¤ç­‰ç­‰ */
     if (ch == '/' || ch == '*' || ch == ':' || ch ==' ')
       return 0;
     if (++len > 8)
@@ -316,13 +320,13 @@ valid_chatid(id)
 }
 
 
-/* itoc.µù¸Ñ: ¥Ñ©ó§ï±Ä MUD-like ªº³¡¤À match §Y¥i */
-/* ©Ò¥H MUD-like ªº action ºÉ¶q¤£­n¥Î­^¤åÁY¼g¡A¨Ã¤£­n¦³­«ÂÐªº */
+/* itoc.è¨»è§£: ç”±æ–¼æ”¹æŽ¡ MUD-like çš„éƒ¨åˆ† match å³å¯ */
+/* æ‰€ä»¥ MUD-like çš„ action ç›¡é‡ä¸è¦ç”¨è‹±æ–‡ç¸®å¯«ï¼Œä¸¦ä¸è¦æœ‰é‡è¦†çš„ */
 
 static int		/* 0: fit */
-str_belong(s1, s2)	/* itoc.010321: Åý mud-like «ü¥O³¡¤À match §Y¥i¡A©M mud ¤@¼Ë */
-  uschar *s1;		/* ChatAction ¸Ìªº¤p¼g verb */
-  uschar *s2;		/* user input command ¤j¤p¼g§¡¥i */
+str_belong(s1, s2)	/* itoc.010321: è®“ mud-like æŒ‡ä»¤éƒ¨åˆ† match å³å¯ï¼Œå’Œ mud ä¸€æ¨£ */
+  uschar *s1;		/* ChatAction è£¡çš„å°å¯« verb */
+  uschar *s2;		/* user input command å¤§å°å¯«å‡å¯ */
 {
   int c1, c2;
   int num = 0;
@@ -333,15 +337,15 @@ str_belong(s1, s2)	/* itoc.010321: Åý mud-like «ü¥O³¡¤À match §Y¥i¡A©M mud ¤@¼Ë 
     c2 = *s2;
 
     if (c2 >= 'A' && c2 <= 'Z')
-      c2 |= 0x20;	/* ´«¤p¼g */
+      c2 |= 0x20;	/* æ›å°å¯« */
 
-    if (num >= 2)	/* ¦Ü¤Ö­n¦³¤G¦r¤¸¬Û¦P */
+    if (num >= 2)	/* è‡³å°‘è¦æœ‰äºŒå­—å…ƒç›¸åŒ */
     {
-      if (!c1 || !c2)	/* §¹¥þ match ©Î³¡¤À match ¬Ò¥i (s1¥]§ts2 ©Î s2¥]§ts1§¡ºâ) */
+      if (!c1 || !c2)	/* å®Œå…¨ match æˆ–éƒ¨åˆ† match çš†å¯ (s1åŒ…å«s2 æˆ– s2åŒ…å«s1å‡ç®—) */
         return 0;
     }
 
-    if (c1 > c2)	/* itoc.010927: ¤£¦Pªº¦^¶Ç­È */
+    if (c1 > c2)	/* itoc.010927: ä¸åŒçš„å›žå‚³å€¼ */
       return 1;
     else if (c1 < c2)
       return -1;
@@ -380,7 +384,7 @@ str_match(s1, s2)
       return c2;
 
     if (c2 >= 'A' && c2 <= 'Z')
-      c2 |= 0x20;	/* ´«¤p¼g */
+      c2 |= 0x20;	/* æ›å°å¯« */
 
     if (c1 != c2)
       return -1;
@@ -401,7 +405,7 @@ cuser_by_userid(userid)
   char *userid;
 {
   ChatUser *cu;
-  char buf[80]; /* Thor.980727: ¤@¦¸³Ìªø¤~80 */
+  char buf[80]; /* Thor.980727: ä¸€æ¬¡æœ€é•·æ‰80 */
 
   str_lower(buf, userid);
   for (cu = mainuser; cu; cu = cu->unext)
@@ -420,7 +424,7 @@ cuser_by_chatid(chatid)
   char *chatid;
 {
   ChatUser *cu;
-  char buf[80]; /* Thor.980727: ¤@¦¸³Ìªø¤~80 */
+  char buf[80]; /* Thor.980727: ä¸€æ¬¡æœ€é•·æ‰80 */
 
   str_lower(buf, chatid);
 
@@ -441,7 +445,7 @@ fuzzy_cuser_by_chatid(chatid)
 {
   ChatUser *cu, *xuser;
   int mode;
-  char buf[80]; /* Thor.980727: ¤@¦¸³Ìªø¤~80 */
+  char buf[80]; /* Thor.980727: ä¸€æ¬¡æœ€é•·æ‰80 */
 
   str_lower(buf, chatid);
   xuser = NULL;
@@ -458,7 +462,7 @@ fuzzy_cuser_by_chatid(chatid)
     if (mode > 0)
     {
       if (xuser)
-	return FUZZY_USER;	/* ²Å¦XªÌ¤j©ó 2 ¤H */
+	return FUZZY_USER;	/* ç¬¦åˆè€…å¤§æ–¼ 2 äºº */
 
       xuser = cu;
     }
@@ -472,7 +476,7 @@ croom_by_roomid(roomid)
   char *roomid;
 {
   ChatRoom *room;
-  char buf[80]; /* Thor.980727: ¤@¦¸³Ìªø¤~80 */
+  char buf[80]; /* Thor.980727: ä¸€æ¬¡æœ€é•·æ‰80 */
 
   str_lower(buf, roomid);
   room = &mainroom;
@@ -530,7 +534,7 @@ list_delete(list, userid)
   char *userid;
 {
   UserList *node;
-  char buf[80]; /* Thor.980727: ¿é¤J¤@¦¸³Ìªø¤~ 80 */
+  char buf[80]; /* Thor.980727: è¼¸å…¥ä¸€æ¬¡æœ€é•·æ‰ 80 */
 
   str_lower(buf, userid);
 
@@ -611,7 +615,7 @@ send_to_room(room, msg, userno, number)
   ChatUser *cu;
   fd_set wset;
   int sock, max;
-  int clitype;			/* ¤À¬° bbs client ¤Î common client ¨â¦¸³B²z */
+  int clitype;			/* åˆ†ç‚º bbs client åŠ common client å…©æ¬¡è™•ç† */
   char *str, buf[256];
 
   for (clitype = (number == MSG_MESSAGE || !number) ? 0 : 1;
@@ -669,7 +673,7 @@ send_to_user(user, msg, userno, number)
 #if 0
   if (!user->userno || (!user->clitype && number && number != MSG_MESSAGE))
 #endif
-  /* Thor.980911: ¦pªG¬duser->userno«h¦blogin_userªºerror message·|µLªk°e¦^ */
+  /* Thor.980911: å¦‚æžœæŸ¥user->usernoå‰‡åœ¨login_userçš„error messageæœƒç„¡æ³•é€å›ž */
   if (!user->clitype && number != MSG_MESSAGE)
     return;
 
@@ -749,7 +753,7 @@ exit_room(user, mode, msg)
   user->room = NULL;
   /* user->uflag &= ~(PERM_ROOMOP | PERM_ALLCHAT); */
   user->uflag &= ~PERM_ROOMOP;
-  /* Thor.980601: Â÷¶}©Ð¶¡®É¥u²M room op, ¤£²M sysop, chatroom ¦]¤Ñ¥Í¨ã¦³ */
+  /* Thor.980601: é›¢é–‹æˆ¿é–“æ™‚åªæ¸… room op, ä¸æ¸… sysop, chatroom å› å¤©ç”Ÿå…·æœ‰ */
 
   if (--room->occupants > 0)
   {
@@ -760,17 +764,20 @@ exit_room(user, mode, msg)
     {
     case EXIT_LOGOUT:
 
-      sprintf(buf, "¡» %s Â÷¶}¤F ... %.50s", chatid, (msg && *msg) ? msg : "");
+      /* â—† %s é›¢é–‹äº† ... %.50s */
+      sprintf(buf, "\xA1\xBB %s \xC2\xF7\xB6\x7D\xA4\x46 ... %.50s", chatid, (msg && *msg) ? msg : "");
       break;
 
     case EXIT_LOSTCONN:
 
-      sprintf(buf, "¡» %s ¦¨¤FÂ_½uªº­·ºåÅo", chatid);
+      /* â—† %s æˆäº†æ–·ç·šçš„é¢¨ç®å›‰ */
+      sprintf(buf, "\xA1\xBB %s \xA6\xA8\xA4\x46\xC2\x5F\xBD\x75\xAA\xBA\xAD\xB7\xBA\xE5\xC5\x6F", chatid);
       break;
 
     case EXIT_KICK:
 
-      sprintf(buf, "¡» «¢«¢¡I%s ³Q½ð¥X¥h¤F", chatid);
+      /* â—† å“ˆå“ˆï¼%s è¢«è¸¢å‡ºåŽ»äº† */
+      sprintf(buf, "\xA1\xBB \xAB\xA2\xAB\xA2\xA1\x49%s \xB3\x51\xBD\xF0\xA5\x58\xA5\x68\xA4\x46", chatid);
       break;
     }
 
@@ -796,7 +803,7 @@ exit_room(user, mode, msg)
 
     /* free(room); */
 
-    /* ¦^¦¬ */
+    /* å›žæ”¶ */
     room->next = roompool;
     roompool = room;
 
@@ -844,15 +851,18 @@ chat_query(cu, msg)
   ACCT acct;
   char buf[256];
 
-  /* Thor.980617: ¥i¥ý¬d¬O§_¬°ªÅ¦r¦ê */
+  /* Thor.980617: å¯å…ˆæŸ¥æ˜¯å¦ç‚ºç©ºå­—ä¸² */
   if (*msg && acct_load(&acct, msg) >= 0)
   {
-    sprintf(buf, "%s(%s) ¦@¤W¯¸ %d ¦¸¡A¤å³¹ %d ½g",
+    /* %s(%s) å…±ä¸Šç«™ %d æ¬¡ï¼Œæ–‡ç«  %d ç¯‡ */
+    sprintf(buf, "%s(%s) \xA6\x40\xA4\x57\xAF\xB8 %d \xA6\xB8\xA1\x41\xA4\xE5\xB3\xB9 %d \xBD\x67",
       acct.userid, acct.username, acct.numlogins, acct.numposts);
     send_to_user(cu, buf, 0, MSG_MESSAGE);
 
-    sprintf(buf, "³Ìªñ(%s)±q(%s)¤W¯¸", Btime(acct.lastlogin),
-      (acct.lasthost[0] ? acct.lasthost : "¥~¤ÓªÅ"));
+    /* æœ€è¿‘(%s)å¾ž(%s)ä¸Šç«™ */
+    sprintf(buf, "\xB3\xCC\xAA\xF1(%s)\xB1\x71(%s)\xA4\x57\xAF\xB8", Btime(acct.lastlogin),
+      /* å¤–å¤ªç©º */
+      (acct.lasthost[0] ? acct.lasthost : "\xA5\x7E\xA4\xD3\xAA\xC5"));
     send_to_user(cu, buf, 0, MSG_MESSAGE);
 
     usr_fpath(buf, acct.userid, FN_PLANS);
@@ -899,7 +909,8 @@ chat_date(cu, msg)
 {
   char buf[128];
 
-  sprintf(buf, "¡» ¼Ð·Ç®É¶¡: %s", Now());
+  /* â—† æ¨™æº–æ™‚é–“: %s */
+  sprintf(buf, "\xA1\xBB \xBC\xD0\xB7\xC7\xAE\xC9\xB6\xA1: %s", Now());
   send_to_user(cu, buf, 0, MSG_MESSAGE);
 }
 
@@ -922,7 +933,8 @@ chat_topic(cu, msg)
 
   if (*msg == '\0')
   {
-    send_to_user(cu, "¡° ½Ð«ü©w¸ÜÃD", 0, MSG_MESSAGE);
+    /* â€» è«‹æŒ‡å®šè©±é¡Œ */
+    send_to_user(cu, "\xA1\xB0 \xBD\xD0\xAB\xFC\xA9\x77\xB8\xDC\xC3\x44", 0, MSG_MESSAGE);
     return;
   }
 
@@ -943,7 +955,8 @@ chat_topic(cu, msg)
 
   if (!CLOAK(cu))
   {
-    sprintf(buf, "¡» %s ±N¸ÜÃD§ï¬° \033[1;32m%s\033[m", cu->chatid, topic);
+    /* â—† %s å°‡è©±é¡Œæ”¹ç‚º \033[1;32m%s\033[m */
+    sprintf(buf, "\xA1\xBB %s \xB1\x4E\xB8\xDC\xC3\x44\xA7\xEF\xAC\xB0 \033[1;32m%s\033[m", cu->chatid, topic);
     send_to_room(room, buf, 0, MSG_MESSAGE);
   }
 }
@@ -974,22 +987,25 @@ chat_nick(cu, msg)
   chatid[8] = '\0';
   if (!valid_chatid(chatid))
   {
-    send_to_user(cu, "¡° ³o­Ó²á¤Ñ¥N¸¹¬O¤£¥¿½Tªº", 0, MSG_MESSAGE);
+    /* â€» é€™å€‹èŠå¤©ä»£è™Ÿæ˜¯ä¸æ­£ç¢ºçš„ */
+    send_to_user(cu, "\xA1\xB0 \xB3\x6F\xAD\xD3\xB2\xE1\xA4\xD1\xA5\x4E\xB8\xB9\xAC\x4F\xA4\xA3\xA5\xBF\xBD\x54\xAA\xBA", 0, MSG_MESSAGE);
     return;
   }
 
   xuser = cuser_by_chatid(chatid);
   if (xuser != NULL && xuser != cu)
   {
-    send_to_user(cu, "¡° ¤w¸g¦³¤H±¶¨¬¥ýµnÅo", 0, MSG_MESSAGE);
+    /* â€» å·²ç¶“æœ‰äººæ·è¶³å…ˆç™»å›‰ */
+    send_to_user(cu, "\xA1\xB0 \xA4\x77\xB8\x67\xA6\xB3\xA4\x48\xB1\xB6\xA8\xAC\xA5\xFD\xB5\x6E\xC5\x6F", 0, MSG_MESSAGE);
     return;
   }
 
-  /* itoc.010528: ¤£¥i¥H¥Î§O¤Hªº id °µ¬°²á¤Ñ¥N¸¹ */
+  /* itoc.010528: ä¸å¯ä»¥ç”¨åˆ¥äººçš„ id åšç‚ºèŠå¤©ä»£è™Ÿ */
   usr_fpath(buf, chatid, NULL);
   if (dashd(buf) && str_cmp(chatid, cu->userid))
   {
-    send_to_user(cu, "¡° ©êºp³o­Ó¥N¸¹¦³¤Hµù¥U¬° id¡A©Ò¥H±z¤£¯à·í¦¨²á¤Ñ¥N¸¹", 0, MSG_MESSAGE);
+    /* â€» æŠ±æ­‰é€™å€‹ä»£è™Ÿæœ‰äººè¨»å†Šç‚º idï¼Œæ‰€ä»¥æ‚¨ä¸èƒ½ç•¶æˆèŠå¤©ä»£è™Ÿ */
+    send_to_user(cu, "\xA1\xB0 \xA9\xEA\xBA\x70\xB3\x6F\xAD\xD3\xA5\x4E\xB8\xB9\xA6\xB3\xA4\x48\xB5\xF9\xA5\x55\xAC\xB0 id\xA1\x41\xA9\xD2\xA5\x48\xB1\x7A\xA4\xA3\xAF\xE0\xB7\xED\xA6\xA8\xB2\xE1\xA4\xD1\xA5\x4E\xB8\xB9", 0, MSG_MESSAGE);
     return;
   }
 
@@ -997,7 +1013,8 @@ chat_nick(cu, msg)
 
   if (!CLOAK(cu))
   {
-    sprintf(buf, "¡° %s ±N²á¤Ñ¥N¸¹§ï¬° \033[1;33m%s\033[m", str, chatid);
+    /* â€» %s å°‡èŠå¤©ä»£è™Ÿæ”¹ç‚º \033[1;33m%s\033[m */
+    sprintf(buf, "\xA1\xB0 %s \xB1\x4E\xB2\xE1\xA4\xD1\xA5\x4E\xB8\xB9\xA7\xEF\xAC\xB0 \033[1;33m%s\033[m", str, chatid);
     send_to_room(cu->room, buf, cu->userno, MSG_MESSAGE);
   }
 
@@ -1028,7 +1045,8 @@ chat_list_rooms(cuser, msg)
 
   if (RESTRICTED(cuser))
   {
-    send_to_user(cuser, "¡° ±z¨S¦³Åv­­¦C¥X²{¦³ªº²á¤Ñ«Ç", 0, MSG_MESSAGE);
+    /* â€» æ‚¨æ²’æœ‰æ¬Šé™åˆ—å‡ºç¾æœ‰çš„èŠå¤©å®¤ */
+    send_to_user(cuser, "\xA1\xB0 \xB1\x7A\xA8\x53\xA6\xB3\xC5\x76\xAD\xAD\xA6\x43\xA5\x58\xB2\x7B\xA6\xB3\xAA\xBA\xB2\xE1\xA4\xD1\xAB\xC7", 0, MSG_MESSAGE);
     return;
   }
 
@@ -1037,7 +1055,8 @@ chat_list_rooms(cuser, msg)
   if (mode)
     send_to_user(cuser, "", 0, MSG_ROOMLISTSTART);
   else
-    send_to_user(cuser, "\033[7m ½Í¤Ñ«Ç¦WºÙ  ¢x¤H¼Æ¢x¸ÜÃD        \033[m", 0,
+    /* \033[7m è«‡å¤©å®¤åç¨±  â”‚äººæ•¸â”‚è©±é¡Œ        \033[m */
+    send_to_user(cuser, "\033[7m \xBD\xCD\xA4\xD1\xAB\xC7\xA6\x57\xBA\xD9  \xA2\x78\xA4\x48\xBC\xC6\xA2\x78\xB8\xDC\xC3\x44        \033[m", 0,
       MSG_MESSAGE);
 
   room = cuser->room;
@@ -1055,13 +1074,17 @@ chat_list_rooms(cuser, msg)
       }
       else
       {
-	sprintf(buf, " %-12s¢x%4d¢x%s", cr->name, cr->occupants, cr->topic);
+	/*  %-12sâ”‚%4dâ”‚%s */
+	sprintf(buf, " %-12s\xA2\x78%4d\xA2\x78%s", cr->name, cr->occupants, cr->topic);
 	if (LOCKED(cr))
-	  strcat(buf, " [Âê¦í]");
+	  /*  [éŽ–ä½] */
+	  strcat(buf, " [\xC2\xEA\xA6\xED]");
 	if (SECRET(cr))
-	  strcat(buf, " [¯µ±K]");
+	  /*  [ç§˜å¯†] */
+	  strcat(buf, " [\xAF\xB5\xB1\x4B]");
 	if (OPENTOPIC(cr))
-	  strcat(buf, " [¸ÜÃD]");
+	  /*  [è©±é¡Œ] */
+	  strcat(buf, " [\xB8\xDC\xC3\x44]");
 	send_to_user(cuser, buf, 0, MSG_MESSAGE);
       }
     }
@@ -1092,15 +1115,16 @@ chat_do_user_list(cu, msg, theroom)
   if (mode)
     send_to_user(cu, "", 0, MSG_USERLISTSTART);
   else
-    send_to_user(cu, "\033[7m ²á¤Ñ¥N¸¹¢x¨Ï¥ÎªÌ¥N¸¹  ¢x²á¤Ñ«Ç \033[m", 0,
+    /* \033[7m èŠå¤©ä»£è™Ÿâ”‚ä½¿ç”¨è€…ä»£è™Ÿ  â”‚èŠå¤©å®¤ \033[m */
+    send_to_user(cu, "\033[7m \xB2\xE1\xA4\xD1\xA5\x4E\xB8\xB9\xA2\x78\xA8\xCF\xA5\xCE\xAA\xCC\xA5\x4E\xB8\xB9  \xA2\x78\xB2\xE1\xA4\xD1\xAB\xC7 \033[m", 0,
       MSG_MESSAGE);
 
   myroom = cu->room;
 
-  /* Thor.980717: »Ý­n¥ý±Æ°£ cu->userno == 0 ªºª¬ªp¶Ü? */
+  /* Thor.980717: éœ€è¦å…ˆæŽ’é™¤ cu->userno == 0 çš„ç‹€æ³å—Ž? */
   for (user = mainuser; user; user = user->unext)
   {
-#if 0	/* Thor.980717: ¬JµM cu ³£ªÅ¤F¨ºÁÙ¶i¨Ó·F»ò? */
+#if 0	/* Thor.980717: æ—¢ç„¶ cu éƒ½ç©ºäº†é‚£é‚„é€²ä¾†å¹¹éº¼? */
     if (!cu->userno)
       continue;
 #endif
@@ -1129,24 +1153,26 @@ chat_do_user_list(cu, msg, theroom)
     if (mode)
     {
       if (!room)
-	continue;		/* Xshadow: ÁÙ¨S¶i¤J¥ô¦ó©Ð¶¡ªº´N¤£¦C¥X */
+	continue;		/* Xshadow: é‚„æ²’é€²å…¥ä»»ä½•æˆ¿é–“çš„å°±ä¸åˆ—å‡º */
 
       sprintf(buf, "%s %s %s %s",
 	user->chatid, user->userid, room->name, user->rhost);
 
-      /* Thor.980603: PERM_ALLCHAT §ï¬° default ¨S¦³ roomop, ¦ý¥i¥H¦Û¤v¨ú±o */
+      /* Thor.980603: PERM_ALLCHAT æ”¹ç‚º default æ²’æœ‰ roomop, ä½†å¯ä»¥è‡ªå·±å–å¾— */
       /* if (uflag & (PERM_ROOMOP | PERM_ALLCHAT)) */
       if (ROOMOP(user))
 	strcat(buf, " Op");
     }
     else
     {
-      sprintf(buf, " %-8s¢x%-12s¢x%s",
-	user->chatid, user->userid, room ? room->name : "[¦bªù¤f±r«Þ]");
-      /* Thor.980603: PERM_ALLCHAT §ï¬° default ¨S¦³ roomop, ¦ý¥i¥H¦Û¤v¨ú±o */
+      /*  %-8sâ”‚%-12sâ”‚%s */
+      sprintf(buf, " %-8s\xA2\x78%-12s\xA2\x78%s",
+	/* [åœ¨é–€å£å¾˜å¾Š] */
+	user->chatid, user->userid, room ? room->name : "[\xA6\x62\xAA\xF9\xA4\x66\xB1\x72\xAB\xDE]");
+      /* Thor.980603: PERM_ALLCHAT æ”¹ç‚º default æ²’æœ‰ roomop, ä½†å¯ä»¥è‡ªå·±å–å¾— */
       /* if (uflag & (PERM_ROOMOP | PERM_ALLCHAT)) */
       /* if (uflag & (PERM_ROOMOP | PERM_CHATOP)) */
-      if (ROOMOP(user))  /* Thor.980602: ²Î¤@¥Îªk */
+      if (ROOMOP(user))  /* Thor.980602: çµ±ä¸€ç”¨æ³• */
 	strcat(buf, " [Op]");
     }
 
@@ -1175,14 +1201,16 @@ chat_list_by_room(cu, msg)
   {
     if (!(whichroom = croom_by_roomid(roomstr)))
     {
-      sprintf(buf, "¡° ¨S¦³ [%s] ³o­Ó²á¤Ñ«Ç", roomstr);
+      /* â€» æ²’æœ‰ [%s] é€™å€‹èŠå¤©å®¤ */
+      sprintf(buf, "\xA1\xB0 \xA8\x53\xA6\xB3 [%s] \xB3\x6F\xAD\xD3\xB2\xE1\xA4\xD1\xAB\xC7", roomstr);
       send_to_user(cu, buf, 0, MSG_MESSAGE);
       return;
     }
 
     if (whichroom != cu->room && SECRET(whichroom) && !CHATSYSOP(cu))
     {
-      send_to_user(cu, "¡° µLªk¦C¥X¦b¯µ±K²á¤Ñ«Çªº¨Ï¥ÎªÌ", 0, MSG_MESSAGE);
+      /* â€» ç„¡æ³•åˆ—å‡ºåœ¨ç§˜å¯†èŠå¤©å®¤çš„ä½¿ç”¨è€… */
+      send_to_user(cu, "\xA1\xB0 \xB5\x4C\xAA\x6B\xA6\x43\xA5\x58\xA6\x62\xAF\xB5\xB1\x4B\xB2\xE1\xA4\xD1\xAB\xC7\xAA\xBA\xA8\xCF\xA5\xCE\xAA\xCC", 0, MSG_MESSAGE);
       return;
     }
   }
@@ -1205,13 +1233,14 @@ chat_chatroom(cu, msg)
   char *msg;
 {
   if (common_client_command)
-    send_to_user(cu, "²á¤Ñ«Ç", 0, MSG_CHATROOM);
+    /* èŠå¤©å®¤ */
+    send_to_user(cu, "\xB2\xE1\xA4\xD1\xAB\xC7", 0, MSG_CHATROOM);
 }
 
 
 static void
 chat_map_chatids(cu, whichroom)
-  ChatUser *cu;			/* Thor: ÁÙ¨S¦³§@¤£¦P¶¡ªº */
+  ChatUser *cu;			/* Thor: é‚„æ²’æœ‰ä½œä¸åŒé–“çš„ */
   ChatRoom *whichroom;
 {
   int c;
@@ -1222,7 +1251,8 @@ chat_map_chatids(cu, whichroom)
   myroom = cu->room;
 
   send_to_user(cu,
-    "\033[7m ²á¤Ñ¥N¸¹ ¨Ï¥ÎªÌ¥N¸¹  ¢x ²á¤Ñ¥N¸¹ ¨Ï¥ÎªÌ¥N¸¹  ¢x ²á¤Ñ¥N¸¹ ¨Ï¥ÎªÌ¥N¸¹ \033[m", 0, MSG_MESSAGE);
+    /* \033[7m èŠå¤©ä»£è™Ÿ ä½¿ç”¨è€…ä»£è™Ÿ  â”‚ èŠå¤©ä»£è™Ÿ ä½¿ç”¨è€…ä»£è™Ÿ  â”‚ èŠå¤©ä»£è™Ÿ ä½¿ç”¨è€…ä»£è™Ÿ \033[m */
+    "\033[7m \xB2\xE1\xA4\xD1\xA5\x4E\xB8\xB9 \xA8\xCF\xA5\xCE\xAA\xCC\xA5\x4E\xB8\xB9  \xA2\x78 \xB2\xE1\xA4\xD1\xA5\x4E\xB8\xB9 \xA8\xCF\xA5\xCE\xAA\xCC\xA5\x4E\xB8\xB9  \xA2\x78 \xB2\xE1\xA4\xD1\xA5\x4E\xB8\xB9 \xA8\xCF\xA5\xCE\xAA\xCC\xA5\x4E\xB8\xB9 \033[m", 0, MSG_MESSAGE);
 
   for (c = 0, user = mainuser; user; user = user->unext)
   {
@@ -1235,17 +1265,18 @@ chat_map_chatids(cu, whichroom)
 
     if (myroom != room)
     {
-      if (RESTRICTED(cu) ||	/* Thor: ­n¥ýcheck room ¬O¤£¬OªÅªº */
+      if (RESTRICTED(cu) ||	/* Thor: è¦å…ˆcheck room æ˜¯ä¸æ˜¯ç©ºçš„ */
 	(room && SECRET(room) && !CHATSYSOP(cu)))
 	continue;
     }
 
-    if (CLOAK(user) && (user != cu) && !CHATSYSOP(cu))	/* Thor:Áô¨­³N */
+    if (CLOAK(user) && (user != cu) && !CHATSYSOP(cu))	/* Thor:éš±èº«è¡“ */
       continue;
 
     sprintf(buf + (c * 24), " %-8s%c%-12s%s",
       user->chatid, ROOMOP(user) ? '*' : ' ',
-      user->userid, (c < 2 ? "¢x" : "  "));
+      /* â”‚ */
+      user->userid, (c < 2 ? "\xA2\x78" : "  "));
 
     if (++c == 3)
     {
@@ -1300,7 +1331,8 @@ chat_setroom(cu, msg)
   if (*modestr == '\0')
   {
     send_to_user(cu,
-      "¡° ½Ð«ü©wª¬ºA: {[+(³]©w)][-(¨ú®ø)]}{[L(Âê¦í)][s(¯µ±K)][t(¶}©ñ¸ÜÃD)}", 0, MSG_MESSAGE);
+      /* â€» è«‹æŒ‡å®šç‹€æ…‹: {[+(è¨­å®š)][-(å–æ¶ˆ)]}{[L(éŽ–ä½)][s(ç§˜å¯†)][t(é–‹æ”¾è©±é¡Œ)} */
+      "\xA1\xB0 \xBD\xD0\xAB\xFC\xA9\x77\xAA\xAC\xBA\x41: {[+(\xB3\x5D\xA9\x77)][-(\xA8\xFA\xAE\xF8)]}{[L(\xC2\xEA\xA6\xED)][s(\xAF\xB5\xB1\x4B)][t(\xB6\x7D\xA9\xF1\xB8\xDC\xC3\x44)}", 0, MSG_MESSAGE);
     return;
   }
 
@@ -1315,27 +1347,31 @@ chat_setroom(cu, msg)
     case 'l':
     case 'L':
       flag = ROOM_LOCKED;
-      fstr = "Âê¦í";
+      /* éŽ–ä½ */
+      fstr = "\xC2\xEA\xA6\xED";
       break;
 
     case 's':
     case 'S':
       flag = ROOM_SECRET;
-      fstr = "¯µ±K";
+      /* ç§˜å¯† */
+      fstr = "\xAF\xB5\xB1\x4B";
       break;
 
     case 't':
     case 'T':
       flag = ROOM_OPENTOPIC;
-      fstr = "¶}©ñ¸ÜÃD";
+      /* é–‹æ”¾è©±é¡Œ */
+      fstr = "\xB6\x7D\xA9\xF1\xB8\xDC\xC3\x44";
       break;
 
     default:
-      sprintf(buf, "¡° ª¬ºA¿ù»~¡G[%c]", *modestr);
+      /* â€» ç‹€æ…‹éŒ¯èª¤ï¼š[%c] */
+      sprintf(buf, "\xA1\xB0 \xAA\xAC\xBA\x41\xBF\xF9\xBB\x7E\xA1\x47[%c]", *modestr);
       send_to_user(cu, buf, 0, MSG_MESSAGE);
     }
 
-    /* Thor: check room ¬O¤£¬OªÅªº, À³¸Ó¤£¬OªÅªº */
+    /* Thor: check room æ˜¯ä¸æ˜¯ç©ºçš„, æ‡‰è©²ä¸æ˜¯ç©ºçš„ */
 
     if (flag && (room->rflag & flag) != sign * flag)
     {
@@ -1343,22 +1379,26 @@ chat_setroom(cu, msg)
 
       if (!CLOAK(cu))
       {
-	sprintf(buf, "¡° ¥»²á¤Ñ«Ç³Q %s %s [%s] ª¬ºA",
-	  chatid, sign ? "³]©w¬°" : "¨ú®ø", fstr);
+	/* â€» æœ¬èŠå¤©å®¤è¢« %s %s [%s] ç‹€æ…‹ */
+	sprintf(buf, "\xA1\xB0 \xA5\xBB\xB2\xE1\xA4\xD1\xAB\xC7\xB3\x51 %s %s [%s] \xAA\xAC\xBA\x41",
+	  /* è¨­å®šç‚º */
+	  /* å–æ¶ˆ */
+	  chatid, sign ? "\xB3\x5D\xA9\x77\xAC\xB0" : "\xA8\xFA\xAE\xF8", fstr);
 	send_to_room(room, buf, 0, MSG_MESSAGE);
       }
     }
     modestr++;
   }
 
-  /* Thor.980602: ¤£­ã Main room Âê°_ or ¯µ±K¡A§_«hÂ÷¶}ªº´N¶i¤£¨Ó¡A­n¬Ý¤]¬Ý¤£¨ì¡C
-     ·Q­n½ð¤H¤]½ð¤£¶i main room¡A¤£·|«Ü©_©Ç¶Ü¡H */
+  /* Thor.980602: ä¸å‡† Main room éŽ–èµ· or ç§˜å¯†ï¼Œå¦å‰‡é›¢é–‹çš„å°±é€²ä¸ä¾†ï¼Œè¦çœ‹ä¹Ÿçœ‹ä¸åˆ°ã€‚
+     æƒ³è¦è¸¢äººä¹Ÿè¸¢ä¸é€² main roomï¼Œä¸æœƒå¾ˆå¥‡æ€ªå—Žï¼Ÿ */
 
   if (!str_cmp(MAIN_NAME, room->name))
   {
     if (room->rflag & (ROOM_LOCKED | ROOM_SECRET))
     {
-      send_to_room(room, "¡° ¦ý¤Ñ¨Ï¬I¤F¡y´_­ì¡zªºÅ]ªk", 0, MSG_MESSAGE);
+      /* â€» ä½†å¤©ä½¿æ–½äº†ã€Žå¾©åŽŸã€çš„é­”æ³• */
+      send_to_room(room, "\xA1\xB0 \xA6\xFD\xA4\xD1\xA8\xCF\xAC\x49\xA4\x46\xA1\x79\xB4\x5F\xAD\xEC\xA1\x7A\xAA\xBA\xC5\x5D\xAA\x6B", 0, MSG_MESSAGE);
       room->rflag &= ~(ROOM_LOCKED | ROOM_SECRET);
     }
   }
@@ -1369,36 +1409,60 @@ chat_setroom(cu, msg)
 
 static char *chat_msg[] =
 {
-  "[//]help", "MUD-like ªÀ¥æ°Êµü",
-  "[/h]elp op", "½Í¤Ñ«ÇºÞ²z­û±M¥Î«ü¥O",
-  "[/a]ct <msg>", "°µ¤@­Ó°Ê§@",
-  "[/b]ye [msg]", "¹D§O",
-  "[/c]lear  [/d]ate", "²M°£¿Ã¹õ  ¥Ø«e®É¶¡",
-  "[/i]gnore [user]", "©¿²¤¨Ï¥ÎªÌ",
-  "[/j]oin <room>", "«Ø¥ß©Î¥[¤J½Í¤Ñ«Ç",
-  "[/l]ist [start [stop]]", "¦C¥X½Í¤Ñ«Ç¨Ï¥ÎªÌ",
-  "[/m]sg <id|user> <msg>", "¸ò <id> »¡®¨®¨¸Ü",
-  "[/n]ick <id>", "±N½Í¤Ñ¥N¸¹´«¦¨ <id>",
-  "[/p]ager", "¤Á´«©I¥s¾¹",
-  "[/q]uery <user>", "¬d¸ßºô¤Í",
-  "[/qui]t [msg]", "¹D§O",  
-  "[/r]oom", "¦C¥X¤@¯ë½Í¤Ñ«Ç",
-  "[/t]ape", "¶}Ãö¿ý­µ¾÷",
-  "[/u]nignore <user>", "¨ú®ø©¿²¤",
-  "[/w]ho", "¦C¥X¥»½Í¤Ñ«Ç¨Ï¥ÎªÌ",
-  "[/w]hoin <room>", "¦C¥X½Í¤Ñ«Ç<room> ªº¨Ï¥ÎªÌ",
+  /* MUD-like ç¤¾äº¤å‹•è©ž */
+  "[//]help", "MUD-like \xAA\xC0\xA5\xE6\xB0\xCA\xB5\xFC",
+  /* è«‡å¤©å®¤ç®¡ç†å“¡å°ˆç”¨æŒ‡ä»¤ */
+  "[/h]elp op", "\xBD\xCD\xA4\xD1\xAB\xC7\xBA\xDE\xB2\x7A\xAD\xFB\xB1\x4D\xA5\xCE\xAB\xFC\xA5\x4F",
+  /* åšä¸€å€‹å‹•ä½œ */
+  "[/a]ct <msg>", "\xB0\xB5\xA4\x40\xAD\xD3\xB0\xCA\xA7\x40",
+  /* é“åˆ¥ */
+  "[/b]ye [msg]", "\xB9\x44\xA7\x4F",
+  /* æ¸…é™¤èž¢å¹•  ç›®å‰æ™‚é–“ */
+  "[/c]lear  [/d]ate", "\xB2\x4D\xB0\xA3\xBF\xC3\xB9\xF5  \xA5\xD8\xAB\x65\xAE\xC9\xB6\xA1",
+  /* å¿½ç•¥ä½¿ç”¨è€… */
+  "[/i]gnore [user]", "\xA9\xBF\xB2\xA4\xA8\xCF\xA5\xCE\xAA\xCC",
+  /* å»ºç«‹æˆ–åŠ å…¥è«‡å¤©å®¤ */
+  "[/j]oin <room>", "\xAB\xD8\xA5\xDF\xA9\xCE\xA5\x5B\xA4\x4A\xBD\xCD\xA4\xD1\xAB\xC7",
+  /* åˆ—å‡ºè«‡å¤©å®¤ä½¿ç”¨è€… */
+  "[/l]ist [start [stop]]", "\xA6\x43\xA5\x58\xBD\xCD\xA4\xD1\xAB\xC7\xA8\xCF\xA5\xCE\xAA\xCC",
+  /* è·Ÿ <id> èªªæ‚„æ‚„è©± */
+  "[/m]sg <id|user> <msg>", "\xB8\xF2 <id> \xBB\xA1\xAE\xA8\xAE\xA8\xB8\xDC",
+  /* å°‡è«‡å¤©ä»£è™Ÿæ›æˆ <id> */
+  "[/n]ick <id>", "\xB1\x4E\xBD\xCD\xA4\xD1\xA5\x4E\xB8\xB9\xB4\xAB\xA6\xA8 <id>",
+  /* åˆ‡æ›å‘¼å«å™¨ */
+  "[/p]ager", "\xA4\xC1\xB4\xAB\xA9\x49\xA5\x73\xBE\xB9",
+  /* æŸ¥è©¢ç¶²å‹ */
+  "[/q]uery <user>", "\xAC\x64\xB8\xDF\xBA\xF4\xA4\xCD",
+  /* é“åˆ¥ */
+  "[/qui]t [msg]", "\xB9\x44\xA7\x4F",  
+  /* åˆ—å‡ºä¸€èˆ¬è«‡å¤©å®¤ */
+  "[/r]oom", "\xA6\x43\xA5\x58\xA4\x40\xAF\xEB\xBD\xCD\xA4\xD1\xAB\xC7",
+  /* é–‹é—œéŒ„éŸ³æ©Ÿ */
+  "[/t]ape", "\xB6\x7D\xC3\xF6\xBF\xFD\xAD\xB5\xBE\xF7",
+  /* å–æ¶ˆå¿½ç•¥ */
+  "[/u]nignore <user>", "\xA8\xFA\xAE\xF8\xA9\xBF\xB2\xA4",
+  /* åˆ—å‡ºæœ¬è«‡å¤©å®¤ä½¿ç”¨è€… */
+  "[/w]ho", "\xA6\x43\xA5\x58\xA5\xBB\xBD\xCD\xA4\xD1\xAB\xC7\xA8\xCF\xA5\xCE\xAA\xCC",
+  /* åˆ—å‡ºè«‡å¤©å®¤<room> çš„ä½¿ç”¨è€… */
+  "[/w]hoin <room>", "\xA6\x43\xA5\x58\xBD\xCD\xA4\xD1\xAB\xC7<room> \xAA\xBA\xA8\xCF\xA5\xCE\xAA\xCC",
   NULL
 };
 
 
 static char *room_msg[] =
 {
-  "[/f]lag [+-][lst]", "³]©wÂê©w¡B¯µ±K¡B¶}©ñ¸ÜÃD",
-  "[/i]nvite <id>", "ÁÜ½Ð <id> ¥[¤J½Í¤Ñ«Ç",
-  "[/kick] <id>", "±N <id> ½ð¥X½Í¤Ñ«Ç",
-  "[/o]p [<id>]", "±N Op ªºÅv¤OÂà²¾µ¹ <id>",
-  "[/topic] <text>", "´«­Ó¸ÜÃD",
-  "[/w]all", "¼s¼½ (¯¸ªø±M¥Î)",
+  /* è¨­å®šéŽ–å®šã€ç§˜å¯†ã€é–‹æ”¾è©±é¡Œ */
+  "[/f]lag [+-][lst]", "\xB3\x5D\xA9\x77\xC2\xEA\xA9\x77\xA1\x42\xAF\xB5\xB1\x4B\xA1\x42\xB6\x7D\xA9\xF1\xB8\xDC\xC3\x44",
+  /* é‚€è«‹ <id> åŠ å…¥è«‡å¤©å®¤ */
+  "[/i]nvite <id>", "\xC1\xDC\xBD\xD0 <id> \xA5\x5B\xA4\x4A\xBD\xCD\xA4\xD1\xAB\xC7",
+  /* å°‡ <id> è¸¢å‡ºè«‡å¤©å®¤ */
+  "[/kick] <id>", "\xB1\x4E <id> \xBD\xF0\xA5\x58\xBD\xCD\xA4\xD1\xAB\xC7",
+  /* å°‡ Op çš„æ¬ŠåŠ›è½‰ç§»çµ¦ <id> */
+  "[/o]p [<id>]", "\xB1\x4E Op \xAA\xBA\xC5\x76\xA4\x4F\xC2\xE0\xB2\xBE\xB5\xB9 <id>",
+  /* æ›å€‹è©±é¡Œ */
+  "[/topic] <text>", "\xB4\xAB\xAD\xD3\xB8\xDC\xC3\x44",
+  /* å»£æ’­ (ç«™é•·å°ˆç”¨) */
+  "[/w]all", "\xBC\x73\xBC\xBD (\xAF\xB8\xAA\xF8\xB1\x4D\xA5\xCE)",
   NULL
 };
 
@@ -1412,7 +1476,8 @@ chat_help(cu, msg)
 
   if (!str_cmp("op", nextword(&msg)))
   {
-    send_to_user(cu, "½Í¤Ñ«ÇºÞ²z­û±M¥Î«ü¥O", 0, MSG_MESSAGE);
+    /* è«‡å¤©å®¤ç®¡ç†å“¡å°ˆç”¨æŒ‡ä»¤ */
+    send_to_user(cu, "\xBD\xCD\xA4\xD1\xAB\xC7\xBA\xDE\xB2\x7A\xAD\xFB\xB1\x4D\xA5\xCE\xAB\xFC\xA5\x4F", 0, MSG_MESSAGE);
     table = room_msg;
   }
   else
@@ -1438,7 +1503,7 @@ chat_private(cu, msg)
 
   recipient = nextword(&msg);
   xuser = (ChatUser *) fuzzy_cuser_by_chatid(recipient);
-  if (xuser == NULL)		/* Thor.980724: ¥Î userid¤]¥i¶Ç®¨®¨¸Ü */
+  if (xuser == NULL)		/* Thor.980724: ç”¨ useridä¹Ÿå¯å‚³æ‚„æ‚„è©± */
   {
     xuser = cuser_by_userid(recipient);
   }
@@ -1449,7 +1514,8 @@ chat_private(cu, msg)
   }
   else if (xuser == FUZZY_USER)
   {				/* ambiguous */
-    strcpy(buf, "¡° ½Ð«ü©ú²á¤Ñ¥N¸¹");
+    /* â€» è«‹æŒ‡æ˜ŽèŠå¤©ä»£è™Ÿ */
+    strcpy(buf, "\xA1\xB0 \xBD\xD0\xAB\xFC\xA9\xFA\xB2\xE1\xA4\xD1\xA5\x4E\xB8\xB9");
   }
   else if (*msg)
   {
@@ -1460,7 +1526,7 @@ chat_private(cu, msg)
     sprintf(buf, "\033[1m*%s*\033[m %.50s", cu->chatid, msg);
     send_to_user(xuser, buf, userno, MSG_MESSAGE);
 
-    if (xuser->clitype)		/* Xshadow: ¦pªG¹ï¤è¬O¥Î client ¤W¨Óªº */
+    if (xuser->clitype)		/* Xshadow: å¦‚æžœå°æ–¹æ˜¯ç”¨ client ä¸Šä¾†çš„ */
     {
       sprintf(buf, "%s %s %.50s", cu->userid, cu->chatid, msg);
       send_to_user(xuser, buf, userno, MSG_PRIVMSG);
@@ -1476,7 +1542,8 @@ chat_private(cu, msg)
   }
   else
   {
-    sprintf(buf, "¡° ±z·Q¹ï %s »¡¤°»ò¸Ü©O¡H", xuser->chatid);
+    /* â€» æ‚¨æƒ³å° %s èªªä»€éº¼è©±å‘¢ï¼Ÿ */
+    sprintf(buf, "\xA1\xB0 \xB1\x7A\xB7\x51\xB9\xEF %s \xBB\xA1\xA4\xB0\xBB\xF2\xB8\xDC\xA9\x4F\xA1\x48", xuser->chatid);
   }
 
   send_to_user(cu, buf, 0, MSG_MESSAGE);
@@ -1493,7 +1560,8 @@ chat_cloak(cu, msg)
     char buf[128];
 
     cu->uflag ^= PERM_CLOAK;
-    sprintf(buf, "¡» %s", CLOAK(cu) ? MSG_CLOAKED : MSG_UNCLOAK);
+    /* â—† %s */
+    sprintf(buf, "\xA1\xBB %s", CLOAK(cu) ? MSG_CLOAKED : MSG_UNCLOAK);
     send_to_user(cu, buf, 0, MSG_MESSAGE);
   }
 }
@@ -1509,7 +1577,7 @@ arrive_room(cuser, room)
 {
   char *rname, buf[256];
 
-  /* Xshadow: ¤£¥²°eµ¹¦Û¤v, ¤Ï¥¿´«©Ð¶¡´N·|­«·s build user list */
+  /* Xshadow: ä¸å¿…é€çµ¦è‡ªå·±, åæ­£æ›æˆ¿é–“å°±æœƒé‡æ–° build user list */
 
   sprintf(buf, "+ %s %s %s %s",
     cuser->userid, cuser->chatid, room->name, cuser->rhost);
@@ -1536,7 +1604,8 @@ arrive_room(cuser, room)
     send_to_user(cuser, buf, 0, MSG_MESSAGE);
   }
 
-  sprintf(buf, "¡° \033[32;1m%s\033[m ¶i¤J \033[33;1m[%s]\033[m ¥]´[",
+  /* â€» \033[32;1m%s\033[m é€²å…¥ \033[33;1m[%s]\033[m åŒ…å»‚ */
+  sprintf(buf, "\xA1\xB0 \033[32;1m%s\033[m \xB6\x69\xA4\x4A \033[33;1m[%s]\033[m \xA5\x5D\xB4\x5B",
     cuser->chatid, rname);
 
   if (!CLOAK(cuser))
@@ -1579,13 +1648,15 @@ enter_room(cuser, rname, msg)
 
     if (room == NULL)
     {
-      send_to_user(cuser, "¡° µLªk¦A·sÅP¥]´[¤F", 0, MSG_MESSAGE);
+      /* â€» ç„¡æ³•å†æ–°é—¢åŒ…å»‚äº† */
+      send_to_user(cuser, "\xA1\xB0 \xB5\x4C\xAA\x6B\xA6\x41\xB7\x73\xC5\x50\xA5\x5D\xB4\x5B\xA4\x46", 0, MSG_MESSAGE);
       return 0;
     }
 
     memset(room, 0, sizeof(ChatRoom));
     str_ncpy(room->name, rname, sizeof(room->name));
-    strcpy(room->topic, "³o¬O¤@­Ó·s¤Ñ¦a");
+    /* é€™æ˜¯ä¸€å€‹æ–°å¤©åœ° */
+    strcpy(room->topic, "\xB3\x6F\xAC\x4F\xA4\x40\xAD\xD3\xB7\x73\xA4\xD1\xA6\x61");
 
     sprintf(buf, "+ %s 1 0 %s", room->name, room->topic);
     send_to_room(ROOM_ALL, buf, 0, MSG_ROOMNOTIFY);
@@ -1609,7 +1680,8 @@ enter_room(cuser, rname, msg)
   {
     if (cuser->room == room)
     {
-      sprintf(buf, "¡° ±z¥»¨Ó´N¦b [%s] ²á¤Ñ«ÇÅo :)", rname);
+      /* â€» æ‚¨æœ¬ä¾†å°±åœ¨ [%s] èŠå¤©å®¤å›‰ :) */
+      sprintf(buf, "\xA1\xB0 \xB1\x7A\xA5\xBB\xA8\xD3\xB4\x4E\xA6\x62 [%s] \xB2\xE1\xA4\xD1\xAB\xC7\xC5\x6F :)", rname);
       send_to_user(cuser, buf, 0, MSG_MESSAGE);
       return 0;
     }
@@ -1617,7 +1689,8 @@ enter_room(cuser, rname, msg)
     if (!CHATSYSOP(cuser) && LOCKED(room) &&
       !list_belong(room->invite, cuser->userno))
     {
-      send_to_user(cuser, "¡° ¤º¦³´c¤ü¡A«D½Ð²ö¤J", 0, MSG_MESSAGE);
+      /* â€» å…§æœ‰æƒ¡çŠ¬ï¼Œéžè«‹èŽ«å…¥ */
+      send_to_user(cuser, "\xA1\xB0 \xA4\xBA\xA6\xB3\xB4\x63\xA4\xFC\xA1\x41\xAB\x44\xBD\xD0\xB2\xF6\xA4\x4A", 0, MSG_MESSAGE);
       return 0;
     }
   }
@@ -1687,12 +1760,15 @@ print_user_counts(cuser)
   number = (cuser->clitype) ? MSG_MOTD : MSG_MESSAGE;
 
   sprintf(buf,
-    "¡ó Åwªï¥úÁ{¡i²á¤Ñ«Ç¡j¡A¥Ø«e¶}¤F \033[1;31m%d\033[m ¶¡¥]´[", roomc);
+    /* âŠ™ æ­¡è¿Žå…‰è‡¨ã€èŠå¤©å®¤ã€‘ï¼Œç›®å‰é–‹äº† \033[1;31m%d\033[m é–“åŒ…å»‚ */
+    "\xA1\xF3 \xC5\x77\xAA\xEF\xA5\xFA\xC1\x7B\xA1\x69\xB2\xE1\xA4\xD1\xAB\xC7\xA1\x6A\xA1\x41\xA5\xD8\xAB\x65\xB6\x7D\xA4\x46 \033[1;31m%d\033[m \xB6\xA1\xA5\x5D\xB4\x5B", roomc);
   send_to_user(cuser, buf, 0, number);
 
-  sprintf(buf, "¡ó ¦@¦³ \033[1;36m%d\033[m ¤H¨ÓÂ\\Àsªù°}", userc);
+  /* âŠ™ å…±æœ‰ \033[1;36m%d\033[m äººä¾†æ“ºé¾é–€é™£ */
+  sprintf(buf, "\xA1\xF3 \xA6\x40\xA6\xB3 \033[1;36m%d\033[m \xA4\x48\xA8\xD3\xC2\x5C\xC0\x73\xAA\xF9\xB0\x7D", userc);
   if (suserc)
-    sprintf(buf + strlen(buf), " [%d ¤H¦b¯µ±K²á¤Ñ«Ç]", suserc);
+    /*  [%d äººåœ¨ç§˜å¯†èŠå¤©å®¤] */
+    sprintf(buf + strlen(buf), " [%d \xA4\x48\xA6\x62\xAF\xB5\xB1\x4B\xB2\xE1\xA4\xD1\xAB\xC7]", suserc);
 
   send_to_user(cuser, buf, 0, number);
 }
@@ -1716,7 +1792,7 @@ login_user(cu, msg)
 #endif
 
   /* Xshadow.0915: common client support : /-! userid chatid password */
-  /* client/server ª©¥»¨Ì¾Ú userid §ì .PASSWDS §PÂ_ userlevel */
+  /* client/server ç‰ˆæœ¬ä¾æ“š userid æŠ“ .PASSWDS åˆ¤æ–· userlevel */
 
   userid = nextword(&msg);
   chatid = nextword(&msg);
@@ -1730,11 +1806,11 @@ login_user(cu, msg)
 
   passwd = msg;
 
-  /* Thor.980813: ¸õ¹L¤@ªÅ®æ§Y¥i, ¦]¬°¤Ï¥¿¦pªGchatid¦³ªÅ®æ, ±K½X¤]¤£¹ï */
-  /* ´Nºâ±K½X¹ï, ¤]¤£·|«ç»ò¼Ë:p */
-  /* ¥i¬O¦pªG±K½X²Ä¤@­Ó¦r¬OªÅ®æ, ¨º¸õ¤Ó¦hªÅ®æ·|¶i¤£¨Ó... */
-  /* Thor.980910: ¥Ñ©ó nextword­×§ï¬°«á±µªÅ®æ¶ñ0, ¶Ç¤J­È«hª½±µ«á²¾¦Ü0«á,
-                  ©Ò¥H¤£»Ý§@¦¹°Ê§@ */
+  /* Thor.980813: è·³éŽä¸€ç©ºæ ¼å³å¯, å› ç‚ºåæ­£å¦‚æžœchatidæœ‰ç©ºæ ¼, å¯†ç¢¼ä¹Ÿä¸å° */
+  /* å°±ç®—å¯†ç¢¼å°, ä¹Ÿä¸æœƒæ€Žéº¼æ¨£:p */
+  /* å¯æ˜¯å¦‚æžœå¯†ç¢¼ç¬¬ä¸€å€‹å­—æ˜¯ç©ºæ ¼, é‚£è·³å¤ªå¤šç©ºæ ¼æœƒé€²ä¸ä¾†... */
+  /* Thor.980910: ç”±æ–¼ nextwordä¿®æ”¹ç‚ºå¾ŒæŽ¥ç©ºæ ¼å¡«0, å‚³å…¥å€¼å‰‡ç›´æŽ¥å¾Œç§»è‡³0å¾Œ,
+                  æ‰€ä»¥ä¸éœ€ä½œæ­¤å‹•ä½œ */
 #if 0
   if (*passwd == ' ')
     passwd++;
@@ -1750,16 +1826,17 @@ login_user(cu, msg)
 #endif
 
     if (cu->clitype)
-      send_to_user(cu, "¿ù»~ªº¨Ï¥ÎªÌ¥N¸¹", 0, ERR_LOGIN_NOSUCHUSER);
+      /* éŒ¯èª¤çš„ä½¿ç”¨è€…ä»£è™Ÿ */
+      send_to_user(cu, "\xBF\xF9\xBB\x7E\xAA\xBA\xA8\xCF\xA5\xCE\xAA\xCC\xA5\x4E\xB8\xB9", 0, ERR_LOGIN_NOSUCHUSER);
     else
       send_to_user(cu, CHAT_LOGIN_INVALID, 0, MSG_MESSAGE);
 
     return -1;
   }
 
-  /* Thor.980813: §ï¥Î¯u¹ê password check, for C/S bbs */
+  /* Thor.980813: æ”¹ç”¨çœŸå¯¦ password check, for C/S bbs */
 
-  /* Thor.990214: ª`·N daolib ¤¤ «D 0 ¥Nªí¥¢±Ñ */
+  /* Thor.990214: æ³¨æ„ daolib ä¸­ éž 0 ä»£è¡¨å¤±æ•— */
   /* if (!chkpasswd(acct.passwd, passwd)) */
   if (chkpasswd(acct.passwd, passwd))
   {
@@ -1769,7 +1846,8 @@ login_user(cu, msg)
 #endif
 
     if (cu->clitype)
-      send_to_user(cu, "±K½X¿ù»~", 0, ERR_LOGIN_PASSERROR);
+      /* å¯†ç¢¼éŒ¯èª¤ */
+      send_to_user(cu, "\xB1\x4B\xBD\x58\xBF\xF9\xBB\x7E", 0, ERR_LOGIN_PASSERROR);
     else
       send_to_user(cu, CHAT_LOGIN_INVALID, 0, MSG_MESSAGE);
 
@@ -1805,27 +1883,29 @@ login_user(cu, msg)
 #endif
 
       if (cu->clitype)
-	send_to_user(cu, "½Ð¤Å¬£»º¤À¨­¶i¤J²á¤Ñ«Ç¡I", 0,
+	/* è«‹å‹¿æ´¾é£åˆ†èº«é€²å…¥èŠå¤©å®¤ï¼ */
+	send_to_user(cu, "\xBD\xD0\xA4\xC5\xAC\xA3\xBB\xBA\xA4\xC0\xA8\xAD\xB6\x69\xA4\x4A\xB2\xE1\xA4\xD1\xAB\xC7\xA1\x49", 0,
 	  ERR_LOGIN_USERONLINE);
       else
 	send_to_user(cu, CHAT_LOGIN_BOGUS, 0, MSG_MESSAGE);
-      return -1;		/* Thor: ©Î¬O0µ¥¥¦¦Û¤v¤FÂ_? */
+      return -1;		/* Thor: æˆ–æ˜¯0ç­‰å®ƒè‡ªå·±äº†æ–·? */
     }
   }
 
 
 #ifndef STAND_ALONE
-  /* Thor.980629: ¼È®É­É¥Î invalid_chatid Âo°£ ¨S¦³PERM_CHATªº¤H */
+  /* Thor.980629: æš«æ™‚å€Ÿç”¨ invalid_chatid æ¿¾é™¤ æ²’æœ‰PERM_CHATçš„äºº */
                
   if (!valid_chatid(chatid) || !(level & PERM_CHAT) || (level & PERM_DENYCHAT))
-  { /* Thor.981012: ¹ý©³¤@¨Ç, ³s denychat¤]BAN±¼, §K±o client§@©Ç */
+  { /* Thor.981012: å¾¹åº•ä¸€äº›, é€£ denychatä¹ŸBANæŽ‰, å…å¾— clientä½œæ€ª */
 
 #ifdef	DEBUG
     logit("enter", chatid);
 #endif
 
     if (cu->clitype)
-      send_to_user(cu, "¤£¦Xªkªº²á¤Ñ«Ç¥N¸¹¡I", 0, ERR_LOGIN_NICKERROR);
+      /* ä¸åˆæ³•çš„èŠå¤©å®¤ä»£è™Ÿï¼ */
+      send_to_user(cu, "\xA4\xA3\xA6\x58\xAA\x6B\xAA\xBA\xB2\xE1\xA4\xD1\xAB\xC7\xA5\x4E\xB8\xB9\xA1\x49", 0, ERR_LOGIN_NICKERROR);
     else
       send_to_user(cu, CHAT_LOGIN_INVALID, 0, MSG_MESSAGE);
     return 0;
@@ -1845,27 +1925,28 @@ login_user(cu, msg)
 #endif
 
     if (cu->clitype)
-      send_to_user(cu, "³o­Ó¥N¸¹¤w¸g¦³¤H¨Ï¥Î", 0, ERR_LOGIN_NICKINUSE);
+      /* é€™å€‹ä»£è™Ÿå·²ç¶“æœ‰äººä½¿ç”¨ */
+      send_to_user(cu, "\xB3\x6F\xAD\xD3\xA5\x4E\xB8\xB9\xA4\x77\xB8\x67\xA6\xB3\xA4\x48\xA8\xCF\xA5\xCE", 0, ERR_LOGIN_NICKINUSE);
     else
       send_to_user(cu, CHAT_LOGIN_EXISTS, 0, MSG_MESSAGE);
     return 0;
   }
 
-#ifdef DEBUG			/* CHATSYSOP ¤@¶i¨Ó´NÁô¨­ */
+#ifdef DEBUG			/* CHATSYSOP ä¸€é€²ä¾†å°±éš±èº« */
   cu->uflag = level & ~(PERM_ROOMOP | PERM_CHATOP | (CHATSYSOP(cu) ? 0 : PERM_CLOAK));
 #else
   cu->uflag = level & ~(PERM_ROOMOP | PERM_CHATOP | PERM_CLOAK);
 #endif
 
-  /* Thor: ¶i¨Ó¥ý²MªÅ ROOMOP (¦PPERM_CHAT) */
+  /* Thor: é€²ä¾†å…ˆæ¸…ç©º ROOMOP (åŒPERM_CHAT) */
 
   strcpy(cu->userid, userid);
   str_ncpy(cu->chatid, chatid, sizeof(cu->chatid));
-  /* Thor.980921: str_ncpy»P¤@¯ë strncpy¦³©Ò¤£¦P, ¯S§Oª`·N */
+  /* Thor.980921: str_ncpyèˆ‡ä¸€èˆ¬ strncpyæœ‰æ‰€ä¸åŒ, ç‰¹åˆ¥æ³¨æ„ */
 
   fprintf(flog, "ENTER\t[%d] %s\n", cu->sno, userid);
 
-  /* Xshadow: ¨ú±o client ªº¨Ó·½ */
+  /* Xshadow: å–å¾— client çš„ä¾†æº */
 
   dns_name(cu->rhost, cu->ibuf);
   str_ncpy(cu->rhost, cu->ibuf, sizeof(cu->rhost));
@@ -1877,7 +1958,8 @@ login_user(cu, msg)
   cu->userno = utent;
 
   if (cu->clitype)
-    send_to_user(cu, "¶¶§Q", 0, MSG_LOGINOK);
+    /* é †åˆ© */
+    send_to_user(cu, "\xB6\xB6\xA7\x51", 0, MSG_LOGINOK);
   else
     send_to_user(cu, CHAT_LOGIN_OK, 0, MSG_MESSAGE);
 
@@ -1919,7 +2001,8 @@ chat_ignore(cu, msg)
 
   if (RESTRICTED(cu))
   {
-    str = "¡° ±z¨S¦³ ignore §O¤HªºÅv§Q";
+    /* â€» æ‚¨æ²’æœ‰ ignore åˆ¥äººçš„æ¬Šåˆ© */
+    str = "\xA1\xB0 \xB1\x7A\xA8\x53\xA6\xB3 ignore \xA7\x4F\xA4\x48\xAA\xBA\xC5\x76\xA7\x51";
   }
   else
   {
@@ -1940,18 +2023,21 @@ chat_ignore(cu, msg)
       else if (xuser == cu || CHATSYSOP(xuser) ||
 	(ROOMOP(xuser) && (xuser->room == cu->room)))
       {
-	sprintf(str, "¡» ¤£¥i¥H ignore [%s]", ignoree);
+	/* â—† ä¸å¯ä»¥ ignore [%s] */
+	sprintf(str, "\xA1\xBB \xA4\xA3\xA5\x69\xA5\x48 ignore [%s]", ignoree);
       }
       else
       {
 	if (list_belong(cu->ignore, xuser->userno))
 	{
-	  sprintf(str, "¡° %s ¤w¸g³Q­áµ²¤F", xuser->chatid);
+	  /* â€» %s å·²ç¶“è¢«å‡çµäº† */
+	  sprintf(str, "\xA1\xB0 %s \xA4\x77\xB8\x67\xB3\x51\xAD\xE1\xB5\xB2\xA4\x46", xuser->chatid);
 	}
 	else
 	{
 	  list_add(&(cu->ignore), xuser);
-	  sprintf(str, "¡» ±N [%s] ¥´¤J§N®c¤F :p", xuser->chatid);
+	  /* â—† å°‡ [%s] æ‰“å…¥å†·å®®äº† :p */
+	  sprintf(str, "\xA1\xBB \xB1\x4E [%s] \xA5\xB4\xA4\x4A\xA7\x4E\xAE\x63\xA4\x46 :p", xuser->chatid);
 	}
       }
     }
@@ -1964,7 +2050,8 @@ chat_ignore(cu, msg)
 	int len;
 	char userid[16];
 
-	send_to_user(cu, "¡» ³o¨Ç¤H³Q¥´¤J§N®c¤F¡G", 0, MSG_MESSAGE);
+	/* â—† é€™äº›äººè¢«æ‰“å…¥å†·å®®äº†ï¼š */
+	send_to_user(cu, "\xA1\xBB \xB3\x6F\xA8\xC7\xA4\x48\xB3\x51\xA5\xB4\xA4\x4A\xA7\x4E\xAE\x63\xA4\x46\xA1\x47", 0, MSG_MESSAGE);
 	len = 0;
 	do
 	{
@@ -1983,7 +2070,8 @@ chat_ignore(cu, msg)
       }
       else
       {
-	str = "¡» ±z¥Ø«e¨Ã¨S¦³ ignore ¥ô¦ó¤H";
+	/* â—† æ‚¨ç›®å‰ä¸¦æ²’æœ‰ ignore ä»»ä½•äºº */
+	str = "\xA1\xBB \xB1\x7A\xA5\xD8\xAB\x65\xA8\xC3\xA8\x53\xA6\xB3 ignore \xA5\xF4\xA6\xF3\xA4\x48";
       }
     }
   }
@@ -2004,12 +2092,15 @@ chat_unignore(cu, msg)
   if (*ignoree)
   {
     sprintf(str = buf, (list_delete(&(cu->ignore), ignoree)) ?
-      "¡» [%s] ¤£¦A³Q±z§N¸¨¤F" :
-      "¡» ±z¨Ã¥¼ ignore [%s] ³o¸¹¤Hª«", ignoree);
+      /* â—† [%s] ä¸å†è¢«æ‚¨å†·è½äº† */
+      "\xA1\xBB [%s] \xA4\xA3\xA6\x41\xB3\x51\xB1\x7A\xA7\x4E\xB8\xA8\xA4\x46" :
+      /* â—† æ‚¨ä¸¦æœª ignore [%s] é€™è™Ÿäººç‰© */
+      "\xA1\xBB \xB1\x7A\xA8\xC3\xA5\xBC ignore [%s] \xB3\x6F\xB8\xB9\xA4\x48\xAA\xAB", ignoree);
   }
   else
   {
-    str = "¡» ½Ð«ü©ú user ID";
+    /* â—† è«‹æŒ‡æ˜Ž user ID */
+    str = "\xA1\xBB \xBD\xD0\xAB\xFC\xA9\xFA user ID";
   }
   send_to_user(cu, str, 0, MSG_MESSAGE);
 }
@@ -2022,7 +2113,8 @@ chat_join(cu, msg)
 {
   if (RESTRICTED(cu))
   {
-    send_to_user(cu, "¡° ±z¨S¦³¥[¤J¨ä¥L²á¤Ñ«ÇªºÅv­­", 0, MSG_MESSAGE);
+    /* â€» æ‚¨æ²’æœ‰åŠ å…¥å…¶ä»–èŠå¤©å®¤çš„æ¬Šé™ */
+    send_to_user(cu, "\xA1\xB0 \xB1\x7A\xA8\x53\xA6\xB3\xA5\x5B\xA4\x4A\xA8\xE4\xA5\x4C\xB2\xE1\xA4\xD1\xAB\xC7\xAA\xBA\xC5\x76\xAD\xAD", 0, MSG_MESSAGE);
   }
   else
   {
@@ -2031,7 +2123,8 @@ chat_join(cu, msg)
     if (*roomid)
       enter_room(cu, roomid, msg);
     else
-      send_to_user(cu, "¡° ½Ð«ü©w²á¤Ñ«Ç", 0, MSG_MESSAGE);
+      /* â€» è«‹æŒ‡å®šèŠå¤©å®¤ */
+      send_to_user(cu, "\xA1\xB0 \xBD\xD0\xAB\xFC\xA9\x77\xB2\xE1\xA4\xD1\xAB\xC7", 0, MSG_MESSAGE);
   }
 }
 
@@ -2055,7 +2148,7 @@ chat_kick(cu, msg)
   xuser = cuser_by_chatid(twit);
 
   if (xuser == NULL)
-  {                       /* Thor.980604: ¥Î userid¤]¹À³q */
+  {                       /* Thor.980604: ç”¨ useridä¹Ÿå˜›é€š */
     xuser = cuser_by_userid(twit);
   }
                
@@ -2076,7 +2169,8 @@ chat_kick(cu, msg)
 
   if (CHATSYSOP(xuser))
   {
-    sprintf(buf, "¡» ¤£¥i¥H kick [%s]", twit);
+    /* â—† ä¸å¯ä»¥ kick [%s] */
+    sprintf(buf, "\xA1\xBB \xA4\xA3\xA5\x69\xA5\x48 kick [%s]", twit);
     send_to_user(cu, buf, 0, MSG_MESSAGE);
     return;
   }
@@ -2087,7 +2181,7 @@ chat_kick(cu, msg)
     xuser->uptime = 0;		/* logout_user(xuser); */
   else
     enter_room(xuser, MAIN_NAME, (char *) NULL);  
-    /* Thor.980602: ¨ä¹ê½ð´N½ð,¤£­nshow¥XxxxÂ÷¶}¤Fªº°T®§¤ñ¸û¦n */
+    /* Thor.980602: å…¶å¯¦è¸¢å°±è¸¢,ä¸è¦showå‡ºxxxé›¢é–‹äº†çš„è¨Šæ¯æ¯”è¼ƒå¥½ */
 }
 
 
@@ -2100,7 +2194,7 @@ chat_makeop(cu, msg)
   ChatUser *xuser;
   ChatRoom *room;
 
-  /* Thor.980603: PERM_ALLCHAT §ï¬° default ¨S¦³ roomop, ¦ý¥i¥H¦Û¤v¨ú±o */
+  /* Thor.980603: PERM_ALLCHAT æ”¹ç‚º default æ²’æœ‰ roomop, ä½†å¯ä»¥è‡ªå·±å–å¾— */
 
   newop = nextword(&msg);
 
@@ -2108,14 +2202,16 @@ chat_makeop(cu, msg)
 
   if (!*newop && CHATSYSOP(cu))
   {
-    /* Thor.980603: PERM_ALLCHAT §ï¬° default ¨S¦³ roomop, ¦ý¥i¥H¦Û¤v¨ú±o */
+    /* Thor.980603: PERM_ALLCHAT æ”¹ç‚º default æ²’æœ‰ roomop, ä½†å¯ä»¥è‡ªå·±å–å¾— */
     cu->uflag ^= PERM_CHATOP;
 
     user_changed(cu);
     if (!CLOAK(cu))
     {
-      sprintf(buf,ROOMOP(cu) ? "¡° ¤Ñ¨Ï ±N Op Åv¤O±Â¤© %s"
-                             : "¡° ¤Ñ¨Ï ±N %s ªº Op Åv¤O¦¬¦^", cu->chatid);
+      /* â€» å¤©ä½¿ å°‡ Op æ¬ŠåŠ›æŽˆäºˆ %s */
+      sprintf(buf,ROOMOP(cu) ? "\xA1\xB0 \xA4\xD1\xA8\xCF \xB1\x4E Op \xC5\x76\xA4\x4F\xB1\xC2\xA4\xA9 %s"
+                             /* â€» å¤©ä½¿ å°‡ %s çš„ Op æ¬ŠåŠ›æ”¶å›ž */
+                             : "\xA1\xB0 \xA4\xD1\xA8\xCF \xB1\x4E %s \xAA\xBA Op \xC5\x76\xA4\x4F\xA6\xAC\xA6\x5E", cu->chatid);
       send_to_room(room, buf, 0, MSG_MESSAGE);
     }
     
@@ -2123,9 +2219,10 @@ chat_makeop(cu, msg)
   }
 
   /* if (!ROOMOP(cu)) */
-  if (!(cu->uflag & PERM_ROOMOP)) /* Thor.980603: chat roomÁ`ºÞ¤£¯àÂà²¾ Op Åv¤O */
+  if (!(cu->uflag & PERM_ROOMOP)) /* Thor.980603: chat roomç¸½ç®¡ä¸èƒ½è½‰ç§» Op æ¬ŠåŠ› */
   {
-    send_to_user(cu, "¡» ±z¤£¯àÂà²¾ Op ªºÅv¤O" /* msg_not_op */, 0, MSG_MESSAGE);
+    /* â—† æ‚¨ä¸èƒ½è½‰ç§» Op çš„æ¬ŠåŠ› */
+    send_to_user(cu, "\xA1\xBB \xB1\x7A\xA4\xA3\xAF\xE0\xC2\xE0\xB2\xBE Op \xAA\xBA\xC5\x76\xA4\x4F" /* msg_not_op */, 0, MSG_MESSAGE);
     return;
   }
 
@@ -2133,7 +2230,7 @@ chat_makeop(cu, msg)
 
 #if 0
   if (xuser == NULL)
-  {                       /* Thor.980604: ¥Î userid ¹À¤]³q */
+  {                       /* Thor.980604: ç”¨ userid å˜›ä¹Ÿé€š */
     xuser = cuser_by_userid(newop);
   }
 #endif
@@ -2147,7 +2244,8 @@ chat_makeop(cu, msg)
 
   if (cu == xuser)
   {
-    send_to_user(cu, "¡° ±z¦­´N¤w¸g¬O Op ¤F°Ú", 0, MSG_MESSAGE);
+    /* â€» æ‚¨æ—©å°±å·²ç¶“æ˜¯ Op äº†å•Š */
+    send_to_user(cu, "\xA1\xB0 \xB1\x7A\xA6\xAD\xB4\x4E\xA4\x77\xB8\x67\xAC\x4F Op \xA4\x46\xB0\xDA", 0, MSG_MESSAGE);
     return;
   }
 
@@ -2168,7 +2266,8 @@ chat_makeop(cu, msg)
 
   if (!CLOAK(cu))
   {
-    sprintf(buf, "¡° %s ±N Op Åv¤OÂà²¾µ¹ %s",
+    /* â€» %s å°‡ Op æ¬ŠåŠ›è½‰ç§»çµ¦ %s */
+    sprintf(buf, "\xA1\xB0 %s \xB1\x4E Op \xC5\x76\xA4\x4F\xC2\xE0\xB2\xBE\xB5\xB9 %s",
       cu->chatid, xuser->chatid);
     send_to_room(room, buf, 0, MSG_MESSAGE);
   }
@@ -2196,7 +2295,7 @@ chat_invite(cu, msg)
 
 #if 0
   if (xuser == NULL)
-  {                       /* Thor.980604: ¥Î userid ¹À¤]³q */
+  {                       /* Thor.980604: ç”¨ userid å˜›ä¹Ÿé€š */
     xuser = cuser_by_userid(invitee);
   }
 #endif
@@ -2208,21 +2307,24 @@ chat_invite(cu, msg)
     return;
   }
 
-  room = cu->room;		/* Thor: ¬O§_­n check room ¬O§_ NULL ? */
+  room = cu->room;		/* Thor: æ˜¯å¦è¦ check room æ˜¯å¦ NULL ? */
   list = &(room->invite);
 
   if (list_belong(*list, xuser->userno))
   {
-    sprintf(buf, "¡° %s ¤w¸g±µ¨ü¹LÁÜ½Ð¤F", xuser->chatid);
+    /* â€» %s å·²ç¶“æŽ¥å—éŽé‚€è«‹äº† */
+    sprintf(buf, "\xA1\xB0 %s \xA4\x77\xB8\x67\xB1\xB5\xA8\xFC\xB9\x4C\xC1\xDC\xBD\xD0\xA4\x46", xuser->chatid);
     send_to_user(cu, buf, 0, MSG_MESSAGE);
     return;
   }
   list_add(list, xuser);
 
-  sprintf(buf, "¡° %s ÁÜ½Ð±z¨ì [%s] ²á¤Ñ«Ç",
+  /* â€» %s é‚€è«‹æ‚¨åˆ° [%s] èŠå¤©å®¤ */
+  sprintf(buf, "\xA1\xB0 %s \xC1\xDC\xBD\xD0\xB1\x7A\xA8\xEC [%s] \xB2\xE1\xA4\xD1\xAB\xC7",
     cu->chatid, room->name);
   send_to_user(xuser, buf, 0, MSG_MESSAGE);
-  sprintf(buf, "¡° %s ¦¬¨ì±zªºÁÜ½Ð¤F", xuser->chatid);
+  /* â€» %s æ”¶åˆ°æ‚¨çš„é‚€è«‹äº† */
+  sprintf(buf, "\xA1\xB0 %s \xA6\xAC\xA8\xEC\xB1\x7A\xAA\xBA\xC1\xDC\xBD\xD0\xA4\x46", xuser->chatid);
   send_to_user(cu, buf, 0, MSG_MESSAGE);
 }
 
@@ -2236,20 +2338,25 @@ chat_broadcast(cu, msg)
 
   if (!CHATSYSOP(cu))
   {
-    send_to_user(cu, "¡° ±z¨S¦³¦b²á¤Ñ«Ç¼s¼½ªºÅv¤O!", 0, MSG_MESSAGE);
+    /* â€» æ‚¨æ²’æœ‰åœ¨èŠå¤©å®¤å»£æ’­çš„æ¬ŠåŠ›! */
+    send_to_user(cu, "\xA1\xB0 \xB1\x7A\xA8\x53\xA6\xB3\xA6\x62\xB2\xE1\xA4\xD1\xAB\xC7\xBC\x73\xBC\xBD\xAA\xBA\xC5\x76\xA4\x4F!", 0, MSG_MESSAGE);
     return;
   }
 
   if (*msg == '\0')
   {
-    send_to_user(cu, "¡° ½Ð«ü©w¼s¼½¤º®e", 0, MSG_MESSAGE);
+    /* â€» è«‹æŒ‡å®šå»£æ’­å…§å®¹ */
+    send_to_user(cu, "\xA1\xB0 \xBD\xD0\xAB\xFC\xA9\x77\xBC\x73\xBC\xBD\xA4\xBA\xAE\x65", 0, MSG_MESSAGE);
     return;
   }
 
-  sprintf(buf, "\033[1m¡° " BBSNAME "½Í¤Ñ«Ç¼s¼½¤¤ [%s].....\033[m",
+  /* \033[1mâ€»  */
+  /* è«‡å¤©å®¤å»£æ’­ä¸­ [%s].....\033[m */
+  sprintf(buf, "\033[1m\xA1\xB0 " BBSNAME "\xBD\xCD\xA4\xD1\xAB\xC7\xBC\x73\xBC\xBD\xA4\xA4 [%s].....\033[m",
     cu->chatid);
   send_to_room(ROOM_ALL, buf, 0, MSG_MESSAGE);
-  sprintf(buf, "¡» %s", msg);
+  /* â—† %s */
+  sprintf(buf, "\xA1\xBB %s", msg);
   send_to_room(ROOM_ALL, buf, 0, MSG_MESSAGE);
 }
 
@@ -2270,45 +2377,45 @@ chat_bye(cu, msg)
 /* --------------------------------------------- */
 
 
-#if 0	/* itoc.010816: ­«·sÂ½­×¤@¨Ç¤£¤Ó¾A·íªº action ±Ô­z */
-  1. ª`·N«ö¦r¥À±Æ¦C¡C
-  2. ½Ð·R¥Î¥þ§Î¼ÐÂI²Å¸¹¡C
-  3. ¤TÃþ action ¤£¯à¦³­«ÂÐ¡C
-  4. ¥Ñ©ó action ±Ä¥Î¡u³¡¤À¤ñ¹ï¡v¡A¬G³Ì¦n¤£­n¦³«ü¥O¥]§t¥t¤@«ü¥O©Ò¦³ÃöÁä¦rªºª¬ªp¡C
-     ¡]¨Ò¦p fire/fireball¡Akiss/kissbye¡Ano/nod¡Atea/tear/tease¡Adrive/drivel¡Alove/lover¡^
-     ¡]¦³³o¼Ëªº±¡§Î¤]¤£·|«ç»ò¼Ë¡A¥u¬O¨Ï¥ÎªÌ®e©ö·d²V¡^
-  5. ¥Ñ©ó action ³¡¤À¤ñ¹ï¦Ü¤Ö 2 bytes¡A¬G¤£­n¥Î //1 //2 ³oÃþ¥u¦³¤@­Ó¦rªº action¡C
-  6. ¥Ñ©ó action ±Ä¥Î³¡¤À¤ñ¹ï¡A¬G«ü¥O¤£¥²¥ÎÁY¼g¡C
-  7. ²Î¤@ action message ³Ì«á¤£­n¥[¥yÂI¡C
-  8. ­×¥¿¿ù¦r¡C¡]¬O adore¡A¤£¬O aodre °Ú :p¡^
-  9. ´î¤Ö­«ÂÐªº¦r²´¡C¡]¤£­n¦Ñ¬O¡u¦º¥h¬¡¨Ó¡v°Ú :p¡^
+#if 0	/* itoc.010816: é‡æ–°ç¿»ä¿®ä¸€äº›ä¸å¤ªé©ç•¶çš„ action æ•˜è¿° */
+  1. æ³¨æ„æŒ‰å­—æ¯æŽ’åˆ—ã€‚
+  2. è«‹æ„›ç”¨å…¨å½¢æ¨™é»žç¬¦è™Ÿã€‚
+  3. ä¸‰é¡ž action ä¸èƒ½æœ‰é‡è¦†ã€‚
+  4. ç”±æ–¼ action æŽ¡ç”¨ã€Œéƒ¨åˆ†æ¯”å°ã€ï¼Œæ•…æœ€å¥½ä¸è¦æœ‰æŒ‡ä»¤åŒ…å«å¦ä¸€æŒ‡ä»¤æ‰€æœ‰é—œéµå­—çš„ç‹€æ³ã€‚
+     ï¼ˆä¾‹å¦‚ fire/fireballï¼Œkiss/kissbyeï¼Œno/nodï¼Œtea/tear/teaseï¼Œdrive/drivelï¼Œlove/loverï¼‰
+     ï¼ˆæœ‰é€™æ¨£çš„æƒ…å½¢ä¹Ÿä¸æœƒæ€Žéº¼æ¨£ï¼Œåªæ˜¯ä½¿ç”¨è€…å®¹æ˜“æžæ··ï¼‰
+  5. ç”±æ–¼ action éƒ¨åˆ†æ¯”å°è‡³å°‘ 2 bytesï¼Œæ•…ä¸è¦ç”¨ //1 //2 é€™é¡žåªæœ‰ä¸€å€‹å­—çš„ actionã€‚
+  6. ç”±æ–¼ action æŽ¡ç”¨éƒ¨åˆ†æ¯”å°ï¼Œæ•…æŒ‡ä»¤ä¸å¿…ç”¨ç¸®å¯«ã€‚
+  7. çµ±ä¸€ action message æœ€å¾Œä¸è¦åŠ å¥é»žã€‚
+  8. ä¿®æ­£éŒ¯å­—ã€‚ï¼ˆæ˜¯ adoreï¼Œä¸æ˜¯ aodre å•Š :pï¼‰
+  9. æ¸›å°‘é‡è¦†çš„å­—çœ¼ã€‚ï¼ˆä¸è¦è€æ˜¯ã€Œæ­»åŽ»æ´»ä¾†ã€å•Š :pï¼‰
 #endif
 
 
 struct ChatAction
 {
-  char *verb;			/* °Êµü */
-  char *chinese;		/* ¤¤¤åÂ½Ä¶ */
-  char *part1_msg;		/* ¤¶µü */
-  char *part2_msg;		/* °Ê§@ */
+  char *verb;			/* å‹•è©ž */
+  char *chinese;		/* ä¸­æ–‡ç¿»è­¯ */
+  char *part1_msg;		/* ä»‹è©ž */
+  char *part2_msg;		/* å‹•ä½œ */
 };
 
 
 static ChatAction *
-action_fit(action, actnum, cmd)		/* §ä¬Ý¬Ý¬O­þ­Ó ChatAction */
+action_fit(action, actnum, cmd)		/* æ‰¾çœ‹çœ‹æ˜¯å“ªå€‹ ChatAction */
   ChatAction *action;
   int actnum;
   char *cmd;
 {
-  ChatAction *pos, *locus, *mid;	/* locus:¥ª«ü¼Ð mid:¤¤«ü¼Ð pos:¥k«ü¼Ð */
+  ChatAction *pos, *locus, *mid;	/* locus:å·¦æŒ‡æ¨™ mid:ä¸­æŒ‡æ¨™ pos:å³æŒ‡æ¨™ */
   int cmp;
 
-  /* itoc.010927: ¥Ñ©ó ChatAction ³£¬O«ö¦r¥À±Æ§Çªº¡A©Ò¥H¥i¥H¥Î binary search */
-  /* itoc.010928.µù¸Ñ:¥Ñ©ó¬O binary search ©Ò¥HÁöµM recline ±Æ¦b recycle «e­±
-    ¦ý¬O¥´ //rec ®É«o¥i¯à¥X²{ //recycle ªº®ÄªG¡A§P©wÀu¥ý¦¸§ÇºÝ¿à binary ªº¶¶§Ç */
+  /* itoc.010927: ç”±æ–¼ ChatAction éƒ½æ˜¯æŒ‰å­—æ¯æŽ’åºçš„ï¼Œæ‰€ä»¥å¯ä»¥ç”¨ binary search */
+  /* itoc.010928.è¨»è§£:ç”±æ–¼æ˜¯ binary search æ‰€ä»¥é›–ç„¶ recline æŽ’åœ¨ recycle å‰é¢
+    ä½†æ˜¯æ‰“ //rec æ™‚å»å¯èƒ½å‡ºç¾ //recycle çš„æ•ˆæžœï¼Œåˆ¤å®šå„ªå…ˆæ¬¡åºç«¯è³´ binary çš„é †åº */
 
   locus = action;
-  pos = action + actnum - 1;		/* ³Ì«á¤@­Ó¬O NULL¡A¦ý¤£¥i¯à³QÀË¬d¨ì */
+  pos = action + actnum - 1;		/* æœ€å¾Œä¸€å€‹æ˜¯ NULLï¼Œä½†ä¸å¯èƒ½è¢«æª¢æŸ¥åˆ° */
 
   while (1)
   {
@@ -2325,7 +2432,7 @@ action_fit(action, actnum, cmd)		/* §ä¬Ý¬Ý¬O­þ­Ó ChatAction */
       pos = mid;
   }
 
-  /* ¯S¨Ò: ¦pªG¥k«ü¼Ð°±¯d¦b 1¡A­nÀË¬d²Ä 0 ­Ó */
+  /* ç‰¹ä¾‹: å¦‚æžœå³æŒ‡æ¨™åœç•™åœ¨ 1ï¼Œè¦æª¢æŸ¥ç¬¬ 0 å€‹ */
   if (pos == action + 1)
   {
     if (!str_belong(action->verb, cmd))		/* itoc.010321: MUD-like match */
@@ -2336,338 +2443,652 @@ action_fit(action, actnum, cmd)		/* §ä¬Ý¬Ý¬O­þ­Ó ChatAction */
 }
 
 
-/* itoc.010805.µù¸Ñ:  //adore sysop   itoc ¹ï sysop ªº´º¥õ¦³¦p·Ê·Ê¦¿¤ô¡A³sºø¤£µ´¡K */
+/* itoc.010805.è¨»è§£:  //adore sysop   itoc å° sysop çš„æ™¯ä»°æœ‰å¦‚æ»”æ»”æ±Ÿæ°´ï¼Œé€£ç¶¿ä¸çµ•â€¦ */
 
 #define ACTNUM_PARTY	110
 
 static ChatAction party_data[ACTNUM_PARTY] =
 {
   {
-    "adore", "´º¥õ", "¹ï", "ªº´º¥õ¦³¦p·Ê·Ê¦¿¤ô¡A³sºø¤£µ´¡K"
+    /* æ™¯ä»° */
+    /* å° */
+    /* çš„æ™¯ä»°æœ‰å¦‚æ»”æ»”æ±Ÿæ°´ï¼Œé€£ç¶¿ä¸çµ•â€¦ */
+    "adore", "\xB4\xBA\xA5\xF5", "\xB9\xEF", "\xAA\xBA\xB4\xBA\xA5\xF5\xA6\xB3\xA6\x70\xB7\xCA\xB7\xCA\xA6\xBF\xA4\xF4\xA1\x41\xB3\x73\xBA\xF8\xA4\xA3\xB5\xB4\xA1\x4B"
   },
   {
-    "aluba", "ªü¾|¤Ú", "§â", "¬[¤W¬W¤lªü¨ì¦º¡I"
+    /* é˜¿é­¯å·´ */
+    /* æŠŠ */
+    /* æž¶ä¸ŠæŸ±å­é˜¿åˆ°æ­»ï¼ */
+    "aluba", "\xAA\xFC\xBE\x7C\xA4\xDA", "\xA7\xE2", "\xAC\x5B\xA4\x57\xAC\x57\xA4\x6C\xAA\xFC\xA8\xEC\xA6\xBA\xA1\x49"
   },
   {
-    "aruba", "ªü¾|¤Ú", "§â", "¬[¤W¬W¤lªü¨ì¦º¡I"
+    /* é˜¿é­¯å·´ */
+    /* æŠŠ */
+    /* æž¶ä¸ŠæŸ±å­é˜¿åˆ°æ­»ï¼ */
+    "aruba", "\xAA\xFC\xBE\x7C\xA4\xDA", "\xA7\xE2", "\xAC\x5B\xA4\x57\xAC\x57\xA4\x6C\xAA\xFC\xA8\xEC\xA6\xBA\xA1\x49"
   },
   {
-    "bark", "§p¥s", "¨L¨L¡I¹ï", "¤jÁn§p¥s"
+    /* å å« */
+    /* æ±ªæ±ªï¼å° */
+    /* å¤§è²å å« */
+    "bark", "\xA7\x70\xA5\x73", "\xA8\x4C\xA8\x4C\xA1\x49\xB9\xEF", "\xA4\x6A\xC1\x6E\xA7\x70\xA5\x73"
   },
   {
-    "bite", "°Ù«r", "§â", "«r±o¦º¥h¬¡¨Ó"
+    /* å•ƒå’¬ */
+    /* æŠŠ */
+    /* å’¬å¾—æ­»åŽ»æ´»ä¾† */
+    "bite", "\xB0\xD9\xAB\x72", "\xA7\xE2", "\xAB\x72\xB1\x6F\xA6\xBA\xA5\x68\xAC\xA1\xA8\xD3"
   },
   {
-    "blade", "¤@¤M", "¤@¤M§â", "°e¤W¦è¤Ñ"
+    /* ä¸€åˆ€ */
+    /* ä¸€åˆ€æŠŠ */
+    /* é€ä¸Šè¥¿å¤© */
+    "blade", "\xA4\x40\xA4\x4D", "\xA4\x40\xA4\x4D\xA7\xE2", "\xB0\x65\xA4\x57\xA6\xE8\xA4\xD1"
   },
   {
-    "bless", "¯¬ºÖ", "¯¬ºÖ", "¤ß·Q¨Æ¦¨"
+    /* ç¥ç¦ */
+    /* ç¥ç¦ */
+    /* å¿ƒæƒ³äº‹æˆ */
+    "bless", "\xAF\xAC\xBA\xD6", "\xAF\xAC\xBA\xD6", "\xA4\xDF\xB7\x51\xA8\xC6\xA6\xA8"
   },
   {
-    "blink", "¯w²´", "¹ïµÛ", "¯w¯w²´¡A¤£ª¾·t¥ÜµÛ¤°»ò"
+    /* çœ¨çœ¼ */
+    /* å°è‘— */
+    /* çœ¨çœ¨çœ¼ï¼Œä¸çŸ¥æš—ç¤ºè‘—ä»€éº¼ */
+    "blink", "\xAF\x77\xB2\xB4", "\xB9\xEF\xB5\xDB", "\xAF\x77\xAF\x77\xB2\xB4\xA1\x41\xA4\xA3\xAA\xBE\xB7\x74\xA5\xDC\xB5\xDB\xA4\xB0\xBB\xF2"
   },
   {
-    "board", "¥D¾÷ªO", "§â", "§ì¥h¸÷¥D¾÷ªO"
+    /* ä¸»æ©Ÿæ¿ */
+    /* æŠŠ */
+    /* æŠ“åŽ»è·ªä¸»æ©Ÿæ¿ */
+    "board", "\xA5\x44\xBE\xF7\xAA\x4F", "\xA7\xE2", "\xA7\xEC\xA5\x68\xB8\xF7\xA5\x44\xBE\xF7\xAA\x4F"
   },
   {
-    "bokan", "®ð¥\", "Âù´x·L¦X¡A»W¶Õ«Ýµo¡K¡K¬ðµM¶¡¡A¹q¥ú¥E²{¡A¹ï", "¨Ï¥X¤F¢Ð¢÷--¢Ù¢é¢ö"
+    /* æ°£åŠŸ */
+    /* é›™æŽŒå¾®åˆï¼Œè“„å‹¢å¾…ç™¼â€¦â€¦çªç„¶é–“ï¼Œé›»å…‰ä¹ç¾ï¼Œå° */
+    /* ä½¿å‡ºäº†ï¼¢ï½--ï¼«ï½ï½Ž */
+    "bokan", "\xAE\xF0\xA5\x5C", "\xC2\xF9\xB4\x78\xB7\x4C\xA6\x58\xA1\x41\xBB\x57\xB6\xD5\xAB\xDD\xB5\x6F\xA1\x4B\xA1\x4B\xAC\xF0\xB5\x4D\xB6\xA1\xA1\x41\xB9\x71\xA5\xFA\xA5\x45\xB2\x7B\xA1\x41\xB9\xEF", "\xA8\xCF\xA5\x58\xA4\x46\xA2\xD0\xA2\xF7--\xA2\xD9\xA2\xE9\xA2\xF6"
   },
   {
-    "bow", "Áù°`", "²¦°`²¦·qªº¦V", "Áù°`"
+    /* éž èº¬ */
+    /* ç•¢èº¬ç•¢æ•¬çš„å‘ */
+    /* éž èº¬ */
+    "bow", "\xC1\xF9\xB0\x60", "\xB2\xA6\xB0\x60\xB2\xA6\xB7\x71\xAA\xBA\xA6\x56", "\xC1\xF9\xB0\x60"
   },
   {
-    "box", "¹õ¤§¤º", "¶}©l½üÂ\\¦¡²¾¦ì¡A¹ï", "§@¨xÅ¦§ðÀ»"
+    /* å¹•ä¹‹å…§ */
+    /* é–‹å§‹è¼ªæ“ºå¼ç§»ä½ï¼Œå° */
+    /* ä½œè‚è‡Ÿæ”»æ“Š */
+    "box", "\xB9\xF5\xA4\xA7\xA4\xBA", "\xB6\x7D\xA9\x6C\xBD\xFC\xC2\x5C\xA6\xA1\xB2\xBE\xA6\xEC\xA1\x41\xB9\xEF", "\xA7\x40\xA8\x78\xC5\xA6\xA7\xF0\xC0\xBB"
   },
   {
-    "bye", "ÙTÙT", "¦V", "»¡ÙTÙT"
+    /* æŽ°æŽ° */
+    /* å‘ */
+    /* èªªæŽ°æŽ° */
+    "bye", "\xD9\x54\xD9\x54", "\xA6\x56", "\xBB\xA1\xD9\x54\xD9\x54"
   },
   {
-    "cake", "¥á³J¿|", "®³¥X¤@­Ó³J¿|¡A©¹", "ªºÁy¤W¯{¥h"
+    /* ä¸Ÿè›‹ç³• */
+    /* æ‹¿å‡ºä¸€å€‹è›‹ç³•ï¼Œå¾€ */
+    /* çš„è‡‰ä¸Šç ¸åŽ» */
+    "cake", "\xA5\xE1\xB3\x4A\xBF\x7C", "\xAE\xB3\xA5\x58\xA4\x40\xAD\xD3\xB3\x4A\xBF\x7C\xA1\x41\xA9\xB9", "\xAA\xBA\xC1\x79\xA4\x57\xAF\x7B\xA5\x68"
   },
   {
-    "call", "©I³ê", "¤jÁnªº©I³ê¡A°Ú¡ã",	"°Ú¡ã¤H¦b­þ¸Ì°Ú°Ú¡ã°Ú"
+    /* å‘¼å–š */
+    /* å¤§è²çš„å‘¼å–šï¼Œå•Šï½ž */
+    /* å•Šï½žäººåœ¨å“ªè£¡å•Šå•Šï½žå•Š */
+    "call", "\xA9\x49\xB3\xEA", "\xA4\x6A\xC1\x6E\xAA\xBA\xA9\x49\xB3\xEA\xA1\x41\xB0\xDA\xA1\xE3",	"\xB0\xDA\xA1\xE3\xA4\x48\xA6\x62\xAD\xFE\xB8\xCC\xB0\xDA\xB0\xDA\xA1\xE3\xB0\xDA"
   },
   {
-    "caress", "»´¼¾", "»´»´ªº¼¾ºNµÛ", ""
+    /* è¼•æ’« */
+    /* è¼•è¼•çš„æ’«æ‘¸è‘— */
+    "caress", "\xBB\xB4\xBC\xBE", "\xBB\xB4\xBB\xB4\xAA\xBA\xBC\xBE\xBA\x4E\xB5\xDB", ""
   },
   {
-    "clap", "¹ª´x", "¦V", "¼ö¯P¹ª´x"
+    /* é¼“æŽŒ */
+    /* å‘ */
+    /* ç†±çƒˆé¼“æŽŒ */
+    "clap", "\xB9\xAA\xB4\x78", "\xA6\x56", "\xBC\xF6\xAF\x50\xB9\xAA\xB4\x78"
   },
   {
-    "claw", "§ì§ì", "±q¿ß«}¼Ö¶é­É¤F°¦¿ß¤ö¡A§â",	"§ì±o©ü¤Ñ·t¦a"
+    /* æŠ“æŠ“ */
+    /* å¾žè²“å’ªæ¨‚åœ’å€Ÿäº†éš»è²“çˆªï¼ŒæŠŠ */
+    /* æŠ“å¾—æ˜å¤©æš—åœ° */
+    "claw", "\xA7\xEC\xA7\xEC", "\xB1\x71\xBF\xDF\xAB\x7D\xBC\xD6\xB6\xE9\xAD\xC9\xA4\x46\xB0\xA6\xBF\xDF\xA4\xF6\xA1\x41\xA7\xE2",	"\xA7\xEC\xB1\x6F\xA9\xFC\xA4\xD1\xB7\x74\xA6\x61"
   },
   {
-    "clock", "¤Á¾xÄÁ", "¤Á±¼", "ªº¾xÄÁ¡A§Ö°_§É°Õ"
+    /* åˆ‡é¬§é˜ */
+    /* åˆ‡æŽ‰ */
+    /* çš„é¬§é˜ï¼Œå¿«èµ·åºŠå•¦ */
+    "clock", "\xA4\xC1\xBE\x78\xC4\xC1", "\xA4\xC1\xB1\xBC", "\xAA\xBA\xBE\x78\xC4\xC1\xA1\x41\xA7\xD6\xB0\x5F\xA7\xC9\xB0\xD5"
   },
   {
-    "cola", "Äé¥i¼Ö", "¹ï", "Äé¤F¤@¥[¨Úªº¥i¼Ö"
+    /* çŒå¯æ¨‚ */
+    /* å° */
+    /* çŒäº†ä¸€åŠ ä¾–çš„å¯æ¨‚ */
+    "cola", "\xC4\xE9\xA5\x69\xBC\xD6", "\xB9\xEF", "\xC4\xE9\xA4\x46\xA4\x40\xA5\x5B\xA8\xDA\xAA\xBA\xA5\x69\xBC\xD6"
   },
   {
-    "comfort", "¦w¼¢", "·Å¨¥¦w¼¢", ""
+    /* å®‰æ…° */
+    /* æº«è¨€å®‰æ…° */
+    "comfort", "\xA6\x77\xBC\xA2", "\xB7\xC5\xA8\xA5\xA6\x77\xBC\xA2", ""
   },
   {
-    "congratulate", "®¥³ß", "±q­I«á®³¥X¤F©Ô¬¶¡AËé¡IËé¡I®¥³ß", ""
+    /* æ­å–œ */
+    /* å¾žèƒŒå¾Œæ‹¿å‡ºäº†æ‹‰ç‚®ï¼Œå‘¯ï¼å‘¯ï¼æ­å–œ */
+    "congratulate", "\xAE\xA5\xB3\xDF", "\xB1\x71\xAD\x49\xAB\xE1\xAE\xB3\xA5\x58\xA4\x46\xA9\xD4\xAC\xB6\xA1\x41\xCB\xE9\xA1\x49\xCB\xE9\xA1\x49\xAE\xA5\xB3\xDF", ""
   },
   {
-    "cowhide", "Ã@¥´","®³Ã@¤l¹ï", "¬½¬½¦a©â¥´"
+    /* éž­æ‰“ */
+    /* æ‹¿éž­å­å° */
+    /* ç‹ ç‹ åœ°æŠ½æ‰“ */
+    "cowhide", "\xC3\x40\xA5\xB4","\xAE\xB3\xC3\x40\xA4\x6C\xB9\xEF", "\xAC\xBD\xAC\xBD\xA6\x61\xA9\xE2\xA5\xB4"
   },
   {
-    "cpr", "¤f¹ï¤f", "¹ïµÛ", "°µ¤f¹ï¤f¤H¤u©I§l"
+    /* å£å°å£ */
+    /* å°è‘— */
+    /* åšå£å°å£äººå·¥å‘¼å¸ */
+    "cpr", "\xA4\x66\xB9\xEF\xA4\x66", "\xB9\xEF\xB5\xDB", "\xB0\xB5\xA4\x66\xB9\xEF\xA4\x66\xA4\x48\xA4\x75\xA9\x49\xA7\x6C"
   },
   {
-    "crime", "¹D¼w", "»¡¡G", "ªº¹D¼w«ü¼Æ¤£°÷¡Aº¡Áy©Ñ®ð"
+    /* é“å¾· */
+    /* èªªï¼š */
+    /* çš„é“å¾·æŒ‡æ•¸ä¸å¤ ï¼Œæ»¿è‡‰æˆ¾æ°£ */
+    "crime", "\xB9\x44\xBC\x77", "\xBB\xA1\xA1\x47", "\xAA\xBA\xB9\x44\xBC\x77\xAB\xFC\xBC\xC6\xA4\xA3\xB0\xF7\xA1\x41\xBA\xA1\xC1\x79\xA9\xD1\xAE\xF0"
   },
   {
-    "cringe", "¤^¼¦", "¦V", "¨õ°`©}½¥¡A·n§À¤^¼¦"
+    /* ä¹žæ† */
+    /* å‘ */
+    /* å‘èº¬å±ˆè†ï¼Œæ–å°¾ä¹žæ† */
+    "cringe", "\xA4\x5E\xBC\xA6", "\xA6\x56", "\xA8\xF5\xB0\x60\xA9\x7D\xBD\xA5\xA1\x41\xB7\x6E\xA7\xC0\xA4\x5E\xBC\xA6"
   },
   {
-    "cry", "¤j­ú", "¦V", "Àz°Þ¤j­ú"
+    /* å¤§å“­ */
+    /* å‘ */
+    /* åšŽå••å¤§å“­ */
+    "cry", "\xA4\x6A\xAD\xFA", "\xA6\x56", "\xC0\x7A\xB0\xDE\xA4\x6A\xAD\xFA"
   },
   {
-    "curtsy", "¤¤¥jÂ§", "Àu¶®¦a¹ïµÛ", "¦æ¤¤¥j¥@¬öªº©}½¥Â§¡C"
+    /* ä¸­å¤ç¦® */
+    /* å„ªé›…åœ°å°è‘— */
+    /* è¡Œä¸­å¤ä¸–ç´€çš„å±ˆè†ç¦®ã€‚ */
+    "curtsy", "\xA4\xA4\xA5\x6A\xC2\xA7", "\xC0\x75\xB6\xAE\xA6\x61\xB9\xEF\xB5\xDB", "\xA6\xE6\xA4\xA4\xA5\x6A\xA5\x40\xAC\xF6\xAA\xBA\xA9\x7D\xBD\xA5\xC2\xA7\xA1\x43"
   },
   {
-    "dance", "¸õ»R", "©Ô¤F", "ªº¤â½¡½¡°_»R"
+    /* è·³èˆž */
+    /* æ‹‰äº† */
+    /* çš„æ‰‹ç¿©ç¿©èµ·èˆž */
+    "dance", "\xB8\xF5\xBB\x52", "\xA9\xD4\xA4\x46", "\xAA\xBA\xA4\xE2\xBD\xA1\xBD\xA1\xB0\x5F\xBB\x52"
   },
   {
-    "destroy", "·´·À", "²½°_¤F¡y·¥¤j·´·À©G¤å¡z¡AÅF¦V", ""
+    /* æ¯€æ»… */
+    /* ç¥­èµ·äº†ã€Žæ¥µå¤§æ¯€æ»…å’’æ–‡ã€ï¼Œè½Ÿå‘ */
+    "destroy", "\xB7\xB4\xB7\xC0", "\xB2\xBD\xB0\x5F\xA4\x46\xA1\x79\xB7\xA5\xA4\x6A\xB7\xB4\xB7\xC0\xA9\x47\xA4\xE5\xA1\x7A\xA1\x41\xC5\x46\xA6\x56", ""
   },
   {
-    "dogleg", "ª¯»L", "¹ï", "ªü½Û©^©Ó¡A¤j¤jª¯»L¤F¤@µf"
+    /* ç‹—è…¿ */
+    /* å° */
+    /* é˜¿è«›å¥‰æ‰¿ï¼Œå¤§å¤§ç‹—è…¿äº†ä¸€ç•ª */
+    "dogleg", "\xAA\xAF\xBB\x4C", "\xB9\xEF", "\xAA\xFC\xBD\xDB\xA9\x5E\xA9\xD3\xA1\x41\xA4\x6A\xA4\x6A\xAA\xAF\xBB\x4C\xA4\x46\xA4\x40\xB5\x66"
   },
   {
-    "drivel", "¬y¤f¤ô",	"¹ïµÛ",	"¬y¤f¤ô"
+    /* æµå£æ°´ */
+    /* å°è‘— */
+    /* æµå£æ°´ */
+    "drivel", "\xAC\x79\xA4\x66\xA4\xF4",	"\xB9\xEF\xB5\xDB",	"\xAC\x79\xA4\x66\xA4\xF4"
   },
   {
-    "envy", "¸r¼}", "¦V", "¬yÅS¥X¸r¼}ªº²´¥ú"
+    /* ç¾¨æ…• */
+    /* å‘ */
+    /* æµéœ²å‡ºç¾¨æ…•çš„çœ¼å…‰ */
+    "envy", "\xB8\x72\xBC\x7D", "\xA6\x56", "\xAC\x79\xC5\x53\xA5\x58\xB8\x72\xBC\x7D\xAA\xBA\xB2\xB4\xA5\xFA"
   },
   {
-    "evening", "±ß¦w", "¹ï", "»¡¡y±ß¦w¡z"
+    /* æ™šå®‰ */
+    /* å° */
+    /* èªªã€Žæ™šå®‰ã€ */
+    "evening", "\xB1\xDF\xA6\x77", "\xB9\xEF", "\xBB\xA1\xA1\x79\xB1\xDF\xA6\x77\xA1\x7A"
   },
   {
-    "eye", "°e¬îªi", "¹ï", "ÀW°e¬îªi"
+    /* é€ç§‹æ³¢ */
+    /* å° */
+    /* é »é€ç§‹æ³¢ */
+    "eye", "\xB0\x65\xAC\xEE\xAA\x69", "\xB9\xEF", "\xC0\x57\xB0\x65\xAC\xEE\xAA\x69"
   },
   {
-    "fire", "¾R°Ý", "®³µÛ¤õ¬õªºÅK´Î¨«¦V", ""
+    /* éŠ¬å• */
+    /* æ‹¿è‘—ç«ç´…çš„éµæ£’èµ°å‘ */
+    "fire", "\xBE\x52\xB0\xDD", "\xAE\xB3\xB5\xDB\xA4\xF5\xAC\xF5\xAA\xBA\xC5\x4B\xB4\xCE\xA8\xAB\xA6\x56", ""
   },
   {
-    "forgive", "­ì½Ì", "±µ¨ü", "ªº¹Dºp¡A­ì½Ì¤F¥L"
+    /* åŽŸè«’ */
+    /* æŽ¥å— */
+    /* çš„é“æ­‰ï¼ŒåŽŸè«’äº†ä»– */
+    "forgive", "\xAD\xEC\xBD\xCC", "\xB1\xB5\xA8\xFC", "\xAA\xBA\xB9\x44\xBA\x70\xA1\x41\xAD\xEC\xBD\xCC\xA4\x46\xA5\x4C"
   },
   {
-    "french", "ªk¦¡§k",	"§â¦ÞÀY¦ù¨ì", "³ïÄV¸Ì¡ã¡ã¡ã«z¡I¤@­Ó®öº©ªºªk°ê¦¡²`§k"
+    /* æ³•å¼å» */
+    /* æŠŠèˆŒé ­ä¼¸åˆ° */
+    /* å–‰åš¨è£¡ï½žï½žï½žå“‡ï¼ä¸€å€‹æµªæ¼«çš„æ³•åœ‹å¼æ·±å» */
+    "french", "\xAA\x6B\xA6\xA1\xA7\x6B",	"\xA7\xE2\xA6\xDE\xC0\x59\xA6\xF9\xA8\xEC", "\xB3\xEF\xC4\x56\xB8\xCC\xA1\xE3\xA1\xE3\xA1\xE3\xAB\x7A\xA1\x49\xA4\x40\xAD\xD3\xAE\xF6\xBA\xA9\xAA\xBA\xAA\x6B\xB0\xEA\xA6\xA1\xB2\x60\xA7\x6B"
   },
   {
-    "fuzzy", "­¸³¾", "¬£¥X­¸³¾¤@¸¹¦V", "½Ä¹L¥h"
+    /* é£›é³¥ */
+    /* æ´¾å‡ºé£›é³¥ä¸€è™Ÿå‘ */
+    /* è¡éŽåŽ» */
+    "fuzzy", "\xAD\xB8\xB3\xBE", "\xAC\xA3\xA5\x58\xAD\xB8\xB3\xBE\xA4\x40\xB8\xB9\xA6\x56", "\xBD\xC4\xB9\x4C\xA5\x68"
   },
   {
-    "gag", "Á_¼L¤Ú", "§â", " ªº¼L¤Ú¥Î°wÁ_°_¨Ó"
+    /* ç¸«å˜´å·´ */
+    /* æŠŠ */
+    /*  çš„å˜´å·´ç”¨é‡ç¸«èµ·ä¾† */
+    "gag", "\xC1\x5F\xBC\x4C\xA4\xDA", "\xA7\xE2", " \xAA\xBA\xBC\x4C\xA4\xDA\xA5\xCE\xB0\x77\xC1\x5F\xB0\x5F\xA8\xD3"
   },
   {
-    "giggle", "¶Ì¯º", "¹ïµÛ", "¶Ì¶Ìªº§b¯º"
+    /* å‚»ç¬‘ */
+    /* å°è‘— */
+    /* å‚»å‚»çš„å‘†ç¬‘ */
+    "giggle", "\xB6\xCC\xAF\xBA", "\xB9\xEF\xB5\xDB", "\xB6\xCC\xB6\xCC\xAA\xBA\xA7\x62\xAF\xBA"
   },
   {
-    "glare", "Àü¤H", "§N§N¦aÀüµÛ", ""
+    /* çžªäºº */
+    /* å†·å†·åœ°çžªè‘— */
+    "glare", "\xC0\xFC\xA4\x48", "\xA7\x4E\xA7\x4E\xA6\x61\xC0\xFC\xB5\xDB", ""
   },
   {
-    "glue", "¸É¤ß", "¥Î§Ö°®§â", "ªº¤ßÂH¤F°_¨Ó"
+    /* è£œå¿ƒ */
+    /* ç”¨å¿«ä¹¾æŠŠ */
+    /* çš„å¿ƒé»äº†èµ·ä¾† */
+    "glue", "\xB8\xC9\xA4\xDF", "\xA5\xCE\xA7\xD6\xB0\xAE\xA7\xE2", "\xAA\xBA\xA4\xDF\xC2\x48\xA4\x46\xB0\x5F\xA8\xD3"
   },
   {
-    "goodbye", "§i§O", "²\\²´¨L¨Lªº¦V",	"§i§O"
+    /* å‘Šåˆ¥ */
+    /* æ·šçœ¼æ±ªæ±ªçš„å‘ */
+    /* å‘Šåˆ¥ */
+    "goodbye", "\xA7\x69\xA7\x4F", "\xB2\x5C\xB2\xB4\xA8\x4C\xA8\x4C\xAA\xBA\xA6\x56",	"\xA7\x69\xA7\x4F"
   },
   {
-    "grin", "¦l¯º", "¹ï", "ÅS¥X¨¸´cªº¯º®e"
+    /* å¥¸ç¬‘ */
+    /* å° */
+    /* éœ²å‡ºé‚ªæƒ¡çš„ç¬‘å®¹ */
+    "grin", "\xA6\x6C\xAF\xBA", "\xB9\xEF", "\xC5\x53\xA5\x58\xA8\xB8\xB4\x63\xAA\xBA\xAF\xBA\xAE\x65"
   },
   {
-    "growl", "©H­ý", "¹ï", "©H­ý¤£¤w"
+    /* å’†å“® */
+    /* å° */
+    /* å’†å“®ä¸å·² */
+    "growl", "\xA9\x48\xAD\xFD", "\xB9\xEF", "\xA9\x48\xAD\xFD\xA4\xA3\xA4\x77"
   },
   {
-    "hand", "´¤¤â", "¸ò", "´¤¤â"
+    /* æ¡æ‰‹ */
+    /* è·Ÿ */
+    /* æ¡æ‰‹ */
+    "hand", "\xB4\xA4\xA4\xE2", "\xB8\xF2", "\xB4\xA4\xA4\xE2"
   },
   {
-    "hide", "¸ú", "¸ú¦b", "­I«á"
+    /* èº² */
+    /* èº²åœ¨ */
+    /* èƒŒå¾Œ */
+    "hide", "\xB8\xFA", "\xB8\xFA\xA6\x62", "\xAD\x49\xAB\xE1"
   },
   {
-    "hospital", "°eÂå°|", "§â", "°e¶iÂå°|"
+    /* é€é†«é™¢ */
+    /* æŠŠ */
+    /* é€é€²é†«é™¢ */
+    "hospital", "\xB0\x65\xC2\xE5\xB0\x7C", "\xA7\xE2", "\xB0\x65\xB6\x69\xC2\xE5\xB0\x7C"
   },
   {
-    "hrk", "ª@Às®±", "¨IÃ­¤F¨­§Î¡A¶×»E¤F¤º«l¡A¹ï", "¨Ï¥X¤F¤@°O¢Ö¢÷--¢à£B¢ý--¢Ù¢é¢ö"
+    /* æ˜‡é¾æ‹³ */
+    /* æ²‰ç©©äº†èº«å½¢ï¼ŒåŒ¯èšäº†å…§å‹ï¼Œå° */
+    /* ä½¿å‡ºäº†ä¸€è¨˜ï¼¨ï½--ï¼²ï½™ï½•--ï¼«ï½ï½Ž */
+    "hrk", "\xAA\x40\xC0\x73\xAE\xB1", "\xA8\x49\xC3\xAD\xA4\x46\xA8\xAD\xA7\xCE\xA1\x41\xB6\xD7\xBB\x45\xA4\x46\xA4\xBA\xAB\x6C\xA1\x41\xB9\xEF", "\xA8\xCF\xA5\x58\xA4\x46\xA4\x40\xB0\x4F\xA2\xD6\xA2\xF7--\xA2\xE0\xA3\x42\xA2\xFD--\xA2\xD9\xA2\xE9\xA2\xF6"
   },
   {
-    "hug", "¼ö¾Ö", "¼ö±¡ªº¾Ö©ê", ""
+    /* ç†±æ“ */
+    /* ç†±æƒ…çš„æ“æŠ± */
+    "hug", "\xBC\xF6\xBE\xD6", "\xBC\xF6\xB1\xA1\xAA\xBA\xBE\xD6\xA9\xEA", ""
   },
   {
-    "hypnoze", "¶Ê¯v", "®³µÛ±¾¿ö®Ì§r®Ìªº¡A¹ï", "®i¶}¶Ê¯v"
+    /* å‚¬çœ  */
+    /* æ‹¿è‘—æŽ›éŒ¶æ™ƒå‘€æ™ƒçš„ï¼Œå° */
+    /* å±•é–‹å‚¬çœ  */
+    "hypnoze", "\xB6\xCA\xAF\x76", "\xAE\xB3\xB5\xDB\xB1\xBE\xBF\xF6\xAE\xCC\xA7\x72\xAE\xCC\xAA\xBA\xA1\x41\xB9\xEF", "\xAE\x69\xB6\x7D\xB6\xCA\xAF\x76"
   },
   {
-    "jab", "Ñ¶¤H", "¥Î¤O¦aÑ¶µÛ", "¡A¦ü¥G¹ï¥L«Ü¬O¤£º¡"
+    /* æ…äºº */
+    /* ç”¨åŠ›åœ°æ…è‘— */
+    /* ï¼Œä¼¼ä¹Žå°ä»–å¾ˆæ˜¯ä¸æ»¿ */
+    "jab", "\xD1\xB6\xA4\x48", "\xA5\xCE\xA4\x4F\xA6\x61\xD1\xB6\xB5\xDB", "\xA1\x41\xA6\xFC\xA5\x47\xB9\xEF\xA5\x4C\xAB\xDC\xAC\x4F\xA4\xA3\xBA\xA1"
   },
   {
-    "judo", "¬X¹D", "§ì¦í¤F", "ªº¦çÃÌ¡AÂà¨­¡K¡K°Ú¡A¬O¤@°O¹LªÓºL"
+    /* æŸ”é“ */
+    /* æŠ“ä½äº† */
+    /* çš„è¡£è¥Ÿï¼Œè½‰èº«â€¦â€¦å•Šï¼Œæ˜¯ä¸€è¨˜éŽè‚©æ‘” */
+    "judo", "\xAC\x58\xB9\x44", "\xA7\xEC\xA6\xED\xA4\x46", "\xAA\xBA\xA6\xE7\xC3\xCC\xA1\x41\xC2\xE0\xA8\xAD\xA1\x4B\xA1\x4B\xB0\xDA\xA1\x41\xAC\x4F\xA4\x40\xB0\x4F\xB9\x4C\xAA\xD3\xBA\x4C"
   },
   {
-    "kick", "½ð¤H", "§â", "½ð±oµh­ú¬y®÷"
+    /* è¸¢äºº */
+    /* æŠŠ */
+    /* è¸¢å¾—ç—›å“­æµæ¶• */
+    "kick", "\xBD\xF0\xA4\x48", "\xA7\xE2", "\xBD\xF0\xB1\x6F\xB5\x68\xAD\xFA\xAC\x79\xAE\xF7"
   },
   {
-    "kill", "¬å¤H", "§â", "¶Ã¤M¬å¦º¡ã¡ã"
+    /* ç äºº */
+    /* æŠŠ */
+    /* äº‚åˆ€ç æ­»ï½žï½ž */
+    "kill", "\xAC\xE5\xA4\x48", "\xA7\xE2", "\xB6\xC3\xA4\x4D\xAC\xE5\xA6\xBA\xA1\xE3\xA1\xE3"
   },
   {
-    "kiss", "»´§k", "»´§k", "ªºÁyÀU"
+    /* è¼•å» */
+    /* è¼•å» */
+    /* çš„è‡‰é ° */
+    "kiss", "\xBB\xB4\xA7\x6B", "\xBB\xB4\xA7\x6B", "\xAA\xBA\xC1\x79\xC0\x55"
   },
   {
-    "laugh", "¼J¯º", "¤jÁn¼J¯º", ""
+    /* å˜²ç¬‘ */
+    /* å¤§è²å˜²ç¬‘ */
+    "laugh", "\xBC\x4A\xAF\xBA", "\xA4\x6A\xC1\x6E\xBC\x4A\xAF\xBA", ""
   },
   {
-    "levis", "µ¹§Ú", "»¡¡Gµ¹§Ú", "¡I¨ä¾l§K½Í¡I"
+    /* çµ¦æˆ‘ */
+    /* èªªï¼šçµ¦æˆ‘ */
+    /* ï¼å…¶é¤˜å…è«‡ï¼ */
+    "levis", "\xB5\xB9\xA7\xDA", "\xBB\xA1\xA1\x47\xB5\xB9\xA7\xDA", "\xA1\x49\xA8\xE4\xBE\x6C\xA7\x4B\xBD\xCD\xA1\x49"
   },
   {
-    "lick", "»Q", "¨g»Q", ""
+    /* èˆ” */
+    /* ç‹‚èˆ” */
+    "lick", "\xBB\x51", "\xA8\x67\xBB\x51", ""
   },
   {
-    "listen", "Å¥", "¥s", "³¬¼L¥J²ÓÅ¥"
+    /* è½ */
+    /* å« */
+    /* é–‰å˜´ä»”ç´°è½ */
+    "listen", "\xC5\xA5", "\xA5\x73", "\xB3\xAC\xBC\x4C\xA5\x4A\xB2\xD3\xC5\xA5"
   },
   {
-    "lobster", "À£¨î", "¬I®i°f½¼§Î©T©w¡A§â", "À£¨î¦b¦aªO¤W"
+    /* å£“åˆ¶ */
+    /* æ–½å±•é€†è¦å½¢å›ºå®šï¼ŒæŠŠ */
+    /* å£“åˆ¶åœ¨åœ°æ¿ä¸Š */
+    "lobster", "\xC0\xA3\xA8\xEE", "\xAC\x49\xAE\x69\xB0\x66\xBD\xBC\xA7\xCE\xA9\x54\xA9\x77\xA1\x41\xA7\xE2", "\xC0\xA3\xA8\xEE\xA6\x62\xA6\x61\xAA\x4F\xA4\x57"
   },
   {
-    "love", "ªí¥Õ", "¹ï", "²`±¡ªºªí¥Õ"
+    /* è¡¨ç™½ */
+    /* å° */
+    /* æ·±æƒ…çš„è¡¨ç™½ */
+    "love", "\xAA\xED\xA5\xD5", "\xB9\xEF", "\xB2\x60\xB1\xA1\xAA\xBA\xAA\xED\xA5\xD5"
   },
   {
-    "mail", "¥´¥]", "§â", "¥´¥]»¼°e¨ì¤j³°"
+    /* æ‰“åŒ… */
+    /* æŠŠ */
+    /* æ‰“åŒ…éžé€åˆ°å¤§é™¸ */
+    "mail", "\xA5\xB4\xA5\x5D", "\xA7\xE2", "\xA5\xB4\xA5\x5D\xBB\xBC\xB0\x65\xA8\xEC\xA4\x6A\xB3\xB0"
   },
   {
-    "marry", "¨D±B", "±·µÛ¤E¦Ê¤E¤Q¤E¦·ª´ºÀ¦V", "¨D±B"
+    /* æ±‚å©š */
+    /* æ§è‘—ä¹ç™¾ä¹åä¹æœµçŽ«ç‘°å‘ */
+    /* æ±‚å©š */
+    "marry", "\xA8\x44\xB1\x42", "\xB1\xB7\xB5\xDB\xA4\x45\xA6\xCA\xA4\x45\xA4\x51\xA4\x45\xA6\xB7\xAA\xB4\xBA\xC0\xA6\x56", "\xA8\x44\xB1\x42"
   },
   {
-    "morning", "¦­¦w", "¹ï", "»¡¡y¦­¦w¡z"
+    /* æ—©å®‰ */
+    /* å° */
+    /* èªªã€Žæ—©å®‰ã€ */
+    "morning", "\xA6\xAD\xA6\x77", "\xB9\xEF", "\xBB\xA1\xA1\x79\xA6\xAD\xA6\x77\xA1\x7A"
   },
   {
-    "noon", "¤È¦w", "¹ï", "»¡¡y¤È¦w¡z"
+    /* åˆå®‰ */
+    /* å° */
+    /* èªªã€Žåˆå®‰ã€ */
+    "noon", "\xA4\xC8\xA6\x77", "\xB9\xEF", "\xBB\xA1\xA1\x79\xA4\xC8\xA6\x77\xA1\x7A"
   },
   {
-    "nod", "ÂIÀY", "¦V", "ÂIÀYºÙ¬O"
+    /* é»žé ­ */
+    /* å‘ */
+    /* é»žé ­ç¨±æ˜¯ */
+    "nod", "\xC2\x49\xC0\x59", "\xA6\x56", "\xC2\x49\xC0\x59\xBA\xD9\xAC\x4F"
   },
   {
-    "nudge", "³»¨{¤l", "¥Î¤â¨y³»", "ªºªÎ¨{¤l"
+    /* é ‚è‚šå­ */
+    /* ç”¨æ‰‹è‚˜é ‚ */
+    /* çš„è‚¥è‚šå­ */
+    "nudge", "\xB3\xBB\xA8\x7B\xA4\x6C", "\xA5\xCE\xA4\xE2\xA8\x79\xB3\xBB", "\xAA\xBA\xAA\xCE\xA8\x7B\xA4\x6C"
   },
   {
-    "pad", "©çªÓ»H", "»´©ç", "ªºªÓ»H"
+    /* æ‹è‚©è†€ */
+    /* è¼•æ‹ */
+    /* çš„è‚©è†€ */
+    "pad", "\xA9\xE7\xAA\xD3\xBB\x48", "\xBB\xB4\xA9\xE7", "\xAA\xBA\xAA\xD3\xBB\x48"
   },
   {
-    "pan", "¥­©³Áç", "±q­I«á®³¥X¤F¥­©³Áç¡A§â", "ºV©ü¤F"
+    /* å¹³åº•é‹ */
+    /* å¾žèƒŒå¾Œæ‹¿å‡ºäº†å¹³åº•é‹ï¼ŒæŠŠ */
+    /* æ•²æ˜äº† */
+    "pan", "\xA5\xAD\xA9\xB3\xC1\xE7", "\xB1\x71\xAD\x49\xAB\xE1\xAE\xB3\xA5\x58\xA4\x46\xA5\xAD\xA9\xB3\xC1\xE7\xA1\x41\xA7\xE2", "\xBA\x56\xA9\xFC\xA4\x46"
   },
   {
-    "pat", "©çÀY", "©ç©ç", "ªºÀY"
+    /* æ‹é ­ */
+    /* æ‹æ‹ */
+    /* çš„é ­ */
+    "pat", "\xA9\xE7\xC0\x59", "\xA9\xE7\xA9\xE7", "\xAA\xBA\xC0\x59"
   },
   {
-    "pettish", "¼»¼b", "¸ò", "ÜÝÁnÜÝ®ð¦a¼»¼b"
+    /* æ’’å¬Œ */
+    /* è·Ÿ */
+    /* å—²è²å—²æ°£åœ°æ’’å¬Œ */
+    "pettish", "\xBC\xBB\xBC\x62", "\xB8\xF2", "\xDC\xDD\xC1\x6E\xDC\xDD\xAE\xF0\xA6\x61\xBC\xBB\xBC\x62"
   },
   {
-    "pili", "ÅRÆE", "¨Ï¥X §g¤l­· ¤Ñ¦a®Ú	¯ë­YÄb ¤T¦¡¦X¤@¥´¦V", "¡ã¡ã"
+    /* éœ¹é‚ */
+    /* ä½¿å‡º å›å­é¢¨ å¤©åœ°æ ¹	èˆ¬è‹¥æ‡º ä¸‰å¼åˆä¸€æ‰“å‘ */
+    /* ï½žï½ž */
+    "pili", "\xC5\x52\xC6\x45", "\xA8\xCF\xA5\x58 \xA7\x67\xA4\x6C\xAD\xB7 \xA4\xD1\xA6\x61\xAE\xDA	\xAF\xEB\xAD\x59\xC4\x62 \xA4\x54\xA6\xA1\xA6\x58\xA4\x40\xA5\xB4\xA6\x56", "\xA1\xE3\xA1\xE3"
   },
   {
-    "pinch", "À¾¤H", "¥Î¤Oªº§â", "À¾±o¶Â«C"
+    /* æ“°äºº */
+    /* ç”¨åŠ›çš„æŠŠ */
+    /* æ“°å¾—é»‘é’ */
+    "pinch", "\xC0\xBE\xA4\x48", "\xA5\xCE\xA4\x4F\xAA\xBA\xA7\xE2", "\xC0\xBE\xB1\x6F\xB6\xC2\xAB\x43"
   },
   {
-    "poke", "ÂW§Ë", "ÂW¤FÂW", "·Q­n¤Þ°_¥Lªºª`·N"
+    /* æˆ³å¼„ */
+    /* æˆ³äº†æˆ³ */
+    /* æƒ³è¦å¼•èµ·ä»–çš„æ³¨æ„ */
+    "poke", "\xC2\x57\xA7\xCB", "\xC2\x57\xA4\x46\xC2\x57", "\xB7\x51\xAD\x6E\xA4\xDE\xB0\x5F\xA5\x4C\xAA\xBA\xAA\x60\xB7\x4E"
   },
   {
-    "puding", "Äé¥¬¤B",	"¹ï", "Äé¤F¤@¥d¨®¥¬¤B"
+    /* çŒå¸ƒä¸ */
+    /* å° */
+    /* çŒäº†ä¸€å¡è»Šå¸ƒä¸ */
+    "puding", "\xC4\xE9\xA5\xAC\xA4\x42",	"\xB9\xEF", "\xC4\xE9\xA4\x46\xA4\x40\xA5\x64\xA8\xAE\xA5\xAC\xA4\x42"
   },
   {
-    "roll", "¥´ºu", "©ñ¥X¦hº¸³Oªº­µ¼Ö¡A", "¦b¦a¤Wºu¨Óºu¥h"
+    /* æ‰“æ»¾ */
+    /* æ”¾å‡ºå¤šçˆ¾è¢žçš„éŸ³æ¨‚ï¼Œ */
+    /* åœ¨åœ°ä¸Šæ»¾ä¾†æ»¾åŽ» */
+    "roll", "\xA5\xB4\xBA\x75", "\xA9\xF1\xA5\x58\xA6\x68\xBA\xB8\xB3\x4F\xAA\xBA\xAD\xB5\xBC\xD6\xA1\x41", "\xA6\x62\xA6\x61\xA4\x57\xBA\x75\xA8\xD3\xBA\x75\xA5\x68"
   },
   {
-    "protect", "«OÅ@", "»}¦º«OÅ@µÛ", ""
+    /* ä¿è­· */
+    /* èª“æ­»ä¿è­·è‘— */
+    "protect", "\xAB\x4F\xC5\x40", "\xBB\x7D\xA6\xBA\xAB\x4F\xC5\x40\xB5\xDB", ""
   },
   {
-    "pull", "©Ô", "¦º©R¦a©Ô¦í",	"¤£©ñ"
+    /* æ‹‰ */
+    /* æ­»å‘½åœ°æ‹‰ä½ */
+    /* ä¸æ”¾ */
+    "pull", "\xA9\xD4", "\xA6\xBA\xA9\x52\xA6\x61\xA9\xD4\xA6\xED",	"\xA4\xA3\xA9\xF1"
   },
   {
-    "punch", "´~¤H", "¬½¬½´~¤F", "¤@¹y"
+    /* æäºº */
+    /* ç‹ ç‹ æäº† */
+    /* ä¸€é “ */
+    "punch", "\xB4\x7E\xA4\x48", "\xAC\xBD\xAC\xBD\xB4\x7E\xA4\x46", "\xA4\x40\xB9\x79"
   },
   {
-    "rascal", "­A¿à", "¸ò", "­A¿à"
+    /* è€è³´ */
+    /* è·Ÿ */
+    /* è€è³´ */
+    "rascal", "\xAD\x41\xBF\xE0", "\xB8\xF2", "\xAD\x41\xBF\xE0"
   },
   {
-    "recline", "¤JÃh", "Æp¨ì", "ªºÃh¸ÌºÎµÛ¤F¡K¡K"
+    /* å…¥æ‡· */
+    /* é‘½åˆ° */
+    /* çš„æ‡·è£¡ç¡è‘—äº†â€¦â€¦ */
+    "recline", "\xA4\x4A\xC3\x68", "\xC6\x70\xA8\xEC", "\xAA\xBA\xC3\x68\xB8\xCC\xBA\xCE\xB5\xDB\xA4\x46\xA1\x4B\xA1\x4B"
   },
   {
-    "recycle", "¦^¦¬±í", "§â", "¥á¨ì¸ê·½¦^¦¬±í"
+    /* å›žæ”¶æ¡¶ */
+    /* æŠŠ */
+    /* ä¸Ÿåˆ°è³‡æºå›žæ”¶æ¡¶ */
+    "recycle", "\xA6\x5E\xA6\xAC\xB1\xED", "\xA7\xE2", "\xA5\xE1\xA8\xEC\xB8\xEA\xB7\xBD\xA6\x5E\xA6\xAC\xB1\xED"
   },
   {
-    "respond", "­t³d", "¦w¼¢", "»¡¡G¡y¤£­n­ú¡A§Ú·|­t³dªº¡z"
+    /* è² è²¬ */
+    /* å®‰æ…° */
+    /* èªªï¼šã€Žä¸è¦å“­ï¼Œæˆ‘æœƒè² è²¬çš„ã€ */
+    "respond", "\xAD\x74\xB3\x64", "\xA6\x77\xBC\xA2", "\xBB\xA1\xA1\x47\xA1\x79\xA4\xA3\xAD\x6E\xAD\xFA\xA1\x41\xA7\xDA\xB7\x7C\xAD\x74\xB3\x64\xAA\xBA\xA1\x7A"
   },
   {
-    "scratch", "¿i¤ö", "¾ß°_", "¨­Ãäªº¥Û¤l¿i¿i¦Û¤vªº§Q¤ö"
+    /* ç£¨çˆª */
+    /* æ’¿èµ· */
+    /* èº«é‚Šçš„çŸ³å­ç£¨ç£¨è‡ªå·±çš„åˆ©çˆª */
+    "scratch", "\xBF\x69\xA4\xF6", "\xBE\xDF\xB0\x5F", "\xA8\xAD\xC3\xE4\xAA\xBA\xA5\xDB\xA4\x6C\xBF\x69\xBF\x69\xA6\xDB\xA4\x76\xAA\xBA\xA7\x51\xA4\xF6"
   },
   {
-    "sex", "©ÊÄÌÂZ", "¹ï", "©ÊÄÌÂZ"
+    /* æ€§é¨·æ“¾ */
+    /* å° */
+    /* æ€§é¨·æ“¾ */
+    "sex", "\xA9\xCA\xC4\xCC\xC2\x5A", "\xB9\xEF", "\xA9\xCA\xC4\xCC\xC2\x5A"
   },
   {
-    "shit", "³·¯S", "¹ï", "½|¤F¤@Án¡y³·¯S¡z"
+    /* é›ªç‰¹ */
+    /* å° */
+    /* ç½µäº†ä¸€è²ã€Žé›ªç‰¹ã€ */
+    "shit", "\xB3\xB7\xAF\x53", "\xB9\xEF", "\xBD\x7C\xA4\x46\xA4\x40\xC1\x6E\xA1\x79\xB3\xB7\xAF\x53\xA1\x7A"
   },
   {
-    "shrug", "ÁqªÓ", "µL©`¦a¦V", "Áq¤FÁqªÓ»H"
+    /* è³è‚© */
+    /* ç„¡å¥ˆåœ°å‘ */
+    /* è³äº†è³è‚©è†€ */
+    "shrug", "\xC1\x71\xAA\xD3", "\xB5\x4C\xA9\x60\xA6\x61\xA6\x56", "\xC1\x71\xA4\x46\xC1\x71\xAA\xD3\xBB\x48"
   },
   {
-    "sigh", "¼Û®ð", "¹ï", "¼Û¤F¤@¤f®ð"
+    /* æ­Žæ°£ */
+    /* å° */
+    /* æ­Žäº†ä¸€å£æ°£ */
+    "sigh", "\xBC\xDB\xAE\xF0", "\xB9\xEF", "\xBC\xDB\xA4\x46\xA4\x40\xA4\x66\xAE\xF0"
   },
   {
-    "slap", "¥´¦Õ¥ú", "°Ô°Ôªº¤Ú¤F", "¤@¹y¦Õ¥ú"
+    /* æ‰“è€³å…‰ */
+    /* å•ªå•ªçš„å·´äº† */
+    /* ä¸€é “è€³å…‰ */
+    "slap", "\xA5\xB4\xA6\xD5\xA5\xFA", "\xB0\xD4\xB0\xD4\xAA\xBA\xA4\xDA\xA4\x46", "\xA4\x40\xB9\x79\xA6\xD5\xA5\xFA"
   },
   {
-    "smooch", "¾Ö§k", "¾Ö§kµÛ",	""
+    /* æ“å» */
+    /* æ“å»è‘— */
+    "smooch", "\xBE\xD6\xA7\x6B", "\xBE\xD6\xA7\x6B\xB5\xDB",	""
   },
   {
-    "snicker", "ÅÑ¯º", "¼K¼K¼K¦a¹ï", "ÅÑ¯º"
+    /* ç«Šç¬‘ */
+    /* å˜¿å˜¿å˜¿åœ°å° */
+    /* ç«Šç¬‘ */
+    "snicker", "\xC5\xD1\xAF\xBA", "\xBC\x4B\xBC\x4B\xBC\x4B\xA6\x61\xB9\xEF", "\xC5\xD1\xAF\xBA"
   },
   {
-    "sniff", "¤£®h", "¹ï", "¶á¤§¥H»ó"
+    /* ä¸å±‘ */
+    /* å° */
+    /* å—¤ä¹‹ä»¥é¼» */
+    "sniff", "\xA4\xA3\xAE\x68", "\xB9\xEF", "\xB6\xE1\xA4\xA7\xA5\x48\xBB\xF3"
   },
   {
-    "sorry", "¹ï¤£°_", "¦V", "»¡¹ï¤£°_¡I§Ú¹ï¤£°_¤j®a¡A§Ú¹ï¤£°_°ê®aªÀ·|"
+    /* å°ä¸èµ· */
+    /* å‘ */
+    /* èªªå°ä¸èµ·ï¼æˆ‘å°ä¸èµ·å¤§å®¶ï¼Œæˆ‘å°ä¸èµ·åœ‹å®¶ç¤¾æœƒ */
+    "sorry", "\xB9\xEF\xA4\xA3\xB0\x5F", "\xA6\x56", "\xBB\xA1\xB9\xEF\xA4\xA3\xB0\x5F\xA1\x49\xA7\xDA\xB9\xEF\xA4\xA3\xB0\x5F\xA4\x6A\xAE\x61\xA1\x41\xA7\xDA\xB9\xEF\xA4\xA3\xB0\x5F\xB0\xEA\xAE\x61\xAA\xC0\xB7\x7C"
   },
   {
-    "spank", "¥´§¾§¾", "¥Î¤Ú´x¥´", "ªºÁv³¡"
+    /* æ‰“å±å± */
+    /* ç”¨å·´æŽŒæ‰“ */
+    /* çš„è‡€éƒ¨ */
+    "spank", "\xA5\xB4\xA7\xBE\xA7\xBE", "\xA5\xCE\xA4\xDA\xB4\x78\xA5\xB4", "\xAA\xBA\xC1\x76\xB3\xA1"
   },
   {
-    "squeeze", "ºò¾Ö", "ºòºò¦a¾Ö©êµÛ", ""
+    /* ç·Šæ“ */
+    /* ç·Šç·Šåœ°æ“æŠ±è‘— */
+    "squeeze", "\xBA\xF2\xBE\xD6", "\xBA\xF2\xBA\xF2\xA6\x61\xBE\xD6\xA9\xEA\xB5\xDB", ""
   },
   {
-    "thank", "·PÁÂ", "¦V", "·PÁÂ±o¤­Åé§ë¦a"
+    /* æ„Ÿè¬ */
+    /* å‘ */
+    /* æ„Ÿè¬å¾—äº”é«”æŠ•åœ° */
+    "thank", "\xB7\x50\xC1\xC2", "\xA6\x56", "\xB7\x50\xC1\xC2\xB1\x6F\xA4\xAD\xC5\xE9\xA7\xEB\xA6\x61"
   },
   {
-    "throw", "¥áÂY", "®³¤F¸}¤U¤@¶ô¤j¥ÛÀY´Â", "¨º¥á¤F¹L¥h"
+    /* ä¸Ÿæ“² */
+    /* æ‹¿äº†è…³ä¸‹ä¸€å¡Šå¤§çŸ³é ­æœ */
+    /* é‚£ä¸Ÿäº†éŽåŽ» */
+    "throw", "\xA5\xE1\xC2\x59", "\xAE\xB3\xA4\x46\xB8\x7D\xA4\x55\xA4\x40\xB6\xF4\xA4\x6A\xA5\xDB\xC0\x59\xB4\xC2", "\xA8\xBA\xA5\xE1\xA4\x46\xB9\x4C\xA5\x68"
   },
   {
-    "tickle", "·kÄo", "©B¼T©B¼T¡A·k", "ªºÄo"
+    /* æ”ç™¢ */
+    /* å’•å˜°å’•å˜°ï¼Œæ” */
+    /* çš„ç™¢ */
+    "tickle", "\xB7\x6B\xC4\x6F", "\xA9\x42\xBC\x54\xA9\x42\xBC\x54\xA1\x41\xB7\x6B", "\xAA\xBA\xC4\x6F"
   },
   {
-    "wait", "µ¥¤@¤U", "¥s", "µ¥¤@¤U®@¡I"
+    /* ç­‰ä¸€ä¸‹ */
+    /* å« */
+    /* ç­‰ä¸€ä¸‹å“¦ï¼ */
+    "wait", "\xB5\xA5\xA4\x40\xA4\x55", "\xA5\x73", "\xB5\xA5\xA4\x40\xA4\x55\xAE\x40\xA1\x49"
   },
   {
-    "wake", "·n¿ô", "»´»´¦a§â",	"·n¿ô"
+    /* æ–é†’ */
+    /* è¼•è¼•åœ°æŠŠ */
+    /* æ–é†’ */
+    "wake", "\xB7\x6E\xBF\xF4", "\xBB\xB4\xBB\xB4\xA6\x61\xA7\xE2",	"\xB7\x6E\xBF\xF4"
   },
   {
-    "wave", "´§¤â", "¹ïµÛ", "´§´§¤â¡Aªí¥Ü§i§O¤§·N"
+    /* æ®æ‰‹ */
+    /* å°è‘— */
+    /* æ®æ®æ‰‹ï¼Œè¡¨ç¤ºå‘Šåˆ¥ä¹‹æ„ */
+    "wave", "\xB4\xA7\xA4\xE2", "\xB9\xEF\xB5\xDB", "\xB4\xA7\xB4\xA7\xA4\xE2\xA1\x41\xAA\xED\xA5\xDC\xA7\x69\xA7\x4F\xA4\xA7\xB7\x4E"
   },
   {
-    "welcome", "Åwªï", "Åwªï", "¶i¨Ó¤K¨ö¤@¤U"
+    /* æ­¡è¿Ž */
+    /* æ­¡è¿Ž */
+    /* é€²ä¾†å…«å¦ä¸€ä¸‹ */
+    "welcome", "\xC5\x77\xAA\xEF", "\xC5\x77\xAA\xEF", "\xB6\x69\xA8\xD3\xA4\x4B\xA8\xF6\xA4\x40\xA4\x55"
   },
   {
-    "what", "¤°»ò", "»¡¡G¡y", "­ù¤½½M±K«zÃ÷Å¥¬Y?¡H?¡S?¡z"
+    /* ä»€éº¼ */
+    /* èªªï¼šã€Ž */
+    /* å“©å…¬çžŽå¯†å“‡éš´è½æŸ?ï¼Ÿ?ï¹–?ã€ */
+    "what", "\xA4\xB0\xBB\xF2", "\xBB\xA1\xA1\x47\xA1\x79", "\xAD\xF9\xA4\xBD\xBD\x4D\xB1\x4B\xAB\x7A\xC3\xF7\xC5\xA5\xAC\x59?\xA1\x48?\xA1\x53?\xA1\x7A"
   },
   {
-    "whip", "Ã@²Ç", "¤â¤W®³µÛÄúÀë¡A¥ÎÃ@¤lµh¥´",	""
+    /* éž­ç¬ž */
+    /* æ‰‹ä¸Šæ‹¿è‘—è Ÿç‡­ï¼Œç”¨éž­å­ç—›æ‰“ */
+    "whip", "\xC3\x40\xB2\xC7", "\xA4\xE2\xA4\x57\xAE\xB3\xB5\xDB\xC4\xFA\xC0\xEB\xA1\x41\xA5\xCE\xC3\x40\xA4\x6C\xB5\x68\xA5\xB4",	""
   },
   {
-    "wiggle", "§á§¾ªÑ",	"¹ïµÛ",	"§á§¾ªÑ"
+    /* æ‰­å±è‚¡ */
+    /* å°è‘— */
+    /* æ‰­å±è‚¡ */
+    "wiggle", "\xA7\xE1\xA7\xBE\xAA\xD1",	"\xB9\xEF\xB5\xDB",	"\xA7\xE1\xA7\xBE\xAA\xD1"
   },
   {
-    "wink", "¯w²´", "¹ï", "¯«¯µªº¯w¯w²´·ú"
+    /* çœ¨çœ¼ */
+    /* å° */
+    /* ç¥žç§˜çš„çœ¨çœ¨çœ¼ç› */
+    "wink", "\xAF\x77\xB2\xB4", "\xB9\xEF", "\xAF\xAB\xAF\xB5\xAA\xBA\xAF\x77\xAF\x77\xB2\xB4\xB7\xFA"
   },
   {
-    "zap", "²r§ð", "¹ï", "ºÆ¨gªº§ðÀ»"
+    /* çŒ›æ”» */
+    /* å° */
+    /* ç˜‹ç‹‚çš„æ”»æ“Š */
+    "zap", "\xB2\x72\xA7\xF0", "\xB9\xEF", "\xBA\xC6\xA8\x67\xAA\xBA\xA7\xF0\xC0\xBB"
   },
   {
     NULL, NULL, NULL, NULL
@@ -2688,7 +3109,8 @@ party_action(cu, cmd, party)
   {
     if (*party == '\0')
     {
-      party = "¤j®a";
+      /* å¤§å®¶ */
+      party = "\xA4\x6A\xAE\x61";
     }
     else
     {
@@ -2696,7 +3118,7 @@ party_action(cu, cmd, party)
 
       xuser = fuzzy_cuser_by_chatid(party);
       if (xuser == NULL)
-      {			/* Thor.980724: ¥Î userid¤]¹À³q */
+      {			/* Thor.980724: ç”¨ useridä¹Ÿå˜›é€š */
 	xuser = cuser_by_userid(party);
       }
 
@@ -2708,7 +3130,8 @@ party_action(cu, cmd, party)
       }
       else if (xuser == FUZZY_USER)
       {
-	send_to_user(cu, "¡° ½Ð«ü©ú²á¤Ñ¥N¸¹", 0, MSG_MESSAGE);
+	/* â€» è«‹æŒ‡æ˜ŽèŠå¤©ä»£è™Ÿ */
+	send_to_user(cu, "\xA1\xB0 \xBD\xD0\xAB\xFC\xA9\xFA\xB2\xE1\xA4\xD1\xA5\x4E\xB8\xB9", 0, MSG_MESSAGE);
 	return 0;
       }
       else if (cu->room != xuser->room || CLOAK(xuser))
@@ -2725,7 +3148,7 @@ party_action(cu, cmd, party)
     sprintf(buf, "\033[1;32m%s \033[31m%s\033[33m %s \033[31m%s\033[m",
       cu->chatid, cap->part1_msg, party, cap->part2_msg);
     send_to_room(cu->room, buf, cu->userno, MSG_MESSAGE);
-    return 0;			/* Thor: cu->room ¬O§_¬° NULL? */
+    return 0;			/* Thor: cu->room æ˜¯å¦ç‚º NULL? */
   }
   return 1;
 }
@@ -2736,95 +3159,151 @@ party_action(cu, cmd, party)
 /* --------------------------------------------- */
 
 
-/* itoc.010805.µù¸Ñ:  //ask ¤j®a¤µ¤Ñ¹L±o¦n¶Ü¡H	 itoc °Ý¤j®a¤µ¤Ñ¹L±o¦n¶Ü¡H*/
+/* itoc.010805.è¨»è§£:  //ask å¤§å®¶ä»Šå¤©éŽå¾—å¥½å—Žï¼Ÿ	 itoc å•å¤§å®¶ä»Šå¤©éŽå¾—å¥½å—Žï¼Ÿ*/
 
 #define ACTNUM_SPEAK	29
 
 static ChatAction speak_data[ACTNUM_SPEAK] =
 {
   {
-    "ask", "¸ß°Ý", "°Ý", NULL
+    /* è©¢å• */
+    /* å• */
+    "ask", "\xB8\xDF\xB0\xDD", "\xB0\xDD", NULL
   },
   {
-    "broadcast", "¼s¼½", "¼s¼½", NULL
+    /* å»£æ’­ */
+    /* å»£æ’­ */
+    "broadcast", "\xBC\x73\xBC\xBD", "\xBC\x73\xBC\xBD", NULL
   },
   {
-    "chant", "ºq¹|", "°ªÁnºq¹|", NULL
+    /* æ­Œé Œ */
+    /* é«˜è²æ­Œé Œ */
+    "chant", "\xBA\x71\xB9\x7C", "\xB0\xAA\xC1\x6E\xBA\x71\xB9\x7C", NULL
   },
   {
-    "cheer", "³Üªö", "³Üªö", NULL
+    /* å–é‡‡ */
+    /* å–é‡‡ */
+    "cheer", "\xB3\xDC\xAA\xF6", "\xB3\xDC\xAA\xF6", NULL
   },
   {
-    "chuckle", "»´¯º", "»´¯º", NULL
+    /* è¼•ç¬‘ */
+    /* è¼•ç¬‘ */
+    "chuckle", "\xBB\xB4\xAF\xBA", "\xBB\xB4\xAF\xBA", NULL
   },
   {
-    "curse", "¶A©G", "·t·F", NULL
+    /* è©›å’’ */
+    /* æš—å¹¹ */
+    "curse", "\xB6\x41\xA9\x47", "\xB7\x74\xB7\x46", NULL
   },
   {
-    "demand", "­n¨D", "­n¨D", NULL
+    /* è¦æ±‚ */
+    /* è¦æ±‚ */
+    "demand", "\xAD\x6E\xA8\x44", "\xAD\x6E\xA8\x44", NULL
   },
   {
-    "fuck", "¤½·F", "¤½·F", NULL
+    /* å…¬å¹¹ */
+    /* å…¬å¹¹ */
+    "fuck", "\xA4\xBD\xB7\x46", "\xA4\xBD\xB7\x46", NULL
   },
   {
-    "groan", "©D§u", "©D§u", NULL
+    /* å‘»åŸ */
+    /* å‘»åŸ */
+    "groan", "\xA9\x44\xA7\x75", "\xA9\x44\xA7\x75", NULL
   },
   {
-    "grumble", "µo¨cÄÌ", "µo¨cÄÌ", NULL
+    /* ç™¼ç‰¢é¨· */
+    /* ç™¼ç‰¢é¨· */
+    "grumble", "\xB5\x6F\xA8\x63\xC4\xCC", "\xB5\x6F\xA8\x63\xC4\xCC", NULL
   },
   {
-    "guitar", "¼u°Û", "Ãä¼uµÛ¦N¥L¡AÃä°ÛµÛ", NULL
+    /* å½ˆå”± */
+    /* é‚Šå½ˆè‘—å‰ä»–ï¼Œé‚Šå”±è‘— */
+    "guitar", "\xBC\x75\xB0\xDB", "\xC3\xE4\xBC\x75\xB5\xDB\xA6\x4E\xA5\x4C\xA1\x41\xC3\xE4\xB0\xDB\xB5\xDB", NULL
   },
   {
-    "hum", "³ä³ä", "³ä³ä¦Û»y", NULL
+    /* å–ƒå–ƒ */
+    /* å–ƒå–ƒè‡ªèªž */
+    "hum", "\xB3\xE4\xB3\xE4", "\xB3\xE4\xB3\xE4\xA6\xDB\xBB\x79", NULL
   },
   {
-    "moan", "«è¹Ä", "«è¹Ä", NULL
+    /* æ€¨å˜† */
+    /* æ€¨å˜† */
+    "moan", "\xAB\xE8\xB9\xC4", "\xAB\xE8\xB9\xC4", NULL
   },
   {
-    "notice", "±j½Õ", "±j½Õ", NULL
+    /* å¼·èª¿ */
+    /* å¼·èª¿ */
+    "notice", "\xB1\x6A\xBD\xD5", "\xB1\x6A\xBD\xD5", NULL
   },
   {
-    "order", "©R¥O", "©R¥O", NULL
+    /* å‘½ä»¤ */
+    /* å‘½ä»¤ */
+    "order", "\xA9\x52\xA5\x4F", "\xA9\x52\xA5\x4F", NULL
   },
   {
-    "ponder", "¨H«ä", "¨H«ä", NULL
+    /* æ²ˆæ€ */
+    /* æ²ˆæ€ */
+    "ponder", "\xA8\x48\xAB\xE4", "\xA8\x48\xAB\xE4", NULL
   },
   {
-    "pout", "äþ¼L", "äþµÛ¼L»¡",	NULL
+    /* å™˜å˜´ */
+    /* å™˜è‘—å˜´èªª */
+    "pout", "\xE4\xFE\xBC\x4C", "\xE4\xFE\xB5\xDB\xBC\x4C\xBB\xA1",	NULL
   },
   {
-    "pray", "¬èÃ«", "¬èÃ«", NULL
+    /* ç¥ˆç¦± */
+    /* ç¥ˆç¦± */
+    "pray", "\xAC\xE8\xC3\xAB", "\xAC\xE8\xC3\xAB", NULL
   },
   {
-    "request", "Àµ¨D", "Àµ¨D", NULL
+    /* æ‡‡æ±‚ */
+    /* æ‡‡æ±‚ */
+    "request", "\xC0\xB5\xA8\x44", "\xC0\xB5\xA8\x44", NULL
   },
   {
-    "shout", "¤j½|", "¤j½|", NULL
+    /* å¤§ç½µ */
+    /* å¤§ç½µ */
+    "shout", "\xA4\x6A\xBD\x7C", "\xA4\x6A\xBD\x7C", NULL
   },
   {
-    "sing", "°Ûºq", "°Ûºq", NULL
+    /* å”±æ­Œ */
+    /* å”±æ­Œ */
+    "sing", "\xB0\xDB\xBA\x71", "\xB0\xDB\xBA\x71", NULL
   },
   {
-    "smile", "·L¯º", "·L¯º", NULL
+    /* å¾®ç¬‘ */
+    /* å¾®ç¬‘ */
+    "smile", "\xB7\x4C\xAF\xBA", "\xB7\x4C\xAF\xBA", NULL
   },
   {
-    "smirk", "°²¯º", "°²¯º", NULL
+    /* å‡ç¬‘ */
+    /* å‡ç¬‘ */
+    "smirk", "\xB0\xB2\xAF\xBA", "\xB0\xB2\xAF\xBA", NULL
   },
   {
-    "swear", "µo»}", "µo»}", NULL
+    /* ç™¼èª“ */
+    /* ç™¼èª“ */
+    "swear", "\xB5\x6F\xBB\x7D", "\xB5\x6F\xBB\x7D", NULL
   },
   {
-    "tease", "¼J¯º", "¼J¯º", NULL
+    /* å˜²ç¬‘ */
+    /* å˜²ç¬‘ */
+    "tease", "\xBC\x4A\xAF\xBA", "\xBC\x4A\xAF\xBA", NULL
   },
   {
-    "whimper", "¶ã«|", "¶ã«|ªº»¡", NULL
+    /* å—šå’½ */
+    /* å—šå’½çš„èªª */
+    "whimper", "\xB6\xE3\xAB\x7C", "\xB6\xE3\xAB\x7C\xAA\xBA\xBB\xA1", NULL
   },
   {
-    "yawn", "«¢¤í", "Ãä¥´«¢¤íÃä»¡", NULL
+    /* å“ˆæ¬  */
+    /* é‚Šæ‰“å“ˆæ¬ é‚Šèªª */
+    "yawn", "\xAB\xA2\xA4\xED", "\xC3\xE4\xA5\xB4\xAB\xA2\xA4\xED\xC3\xE4\xBB\xA1", NULL
   },
   {
-    "yell", "¤j³Û", "¤j³Û", NULL
+    /* å¤§å–Š */
+    /* å¤§å–Š */
+    "yell", "\xA4\x6A\xB3\xDB", "\xA4\x6A\xB3\xDB", NULL
   },
   {
     NULL, NULL, NULL, NULL
@@ -2843,7 +3322,8 @@ speak_action(cu, cmd, msg)
 
   if ((cap = action_fit(speak_data, ACTNUM_SPEAK, cmd)))
   {
-    sprintf(buf, "\033[1;32m%s \033[31m%s¡G\033[33m %s\033[m",
+    /* \033[1;32m%s \033[31m%sï¼š\033[33m %s\033[m */
+    sprintf(buf, "\033[1;32m%s \033[31m%s\xA1\x47\033[33m %s\033[m",
       cu->chatid, cap->part1_msg, msg);
     send_to_room(cu->room, buf, cu->userno, MSG_MESSAGE);
     return 0;
@@ -2857,224 +3337,367 @@ speak_action(cu, cmd, msg)
 /* ----------------------------------------------------- */
 
 
-/* itoc.010805.µù¸Ñ:  //agree	itoc ²`ªí¦P·N */
+/* itoc.010805.è¨»è§£:  //agree	itoc æ·±è¡¨åŒæ„ */
 
 #define ACTNUM_CONDITION	73
 
 static ChatAction condition_data[ACTNUM_CONDITION] =
 {
   {
-    "agree", "¦P·N", "²`ªí¦P·N", NULL
+    /* åŒæ„ */
+    /* æ·±è¡¨åŒæ„ */
+    "agree", "\xA6\x50\xB7\x4E", "\xB2\x60\xAA\xED\xA6\x50\xB7\x4E", NULL
   },
   {
-    "aha", "ÆF¥ú", "­W«ä¨}¤[¡A©¿µMÆF¥ú¤@²{¡A¤£¸T§r«¢ªº¤@Án", NULL
+    /* éˆå…‰ */
+    /* è‹¦æ€è‰¯ä¹…ï¼Œå¿½ç„¶éˆå…‰ä¸€ç¾ï¼Œä¸ç¦å‘€å“ˆçš„ä¸€è² */
+    "aha", "\xC6\x46\xA5\xFA", "\xAD\x57\xAB\xE4\xA8\x7D\xA4\x5B\xA1\x41\xA9\xBF\xB5\x4D\xC6\x46\xA5\xFA\xA4\x40\xB2\x7B\xA1\x41\xA4\xA3\xB8\x54\xA7\x72\xAB\xA2\xAA\xBA\xA4\x40\xC1\x6E", NULL
   },
   {
-    "akimbo", "´¡¸y", "¤S®ð¤SµL©`ªº¨â¤â´¡¸y", NULL
+    /* æ’è…° */
+    /* åˆæ°£åˆç„¡å¥ˆçš„å…©æ‰‹æ’è…° */
+    "akimbo", "\xB4\xA1\xB8\x79", "\xA4\x53\xAE\xF0\xA4\x53\xB5\x4C\xA9\x60\xAA\xBA\xA8\xE2\xA4\xE2\xB4\xA1\xB8\x79", NULL
   },
   {
-    "alas", "«u§r", "«u§r§r¡ã", NULL
+    /* å“Žå‘€ */
+    /* å“Žå‘€å‘€ï½ž */
+    "alas", "\xAB\x75\xA7\x72", "\xAB\x75\xA7\x72\xA7\x72\xA1\xE3", NULL
   },
   {
-    "applaud", "©ç¤â", "°Ô°Ô°Ô°Ô°Ô¡K¡K°Ô°Ô", NULL
+    /* æ‹æ‰‹ */
+    /* å•ªå•ªå•ªå•ªå•ªâ€¦â€¦å•ªå•ª */
+    "applaud", "\xA9\xE7\xA4\xE2", "\xB0\xD4\xB0\xD4\xB0\xD4\xB0\xD4\xB0\xD4\xA1\x4B\xA1\x4B\xB0\xD4\xB0\xD4", NULL
   },
   {
-    "avert", "®`²Û", "®`²Û¦aÂà¶}µø½u", NULL
+    /* å®³ç¾ž */
+    /* å®³ç¾žåœ°è½‰é–‹è¦–ç·š */
+    "avert", "\xAE\x60\xB2\xDB", "\xAE\x60\xB2\xDB\xA6\x61\xC2\xE0\xB6\x7D\xB5\xF8\xBD\x75", NULL
   },
   {
-    "ayo", "­üËç³Þ", "­üËç³Þ¡ã", NULL
+    /* å”‰å‘¦å–‚ */
+    /* å”‰å‘¦å–‚ï½ž */
+    "ayo", "\xAD\xFC\xCB\xE7\xB3\xDE", "\xAD\xFC\xCB\xE7\xB3\xDE\xA1\xE3", NULL
   },
   {
-    "back", "§¤¦^¨Ó", "¦^¨Ó§¤¥¿Ä~Äò¾Ä¾Ô", NULL
+    /* åå›žä¾† */
+    /* å›žä¾†åæ­£ç¹¼çºŒå¥®æˆ° */
+    "back", "\xA7\xA4\xA6\x5E\xA8\xD3", "\xA6\x5E\xA8\xD3\xA7\xA4\xA5\xBF\xC4\x7E\xC4\xF2\xBE\xC4\xBE\xD4", NULL
   },
   {
-    "blood", "¦b¦å¤¤", "­Ë¦b¦åªy¤§¤¤", NULL
+    /* åœ¨è¡€ä¸­ */
+    /* å€’åœ¨è¡€æ³Šä¹‹ä¸­ */
+    "blood", "\xA6\x62\xA6\xE5\xA4\xA4", "\xAD\xCB\xA6\x62\xA6\xE5\xAA\x79\xA4\xA7\xA4\xA4", NULL
   },
   {
-    "blush", "Áy¬õ", "Áy³£¬õ¤F", NULL
+    /* è‡‰ç´… */
+    /* è‡‰éƒ½ç´…äº† */
+    "blush", "\xC1\x79\xAC\xF5", "\xC1\x79\xB3\xA3\xAC\xF5\xA4\x46", NULL
   },
   {
-    "broke", "¤ß¸H", "ªº¤ß¯}¸H¦¨¤@¤ù¤@¤ùªº", NULL
+    /* å¿ƒç¢Ž */
+    /* çš„å¿ƒç ´ç¢Žæˆä¸€ç‰‡ä¸€ç‰‡çš„ */
+    "broke", "\xA4\xDF\xB8\x48", "\xAA\xBA\xA4\xDF\xAF\x7D\xB8\x48\xA6\xA8\xA4\x40\xA4\xF9\xA4\x40\xA4\xF9\xAA\xBA", NULL
   },
   {
-    "bug", "¯äÂÎ", "µo²{³o¨t²Î¦³¢Ð¢ý¢ï¡ã", NULL
+    /* è‡­èŸ² */
+    /* ç™¼ç¾é€™ç³»çµ±æœ‰ï¼¢ï½•ï½‡ï½ž */
+    "bug", "\xAF\xE4\xC2\xCE", "\xB5\x6F\xB2\x7B\xB3\x6F\xA8\x74\xB2\xCE\xA6\xB3\xA2\xD0\xA2\xFD\xA2\xEF\xA1\xE3", NULL
   },
   {
-    "careles", "¨S¤H²z", "¶ã¡ã¡ã³£¨S¦³¤H²z§Ú ¡G¡ã", NULL
+    /* æ²’äººç† */
+    /* å—šï½žï½žéƒ½æ²’æœ‰äººç†æˆ‘ ï¼šï½ž */
+    "careles", "\xA8\x53\xA4\x48\xB2\x7A", "\xB6\xE3\xA1\xE3\xA1\xE3\xB3\xA3\xA8\x53\xA6\xB3\xA4\x48\xB2\x7A\xA7\xDA \xA1\x47\xA1\xE3", NULL
   },
   {
-    "chew", "¶ß¥Ê¤l", "«Ü±y¶¢ªº¶ß°_¥Ê¤l¨Ó¤F", NULL
+    /* å—‘ç“œå­ */
+    /* å¾ˆæ‚ é–’çš„å—‘èµ·ç“œå­ä¾†äº† */
+    "chew", "\xB6\xDF\xA5\xCA\xA4\x6C", "\xAB\xDC\xB1\x79\xB6\xA2\xAA\xBA\xB6\xDF\xB0\x5F\xA5\xCA\xA4\x6C\xA8\xD3\xA4\x46", NULL
   },
   {
-    "climb", "ª¦¤s", "¦Û¤vºCºCª¦¤W¤s¨Ó¡K¡K", NULL
+    /* çˆ¬å±± */
+    /* è‡ªå·±æ…¢æ…¢çˆ¬ä¸Šå±±ä¾†â€¦â€¦ */
+    "climb", "\xAA\xA6\xA4\x73", "\xA6\xDB\xA4\x76\xBA\x43\xBA\x43\xAA\xA6\xA4\x57\xA4\x73\xA8\xD3\xA1\x4B\xA1\x4B", NULL
   },
   {
-    "cold", "·P«_", "·P«_¤F¡A¶ý¶ý¤£Åý§Ú¥X¥hª± ¡G¡]", NULL
+    /* æ„Ÿå†’ */
+    /* æ„Ÿå†’äº†ï¼Œåª½åª½ä¸è®“æˆ‘å‡ºåŽ»çŽ© ï¼šï¼ˆ */
+    "cold", "\xB7\x50\xAB\x5F", "\xB7\x50\xAB\x5F\xA4\x46\xA1\x41\xB6\xFD\xB6\xFD\xA4\xA3\xC5\xFD\xA7\xDA\xA5\x58\xA5\x68\xAA\xB1 \xA1\x47\xA1\x5D", NULL
   },
   {
-    "cough", "«y¹Â", "«y¤F´XÁn", NULL
+    /* å’³å—½ */
+    /* å’³äº†å¹¾è² */
+    "cough", "\xAB\x79\xB9\xC2", "\xAB\x79\xA4\x46\xB4\x58\xC1\x6E", NULL
   },
   {
-    "crash", "·í¾÷", "¶ã¡K" BBSNAME "·í¾÷¤F", NULL
+    /* ç•¶æ©Ÿ */
+    /* å—šâ€¦ */
+    /* ç•¶æ©Ÿäº† */
+    "crash", "\xB7\xED\xBE\xF7", "\xB6\xE3\xA1\x4B" BBSNAME "\xB7\xED\xBE\xF7\xA4\x46", NULL
   },
   {
-    "die", "¼ÉÀÅ", "·í³õ¼ÉÀÅ", NULL
+    /* æš´æ–ƒ */
+    /* ç•¶å ´æš´æ–ƒ */
+    "die", "\xBC\xC9\xC0\xC5", "\xB7\xED\xB3\xF5\xBC\xC9\xC0\xC5", NULL
   },
   {
-    "dive", "¼ç¤ô", "¸õ¨ì¤ô¸Ì¸ú°_¨Ó", NULL
+    /* æ½›æ°´ */
+    /* è·³åˆ°æ°´è£¡èº²èµ·ä¾† */
+    "dive", "\xBC\xE7\xA4\xF4", "\xB8\xF5\xA8\xEC\xA4\xF4\xB8\xCC\xB8\xFA\xB0\x5F\xA8\xD3", NULL
   },
   {
-    "faint", "©ü­Ë", "·í³õ©ü­Ë", NULL
+    /* æ˜å€’ */
+    /* ç•¶å ´æ˜å€’ */
+    "faint", "\xA9\xFC\xAD\xCB", "\xB7\xED\xB3\xF5\xA9\xFC\xAD\xCB", NULL
   },
   {
-    "fart", "©ñ§¾", "¥þ¬O¦b©ñ§¾¡A­J§è¤@³q¡I", NULL
+    /* æ”¾å± */
+    /* å…¨æ˜¯åœ¨æ”¾å±ï¼Œèƒ¡æ‰¯ä¸€é€šï¼ */
+    "fart", "\xA9\xF1\xA7\xBE", "\xA5\xFE\xAC\x4F\xA6\x62\xA9\xF1\xA7\xBE\xA1\x41\xAD\x4A\xA7\xE8\xA4\x40\xB3\x71\xA1\x49", NULL
   },
   {
-    "flop", "­»¿¼¥Ö", "½ò¨ì­»¿¼¥Ö¡K·Æ­Ë¡I", NULL
+    /* é¦™è•‰çš® */
+    /* è¸©åˆ°é¦™è•‰çš®â€¦æ»‘å€’ï¼ */
+    "flop", "\xAD\xBB\xBF\xBC\xA5\xD6", "\xBD\xF2\xA8\xEC\xAD\xBB\xBF\xBC\xA5\xD6\xA1\x4B\xB7\xC6\xAD\xCB\xA1\x49", NULL
   },
   {
-    "fly", "ÄÆÄÆµM", "ÄÆÄÆµM¦a¡A¦n¦ü­¸¤F°_¨Ó", NULL
+    /* é£„é£„ç„¶ */
+    /* é£„é£„ç„¶åœ°ï¼Œå¥½ä¼¼é£›äº†èµ·ä¾† */
+    "fly", "\xC4\xC6\xC4\xC6\xB5\x4D", "\xC4\xC6\xC4\xC6\xB5\x4D\xA6\x61\xA1\x41\xA6\x6E\xA6\xFC\xAD\xB8\xA4\x46\xB0\x5F\xA8\xD3", NULL
   },
   {
-    "frown", "ÂÙ¬Ü", "ÂÙ¬Ü¡A¤£ª¾¬°¤F¤°»ò", NULL
+    /* è¹™çœ‰ */
+    /* è¹™çœ‰ï¼Œä¸çŸ¥ç‚ºäº†ä»€éº¼ */
+    "frown", "\xC2\xD9\xAC\xDC", "\xC2\xD9\xAC\xDC\xA1\x41\xA4\xA3\xAA\xBE\xAC\xB0\xA4\x46\xA4\xB0\xBB\xF2", NULL
   },
   {
-    "gold", "®³ª÷µP", "°ÛµÛ¡G¡yª÷£|£±£½ª÷£|£±£½¥X°ê¤ñÁÉ¡A±o«a­x¡A®³ª÷µP¡A¥úºa­Ë¾H¨Ó¡I¡z", NULL
+    /* æ‹¿é‡‘ç‰Œ */
+    /* å”±è‘—ï¼šã€Žé‡‘ã„ã„ ËŠé‡‘ã„ã„ ËŠå‡ºåœ‹æ¯”è³½ï¼Œå¾—å† è»ï¼Œæ‹¿é‡‘ç‰Œï¼Œå…‰æ¦®å€’é„§ä¾†ï¼ã€ */
+    "gold", "\xAE\xB3\xAA\xF7\xB5\x50", "\xB0\xDB\xB5\xDB\xA1\x47\xA1\x79\xAA\xF7\xA3\x7C\xA3\xB1\xA3\xBD\xAA\xF7\xA3\x7C\xA3\xB1\xA3\xBD\xA5\x58\xB0\xEA\xA4\xF1\xC1\xC9\xA1\x41\xB1\x6F\xAB\x61\xAD\x78\xA1\x41\xAE\xB3\xAA\xF7\xB5\x50\xA1\x41\xA5\xFA\xBA\x61\xAD\xCB\xBE\x48\xA8\xD3\xA1\x49\xA1\x7A", NULL
   },
   {
-    "gulu", "¨{¤l¾j", "ªº¨{¤lµo¥X©BÂP©BÂP¡ãªºÁn­µ", NULL
+    /* è‚šå­é¤“ */
+    /* çš„è‚šå­ç™¼å‡ºå’•åš•å’•åš•ï½žçš„è²éŸ³ */
+    "gulu", "\xA8\x7B\xA4\x6C\xBE\x6A", "\xAA\xBA\xA8\x7B\xA4\x6C\xB5\x6F\xA5\x58\xA9\x42\xC2\x50\xA9\x42\xC2\x50\xA1\xE3\xAA\xBA\xC1\x6E\xAD\xB5", NULL
   },
   {
-    "haha", "«¢«¢", "«z«¢«¢«¢¡K¤j¯º¤F°_¨Ó", NULL
+    /* å“ˆå“ˆ */
+    /* å“‡å“ˆå“ˆå“ˆâ€¦å¤§ç¬‘äº†èµ·ä¾† */
+    "haha", "\xAB\xA2\xAB\xA2", "\xAB\x7A\xAB\xA2\xAB\xA2\xAB\xA2\xA1\x4B\xA4\x6A\xAF\xBA\xA4\x46\xB0\x5F\xA8\xD3", NULL
   },
   {
-    "happy", "°ª¿³", "°ª¿³±o¦b¦a¤W¥´ºu", NULL
+    /* é«˜èˆˆ */
+    /* é«˜èˆˆå¾—åœ¨åœ°ä¸Šæ‰“æ»¾ */
+    "happy", "\xB0\xAA\xBF\xB3", "\xB0\xAA\xBF\xB3\xB1\x6F\xA6\x62\xA6\x61\xA4\x57\xA5\xB4\xBA\x75", NULL
   },
   {
-    "hiccup", "¥´ÜÐ", "¥´ÜÐ­Ó¤£°±", NULL
+    /* æ‰“å— */
+    /* æ‰“å—å€‹ä¸åœ */
+    "hiccup", "\xA5\xB4\xDC\xD0", "\xA5\xB4\xDC\xD0\xAD\xD3\xA4\xA3\xB0\xB1", NULL
   },
   {
-    "hoho", "¨þ¨þ", "¨þ¨þ¨þ¯º­Ó¤£°±", NULL
+    /* å‘µå‘µ */
+    /* å‘µå‘µå‘µç¬‘å€‹ä¸åœ */
+    "hoho", "\xA8\xFE\xA8\xFE", "\xA8\xFE\xA8\xFE\xA8\xFE\xAF\xBA\xAD\xD3\xA4\xA3\xB0\xB1", NULL
   },
   {
-    "hypnzed", "³Q¶Ê¯v", "²´¯«§bº¢¡A³Q¶Ê¯v¤F¡K¡K£C¢è£Czzz", NULL
+    /* è¢«å‚¬çœ  */
+    /* çœ¼ç¥žå‘†æ»¯ï¼Œè¢«å‚¬çœ äº†â€¦â€¦ï½šï¼ºï½šzzz */
+    "hypnzed", "\xB3\x51\xB6\xCA\xAF\x76", "\xB2\xB4\xAF\xAB\xA7\x62\xBA\xA2\xA1\x41\xB3\x51\xB6\xCA\xAF\x76\xA4\x46\xA1\x4B\xA1\x4B\xA3\x43\xA2\xE8\xA3\x43zzz", NULL
   },
   {
-    "idle", "§b¦í", "Àþ¶¡§b¦í¤F", NULL
+    /* å‘†ä½ */
+    /* çž¬é–“å‘†ä½äº† */
+    "idle", "\xA7\x62\xA6\xED", "\xC0\xFE\xB6\xA1\xA7\x62\xA6\xED\xA4\x46", NULL
   },
   {
-    "jacky", "µl¤l", "µl¤l¯ëªº®Ì¨Ó®Ì¥h", NULL
+    /* ç—žå­ */
+    /* ç—žå­èˆ¬çš„æ™ƒä¾†æ™ƒåŽ» */
+    "jacky", "\xB5\x6C\xA4\x6C", "\xB5\x6C\xA4\x6C\xAF\xEB\xAA\xBA\xAE\xCC\xA8\xD3\xAE\xCC\xA5\x68", NULL
   },
   {
-    "jealous", "¦Y¾L", "®ð¹ª¹ª¦a³Ü¤F¤@¬û¾L", NULL
+    /* åƒé†‹ */
+    /* æ°£é¼“é¼“åœ°å–äº†ä¸€ç¼¸é†‹ */
+    "jealous", "\xA6\x59\xBE\x4C", "\xAE\xF0\xB9\xAA\xB9\xAA\xA6\x61\xB3\xDC\xA4\x46\xA4\x40\xAC\xFB\xBE\x4C", NULL
   },
   {
-    "jump", "¸õ¼Ó", "¸õ¼Ó¦Û±þ",	NULL
+    /* è·³æ¨“ */
+    /* è·³æ¨“è‡ªæ®º */
+    "jump", "\xB8\xF5\xBC\xD3", "\xB8\xF5\xBC\xD3\xA6\xDB\xB1\xFE",	NULL
   },
   {
-    "luck", "©¯¹B", "«z¡IºÖ®ð°Õ¡I", NULL
+    /* å¹¸é‹ */
+    /* å“‡ï¼ç¦æ°£å•¦ï¼ */
+    "luck", "\xA9\xAF\xB9\x42", "\xAB\x7A\xA1\x49\xBA\xD6\xAE\xF0\xB0\xD5\xA1\x49", NULL
   },
   {
-    "macarn", "¤@ºØ»R",	"¶}©l¸õ°_¤F¢Û¢é¢Ñ¢é¢à¢í¢Ü¢é¡ã¡ã¡ã¡ã", NULL
+    /* ä¸€ç¨®èˆž */
+    /* é–‹å§‹è·³èµ·äº†ï¼­ï½ï¼£ï½ï¼²ï½…ï¼®ï½ï½žï½žï½žï½ž */
+    "macarn", "\xA4\x40\xBA\xD8\xBB\x52",	"\xB6\x7D\xA9\x6C\xB8\xF5\xB0\x5F\xA4\x46\xA2\xDB\xA2\xE9\xA2\xD1\xA2\xE9\xA2\xE0\xA2\xED\xA2\xDC\xA2\xE9\xA1\xE3\xA1\xE3\xA1\xE3\xA1\xE3", NULL
   },
   {
-    "miou", "ØpØp", "ØpØp¤f­]¤f­]¡ã¡ã¡ã¡ã¡ã", NULL
+    /* å–µå–µ */
+    /* å–µå–µå£è‹—å£è‹—ï½žï½žï½žï½žï½ž */
+    "miou", "\xD8\x70\xD8\x70", "\xD8\x70\xD8\x70\xA4\x66\xAD\x5D\xA4\x66\xAD\x5D\xA1\xE3\xA1\xE3\xA1\xE3\xA1\xE3\xA1\xE3", NULL
   },
   {
-    "money", "ÁÈ¿ú", "®I­º¬ã¨s«ç¼ËÁÈ¤j¿ú", NULL
+    /* è³ºéŒ¢ */
+    /* åŸ‹é¦–ç ”ç©¶æ€Žæ¨£è³ºå¤§éŒ¢ */
+    "money", "\xC1\xC8\xBF\xFA", "\xAE\x49\xAD\xBA\xAC\xE3\xA8\x73\xAB\xE7\xBC\xCB\xC1\xC8\xA4\x6A\xBF\xFA", NULL
   },
   {
-    "mouth", "«ó¼L", "«ó¼L¤¤¡I", NULL
+    /* æ‰å˜´ */
+    /* æ‰å˜´ä¸­ï¼ */
+    "mouth", "\xAB\xF3\xBC\x4C", "\xAB\xF3\xBC\x4C\xA4\xA4\xA1\x49", NULL
   },
   {
-    "mutter", "§C©B", "§CÁn©B¾ºµÛ¬Y¨Ç¨Æ¡C", NULL
+    /* ä½Žå’• */
+    /* ä½Žè²å’•å™¥è‘—æŸäº›äº‹ã€‚ */
+    "mutter", "\xA7\x43\xA9\x42", "\xA7\x43\xC1\x6E\xA9\x42\xBE\xBA\xB5\xDB\xAC\x59\xA8\xC7\xA8\xC6\xA1\x43", NULL
   },
   {
-    "nani", "«ç»ò·|", "¡G©`£®°Ú®º??", NULL
+    /* æ€Žéº¼æœƒ */
+    /* ï¼šå¥ˆã„å•Šæ?? */
+    "nani", "\xAB\xE7\xBB\xF2\xB7\x7C", "\xA1\x47\xA9\x60\xA3\xAE\xB0\xDA\xAE\xBA??", NULL
   },
   {
-    "nose", "¬y»ó¦å", "¬y»ó¦å",	NULL
+    /* æµé¼»è¡€ */
+    /* æµé¼»è¡€ */
+    "nose", "\xAC\x79\xBB\xF3\xA6\xE5", "\xAC\x79\xBB\xF3\xA6\xE5",	NULL
   },
   {
-    "puke", "¹Ã¦R", "¹Ã¦R¤¤", NULL
+    /* å˜”å */
+    /* å˜”åä¸­ */
+    "puke", "\xB9\xC3\xA6\x52", "\xB9\xC3\xA6\x52\xA4\xA4", NULL
   },
   {
-    "rest", "¥ð®§", "¥ð®§¤¤¡A½Ð¤Å¥´ÂZ",	NULL
+    /* ä¼‘æ¯ */
+    /* ä¼‘æ¯ä¸­ï¼Œè«‹å‹¿æ‰“æ“¾ */
+    "rest", "\xA5\xF0\xAE\xA7", "\xA5\xF0\xAE\xA7\xA4\xA4\xA1\x41\xBD\xD0\xA4\xC5\xA5\xB4\xC2\x5A",	NULL
   },
   {
-    "reverse", "Â½¨{", "Â½¨{", NULL
+    /* ç¿»è‚š */
+    /* ç¿»è‚š */
+    "reverse", "\xC2\xBD\xA8\x7B", "\xC2\xBD\xA8\x7B", NULL
   },
   {
-    "room", "¶}©Ð¶¡", "r-o-O-m-r-O-¢Ý-Mmm-rR¢à........", NULL
+    /* é–‹æˆ¿é–“ */
+    /* r-o-O-m-r-O-ï¼¯-Mmm-rRï¼²........ */
+    "room", "\xB6\x7D\xA9\xD0\xB6\xA1", "r-o-O-m-r-O-\xA2\xDD-Mmm-rR\xA2\xE0........", NULL
   },
   {
-    "scream", "¦y¥s", "¤jÁn¦y¥s¡I °Ú~~~~~~~", NULL
+    /* å°–å« */
+    /* å¤§è²å°–å«ï¼ å•Š~~~~~~~ */
+    "scream", "\xA6\x79\xA5\x73", "\xA4\x6A\xC1\x6E\xA6\x79\xA5\x73\xA1\x49 \xB0\xDA~~~~~~~", NULL
   },
   {
-    "shake", "·nÀY", "·n¤F·nÀY", NULL
+    /* æ–é ­ */
+    /* æ–äº†æ–é ­ */
+    "shake", "\xB7\x6E\xC0\x59", "\xB7\x6E\xA4\x46\xB7\x6E\xC0\x59", NULL
   },
   {
-    "sleep", "ºÎµÛ", "­w¦bÁä½L¤WºÎµÛ¤F¡A¤f¤ô¬y¶iÁä½L¡A³y¦¨·í¾÷¡I", NULL
+    /* ç¡è‘— */
+    /* è¶´åœ¨éµç›¤ä¸Šç¡è‘—äº†ï¼Œå£æ°´æµé€²éµç›¤ï¼Œé€ æˆç•¶æ©Ÿï¼ */
+    "sleep", "\xBA\xCE\xB5\xDB", "\xAD\x77\xA6\x62\xC1\xE4\xBD\x4C\xA4\x57\xBA\xCE\xB5\xDB\xA4\x46\xA1\x41\xA4\x66\xA4\xF4\xAC\x79\xB6\x69\xC1\xE4\xBD\x4C\xA1\x41\xB3\x79\xA6\xA8\xB7\xED\xBE\xF7\xA1\x49", NULL
   },
   {
-    "snore", "¥´ÂM¤¤", "¥´ÂM¤¤¡K", NULL
+    /* æ‰“é¼¾ä¸­ */
+    /* æ‰“é¼¾ä¸­â€¦ */
+    "snore", "\xA5\xB4\xC2\x4D\xA4\xA4", "\xA5\xB4\xC2\x4D\xA4\xA4\xA1\x4B", NULL
   },
   {
-    "sob", "½â­F", "¢á¢÷¢ö ¢Ý¢î ¢Ð¢ñ¢ü¢ë¢ð¡I¡I", NULL
+    /* è³¤èƒš */
+    /* ï¼³ï½ï½Ž ï¼¯ï½† ï¼¢ï½‰ï½”ï½ƒï½ˆï¼ï¼ */
+    "sob", "\xBD\xE2\xAD\x46", "\xA2\xE1\xA2\xF7\xA2\xF6 \xA2\xDD\xA2\xEE \xA2\xD0\xA2\xF1\xA2\xFC\xA2\xEB\xA2\xF0\xA1\x49\xA1\x49", NULL
   },
   {
-    "stare", "¾®µø", "ÀRÀR¦a¾®µøµÛ¤ÑªÅ", NULL
+    /* å‡è¦– */
+    /* éœéœåœ°å‡è¦–è‘—å¤©ç©º */
+    "stare", "\xBE\xAE\xB5\xF8", "\xC0\x52\xC0\x52\xA6\x61\xBE\xAE\xB5\xF8\xB5\xDB\xA4\xD1\xAA\xC5", NULL
   },
   {
-    "stretch", "¯h­Â", "¦ù¦ùÃi¸y¤S¥´¤F­Ó¨þ¤í«Ü¯h­Â¦üªº¡C", NULL
+    /* ç–²å€¦ */
+    /* ä¼¸ä¼¸æ‡¶è…°åˆæ‰“äº†å€‹å‘µæ¬ å¾ˆç–²å€¦ä¼¼çš„ã€‚ */
+    "stretch", "\xAF\x68\xAD\xC2", "\xA6\xF9\xA6\xF9\xC3\x69\xB8\x79\xA4\x53\xA5\xB4\xA4\x46\xAD\xD3\xA8\xFE\xA4\xED\xAB\xDC\xAF\x68\xAD\xC2\xA6\xFC\xAA\xBA\xA1\x43", NULL
   },
   {
-    "story", "Á¿¥j", "¶}©lÁ¿¥j¤F", NULL
+    /* è¬›å¤ */
+    /* é–‹å§‹è¬›å¤äº† */
+    "story", "\xC1\xBF\xA5\x6A", "\xB6\x7D\xA9\x6C\xC1\xBF\xA5\x6A\xA4\x46", NULL
   },
   {
-    "strut", "·nÂ\\¨«",	"¤j·n¤jÂ\\¦a¨«", NULL
+    /* æ–æ“ºèµ° */
+    /* å¤§æ–å¤§æ“ºåœ°èµ° */
+    "strut", "\xB7\x6E\xC2\x5C\xA8\xAB",	"\xA4\x6A\xB7\x6E\xA4\x6A\xC2\x5C\xA6\x61\xA8\xAB", NULL
   },
   {
-    "suicide", "¦Û±þ", "¦Û±þ", NULL
+    /* è‡ªæ®º */
+    /* è‡ªæ®º */
+    "suicide", "\xA6\xDB\xB1\xFE", "\xA6\xDB\xB1\xFE", NULL
   },
   {
-    "sweat", "¬y¦½", "´§¦½¦p«B¡I", NULL
+    /* æµæ±— */
+    /* æ®æ±—å¦‚é›¨ï¼ */
+    "sweat", "\xAC\x79\xA6\xBD", "\xB4\xA7\xA6\xBD\xA6\x70\xAB\x42\xA1\x49", NULL
   },
   {
-    "tear", "¬y²\", "µh­ú¬y®÷¤¤.....",	NULL
+    /* æµæ·š */
+    /* ç—›å“­æµæ¶•ä¸­..... */
+    "tear", "\xAC\x79\xB2\x5C", "\xB5\x68\xAD\xFA\xAC\x79\xAE\xF7\xA4\xA4.....",	NULL
   },
   {
-    "think", "«ä¦Ò", "¬nµÛÀY·Q¤F¤@¤U", NULL
+    /* æ€è€ƒ */
+    /* æ­ªè‘—é ­æƒ³äº†ä¸€ä¸‹ */
+    "think", "\xAB\xE4\xA6\xD2", "\xAC\x6E\xB5\xDB\xC0\x59\xB7\x51\xA4\x46\xA4\x40\xA4\x55", NULL
   },
   {
-    "tongue", "¦R¦Þ", "¦R¤F¦R¦ÞÀY", NULL
+    /* åèˆŒ */
+    /* åäº†åèˆŒé ­ */
+    "tongue", "\xA6\x52\xA6\xDE", "\xA6\x52\xA4\x46\xA6\x52\xA6\xDE\xC0\x59", NULL
   },
   {
-    "wall", "¼²Àð", "¶]¥h¼²Àð",	NULL
+    /* æ’žç‰† */
+    /* è·‘åŽ»æ’žç‰† */
+    "wall", "\xBC\xB2\xC0\xF0", "\xB6\x5D\xA5\x68\xBC\xB2\xC0\xF0",	NULL
   },
   {
-    "wawa", "«z«z", "«z«z«z~~~~~!!!!!  ~~~>_<~~~", NULL
+    /* å“‡å“‡ */
+    /* å“‡å“‡å“‡~~~~~!!!!!  ~~~>_<~~~ */
+    "wawa", "\xAB\x7A\xAB\x7A", "\xAB\x7A\xAB\x7A\xAB\x7A~~~~~!!!!!  ~~~>_<~~~", NULL
   },
   {
-    "wc", "¬~¤â¶¡", "¥ø¬~¤â¶¡¤@¤U :>", NULL
+    /* æ´—æ‰‹é–“ */
+    /* ä¼æ´—æ‰‹é–“ä¸€ä¸‹ :> */
+    "wc", "\xAC\x7E\xA4\xE2\xB6\xA1", "\xA5\xF8\xAC\x7E\xA4\xE2\xB6\xA1\xA4\x40\xA4\x55 :>", NULL
   },
   {
-    "whine", "¨{¤l¾j", "¨{¤l¾j!	:(", NULL
+    /* è‚šå­é¤“ */
+    /* è‚šå­é¤“!	:( */
+    "whine", "\xA8\x7B\xA4\x6C\xBE\x6A", "\xA8\x7B\xA4\x6C\xBE\x6A!	:(", NULL
   },
   {
-    "whistle", "§j¤f­ï", "§j¤f­ï", NULL
+    /* å¹å£å“¨ */
+    /* å¹å£å“¨ */
+    "whistle", "\xA7\x6A\xA4\x66\xAD\xEF", "\xA7\x6A\xA4\x66\xAD\xEF", NULL
   },
   {
-    "wolf", "¯TÀz", "£±£¹£±£¹¡K£±£¹£±£¹¡K", NULL
+    /* ç‹¼åšŽ */
+    /* ã„ ã„¨ã„ ã„¨â€¦ã„ ã„¨ã„ ã„¨â€¦ */
+    "wolf", "\xAF\x54\xC0\x7A", "\xA3\xB1\xA3\xB9\xA3\xB1\xA3\xB9\xA1\x4B\xA3\xB1\xA3\xB9\xA3\xB1\xA3\xB9\xA1\x4B", NULL
   },
   {
-    "www", "¨L¨L", "¨L¨L¨L¡I", NULL
+    /* æ±ªæ±ª */
+    /* æ±ªæ±ªæ±ªï¼ */
+    "www", "\xA8\x4C\xA8\x4C", "\xA8\x4C\xA8\x4C\xA8\x4C\xA1\x49", NULL
   },
   {
-    "ya", "£¬­C", "¾¾¡ã¢ç¢Ï¡I *^_^*", NULL
+    /* ã„›è€¶ */
+    /* å™¢ï½žï¼¹ï¼¡ï¼ *^_^* */
+    "ya", "\xA3\xAC\xAD\x43", "\xBE\xBE\xA1\xE3\xA2\xE7\xA2\xCF\xA1\x49 *^_^*", NULL
   },
   {
-    "zzz", "¥´©I", "©IÂP¡ãZZzZz£C¢èZZzzZzzzZZ", NULL
+    /* æ‰“å‘¼ */
+    /* å‘¼åš•ï½žZZzZzï½šï¼ºZZzzZzzzZZ */
+    "zzz", "\xA5\xB4\xA9\x49", "\xA9\x49\xC2\x50\xA1\xE3ZZzZz\xA3\x43\xA2\xE8ZZzzZzzzZZ", NULL
   },
   {
     NULL, NULL, NULL, NULL
@@ -3108,9 +3731,12 @@ condition_action(cu, cmd)
 
 static char *dscrb[] =
 {
-  "\033[1;37m¡i Verb + Nick¡G   °Êµü + ¹ï¤è¦W¦r ¡j\033[36m  ¨Ò¡G//kick piggy\033[m",
-  "\033[1;37m¡i Verb + Message¡G°Êµü + ­n»¡ªº¸Ü ¡j\033[36m  ¨Ò¡G//sing ¤Ñ¤Ñ¤ÑÂÅ\033[m",
-  "\033[1;37m¡i Verb¡G°Êµü ¡j   ¡ô¡õ¡GÂÂ¸Ü­«´£\033[m", NULL
+  /* \033[1;37mã€ Verb + Nickï¼š   å‹•è©ž + å°æ–¹åå­— ã€‘\033[36m  ä¾‹ï¼š//kick piggy\033[m */
+  "\033[1;37m\xA1\x69 Verb + Nick\xA1\x47   \xB0\xCA\xB5\xFC + \xB9\xEF\xA4\xE8\xA6\x57\xA6\x72 \xA1\x6A\033[36m  \xA8\xD2\xA1\x47//kick piggy\033[m",
+  /* \033[1;37mã€ Verb + Messageï¼šå‹•è©ž + è¦èªªçš„è©± ã€‘\033[36m  ä¾‹ï¼š//sing å¤©å¤©å¤©è—\033[m */
+  "\033[1;37m\xA1\x69 Verb + Message\xA1\x47\xB0\xCA\xB5\xFC + \xAD\x6E\xBB\xA1\xAA\xBA\xB8\xDC \xA1\x6A\033[36m  \xA8\xD2\xA1\x47//sing \xA4\xD1\xA4\xD1\xA4\xD1\xC2\xC5\033[m",
+  /* \033[1;37mã€ Verbï¼šå‹•è©ž ã€‘   â†‘â†“ï¼šèˆŠè©±é‡æ\033[m */
+  "\033[1;37m\xA1\x69 Verb\xA1\x47\xB0\xCA\xB5\xFC \xA1\x6A   \xA1\xF4\xA1\xF5\xA1\x47\xC2\xC2\xB8\xDC\xAD\xAB\xB4\xA3\033[m", NULL
 };
 
 
@@ -3128,7 +3754,8 @@ chat_partyinfo(cu, msg)
 {
   if (common_client_command)
   {
-    send_to_user(cu, "3 °Ê§@  ¥æ½Í  ª¬ºA", 0, MSG_PARTYINFO);
+    /* 3 å‹•ä½œ  äº¤è«‡  ç‹€æ…‹ */
+    send_to_user(cu, "3 \xB0\xCA\xA7\x40  \xA5\xE6\xBD\xCD  \xAA\xAC\xBA\x41", 0, MSG_PARTYINFO);
   }
 }
 
@@ -3151,7 +3778,7 @@ chat_party(cu, msg)
 
   sprintf(buf, "%d\t%s", kind, kind == 2 ? "I" : "");
 
-  /* Xshadow: ¥u¦³ condition ¤~¬O immediate mode */
+  /* Xshadow: åªæœ‰ condition æ‰æ˜¯ immediate mode */
   send_to_user(cu, buf, 0, MSG_PARTYLISTSTART);
 
   cap = catbl[kind];
@@ -3171,7 +3798,7 @@ chat_party(cu, msg)
 
 
 static void
-view_action_verb(cu, cmd)	/* Thor.980726: ·s¥[°Êµü¤ÀÃþÅã¥Ü */
+view_action_verb(cu, cmd)	/* Thor.980726: æ–°åŠ å‹•è©žåˆ†é¡žé¡¯ç¤º */
   ChatUser *cu;
   int cmd;
 {
@@ -3184,13 +3811,14 @@ view_action_verb(cu, cmd)	/* Thor.980726: ·s¥[°Êµü¤ÀÃþÅã¥Ü */
   data = buf;
 
   if (cmd < '1' || cmd > '3')
-  {				/* Thor.980726: ¼g±o¤£¦n, ·Q¿ìªk§ï¶i... */
+  {				/* Thor.980726: å¯«å¾—ä¸å¥½, æƒ³è¾¦æ³•æ”¹é€²... */
     for (i = 0; p = dscrb[i]; i++)
     {
-      sprintf(data, "  [//]help %d          - MUD-like ªÀ¥æ°Êµü   ²Ä %d Ãþ", i + 1, i + 1);
+      /*   [//]help %d          - MUD-like ç¤¾äº¤å‹•è©ž   ç¬¬ %d é¡ž */
+      sprintf(data, "  [//]help %d          - MUD-like \xAA\xC0\xA5\xE6\xB0\xCA\xB5\xFC   \xB2\xC4 %d \xC3\xFE", i + 1, i + 1);
       send_to_user(cu, data, 0, MSG_MESSAGE);
       send_to_user(cu, p, 0, MSG_MESSAGE);
-      send_to_user(cu, " ", 0, MSG_MESSAGE);	/* Thor.980726: ´«¦æ */
+      send_to_user(cu, " ", 0, MSG_MESSAGE);	/* Thor.980726: æ›è¡Œ */
     }
   }
   else
@@ -3199,7 +3827,7 @@ view_action_verb(cu, cmd)	/* Thor.980726: ·s¥[°Êµü¤ÀÃþÅã¥Ü */
 
     send_to_user(cu, dscrb[i], 0, MSG_MESSAGE);
 
-    expn = buf + 100;		/* Thor.980726: À³¸Ó¤£·|overlap§a? */
+    expn = buf + 100;		/* Thor.980726: æ‡‰è©²ä¸æœƒoverlapå§? */
 
     *data = '\0';
     *expn = '\0';
@@ -3216,7 +3844,7 @@ view_action_verb(cu, cmd)	/* Thor.980726: ·s¥[°Êµü¤ÀÃþÅã¥Ü */
       if (((i + 1) % VERB_NO) == 0)
       {
 	send_to_user(cu, data, 0, MSG_MESSAGE);
-	send_to_user(cu, expn, 0, MSG_MESSAGE);	/* Thor.980726: Åã¥Ü¤¤¤åµù¸Ñ */
+	send_to_user(cu, expn, 0, MSG_MESSAGE);	/* Thor.980726: é¡¯ç¤ºä¸­æ–‡è¨»è§£ */
 	*data = '\0';
 	*expn = '\0';
       }
@@ -3230,10 +3858,10 @@ view_action_verb(cu, cmd)	/* Thor.980726: ·s¥[°Êµü¤ÀÃþÅã¥Ü */
     if (i % VERB_NO)
     {
       send_to_user(cu, data, 0, MSG_MESSAGE);
-      send_to_user(cu, expn, 0, MSG_MESSAGE);	/* Thor.980726: Åã¥Ü¤¤¤åµù¸Ñ */
+      send_to_user(cu, expn, 0, MSG_MESSAGE);	/* Thor.980726: é¡¯ç¤ºä¸­æ–‡è¨»è§£ */
     }
   }
-  /* send_to_user(cu, " ", 0); *//* Thor.980726: ´«¦æ, »Ý­n " " ¶Ü? */
+  /* send_to_user(cu, " ", 0); *//* Thor.980726: æ›è¡Œ, éœ€è¦ " " å—Ž? */
 }
 
 
@@ -3282,7 +3910,7 @@ static ChatCmd chatcmdlist[] =
 };
 
 
-/* Thor: 0 ¤£¥Î exact, 1 ­n exactly equal, 2 ¯µ±K«ü¥O */
+/* Thor: 0 ä¸ç”¨ exact, 1 è¦ exactly equal, 2 ç§˜å¯†æŒ‡ä»¤ */
 
 
 static int
@@ -3290,7 +3918,7 @@ command_execute(cu)
   ChatUser *cu;
 {
   char *cmd, *msg, buf[128];
-  /* Thor.981108: lkchu patch: chatid + msg ¥u¥Î 80 bytes ¤£°÷, §ï¬° 128 */
+  /* Thor.981108: lkchu patch: chatid + msg åªç”¨ 80 bytes ä¸å¤ , æ”¹ç‚º 128 */
   ChatCmd *cmdrec;
   int match, ch;
 
@@ -3323,7 +3951,7 @@ command_execute(cu)
   {
     if (match)
     {
-      if (cu->room && !CLOAK(cu))	/* Áô¨­ªº¤H¤]¤£¯à»¡¸Ü®@ */
+      if (cu->room && !CLOAK(cu))	/* éš±èº«çš„äººä¹Ÿä¸èƒ½èªªè©±å“¦ */
       {
 	char chatid[16];
 
@@ -3343,9 +3971,9 @@ command_execute(cu)
   {
     cmd++;
     /* if (!*cmd || !str_cmp("help", cmd)) */
-    if (!*cmd || str_match(cmd, "help") >= 0)	/* itoc.010321: ³¡¤À match ´Nºâ */
+    if (!*cmd || str_match(cmd, "help") >= 0)	/* itoc.010321: éƒ¨åˆ† match å°±ç®— */
     {
-      cmd = nextword(&msg);	/* Thor.980726: °Êµü¤ÀÃþ */
+      cmd = nextword(&msg);	/* Thor.980726: å‹•è©žåˆ†é¡ž */
       view_action_verb(cu, *cmd);
       match = 1;
     }
@@ -3365,12 +3993,12 @@ command_execute(cu)
     {
       if (cu->clitype)
       {
-	cmd++;			/* Xshadow: «ü¥O±q¤U¤@­Ó¦r¤¸¤~¶}©l */
+	cmd++;			/* Xshadow: æŒ‡ä»¤å¾žä¸‹ä¸€å€‹å­—å…ƒæ‰é–‹å§‹ */
 	common_client_command = 1;
       }
       else
       {
-	/* ¤£¬O common client ¦ý°e¥X common client «ü¥O -> °²¸Ë¨S¬Ý¨ì */
+	/* ä¸æ˜¯ common client ä½†é€å‡º common client æŒ‡ä»¤ -> å‡è£æ²’çœ‹åˆ° */
       }
     }
 
@@ -3404,7 +4032,8 @@ command_execute(cu)
 
   if (!match)
   {
-    sprintf(buf, "¡» «ü¥O¿ù»~¡G/%s", cmd);
+    /* â—† æŒ‡ä»¤éŒ¯èª¤ï¼š/%s */
+    sprintf(buf, "\xA1\xBB \xAB\xFC\xA5\x4F\xBF\xF9\xBB\x7E\xA1\x47/%s", cmd);
     send_to_user(cu, buf, 0, MSG_MESSAGE);
   }
 
@@ -3443,7 +4072,7 @@ cuser_serve(cu)
   }
 
 #if 0
-  /* Xshadow: ±N°e¹Fªº¸ê®Æ©¾¹ê¬ö¿ý¤U¨Ó */
+  /* Xshadow: å°‡é€é”çš„è³‡æ–™å¿ å¯¦ç´€éŒ„ä¸‹ä¾† */
   memcpy(logbuf, buf, sizeof(buf));
   for (ch = 0; ch < sizeof(buf); ch++)
   {
@@ -3589,9 +4218,9 @@ servo_daemon(inetd)
   fd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 
   /*
-   * timeout ¤è­±, ±N socket §ï¦¨ O_NDELAY (no delay, non-blocking),
-   * ¦pªG¯à¶¶§Q°e¥X¸ê®Æ´N°e¥X, ¤£¯à°e¥X´Nºâ¤F, ¤£¦Aµ¥«Ý TCP_TIMEOUT ®É¶¡¡C
-   * (default ¬O 120 ¬í, ¨Ã¥B¦³ 3-way handshaking ¾÷¨î, ¦³¥i¯à¤@µ¥¦Aµ¥)¡C
+   * timeout æ–¹é¢, å°‡ socket æ”¹æˆ O_NDELAY (no delay, non-blocking),
+   * å¦‚æžœèƒ½é †åˆ©é€å‡ºè³‡æ–™å°±é€å‡º, ä¸èƒ½é€å‡ºå°±ç®—äº†, ä¸å†ç­‰å¾… TCP_TIMEOUT æ™‚é–“ã€‚
+   * (default æ˜¯ 120 ç§’, ä¸¦ä¸”æœ‰ 3-way handshaking æ©Ÿåˆ¶, æœ‰å¯èƒ½ä¸€ç­‰å†ç­‰)ã€‚
    */
 
 #if 1
@@ -3708,9 +4337,9 @@ main_signals()
   struct sigaction act;
 
   /* sigblock(sigmask(SIGPIPE)); */
-  /* Thor.981206: ²Î¤@ POSIX ¼Ð·Ç¥Îªk  */
+  /* Thor.981206: çµ±ä¸€ POSIX æ¨™æº–ç”¨æ³•  */
 
-  /* act.sa_mask = 0; */ /* Thor.981105: ¼Ð·Ç¥Îªk */
+  /* act.sa_mask = 0; */ /* Thor.981105: æ¨™æº–ç”¨æ³• */
   sigemptyset(&act.sa_mask);      
   act.sa_flags = 0;
 
@@ -3730,8 +4359,8 @@ main_signals()
   sigaction(SIGPROF, &act, NULL);
 #endif
 
-  /* Thor.981206: lkchu patch: ²Î¤@ POSIX ¼Ð·Ç¥Îªk  */
-  /* ¦b¦¹­É¥Î sigset_t act.sa_mask */
+  /* Thor.981206: lkchu patch: çµ±ä¸€ POSIX æ¨™æº–ç”¨æ³•  */
+  /* åœ¨æ­¤å€Ÿç”¨ sigset_t act.sa_mask */
   sigaddset(&act.sa_mask, SIGPIPE);
   sigprocmask(SIG_BLOCK, &act.sa_mask, NULL);
 

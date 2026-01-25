@@ -5,11 +5,11 @@
 
 
 void
-str_expand(dst, src)	/* ±N char Âà¬° short¡A¨Ã±N­^¤åÅÜ¤p¼g */
+str_expand(dst, src)	/* å°‡ char è½‰ç‚º shortï¼Œä¸¦å°‡è‹±æ–‡è®Šå°å¯« */
   char *dst, *src;
 {
   int ch;
-  int in_chi = 0;	/* 1: «e¤@½X¬O¤¤¤å¦r */
+  int in_chi = 0;	/* 1: å‰ä¸€ç¢¼æ˜¯ä¸­æ–‡å­— */
 
   do
   {
@@ -67,7 +67,7 @@ str_str_kmp(str, pat, tbl)
     else if (j)
     {
       j = tbl[j - 1] + 1;
-      continue;		/* ¤£»İ­n i++ */
+      continue;		/* ä¸éœ€è¦ i++ */
     }
     i++;
   }
@@ -87,32 +87,50 @@ static void
 try_match(str, key)
   char *str, *key;
 {
-  short a[256], b[256];		/* °²³] 256 ¤w¨¬°÷ */
+  short a[256], b[256];		/* å‡è¨­ 256 å·²è¶³å¤  */
   int tbl[256];
 
   str_expand(a, str);
   str_expand(b, key);
 
   str_str_kmp_tbl(key, tbl);
-  printf("¡u%s¡v %s¥]¬A ¡u%s¡v\n", 
-    str, str_str_kmp(a, b, tbl) ? "" : "¤£", key);
+  /* ã€Œ%sã€ %såŒ…æ‹¬ ã€Œ%sã€\n */
+  printf("\xA1\x75%s\xA1\x76 %s\xA5\x5D\xAC\x41 \xA1\x75%s\xA1\x76\n", 
+    /* ä¸ */
+    str, str_str_kmp(a, b, tbl) ? "" : "\xA4\xA3", key);
 }
 
 
 int
 main()
 {
-  try_match("¦nªº¹q¼v", "º¹");
-  try_match("¦nªº¹q¼v", "N");
-  try_match("¦nªº¹q¼v", "n");
-  try_match("¦nªº¹q¼v", "¦nªº");
+  /* å¥½çš„é›»å½± */
+  /* çŠ’ */
+  try_match("\xA6\x6E\xAA\xBA\xB9\x71\xBC\x76", "\xBA\xB9");
+  /* å¥½çš„é›»å½± */
+  try_match("\xA6\x6E\xAA\xBA\xB9\x71\xBC\x76", "N");
+  /* å¥½çš„é›»å½± */
+  try_match("\xA6\x6E\xAA\xBA\xB9\x71\xBC\x76", "n");
+  /* å¥½çš„é›»å½± */
+  /* å¥½çš„ */
+  try_match("\xA6\x6E\xAA\xBA\xB9\x71\xBC\x76", "\xA6\x6E\xAA\xBA");
 
-  try_match("x¦nªºx¹q¼v", "ºx¹q");
-  try_match("x¦nªºx¹q¼v", "ªºx");
-  try_match("x¦nªºx¹q¼v", "ªºX");
-  try_match("x¦nªºX¹q¼v", "ªºx");
+  /* xå¥½çš„xé›»å½± */
+  /* æ¼©é›» */
+  try_match("x\xA6\x6E\xAA\xBAx\xB9\x71\xBC\x76", "\xBA\x78\xB9\x71");
+  /* xå¥½çš„xé›»å½± */
+  /* çš„x */
+  try_match("x\xA6\x6E\xAA\xBAx\xB9\x71\xBC\x76", "\xAA\xBAx");
+  /* xå¥½çš„xé›»å½± */
+  /* çš„X */
+  try_match("x\xA6\x6E\xAA\xBAx\xB9\x71\xBC\x76", "\xAA\xBAX");
+  /* xå¥½çš„Xé›»å½± */
+  /* çš„x */
+  try_match("x\xA6\x6E\xAA\xBAX\xB9\x71\xBC\x76", "\xAA\xBAx");
 
-  try_match("abx¦nªºx¹q¼v", "x¹q");
+  /* abxå¥½çš„xé›»å½± */
+  /* xé›» */
+  try_match("abx\xA6\x6E\xAA\xBAx\xB9\x71\xBC\x76", "x\xB9\x71");
 
   return 0;
 }

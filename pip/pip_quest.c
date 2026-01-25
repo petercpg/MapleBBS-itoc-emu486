@@ -1,7 +1,7 @@
 /* ----------------------------------------------------- */
 /* pip_quest.c        ( NTHU CS MapleBBS Ver 3.10 )      */
 /* ----------------------------------------------------- */
-/* target : ¾Ô°«¿ï³æ                                     */
+/* target : æˆ°é¬¥é¸å–®                                     */
 /* create : 01/12/22                                     */
 /* update :   /  /  		  			 */
 /* author : itoc.bbs@bbs.tnfsh.tn.edu.tw                 */  
@@ -16,31 +16,32 @@
 
 
 /*-------------------------------------------------------*/
-/* ©Ò¦³¥ô°È: ¦^¶Ç 1 ªí¥Ü§¹¦¨   ¦^¶Ç 0 ªí¥Ü¨S¦³§¹¦¨       */
+/* æ‰€æœ‰ä»»å‹™: å›å‚³ 1 è¡¨ç¤ºå®Œæˆ   å›å‚³ 0 è¡¨ç¤ºæ²’æœ‰å®Œæˆ       */
 /*-------------------------------------------------------*/
 
 
-/* ¼g¥ô°È«D±`Â²³æ¡G¼g¤@­Ó¨ç¦¡ pip_quest_??()¡A¨Ã¥[¤J quest_cb¡A
-   ¨Ã§ï PIPQUEST_NUM¡A³Ì«á½s¿è¤@­Ó etc/game/pip/quest/pic?? §Y¥i */
+/* å¯«ä»»å‹™éå¸¸ç°¡å–®ï¼šå¯«ä¸€å€‹å‡½å¼ pip_quest_??()ï¼Œä¸¦åŠ å…¥ quest_cbï¼Œ
+   ä¸¦æ”¹ PIPQUEST_NUMï¼Œæœ€å¾Œç·¨è¼¯ä¸€å€‹ etc/game/pip/quest/pic?? å³å¯ */
 
 
   /*-----------------------------------------------------*/
-  /* pip_quest_1~99 ¨ú±oª««~ªº¥ô°È			 */
+  /* pip_quest_1~99 å–å¾—ç‰©å“çš„ä»»å‹™			 */
   /*-----------------------------------------------------*/
 
 
 static int
-pip_quest_1()		/* ¨ú±o°òÂ¦¸Ë³Æ */
+pip_quest_1()		/* å–å¾—åŸºç¤è£å‚™ */
 {
-  /* ¥ş¨­¨C­Ó³¡¦ì³£¬ïµÛ¸Ë³Æ´Nºâ¦X®æ */
+  /* å…¨èº«æ¯å€‹éƒ¨ä½éƒ½ç©¿è‘—è£å‚™å°±ç®—åˆæ ¼ */
   if (d.weaponhead && d.weaponhand && d.weaponshield && d.weaponbody && d.weaponfoot)
   {
-    /* ­ì¸Ë³Æ²¾°£ */
+    /* åŸè£å‚™ç§»é™¤ */
     d.weaponhead = d.weaponhand = d.weaponshield = d.weaponbody = d.weaponfoot = 0;
     d.equiphead[0] = d.equiphand[0] = d.equipshield[0] = d.equipbody[0] = d.equipfoot[0] = '\0';
 
     d.tired = 0;
-    vmsg("±z¤£¦A·P¨ì¯h¾Î¤F");
+    /* æ‚¨ä¸å†æ„Ÿåˆ°ç–²æ†Šäº† */
+    vmsg("\xB1\x7A\xA4\xA3\xA6\x41\xB7\x50\xA8\xEC\xAF\x68\xBE\xCE\xA4\x46");
     return 1;
   }
 
@@ -49,19 +50,25 @@ pip_quest_1()		/* ¨ú±o°òÂ¦¸Ë³Æ */
 
 
 static int
-pip_quest_2()		/* ¨ú±o¶Àª÷¸Ë³Æ */
+pip_quest_2()		/* å–å¾—é»ƒé‡‘è£å‚™ */
 {
-  /* ¥ş¨­¨C­Ó³¡¦ìªº¸Ë³Æ¦WºÙ³£¥]§t¡uª÷¡v³o¦r´Nºâ¦X®æ */
-  if (strstr(d.equiphead, "ª÷") && strstr(d.equiphand, "ª÷") &&
-    strstr(d.equipshield, "ª÷") && strstr(d.equipbody, "ª÷") && strstr(d.equipfoot, "ª÷"))
+  /* å…¨èº«æ¯å€‹éƒ¨ä½çš„è£å‚™åç¨±éƒ½åŒ…å«ã€Œé‡‘ã€é€™å­—å°±ç®—åˆæ ¼ */
+  /* é‡‘ */
+  /* é‡‘ */
+  if (strstr(d.equiphead, "\xAA\xF7") && strstr(d.equiphand, "\xAA\xF7") &&
+    /* é‡‘ */
+    /* é‡‘ */
+    /* é‡‘ */
+    strstr(d.equipshield, "\xAA\xF7") && strstr(d.equipbody, "\xAA\xF7") && strstr(d.equipfoot, "\xAA\xF7"))
   {
-    /* ­ì¸Ë³Æ²¾°£ */
+    /* åŸè£å‚™ç§»é™¤ */
     d.weaponhead = d.weaponhand = d.weaponshield = d.weaponbody = d.weaponfoot = 0;
     d.equiphead[0] = d.equiphand[0] = d.equipshield[0] = d.equipbody[0] = d.equipfoot[0] = '\0';
 
     d.happy = 100;
     d.tired = 0;
-    vmsg("±zªººë¯«¦Ê­¿");
+    /* æ‚¨çš„ç²¾ç¥ç™¾å€ */
+    vmsg("\xB1\x7A\xAA\xBA\xBA\xEB\xAF\xAB\xA6\xCA\xAD\xBF");
     return 1;
   }
 
@@ -70,9 +77,9 @@ pip_quest_2()		/* ¨ú±o¶Àª÷¸Ë³Æ */
 
 
 static int
-pip_quest_3()		/* ¨ú±oÃÄ§÷ */
+pip_quest_3()		/* å–å¾—è—¥æ */
 {
-  /* ¨ú±o¤jÁÙ¤¦¡BÆFªÛ¡B¤j¸É¤Y¡B¤d¦~¤Hçx¡B¶Â¥ÉÂ_Äò»I¡B¤Ñ¤s³·½¬¦U¤@ */
+  /* å–å¾—å¤§é‚„ä¸¹ã€éˆèŠã€å¤§è£œä¸¸ã€åƒå¹´äººè”˜ã€é»‘ç‰æ–·çºŒè†ã€å¤©å±±é›ªè“®å„ä¸€ */
   if (d.pill && d.medicine && d.burger && d.ginseng && d.paste && d.snowgrass)
   {
     d.pill--;
@@ -82,7 +89,8 @@ pip_quest_3()		/* ¨ú±oÃÄ§÷ */
     d.paste--;
     d.snowgrass--;
     d.happy = 100;
-    vmsg("§U¤H¬°§Ö¼Ö¤§¥»");
+    /* åŠ©äººç‚ºå¿«æ¨‚ä¹‹æœ¬ */
+    vmsg("\xA7\x55\xA4\x48\xAC\xB0\xA7\xD6\xBC\xD6\xA4\xA7\xA5\xBB");
     return 1;
   }
 
@@ -91,19 +99,20 @@ pip_quest_3()		/* ¨ú±oÃÄ§÷ */
 
 
   /*-----------------------------------------------------*/
-  /* pip_quest_101~199 Äİ©Ê¹F¦¨ªº¥ô°È			 */
+  /* pip_quest_101~199 å±¬æ€§é”æˆçš„ä»»å‹™			 */
   /*-----------------------------------------------------*/
 
 
 static int
-pip_quest_101()		/* §¹¥ş°·±d */
+pip_quest_101()		/* å®Œå…¨å¥åº· */
 {
-  /* ¹F¨ì¤£¯h²Ö¡B¤£¥Í¯f¡B¤£»êÅ¼ */
+  /* é”åˆ°ä¸ç–²ç´¯ã€ä¸ç”Ÿç—…ã€ä¸éª¯é«’ */
   if (d.tired == 0 && d.sick == 0 && d.shit == 0)
   {
     d.food++;
     d.cookie++;
-    vmsg("¯u´Î¡A¤k¯«½ç±z¤@¨Ç­¹ª«");
+    /* çœŸæ£’ï¼Œå¥³ç¥è³œæ‚¨ä¸€äº›é£Ÿç‰© */
+    vmsg("\xAF\x75\xB4\xCE\xA1\x41\xA4\x6B\xAF\xAB\xBD\xE7\xB1\x7A\xA4\x40\xA8\xC7\xAD\xB9\xAA\xAB");
     return 1;
   }
 
@@ -112,32 +121,34 @@ pip_quest_101()		/* §¹¥ş°·±d */
 
 
   /*-----------------------------------------------------*/
-  /* pip_quest_201~299 ¥´±Ñ©Çª«ªº¥ô°È			 */
+  /* pip_quest_201~299 æ‰“æ•—æ€ªç‰©çš„ä»»å‹™			 */
   /*-----------------------------------------------------*/
 
 
 static int
-pip_quest_201()		/* ¥´­Ë¯f¬r */
+pip_quest_201()		/* æ‰“å€’ç—…æ¯’ */
 {
-  /* ¥´­Ë¤@°¦¯à¤O¤ñ¦Û¤v°ªªº©Çª« */
+  /* æ‰“å€’ä¸€éš»èƒ½åŠ›æ¯”è‡ªå·±é«˜çš„æ€ªç‰© */
 
   int level;
   playrule m;
 
-  strcpy(m.name, "ÅÜºØ¯f¬r");  
+  /* è®Šç¨®ç—…æ¯’ */
+  strcpy(m.name, "\xC5\xDC\xBA\xD8\xAF\x66\xAC\x72");  
   level = d.level + 5;
   m.hp = m.maxhp = 100 + level * level;
   m.attack = m.spirit = m.magic = m.armor = m.dodge = level * 15;
   m.money = 0;
   m.exp = 0;
-  m.attribute = +7;		/* ±Mªø: ¨s·¥ªk³N */ 
+  m.attribute = +7;		/* å°ˆé•·: ç©¶æ¥µæ³•è¡“ */ 
   m.pic = 004;
 
-  if (pip_vs_man(m, 0))		/* ¤pÂû¹ï¾Ô¼Ä¤H (­É¥ÎªZ³N¤j·|) */
+  if (pip_vs_man(m, 0))		/* å°é›å°æˆ°æ•µäºº (å€Ÿç”¨æ­¦è¡“å¤§æœƒ) */
   {
     d.hexp += d.level;
     d.mexp += d.level;
-    vmsg("±z¥´±Ñ¤F³o°¦ÅÜºØ¯f¬r¡Aµû»ù´£¤É");
+    /* æ‚¨æ‰“æ•—äº†é€™éš»è®Šç¨®ç—…æ¯’ï¼Œè©•åƒ¹æå‡ */
+    vmsg("\xB1\x7A\xA5\xB4\xB1\xD1\xA4\x46\xB3\x6F\xB0\xA6\xC5\xDC\xBA\xD8\xAF\x66\xAC\x72\xA1\x41\xB5\xFB\xBB\xF9\xB4\xA3\xA4\xC9");
     return 1;
   }
 
@@ -146,53 +157,64 @@ pip_quest_201()		/* ¥´­Ë¯f¬r */
 
 
 static int
-pip_quest_202()		/* ¤Q¤j´c¤H */
+pip_quest_202()		/* åå¤§æƒ¡äºº */
 {
-  /* ¨Ì§Ç¥´­Ë¼Æ°¦©Çª« */
-  /* ­Y¥´±Ñ¤Q¤j´c¤H¡A¦WÁn´£°ª¡F¤Ï¤§¡A½m¦¨¶ù¦ç¯«¥\ */
+  /* ä¾åºæ‰“å€’æ•¸éš»æ€ªç‰© */
+  /* è‹¥æ‰“æ•—åå¤§æƒ¡äººï¼Œåè²æé«˜ï¼›åä¹‹ï¼Œç·´æˆå«è¡£ç¥åŠŸ */
 
   int i;
-  struct playrule badmanlist[] =	/* ¤Q¤j´c¤H¬Û·í©óµ¥¯Å 40 ~ 50 ªº©Çª« */
+  struct playrule badmanlist[] =	/* åå¤§æƒ¡äººç›¸ç•¶æ–¼ç­‰ç´š 40 ~ 50 çš„æ€ªç‰© */
   {
     /* name[13] attribute hp maxhp attack spirit magic armor dodge money exp pic */
-    /* ·R¥Î§lºë */	"§õ¤j¼L", +3, 1875, 1875, 500, 460, 350, 500, 500, 0, 220, 001,
-    /* ·R¥Î blitz */	"³±¤E«Õ", +2, 1850, 1850, 520, 470, 320, 420, 630, 0, 220, 002,
-    /* ·R¥Î·t¾¹ */	"«¢«¢¨à", +7, 1750, 1750, 450, 450, 370, 400, 520, 0, 220, 003,
-    /* ·R¥Îª¢¨tÅ]ªk */	"±O¼b¼b", -4, 1635, 1635, 430, 340, 640, 360, 470, 0, 220, 004,
-    /* §ğÀ»¤O¯S±j */	"§ù  ±ş",  0, 2400, 2400, 610, 570, 280, 550, 500, 0, 250, 005,
+    /* æå¤§å˜´ */
+    /* æ„›ç”¨å¸ç²¾ */	"\xA7\xF5\xA4\x6A\xBC\x4C", +3, 1875, 1875, 500, 460, 350, 500, 500, 0, 220, 001,
+    /* é™°ä¹å¹½ */
+    /* æ„›ç”¨ blitz */	"\xB3\xB1\xA4\x45\xAB\xD5", +2, 1850, 1850, 520, 470, 320, 420, 630, 0, 220, 002,
+    /* å“ˆå“ˆå…’ */
+    /* æ„›ç”¨æš—å™¨ */	"\xAB\xA2\xAB\xA2\xA8\xE0", +7, 1750, 1750, 450, 450, 370, 400, 520, 0, 220, 003,
+    /* å± å¬Œå¬Œ */
+    /* æ„›ç”¨ç‚ç³»é­”æ³• */	"\xB1\x4F\xBC\x62\xBC\x62", -4, 1635, 1635, 430, 340, 640, 360, 470, 0, 220, 004,
+    /* æœ  æ®º */
+    /* æ”»æ“ŠåŠ›ç‰¹å¼· */	"\xA7\xF9  \xB1\xFE",  0, 2400, 2400, 610, 570, 280, 550, 500, 0, 250, 005,
   };
 
-  if (ians(b_lines - 1, 0, "¤Q¤j´c¤H¬İ°_¨Ó¶W±j¡A±z­n§äÀ°¤â¶Ü(Y/N)¡H[Y] ") != 'n')
+  /* åå¤§æƒ¡äººçœ‹èµ·ä¾†è¶…å¼·ï¼Œæ‚¨è¦æ‰¾å¹«æ‰‹å—(Y/N)ï¼Ÿ[Y]  */
+  if (ians(b_lines - 1, 0, "\xA4\x51\xA4\x6A\xB4\x63\xA4\x48\xAC\xDD\xB0\x5F\xA8\xD3\xB6\x57\xB1\x6A\xA1\x41\xB1\x7A\xAD\x6E\xA7\xE4\xC0\xB0\xA4\xE2\xB6\xDC(Y/N)\xA1\x48[Y] ") != 'n')
   {
-    if (ians(b_lines - 1, 0, "½Ğ½Ö·íÀ°¤â¡H(1)¿PªF¤Ñ (2)¿P¦è¤Ñ (3)¿P«n¤Ñ (4)¿P¥_¤Ñ ") == '3')
+    /* è«‹èª°ç•¶å¹«æ‰‹ï¼Ÿ(1)ç‡•æ±å¤© (2)ç‡•è¥¿å¤© (3)ç‡•å—å¤© (4)ç‡•åŒ—å¤©  */
+    if (ians(b_lines - 1, 0, "\xBD\xD0\xBD\xD6\xB7\xED\xC0\xB0\xA4\xE2\xA1\x48(1)\xBF\x50\xAA\x46\xA4\xD1 (2)\xBF\x50\xA6\xE8\xA4\xD1 (3)\xBF\x50\xAB\x6E\xA4\xD1 (4)\xBF\x50\xA5\x5F\xA4\xD1 ") == '3')
     {
-      /* itoc.050320: ­Yµ¥¯Å¤Ó§C®É±µ¨ì³o­Ó¥ô°È·|¥´¤£Ä¹¡A©Ò¥H­n´£¨Ñ½â©Û :p */
-      vmsg("¦b¤j«L¿P«n¤ÑªºÀ°§U¤§¤U¡A±z¦¨¥\\¦a°£¥h¤Q¤j´c¤H");
+      /* itoc.050320: è‹¥ç­‰ç´šå¤ªä½æ™‚æ¥åˆ°é€™å€‹ä»»å‹™æœƒæ‰“ä¸è´ï¼Œæ‰€ä»¥è¦æä¾›è³¤æ‹› :p */
+      /* åœ¨å¤§ä¿ ç‡•å—å¤©çš„å¹«åŠ©ä¹‹ä¸‹ï¼Œæ‚¨æˆåŠŸåœ°é™¤å»åå¤§æƒ¡äºº */
+      vmsg("\xA6\x62\xA4\x6A\xAB\x4C\xBF\x50\xAB\x6E\xA4\xD1\xAA\xBA\xC0\xB0\xA7\x55\xA4\xA7\xA4\x55\xA1\x41\xB1\x7A\xA6\xA8\xA5\x5C\xA6\x61\xB0\xA3\xA5\x68\xA4\x51\xA4\x6A\xB4\x63\xA4\x48");
       return 1;
     }
     else
     {
-      vmsg("¥L©Úµ´¤F±zªº½Ğ¨D¡A¬İ¨Ó±z¥u¦n¦Û¤v¤W¤F");
+      /* ä»–æ‹’çµ•äº†æ‚¨çš„è«‹æ±‚ï¼Œçœ‹ä¾†æ‚¨åªå¥½è‡ªå·±ä¸Šäº† */
+      vmsg("\xA5\x4C\xA9\xDA\xB5\xB4\xA4\x46\xB1\x7A\xAA\xBA\xBD\xD0\xA8\x44\xA1\x41\xAC\xDD\xA8\xD3\xB1\x7A\xA5\x75\xA6\x6E\xA6\xDB\xA4\x76\xA4\x57\xA4\x46");
     }
   }
 
   for (i = 0; i< 5; i++)
   {
-    if (!pip_vs_man(badmanlist[i], 0))	/* ¤pÂû¹ï¾Ô¼Ä¤H (­É¥ÎªZ³N¤j·|) */
+    if (!pip_vs_man(badmanlist[i], 0))	/* å°é›å°æˆ°æ•µäºº (å€Ÿç”¨æ­¦è¡“å¤§æœƒ) */
     {
-      vmsg("±z³Q¤Q¤j´c¤H³ò§ğ¡A¥ş¨­ºë¯ß­ÑÂ_");
+      /* æ‚¨è¢«åå¤§æƒ¡äººåœæ”»ï¼Œå…¨èº«ç²¾è„ˆä¿±æ–· */
+      vmsg("\xB1\x7A\xB3\x51\xA4\x51\xA4\x6A\xB4\x63\xA4\x48\xB3\xF2\xA7\xF0\xA1\x41\xA5\xFE\xA8\xAD\xBA\xEB\xAF\xDF\xAD\xD1\xC2\x5F");
       d.hp = 1;
       d.mp = 0;
       d.vp = 0;
       d.sp = 0;
 
-      /* ¶ù¦ç¯«¥\: ®³ maxmp ¥h´« maxsp */
+      /* å«è¡£ç¥åŠŸ: æ‹¿ maxmp å»æ› maxsp */
       i = rand() % 10;
       if (d.maxmp > i)
       {
         d.maxmp -= i;
         d.maxsp += i;
-        vmsg("¦b¯«Âå¸U¬K¬yªºªvÀø¤§¤U¡A±z¤Ï½m¦¨¶ù¦ç¯«¥\");
+        /* åœ¨ç¥é†«è¬æ˜¥æµçš„æ²»ç™‚ä¹‹ä¸‹ï¼Œæ‚¨åç·´æˆå«è¡£ç¥åŠŸ */
+        vmsg("\xA6\x62\xAF\xAB\xC2\xE5\xB8\x55\xAC\x4B\xAC\x79\xAA\xBA\xAA\x76\xC0\xF8\xA4\xA7\xA4\x55\xA1\x41\xB1\x7A\xA4\xCF\xBD\x6D\xA6\xA8\xB6\xF9\xA6\xE7\xAF\xAB\xA5\x5C");
       }
 
       return 0;
@@ -201,26 +223,29 @@ pip_quest_202()		/* ¤Q¤j´c¤H */
 
   d.hexp += 100;
   d.mexp += 100;
-  vmsg("±z¦¨¥\\¦a°£¥h´c¤H¨¦ªº©Ò¦³Ãa³J¡A¦WÁn¤j´T´£¤É");
+  /* æ‚¨æˆåŠŸåœ°é™¤å»æƒ¡äººè°·çš„æ‰€æœ‰å£è›‹ï¼Œåè²å¤§å¹…æå‡ */
+  vmsg("\xB1\x7A\xA6\xA8\xA5\x5C\xA6\x61\xB0\xA3\xA5\x68\xB4\x63\xA4\x48\xA8\xA6\xAA\xBA\xA9\xD2\xA6\xB3\xC3\x61\xB3\x4A\xA1\x41\xA6\x57\xC1\x6E\xA4\x6A\xB4\x54\xB4\xA3\xA4\xC9");
   return 1;
 }
 
 
   /*-----------------------------------------------------*/
-  /* pip_quest_301~399 ¼Æ¾Ç­pºâªº¥ô°È			 */
+  /* pip_quest_301~399 æ•¸å­¸è¨ˆç®—çš„ä»»å‹™			 */
   /*-----------------------------------------------------*/
 
 
 static int
-pip_quest_301()		/* ¤À°t¯]Ä_ */
+pip_quest_301()		/* åˆ†é…ç å¯¶ */
 {
   char ans[3];
 
-  vget(b_lines, 0, "§ÚÀ³¸Ó¥i¥H¤À¨ì´X­Ó¯]Ä_©O¡H", ans, 3, DOECHO);
+  /* æˆ‘æ‡‰è©²å¯ä»¥åˆ†åˆ°å¹¾å€‹ç å¯¶å‘¢ï¼Ÿ */
+  vget(b_lines, 0, "\xA7\xDA\xC0\xB3\xB8\xD3\xA5\x69\xA5\x48\xA4\xC0\xA8\xEC\xB4\x58\xAD\xD3\xAF\x5D\xC4\x5F\xA9\x4F\xA1\x48", ans, 3, DOECHO);
   if (atoi(ans) == 2)
   {
     d.social += 10;
-    vmsg("Åı§Ú·Q·Q¬İ°Ú¡I¾³¡A¨S¿ù¡A±z¹ê¦b¤ÓÁo©ú¤F");
+    /* è®“æˆ‘æƒ³æƒ³çœ‹å•Šï¼å™«ï¼Œæ²’éŒ¯ï¼Œæ‚¨å¯¦åœ¨å¤ªè°æ˜äº† */
+    vmsg("\xC5\xFD\xA7\xDA\xB7\x51\xB7\x51\xAC\xDD\xB0\xDA\xA1\x49\xBE\xB3\xA1\x41\xA8\x53\xBF\xF9\xA1\x41\xB1\x7A\xB9\xEA\xA6\x62\xA4\xD3\xC1\x6F\xA9\xFA\xA4\x46");
     return 1;
   }
 
@@ -229,18 +254,21 @@ pip_quest_301()		/* ¤À°t¯]Ä_ */
 
 
 static int
-pip_quest_302()		/* 0.9999... ´`Àô¤p¼Æ */
+pip_quest_302()		/* 0.9999... å¾ªç’°å°æ•¸ */
 {
   int num;
   char ans1[4], ans2[4];
 
-  if (vget(b_lines, 0, "´`Àô¤p¼Æ 0.9999... ¤Æ¬°¤À¼Æ¡A¤À¥À¬O ", ans1, 4, DOECHO) &&
-    vget(b_lines, 0, "´`Àô¤p¼Æ 0.9999... ¤Æ¬°¤À¼Æ¡A¤À¤l¬O ", ans2, 4, DOECHO))
+  /* å¾ªç’°å°æ•¸ 0.9999... åŒ–ç‚ºåˆ†æ•¸ï¼Œåˆ†æ¯æ˜¯  */
+  if (vget(b_lines, 0, "\xB4\x60\xC0\xF4\xA4\x70\xBC\xC6 0.9999... \xA4\xC6\xAC\xB0\xA4\xC0\xBC\xC6\xA1\x41\xA4\xC0\xA5\xC0\xAC\x4F ", ans1, 4, DOECHO) &&
+    /* å¾ªç’°å°æ•¸ 0.9999... åŒ–ç‚ºåˆ†æ•¸ï¼Œåˆ†å­æ˜¯  */
+    vget(b_lines, 0, "\xB4\x60\xC0\xF4\xA4\x70\xBC\xC6 0.9999... \xA4\xC6\xAC\xB0\xA4\xC0\xBC\xC6\xA1\x41\xA4\xC0\xA4\x6C\xAC\x4F ", ans2, 4, DOECHO))
   {
-    if ((num = atoi(ans1)) && (num == atoi(ans2)))	/* ¤À¥À¤£¯à¬° 0 */
+    if ((num = atoi(ans1)) && (num == atoi(ans2)))	/* åˆ†æ¯ä¸èƒ½ç‚º 0 */
     {
       d.wisdom += 10;
-      vmsg("¨S¿ù¡A0.9999... ´N¬O 1");
+      /* æ²’éŒ¯ï¼Œ0.9999... å°±æ˜¯ 1 */
+      vmsg("\xA8\x53\xBF\xF9\xA1\x41""0.9999... \xB4\x4E\xAC\x4F 1");
       return 1;
     } 
   }
@@ -250,18 +278,20 @@ pip_quest_302()		/* 0.9999... ´`Àô¤p¼Æ */
 
 
   /*-----------------------------------------------------*/
-  /* pip_quest_401~499 ®æ¨¥ªY½àªº¥ô°È			 */
+  /* pip_quest_401~499 æ ¼è¨€æ¬£è³çš„ä»»å‹™			 */
   /*-----------------------------------------------------*/
 
 
 static int
-pip_quest_401()		/* ºA«×¦Ê¤À¦Ê */
+pip_quest_401()		/* æ…‹åº¦ç™¾åˆ†ç™¾ */
 {
-  if (ians(b_lines - 1, 0, "1)ª¾ÃÑ 2)§V¤O 3)ºA«× ") == '3')
+  /* 1)çŸ¥è­˜ 2)åŠªåŠ› 3)æ…‹åº¦  */
+  if (ians(b_lines - 1, 0, "1)\xAA\xBE\xC3\xD1 2)\xA7\x56\xA4\x4F 3)\xBA\x41\xAB\xD7 ") == '3')
   {
     d.affect += 5;
     d.toman += 5;
-    vmsg("¬Oªº¡A°ß¦³¦Ê¤À¦ÊªººA«×¤~¯àÀò±o²³¤Hªº´L·q");
+    /* æ˜¯çš„ï¼Œå”¯æœ‰ç™¾åˆ†ç™¾çš„æ…‹åº¦æ‰èƒ½ç²å¾—çœ¾äººçš„å°Šæ•¬ */
+    vmsg("\xAC\x4F\xAA\xBA\xA1\x41\xB0\xDF\xA6\xB3\xA6\xCA\xA4\xC0\xA6\xCA\xAA\xBA\xBA\x41\xAB\xD7\xA4\x7E\xAF\xE0\xC0\xF2\xB1\x6F\xB2\xB3\xA4\x48\xAA\xBA\xB4\x4C\xB7\x71");
     return 1;
   }
 
@@ -270,7 +300,7 @@ pip_quest_401()		/* ºA«×¦Ê¤À¦Ê */
 
 
   /*-----------------------------------------------------*/
-  /* quest_cb[] ¥ô°È¦Cªí			 	 */
+  /* quest_cb[] ä»»å‹™åˆ—è¡¨			 	 */
   /*-----------------------------------------------------*/
 
 
@@ -278,43 +308,44 @@ pip_quest_401()		/* ºA«×¦Ê¤À¦Ê */
 
 
 /* static KeyFunc quest_cb[] = */
-static KeyFunc quest_cb[PIPQUEST_NUM + 1] =	/* §â PIPQUEST_NUM «ü©w¶i¥h¡A¦pªG¦³¿ù¡A¥i¥H¦b compile ¤¤¬İ¥X */
+static KeyFunc quest_cb[PIPQUEST_NUM + 1] =	/* æŠŠ PIPQUEST_NUM æŒ‡å®šé€²å»ï¼Œå¦‚æœæœ‰éŒ¯ï¼Œå¯ä»¥åœ¨ compile ä¸­çœ‹å‡º */
 {
-  /* ´M§äª««~ */
+  /* å°‹æ‰¾ç‰©å“ */
   1, pip_quest_1,
   2, pip_quest_2,
   3, pip_quest_3,
 
-  /* Äİ©Ê¹F¦¨ */
+  /* å±¬æ€§é”æˆ */
   101, pip_quest_101,
 
-  /* ¥´±Ñ©Çª« */
+  /* æ‰“æ•—æ€ªç‰© */
   201, pip_quest_201,
   202, pip_quest_202,
 
-  /* ¼Æ¾Ç°İÃD */
+  /* æ•¸å­¸å•é¡Œ */
   301, pip_quest_301,
   302, pip_quest_302,
 
-  /* ®æ¨¥ªY½à */
+  /* æ ¼è¨€æ¬£è³ */
   401, pip_quest_401,
   
-  0, NULL		/* µ²§ô¥ô°È¦Cªí */
+  0, NULL		/* çµæŸä»»å‹™åˆ—è¡¨ */
 };
     
 
 /*-------------------------------------------------------*/
-/* ¥ô°È¨ç¦¡                                              */
+/* ä»»å‹™å‡½å¼                                              */
 /*-------------------------------------------------------*/
 
 
-static int		/* 1:¬d¸ß¥ô°È  0:¨S¦³¥ô°È */
-pip_quest_query(quest)	/* ¬d¸ßÂÂ¥ô°È */
-  int quest;		/* ¥ô°È½s¸¹ */
+static int		/* 1:æŸ¥è©¢ä»»å‹™  0:æ²’æœ‰ä»»å‹™ */
+pip_quest_query(quest)	/* æŸ¥è©¢èˆŠä»»å‹™ */
+  int quest;		/* ä»»å‹™ç·¨è™Ÿ */
 {
   if (!quest && !(quest = d.quest))
   {
-    vmsg("±z¥Ø«e¨S¦³¥ô°È¦b¨­");
+    /* æ‚¨ç›®å‰æ²’æœ‰ä»»å‹™åœ¨èº« */
+    vmsg("\xB1\x7A\xA5\xD8\xAB\x65\xA8\x53\xA6\xB3\xA5\xF4\xB0\xC8\xA6\x62\xA8\xAD");
     return 0;
   }
   show_quest_pic(quest);
@@ -322,70 +353,77 @@ pip_quest_query(quest)	/* ¬d¸ßÂÂ¥ô°È */
 }
 
 
-int			/* 1:¨ú±o·s¥ô°È  0:¨ú®ø¨ú±o©Î¤w¦³¥ô°È */
-pip_quest_new()		/* ¨ú±o·s¥ô°È */
+int			/* 1:å–å¾—æ–°ä»»å‹™  0:å–æ¶ˆå–å¾—æˆ–å·²æœ‰ä»»å‹™ */
+pip_quest_new()		/* å–å¾—æ–°ä»»å‹™ */
 {
-  if (ians(b_lines - 1, 0, "±z¤w¹F¤É¯Å¼Ğ·Ç¡AÄ@·N±µ¨üªø¦Ñ«ü¬£¥ô°È¶Ü(Y/N)¡H[N] ") == 'y')
+  /* æ‚¨å·²é”å‡ç´šæ¨™æº–ï¼Œé¡˜æ„æ¥å—é•·è€æŒ‡æ´¾ä»»å‹™å—(Y/N)ï¼Ÿ[N]  */
+  if (ians(b_lines - 1, 0, "\xB1\x7A\xA4\x77\xB9\x46\xA4\xC9\xAF\xC5\xBC\xD0\xB7\xC7\xA1\x41\xC4\x40\xB7\x4E\xB1\xB5\xA8\xFC\xAA\xF8\xA6\xD1\xAB\xFC\xAC\xA3\xA5\xF4\xB0\xC8\xB6\xDC(Y/N)\xA1\x48[N] ") == 'y')
   {
     d.quest = quest_cb[rand() % PIPQUEST_NUM].key;
     pip_quest_query(d.quest);
-    vmsg("¥h§a¡A°õ¦æ³o­Ó¥ô°Èµ²§ô«á§Ú´N½á¤©±z§ó°ªªº¯à¤O");
+    /* å»å§ï¼ŒåŸ·è¡Œé€™å€‹ä»»å‹™çµæŸå¾Œæˆ‘å°±è³¦äºˆæ‚¨æ›´é«˜çš„èƒ½åŠ› */
+    vmsg("\xA5\x68\xA7\x61\xA1\x41\xB0\xF5\xA6\xE6\xB3\x6F\xAD\xD3\xA5\xF4\xB0\xC8\xB5\xB2\xA7\xF4\xAB\xE1\xA7\xDA\xB4\x4E\xBD\xE1\xA4\xA9\xB1\x7A\xA7\xF3\xB0\xAA\xAA\xBA\xAF\xE0\xA4\x4F");
     return 1;
   }
   return 0;
 }
 
 
-static int		/* 1:¥ô°È§¹¦¨  0:¥ô°È¥¢±Ñ */
-pip_quest_done()	/* §¹¦¨¥ô°È */
+static int		/* 1:ä»»å‹™å®Œæˆ  0:ä»»å‹™å¤±æ•— */
+pip_quest_done()	/* å®Œæˆä»»å‹™ */
 {
   KeyFunc *cb;
   int key;
 
   if (!d.quest)
   {
-    vmsg("±z¥Ø«e¨S¦³¥ô°È¦b¨­");
+    /* æ‚¨ç›®å‰æ²’æœ‰ä»»å‹™åœ¨èº« */
+    vmsg("\xB1\x7A\xA5\xD8\xAB\x65\xA8\x53\xA6\xB3\xA5\xF4\xB0\xC8\xA6\x62\xA8\xAD");
     return 0;
   }
 
-  /* itoc.µù¸Ñ: ¬O¤£¬O¦Ò¼{´« binary search? */
+  /* itoc.è¨»è§£: æ˜¯ä¸æ˜¯è€ƒæ…®æ› binary search? */
   for (cb = quest_cb; (key = cb->key); cb++)
   {
     if (key == d.quest)
     {
-      key = (*(cb->func)) ();	/* 1:§¹¦¨ 0:¥¢±Ñ */
+      key = (*(cb->func)) ();	/* 1:å®Œæˆ 0:å¤±æ•— */
       pip_levelup(key);
       return key;
     }
   }
 
-  vmsg("½Ğ§i¶D¯¸ªø¡A§ä¤£¨ì¦¹¥ô°Èªºµ{¦¡");	/* À³¸Ó¤£¥i¯à¥X²{ */
+  /* è«‹å‘Šè¨´ç«™é•·ï¼Œæ‰¾ä¸åˆ°æ­¤ä»»å‹™çš„ç¨‹å¼ */
+  vmsg("\xBD\xD0\xA7\x69\xB6\x44\xAF\xB8\xAA\xF8\xA1\x41\xA7\xE4\xA4\xA3\xA8\xEC\xA6\xB9\xA5\xF4\xB0\xC8\xAA\xBA\xB5\x7B\xA6\xA1");	/* æ‡‰è©²ä¸å¯èƒ½å‡ºç¾ */
   return 0;
 }
 
 
-static int		/* 1:©ñ±óÂÂ¥ô°È  0:¨ú®ø©ñ±ó©Î¨S¦³¥ô°È */
-pip_quest_abort()	/* ©ñ±óÂÂ¥ô°È */
+static int		/* 1:æ”¾æ£„èˆŠä»»å‹™  0:å–æ¶ˆæ”¾æ£„æˆ–æ²’æœ‰ä»»å‹™ */
+pip_quest_abort()	/* æ”¾æ£„èˆŠä»»å‹™ */
 {
   if (!d.quest)
   {
-    vmsg("±z¥Ø«e¨S¦³¥ô°È¦b¨­");
+    /* æ‚¨ç›®å‰æ²’æœ‰ä»»å‹™åœ¨èº« */
+    vmsg("\xB1\x7A\xA5\xD8\xAB\x65\xA8\x53\xA6\xB3\xA5\xF4\xB0\xC8\xA6\x62\xA8\xAD");
   }
-  else if (ians(b_lines - 1, 0, "±z½T©w­n©ñ±ó²{¦³ªº¥ô°È¶Ü(Y/N)¡H[N] ") == 'y')
+  /* æ‚¨ç¢ºå®šè¦æ”¾æ£„ç¾æœ‰çš„ä»»å‹™å—(Y/N)ï¼Ÿ[N]  */
+  else if (ians(b_lines - 1, 0, "\xB1\x7A\xBD\x54\xA9\x77\xAD\x6E\xA9\xF1\xB1\xF3\xB2\x7B\xA6\xB3\xAA\xBA\xA5\xF4\xB0\xC8\xB6\xDC(Y/N)\xA1\x48[N] ") == 'y')
   {  
     pip_levelup(0);
     return 1;
   }
   else
   {
-    vmsg("ÁÙ¬O¤£­n©ñ±ó¦n¤F");
+    /* é‚„æ˜¯ä¸è¦æ”¾æ£„å¥½äº† */
+    vmsg("\xC1\xD9\xAC\x4F\xA4\xA3\xAD\x6E\xA9\xF1\xB1\xF3\xA6\x6E\xA4\x46");
   }
   return 0;
 }
 
 
 /*-------------------------------------------------------*/
-/* ¥ô°È¥D¿ï³æ                                            */
+/* ä»»å‹™ä¸»é¸å–®                                            */
 /*-------------------------------------------------------*/
 
 
@@ -394,7 +432,9 @@ pip_quest_menu()
 {
   while (1)
   {
-    out_cmd("", COLOR1 " ¥ô°È " COLOR2 " [1]§¹¦¨ [2]¬d¸ß [3]©ñ±ó [Q]¸õ¥X                                        \033[m");
+    /*  ä»»å‹™  */
+    /*  [1]å®Œæˆ [2]æŸ¥è©¢ [3]æ”¾æ£„ [Q]è·³å‡º                                        \033[m */
+    out_cmd("", COLOR1 " \xA5\xF4\xB0\xC8 " COLOR2 " [1]\xA7\xB9\xA6\xA8 [2]\xAC\x64\xB8\xDF [3]\xA9\xF1\xB1\xF3 [Q]\xB8\xF5\xA5\x58                                        \033[m");
 
     switch (vkey())
     {

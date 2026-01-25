@@ -19,45 +19,45 @@
 #define BFLAG(n)	(1 << n)	/* 32 bit-wise flag */
 
 
-#define UFO_NOUSE00	BFLAG(0)	/* ¨S¥Î¨ì */
-#define UFO_MOVIE	BFLAG(1)	/* °ÊºA¬ÝªOÅã¥Ü */
-#define UFO_BRDPOST	BFLAG(2)	/* 1: ¬ÝªO¦CªíÅã¥Ü½g¼Æ  0: ¬ÝªO¦CªíÅã¥Ü¸¹½X itoc.010912: «í¬°·s¤å³¹¼Ò¦¡ */
-#define UFO_BRDNAME	BFLAG(3)	/* itoc.010413: ¬ÝªO¦Cªí¨Ì 1:brdname 0:class+title ±Æ§Ç */
-#define UFO_BRDNOTE	BFLAG(4)	/* Åã¥Ü¶iªOµe­± */
-#define UFO_VEDIT	BFLAG(5)	/* Â²¤Æ½s¿è¾¹ */
-#define UFO_MOTD	BFLAG(6)	/* Â²¤Æ¶i/Â÷¯¸µe­± */
+#define UFO_NOUSE00	BFLAG(0)	/* æ²’ç”¨åˆ° */
+#define UFO_MOVIE	BFLAG(1)	/* å‹•æ…‹çœ‹æ¿é¡¯ç¤º */
+#define UFO_BRDPOST	BFLAG(2)	/* 1: çœ‹æ¿åˆ—è¡¨é¡¯ç¤ºç¯‡æ•¸  0: çœ‹æ¿åˆ—è¡¨é¡¯ç¤ºè™Ÿç¢¼ itoc.010912: æ†ç‚ºæ–°æ–‡ç« æ¨¡å¼ */
+#define UFO_BRDNAME	BFLAG(3)	/* itoc.010413: çœ‹æ¿åˆ—è¡¨ä¾ 1:brdname 0:class+title æŽ’åº */
+#define UFO_BRDNOTE	BFLAG(4)	/* é¡¯ç¤ºé€²æ¿ç•«é¢ */
+#define UFO_VEDIT	BFLAG(5)	/* ç°¡åŒ–ç·¨è¼¯å™¨ */
+#define UFO_MOTD	BFLAG(6)	/* ç°¡åŒ–é€²/é›¢ç«™ç•«é¢ */
 
-#define UFO_PAGER	BFLAG(7)	/* Ãö³¬©I¥s¾¹ */
-#define UFO_RCVER	BFLAG(8)	/* itoc.010716: ©Ú¦¬¼s¼½ */
-#define UFO_QUIET	BFLAG(9)	/* µ²Ãf¦b¤H¹Ò¡A¦ÓµL¨®°¨³Ù */
-#define UFO_PAL		BFLAG(10)	/* ¨Ï¥ÎªÌ¦W³æ¥uÅã¥Ü¦n¤Í */
-#define UFO_ALOHA	BFLAG(11)	/* ±µ¨ü¤W¯¸³qª¾ */
-#define UFO_NOALOHA	BFLAG(12)	/* itoc.010716: ¤W¯¸¤£³qª¾/¨ó´M */
+#define UFO_PAGER	BFLAG(7)	/* é—œé–‰å‘¼å«å™¨ */
+#define UFO_RCVER	BFLAG(8)	/* itoc.010716: æ‹’æ”¶å»£æ’­ */
+#define UFO_QUIET	BFLAG(9)	/* çµå»¬åœ¨äººå¢ƒï¼Œè€Œç„¡è»Šé¦¬å–§ */
+#define UFO_PAL		BFLAG(10)	/* ä½¿ç”¨è€…åå–®åªé¡¯ç¤ºå¥½å‹ */
+#define UFO_ALOHA	BFLAG(11)	/* æŽ¥å—ä¸Šç«™é€šçŸ¥ */
+#define UFO_NOALOHA	BFLAG(12)	/* itoc.010716: ä¸Šç«™ä¸é€šçŸ¥/å”å°‹ */
 
-#define UFO_BMWDISPLAY	BFLAG(13)	/* itoc.010315: ¤ô²y¦^ÅU¤¶­± */
-#define UFO_NWLOG       BFLAG(14)	/* lkchu.990510: ¤£¦s¹ï¸Ü¬ö¿ý */
-#define UFO_NTLOG       BFLAG(15)	/* lkchu.990510: ¤£¦s²á¤Ñ¬ö¿ý */
+#define UFO_BMWDISPLAY	BFLAG(13)	/* itoc.010315: æ°´çƒå›žé¡§ä»‹é¢ */
+#define UFO_NWLOG       BFLAG(14)	/* lkchu.990510: ä¸å­˜å°è©±ç´€éŒ„ */
+#define UFO_NTLOG       BFLAG(15)	/* lkchu.990510: ä¸å­˜èŠå¤©ç´€éŒ„ */
 
-#define UFO_NOSIGN	BFLAG(16)	/* itoc.000320: ¤£¨Ï¥ÎÃ±¦WÀÉ */
-#define UFO_SHOWSIGN	BFLAG(17)	/* itoc.000319: ¦sÀÉ«eÅã¥ÜÃ±¦WÀÉ */
+#define UFO_NOSIGN	BFLAG(16)	/* itoc.000320: ä¸ä½¿ç”¨ç°½åæª” */
+#define UFO_SHOWSIGN	BFLAG(17)	/* itoc.000319: å­˜æª”å‰é¡¯ç¤ºç°½åæª” */
 
-#define UFO_ZHC		BFLAG(18)	/* hightman.060504: ¥þ«¬¦r°»´ú */
-#define UFO_JUMPBRD	BFLAG(19)	/* itoc.020122: ¦Û°Ê¸õ¥h¤U¤@­Ó¥¼Åª¬ÝªO */
+#define UFO_ZHC		BFLAG(18)	/* hightman.060504: å…¨åž‹å­—åµæ¸¬ */
+#define UFO_JUMPBRD	BFLAG(19)	/* itoc.020122: è‡ªå‹•è·³åŽ»ä¸‹ä¸€å€‹æœªè®€çœ‹æ¿ */
 #define UFO_NOUSE20	BFLAG(20)
-#define UFO_NOCOLOR	BFLAG(21)	/* ¤é´Á¤£¤W¦â */
+#define UFO_NOCOLOR	BFLAG(21)	/* æ—¥æœŸä¸ä¸Šè‰² */
 #define UFO_NOUSE22	BFLAG(22)
 #define UFO_NOUSE23	BFLAG(23)
 
-#define UFO_CLOAK	BFLAG(24)	/* 1: ¶i¤JÁô§Î */
-#define UFO_SUPERCLOAK	BFLAG(25)	/* 1: ¶W¯ÅÁô¨­ */
-#define UFO_ACL		BFLAG(26)	/* 1: ¨Ï¥Î ACL */
+#define UFO_CLOAK	BFLAG(24)	/* 1: é€²å…¥éš±å½¢ */
+#define UFO_SUPERCLOAK	BFLAG(25)	/* 1: è¶…ç´šéš±èº« */
+#define UFO_ACL		BFLAG(26)	/* 1: ä½¿ç”¨ ACL */
 #define UFO_NOUSE27	BFLAG(27)
 #define UFO_NOUSE28	BFLAG(28)
 #define UFO_NOUSE29	BFLAG(29)
 #define UFO_NOUSE30	BFLAG(30)
 #define UFO_NOUSE31	BFLAG(31)
 
-/* ·sµù¥U±b¸¹¡Bguest ªº¹w³] ufo */
+/* æ–°è¨»å†Šå¸³è™Ÿã€guest çš„é è¨­ ufo */
 
 #define UFO_DEFAULT_NEW     	(UFO_MOVIE | UFO_BRDNOTE | UFO_BMWDISPLAY | UFO_SHOWSIGN)
 #define UFO_DEFAULT_GUEST   	(UFO_MOVIE | UFO_BRDNOTE | UFO_QUIET | UFO_NOALOHA | UFO_NWLOG | UFO_NTLOG | UFO_NOSIGN)
@@ -67,105 +67,139 @@
 /* ----------------------------------------------------- */
 
 
-#define STATUS_BIFF	BFLAG(0)	/* ¦³·s«H¥ó */
+#define STATUS_BIFF	BFLAG(0)	/* æœ‰æ–°ä¿¡ä»¶ */
 #define STATUS_REJECT	BFLAG(1)	/* true if reject any body */
-#define STATUS_BIRTHDAY	BFLAG(2)	/* ¤µ¤Ñ¥Í¤é */
-#define STATUS_COINLOCK	BFLAG(3)	/* ¿ú¹ôÂê©w */
-#define STATUS_DATALOCK	BFLAG(4)	/* ¸ê®ÆÂê©w */
-#define STATUS_MQUOTA	BFLAG(5)	/* «H½c¤¤¦³¹L´Á¤§«H¥ó */
-#define STATUS_MAILOVER	BFLAG(6)	/* «H½c¹L¦h«H¥ó */
-#define STATUS_MGEMOVER	BFLAG(7)	/* ­Ó¤HºëµØ°Ï¹L¦h */
-#define STATUS_EDITHELP	BFLAG(8)	/* ¦b edit ®É¶i¤J help */
-#define STATUS_PALDIRTY BFLAG(9)	/* ¦³¤H¦b¥LªºªB¤Í¦W³æ·s¼W©Î²¾°£¤F§Ú */
+#define STATUS_BIRTHDAY	BFLAG(2)	/* ä»Šå¤©ç”Ÿæ—¥ */
+#define STATUS_COINLOCK	BFLAG(3)	/* éŒ¢å¹£éŽ–å®š */
+#define STATUS_DATALOCK	BFLAG(4)	/* è³‡æ–™éŽ–å®š */
+#define STATUS_MQUOTA	BFLAG(5)	/* ä¿¡ç®±ä¸­æœ‰éŽæœŸä¹‹ä¿¡ä»¶ */
+#define STATUS_MAILOVER	BFLAG(6)	/* ä¿¡ç®±éŽå¤šä¿¡ä»¶ */
+#define STATUS_MGEMOVER	BFLAG(7)	/* å€‹äººç²¾è¯å€éŽå¤š */
+#define STATUS_EDITHELP	BFLAG(8)	/* åœ¨ edit æ™‚é€²å…¥ help */
+#define STATUS_PALDIRTY BFLAG(9)	/* æœ‰äººåœ¨ä»–çš„æœ‹å‹åå–®æ–°å¢žæˆ–ç§»é™¤äº†æˆ‘ */
 
 
 #define	HAS_STATUS(x)	(cutmp->status&(x))
 
 
 /* ----------------------------------------------------- */
-/* ¦UºØ²ßºDªº¤¤¤å·N¸q					 */
+/* å„ç¨®ç¿’æ…£çš„ä¸­æ–‡æ„ç¾©					 */
 /* ----------------------------------------------------- */
 
 
-/* itoc.000320: ¼W´î¶µ¥Ø­n§ó§ï NUMUFOS_* ¤j¤p, ¤]§O§Ñ¤F§ï STR_UFO */
+/* itoc.000320: å¢žæ¸›é …ç›®è¦æ›´æ”¹ NUMUFOS_* å¤§å°, ä¹Ÿåˆ¥å¿˜äº†æ”¹ STR_UFO */
 
 #define NUMUFOS		27
-#define NUMUFOS_GUEST	5	/* guest ¥i¥H¥Î«e 5 ­Ó ufo */
-#define NUMUFOS_USER	22	/* ¤@¯ë¨Ï¥ÎªÌ ¥i¥H¥Î«e 20 ­Ó ufo */
+#define NUMUFOS_GUEST	5	/* guest å¯ä»¥ç”¨å‰ 5 å€‹ ufo */
+#define NUMUFOS_USER	22	/* ä¸€èˆ¬ä½¿ç”¨è€… å¯ä»¥ç”¨å‰ 20 å€‹ ufo */
 
-#define STR_UFO		"-mpsnemPBQFANbwtSHZJ-c--CHA"		/* itoc: ·s¼W²ßºDªº®É­Ô§O§Ñ¤F§ï³o¸Ì°Ú */
+#define STR_UFO		"-mpsnemPBQFANbwtSHZJ-c--CHA"		/* itoc: æ–°å¢žç¿’æ…£çš„æ™‚å€™åˆ¥å¿˜äº†æ”¹é€™è£¡å•Š */
 
 
 #ifdef _ADMIN_C_
 
 char *ufo_tbl[NUMUFOS] =
 {
-  "«O¯d",				/* UFO_NOUSE */
-  "°ÊºA¬ÝªO        (¶}±Ò/Ãö³¬)",	/* UFO_MOVIE */
+  /* ä¿ç•™ */
+  "\xAB\x4F\xAF\x64",				/* UFO_NOUSE */
+  /* å‹•æ…‹çœ‹æ¿        (é–‹å•Ÿ/é—œé–‰) */
+  "\xB0\xCA\xBA\x41\xAC\xDD\xAA\x4F        (\xB6\x7D\xB1\xD2/\xC3\xF6\xB3\xAC)",	/* UFO_MOVIE */
 
-  "¬ÝªO¦CªíÅã¥Ü    (¤å³¹/½s¸¹)",	/* UFO_BRDPOST */
-  "¬ÝªO¦Cªí±Æ§Ç    (¦r¥À/¤ÀÃþ)",	/* UFO_BRDNAME */	/* itoc.010413: ¬ÝªO¨Ì·Ó¦r¥À/¤ÀÃþ±Æ§Ç */
-  "¶iªOµe­±        (Åã¥Ü/¸õ¹L)",	/* UFO_BRDNOTE */
-  "¤å³¹½s¿è¾¹      (Â²¤Æ/§¹¾ã)",	/* UFO_VEDIT */
-  "¶i/Â÷¯¸µe­±     (Â²¤Æ/§¹¾ã)",	/* UFO_MOTD */
+  /* çœ‹æ¿åˆ—è¡¨é¡¯ç¤º    (æ–‡ç« /ç·¨è™Ÿ) */
+  "\xAC\xDD\xAA\x4F\xA6\x43\xAA\xED\xC5\xE3\xA5\xDC    (\xA4\xE5\xB3\xB9/\xBD\x73\xB8\xB9)",	/* UFO_BRDPOST */
+  /* çœ‹æ¿åˆ—è¡¨æŽ’åº    (å­—æ¯/åˆ†é¡ž) */
+  "\xAC\xDD\xAA\x4F\xA6\x43\xAA\xED\xB1\xC6\xA7\xC7    (\xA6\x72\xA5\xC0/\xA4\xC0\xC3\xFE)",	/* UFO_BRDNAME */	/* itoc.010413: çœ‹æ¿ä¾ç…§å­—æ¯/åˆ†é¡žæŽ’åº */
+  /* é€²æ¿ç•«é¢        (é¡¯ç¤º/è·³éŽ) */
+  "\xB6\x69\xAA\x4F\xB5\x65\xAD\xB1        (\xC5\xE3\xA5\xDC/\xB8\xF5\xB9\x4C)",	/* UFO_BRDNOTE */
+  /* æ–‡ç« ç·¨è¼¯å™¨      (ç°¡åŒ–/å®Œæ•´) */
+  "\xA4\xE5\xB3\xB9\xBD\x73\xBF\xE8\xBE\xB9      (\xC2\xB2\xA4\xC6/\xA7\xB9\xBE\xE3)",	/* UFO_VEDIT */
+  /* é€²/é›¢ç«™ç•«é¢     (ç°¡åŒ–/å®Œæ•´) */
+  "\xB6\x69/\xC2\xF7\xAF\xB8\xB5\x65\xAD\xB1     (\xC2\xB2\xA4\xC6/\xA7\xB9\xBE\xE3)",	/* UFO_MOTD */
 
-  "©I¥s¾¹          (¦n¤Í/©Ò¦³)",	/* UFO_PAGER */
+  /* å‘¼å«å™¨          (å¥½å‹/æ‰€æœ‰) */
+  "\xA9\x49\xA5\x73\xBE\xB9          (\xA6\x6E\xA4\xCD/\xA9\xD2\xA6\xB3)",	/* UFO_PAGER */
 #ifdef HAVE_NOBROAD
-  "¼s¼½¤Ñ½u        (©Ú¦¬/±µ¦¬)",	/* UFO_RCVER */
+  /* å»£æ’­å¤©ç·š        (æ‹’æ”¶/æŽ¥æ”¶) */
+  "\xBC\x73\xBC\xBD\xA4\xD1\xBD\x75        (\xA9\xDA\xA6\xAC/\xB1\xB5\xA6\xAC)",	/* UFO_RCVER */
 #else
-  "«O¯d",
+  /* ä¿ç•™ */
+  "\xAB\x4F\xAF\x64",
 #endif
-  "»·Â÷¹ÐÄÛ        (¦wÀR/±µ¦¬)",	/* UFO_QUITE */
+  /* é é›¢å¡µå›‚        (å®‰éœ/æŽ¥æ”¶) */
+  "\xBB\xB7\xC2\xF7\xB9\xD0\xC4\xDB        (\xA6\x77\xC0\x52/\xB1\xB5\xA6\xAC)",	/* UFO_QUITE */
 
-  "¨Ï¥ÎªÌ¦W³æÅã¥Ü  (¦n¤Í/¥þ³¡)",	/* UFO_PAL */
+  /* ä½¿ç”¨è€…åå–®é¡¯ç¤º  (å¥½å‹/å…¨éƒ¨) */
+  "\xA8\xCF\xA5\xCE\xAA\xCC\xA6\x57\xB3\xE6\xC5\xE3\xA5\xDC  (\xA6\x6E\xA4\xCD/\xA5\xFE\xB3\xA1)",	/* UFO_PAL */
 
 #ifdef HAVE_ALOHA
-  "±µ¨ü¤W¯¸³qª¾    (³qª¾/¨ú®ø)",	/* UFO_ALOHA */
+  /* æŽ¥å—ä¸Šç«™é€šçŸ¥    (é€šçŸ¥/å–æ¶ˆ) */
+  "\xB1\xB5\xA8\xFC\xA4\x57\xAF\xB8\xB3\x71\xAA\xBE    (\xB3\x71\xAA\xBE/\xA8\xFA\xAE\xF8)",	/* UFO_ALOHA */
 #else
-  "«O¯d",
+  /* ä¿ç•™ */
+  "\xAB\x4F\xAF\x64",
 #endif
 #ifdef HAVE_NOALOHA
-  "¤W¯¸°e³qª¾/¨ó´M (¤£°e/³qª¾)",	/* UFO_NOALOHA */
+  /* ä¸Šç«™é€é€šçŸ¥/å”å°‹ (ä¸é€/é€šçŸ¥) */
+  "\xA4\x57\xAF\xB8\xB0\x65\xB3\x71\xAA\xBE/\xA8\xF3\xB4\x4D (\xA4\xA3\xB0\x65/\xB3\x71\xAA\xBE)",	/* UFO_NOALOHA */
 #else
-  "«O¯d",
+  /* ä¿ç•™ */
+  "\xAB\x4F\xAF\x64",
 #endif
 
 #ifdef BMW_DISPLAY
-  "¤ô²y¦^ÅU¤¶­±    (§¹¾ã/¤W¦¸)",	/* UFO_BMWDISPLAY */
+  /* æ°´çƒå›žé¡§ä»‹é¢    (å®Œæ•´/ä¸Šæ¬¡) */
+  "\xA4\xF4\xB2\x79\xA6\x5E\xC5\x55\xA4\xB6\xAD\xB1    (\xA7\xB9\xBE\xE3/\xA4\x57\xA6\xB8)",	/* UFO_BMWDISPLAY */
 #else
-  "«O¯d",
+  /* ä¿ç•™ */
+  "\xAB\x4F\xAF\x64",
 #endif
-  "¤£Àx¦s¤ô²y¬ö¿ý  (§R°£/¿ï¾Ü)",	/* UFO_NWLOG */
-  "¤£Àx¦s²á¤Ñ¬ö¿ý  (§R°£/¿ï¾Ü)",	/* UFO_NTLOG */
+  /* ä¸å„²å­˜æ°´çƒç´€éŒ„  (åˆªé™¤/é¸æ“‡) */
+  "\xA4\xA3\xC0\x78\xA6\x73\xA4\xF4\xB2\x79\xAC\xF6\xBF\xFD  (\xA7\x52\xB0\xA3/\xBF\xEF\xBE\xDC)",	/* UFO_NWLOG */
+  /* ä¸å„²å­˜èŠå¤©ç´€éŒ„  (åˆªé™¤/é¸æ“‡) */
+  "\xA4\xA3\xC0\x78\xA6\x73\xB2\xE1\xA4\xD1\xAC\xF6\xBF\xFD  (\xA7\x52\xB0\xA3/\xBF\xEF\xBE\xDC)",	/* UFO_NTLOG */
 
-  "¤£¨Ï¥ÎÃ±¦WÀÉ    (¤£¥Î/¿ï¾Ü)",	/* UFO_NOSIGN */
-  "Åã¥ÜÃ±¦WÀÉ      (Åã¥Ü/¤£¬Ý)",	/* UFO_SHOWSIGN */
+  /* ä¸ä½¿ç”¨ç°½åæª”    (ä¸ç”¨/é¸æ“‡) */
+  "\xA4\xA3\xA8\xCF\xA5\xCE\xC3\xB1\xA6\x57\xC0\xC9    (\xA4\xA3\xA5\xCE/\xBF\xEF\xBE\xDC)",	/* UFO_NOSIGN */
+  /* é¡¯ç¤ºç°½åæª”      (é¡¯ç¤º/ä¸çœ‹) */
+  "\xC5\xE3\xA5\xDC\xC3\xB1\xA6\x57\xC0\xC9      (\xC5\xE3\xA5\xDC/\xA4\xA3\xAC\xDD)",	/* UFO_SHOWSIGN */
 
 #ifdef HAVE_MULTI_BYTE
-  "¥þ«¬¦r°»´ú      (°»´ú/¤£¥Î)",	/* UFO_ZHC */
+  /* å…¨åž‹å­—åµæ¸¬      (åµæ¸¬/ä¸ç”¨) */
+  "\xA5\xFE\xAB\xAC\xA6\x72\xB0\xBB\xB4\xFA      (\xB0\xBB\xB4\xFA/\xA4\xA3\xA5\xCE)",	/* UFO_ZHC */
 #else
-  "«O¯d",
+  /* ä¿ç•™ */
+  "\xAB\x4F\xAF\x64",
 #endif
 
 #ifdef AUTO_JUMPBRD
-  "¸õ¥h¥¼Åª¬ÝªO    (¸õ¥h/¤£¸õ)",	/* UFO_JUMPBRD */
+  /* è·³åŽ»æœªè®€çœ‹æ¿    (è·³åŽ»/ä¸è·³) */
+  "\xB8\xF5\xA5\x68\xA5\xBC\xC5\xAA\xAC\xDD\xAA\x4F    (\xB8\xF5\xA5\x68/\xA4\xA3\xB8\xF5)",	/* UFO_JUMPBRD */
 #else
-  "«O¯d",
+  /* ä¿ç•™ */
+  "\xAB\x4F\xAF\x64",
 #endif
 
-  "«O¯d",
-  "¦Cªí¤é´Á¤W¦â    (¤£­n/¤W¦â)",        /* UFO_NOCOLOR */
-  "«O¯d",
-  "«O¯d",
+  /* ä¿ç•™ */
+  "\xAB\x4F\xAF\x64",
+  /* åˆ—è¡¨æ—¥æœŸä¸Šè‰²    (ä¸è¦/ä¸Šè‰²) */
+  "\xA6\x43\xAA\xED\xA4\xE9\xB4\xC1\xA4\x57\xA6\xE2    (\xA4\xA3\xAD\x6E/\xA4\x57\xA6\xE2)",        /* UFO_NOCOLOR */
+  /* ä¿ç•™ */
+  "\xAB\x4F\xAF\x64",
+  /* ä¿ç•™ */
+  "\xAB\x4F\xAF\x64",
 
-  "Áô¨­³N          (Áô¨­/²{¨­)",	/* UFO_CLOAK */
+  /* éš±èº«è¡“          (éš±èº«/ç¾èº«) */
+  "\xC1\xF4\xA8\xAD\xB3\x4E          (\xC1\xF4\xA8\xAD/\xB2\x7B\xA8\xAD)",	/* UFO_CLOAK */
 #ifdef HAVE_SUPERCLOAK
-  "¶W¯ÅÁô¨­³N      (µµÁô/²{¨­)",	/* UFO_SUPERCLOAK */
+  /* è¶…ç´šéš±èº«è¡“      (ç´«éš±/ç¾èº«) */
+  "\xB6\x57\xAF\xC5\xC1\xF4\xA8\xAD\xB3\x4E      (\xB5\xB5\xC1\xF4/\xB2\x7B\xA8\xAD)",	/* UFO_SUPERCLOAK */
 #else
-  "«O¯d",
+  /* ä¿ç•™ */
+  "\xAB\x4F\xAF\x64",
 #endif
 
-  "¯¸ªø¤W¯¸¨Ó·½    (­­¨î/¥ô·N)"		/* UFO_ACL */
+  /* ç«™é•·ä¸Šç«™ä¾†æº    (é™åˆ¶/ä»»æ„) */
+  "\xAF\xB8\xAA\xF8\xA4\x57\xAF\xB8\xA8\xD3\xB7\xBD    (\xAD\xAD\xA8\xEE/\xA5\xF4\xB7\x4E)"		/* UFO_ACL */
 };
 #endif
 

@@ -1,7 +1,7 @@
 /*-------------------------------------------------------*/
 /* util/conflict_uno.c	( NTHU CS MapleBBS Ver 3.10 )	 */
 /*-------------------------------------------------------*/
-/* target : ¤ÀªR all_user_uno ¬İ¬İ¬O§_¦³­«ÂĞªº userno	 */
+/* target : åˆ†æ all_user_uno çœ‹çœ‹æ˜¯å¦æœ‰é‡è¦†çš„ userno	 */
 /* create : 04/10/16					 */
 /* update :   /  /  					 */
 /* author : itoc.bbs@bbs.tnfsh.tn.edu.tw		 */
@@ -37,7 +37,8 @@ main()
 
   if ((fd = open("tmp/all_user_uno", O_RDONLY)) < 0)
   {
-    printf("±z¥²¶·¥ı°õ¦æ collect_uno\n");
+    /* æ‚¨å¿…é ˆå…ˆåŸ·è¡Œ collect_uno\n */
+    printf("\xB1\x7A\xA5\xB2\xB6\xB7\xA5\xFD\xB0\xF5\xA6\xE6 collect_uno\n");
     return -1;
   }
 

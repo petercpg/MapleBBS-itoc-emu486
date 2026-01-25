@@ -1,7 +1,7 @@
 /*-------------------------------------------------------*/
 /* pip_prac.c         ( NTHU CS MapleBBS Ver 3.10 )      */
 /*-------------------------------------------------------*/
-/* target : ­×¦æ¿ï³æ                                     */
+/* target : ä¿®è¡Œé¸å–®                                     */
 /* create :   /  /                                       */
 /* update : 01/08/14                                     */
 /* author : dsyan.bbs@forever.twbbs.org                  */
@@ -17,14 +17,20 @@
 
 
 /*-------------------------------------------------------*/
-/* ­×¦æ¿ï³æ:©À®Ñ ½mªZ ­×¦æ     				 */
+/* ä¿®è¡Œé¸å–®:å¿µæ›¸ ç·´æ­¦ ä¿®è¡Œ     				 */
 /*-------------------------------------------------------*/
 
 /*-------------------------------------------------------*/
-/* ¸ê®Æ®w                      			 	 */
+/* è³‡æ–™åº«                      			 	 */
 /*-------------------------------------------------------*/
 
-static char *classrank[6] = {"¨S¦³", "ªì¯Å", "¤¤¯Å", "°ª¯Å", "¶i¶¥", "±M·~"};
+/* æ²’æœ‰ */
+/* åˆç´š */
+/* ä¸­ç´š */
+/* é«˜ç´š */
+/* é€²éš */
+/* å°ˆæ¥­ */
+static char *classrank[6] = {"\xA8\x53\xA6\xB3", "\xAA\xEC\xAF\xC5", "\xA4\xA4\xAF\xC5", "\xB0\xAA\xAF\xC5", "\xB6\x69\xB6\xA5", "\xB1\x4D\xB7\x7E"};
 
 static int classmoney[11][2] = 
 {
@@ -39,88 +45,145 @@ static int classvariable[11][4] =
   {7, 5, 4, 6}, {6, 5, 4, 6}, {6, 6, 5, 4}, {5, 5, 4, 7}, {7, 5, 4, 7}
 };
 
-static char classword[11][5][41] = 	/* ­­¤G¤Q­Ó¤¤¤å¦r */
+static char classword[11][5][41] = 	/* é™äºŒåå€‹ä¸­æ–‡å­— */
 {
-  {"½Ò¦W", "¦¨¥\\¤@", "¦¨¥\\¤G", "¥¢±Ñ¤@", "¥¢±Ñ¤G"},
+  /* èª²å */
+  /* æˆåŠŸä¸€ */
+  /* æˆåŠŸäºŒ */
+  /* å¤±æ•—ä¸€ */
+  /* å¤±æ•—äºŒ */
+  {"\xBD\xD2\xA6\x57", "\xA6\xA8\xA5\x5C\xA4\x40", "\xA6\xA8\xA5\x5C\xA4\x47", "\xA5\xA2\xB1\xD1\xA4\x40", "\xA5\xA2\xB1\xD1\xA4\x47"},
 
-  {"¦ÛµM¬ì¾Ç", "¥¿¦b¥Î¥\\Åª®Ñ¤¤..", "§Ú¬OÁo©úº¡¤ÀÂû",
-  "³oÃD«ç»ò¬İ¤£À´«¨..©Ç¤F", "°á¤£§¹¤F :~~~~~~"},
+  /* è‡ªç„¶ç§‘å­¸ */
+  /* æ­£åœ¨ç”¨åŠŸè®€æ›¸ä¸­.. */
+  /* æˆ‘æ˜¯è°æ˜æ»¿åˆ†é› */
+  {"\xA6\xDB\xB5\x4D\xAC\xEC\xBE\xC7", "\xA5\xBF\xA6\x62\xA5\xCE\xA5\x5C\xC5\xAA\xAE\xD1\xA4\xA4..", "\xA7\xDA\xAC\x4F\xC1\x6F\xA9\xFA\xBA\xA1\xA4\xC0\xC2\xFB",
+  /* é€™é¡Œæ€éº¼çœ‹ä¸æ‡‚å’§..æ€ªäº† */
+  /* å”¸ä¸å®Œäº† :~~~~~~ */
+  "\xB3\x6F\xC3\x44\xAB\xE7\xBB\xF2\xAC\xDD\xA4\xA3\xC0\xB4\xAB\xA8..\xA9\xC7\xA4\x46", "\xB0\xE1\xA4\xA3\xA7\xB9\xA4\x46 :~~~~~~"},
 
-  {"­ğ¸Ö§ºµü", "§É«e©ú¤ë¥ú..ºÃ¬O¦a¤WÁ÷..", "¬õ¨§¥Í«n°ê..¬K¨Óµo´XªK..",
-  "£°..¤W½Ò¤£­n¬y¤f¤ô", "ÁÙ²V³á..§Ö­I­ğ¸Ö¤T¦Ê­º"},
+  /* å”è©©å®‹è© */
+  /* åºŠå‰æ˜æœˆå…‰..ç–‘æ˜¯åœ°ä¸Šéœœ.. */
+  /* ç´…è±†ç”Ÿå—åœ‹..æ˜¥ä¾†ç™¼å¹¾æ.. */
+  {"\xAD\xF0\xB8\xD6\xA7\xBA\xB5\xFC", "\xA7\xC9\xAB\x65\xA9\xFA\xA4\xEB\xA5\xFA..\xBA\xC3\xAC\x4F\xA6\x61\xA4\x57\xC1\xF7..", "\xAC\xF5\xA8\xA7\xA5\xCD\xAB\x6E\xB0\xEA..\xAC\x4B\xA8\xD3\xB5\x6F\xB4\x58\xAA\x4B..",
+  /* ã„Ÿ..ä¸Šèª²ä¸è¦æµå£æ°´ */
+  /* é‚„æ··å–”..å¿«èƒŒå”è©©ä¸‰ç™¾é¦– */
+  "\xA3\xB0..\xA4\x57\xBD\xD2\xA4\xA3\xAD\x6E\xAC\x79\xA4\x66\xA4\xF4", "\xC1\xD9\xB2\x56\xB3\xE1..\xA7\xD6\xAD\x49\xAD\xF0\xB8\xD6\xA4\x54\xA6\xCA\xAD\xBA"},
 
-  {"¯«¾Ç±Ğ¨|", "«¢¹p¸ô¨È  «¢¹p¸ô¨È", "Åı§Ú­Ìªï±µ¤Ñ°ó¤§ªù",
-  "£°..¦b·F¹À£«¡HÁÙ¤£¦n¦n°á", "¯«¾Ç«ÜÄYµÂªº..½Ğ¦n¦n¾Ç..:("},
+  /* ç¥å­¸æ•™è‚² */
+  /* å“ˆé›·è·¯äº  å“ˆé›·è·¯äº */
+  /* è®“æˆ‘å€‘è¿æ¥å¤©å ‚ä¹‹é–€ */
+  {"\xAF\xAB\xBE\xC7\xB1\xD0\xA8\x7C", "\xAB\xA2\xB9\x70\xB8\xF4\xA8\xC8  \xAB\xA2\xB9\x70\xB8\xF4\xA8\xC8", "\xC5\xFD\xA7\xDA\xAD\xCC\xAA\xEF\xB1\xB5\xA4\xD1\xB0\xF3\xA4\xA7\xAA\xF9",
+  /* ã„Ÿ..åœ¨å¹¹å˜›ã„šï¼Ÿé‚„ä¸å¥½å¥½å”¸ */
+  /* ç¥å­¸å¾ˆåš´è‚…çš„..è«‹å¥½å¥½å­¸..:( */
+  "\xA3\xB0..\xA6\x62\xB7\x46\xB9\xC0\xA3\xAB\xA1\x48\xC1\xD9\xA4\xA3\xA6\x6E\xA6\x6E\xB0\xE1", "\xAF\xAB\xBE\xC7\xAB\xDC\xC4\x59\xB5\xC2\xAA\xBA..\xBD\xD0\xA6\x6E\xA6\x6E\xBE\xC7..:("},
 
-  {"­x¾Ç±Ğ¨|", "®]¤l§Lªk¬O¤¤°ê§Lªk®Ñ..", "±q­x³ø°ê¡A§Ú­n±a§L¥h¥´¥M",
-  "¤°»ò°}§Î£«¡H²V¶Ã°}§Î¡H @_@", "³s¤T°ê§Ó³£ª±¤£¦n¡AÁÙ·Q¥´¥M¡H"},
+  /* è»å­¸æ•™è‚² */
+  /* å­«å­å…µæ³•æ˜¯ä¸­åœ‹å…µæ³•æ›¸.. */
+  /* å¾è»å ±åœ‹ï¼Œæˆ‘è¦å¸¶å…µå»æ‰“ä»— */
+  {"\xAD\x78\xBE\xC7\xB1\xD0\xA8\x7C", "\xAE\x5D\xA4\x6C\xA7\x4C\xAA\x6B\xAC\x4F\xA4\xA4\xB0\xEA\xA7\x4C\xAA\x6B\xAE\xD1..", "\xB1\x71\xAD\x78\xB3\xF8\xB0\xEA\xA1\x41\xA7\xDA\xAD\x6E\xB1\x61\xA7\x4C\xA5\x68\xA5\xB4\xA5\x4D",
+  /* ä»€éº¼é™£å½¢ã„šï¼Ÿæ··äº‚é™£å½¢ï¼Ÿ @_@ */
+  /* é€£ä¸‰åœ‹å¿—éƒ½ç©ä¸å¥½ï¼Œé‚„æƒ³æ‰“ä»—ï¼Ÿ */
+  "\xA4\xB0\xBB\xF2\xB0\x7D\xA7\xCE\xA3\xAB\xA1\x48\xB2\x56\xB6\xC3\xB0\x7D\xA7\xCE\xA1\x48 @_@", "\xB3\x73\xA4\x54\xB0\xEA\xA7\xD3\xB3\xA3\xAA\xB1\xA4\xA3\xA6\x6E\xA1\x41\xC1\xD9\xB7\x51\xA5\xB4\xA5\x4D\xA1\x48"},
 
-  {"¼C¹D§Ş³N", "¬İ§Úªº¼F®`..", "§Ú¨ë §Ú¨ë §Ú¨ë¨ë¨ë..",
-  "¼C­n®³Ã­¤@ÂI°Õ..", "¦b¨ë¦a¹«£«¡H¼C®³°ª¤@ÂI"},
+  /* åŠé“æŠ€è¡“ */
+  /* çœ‹æˆ‘çš„å²å®³.. */
+  /* æˆ‘åˆº æˆ‘åˆº æˆ‘åˆºåˆºåˆº.. */
+  {"\xBC\x43\xB9\x44\xA7\xDE\xB3\x4E", "\xAC\xDD\xA7\xDA\xAA\xBA\xBC\x46\xAE\x60..", "\xA7\xDA\xA8\xEB \xA7\xDA\xA8\xEB \xA7\xDA\xA8\xEB\xA8\xEB\xA8\xEB..",
+  /* åŠè¦æ‹¿ç©©ä¸€é»å•¦.. */
+  /* åœ¨åˆºåœ°é¼ ã„šï¼ŸåŠæ‹¿é«˜ä¸€é» */
+  "\xBC\x43\xAD\x6E\xAE\xB3\xC3\xAD\xA4\x40\xC2\x49\xB0\xD5..", "\xA6\x62\xA8\xEB\xA6\x61\xB9\xAB\xA3\xAB\xA1\x48\xBC\x43\xAE\xB3\xB0\xAA\xA4\x40\xC2\x49"},
 
-  {"®æ°«¾Ô§Ş", "¦Ù¦×¬O¦Ù¦×  ©I©I..", "¤Q¤K»É¤H¦æ®ğ´²..",
-  "¸}¦A½ğ°ª¤@ÂI°Õ..", "®±ÀY«ç»ò³o»ò¨S¤O£«.."},
+  /* æ ¼é¬¥æˆ°æŠ€ */
+  /* è‚Œè‚‰æ˜¯è‚Œè‚‰  å‘¼å‘¼.. */
+  /* åå…«éŠ…äººè¡Œæ°£æ•£.. */
+  {"\xAE\xE6\xB0\xAB\xBE\xD4\xA7\xDE", "\xA6\xD9\xA6\xD7\xAC\x4F\xA6\xD9\xA6\xD7  \xA9\x49\xA9\x49..", "\xA4\x51\xA4\x4B\xBB\xC9\xA4\x48\xA6\xE6\xAE\xF0\xB4\xB2..",
+  /* è…³å†è¸¢é«˜ä¸€é»å•¦.. */
+  /* æ‹³é ­æ€éº¼é€™éº¼æ²’åŠ›ã„š.. */
+  "\xB8\x7D\xA6\x41\xBD\xF0\xB0\xAA\xA4\x40\xC2\x49\xB0\xD5..", "\xAE\xB1\xC0\x59\xAB\xE7\xBB\xF2\xB3\x6F\xBB\xF2\xA8\x53\xA4\x4F\xA3\xAB.."},
 
-  {"Å]ªk±Ğ¨|", "§ÚÅÜ §ÚÅÜ §ÚÅÜÅÜÅÜ..", "³DÁx¡ÏÁµ»i§À¡Ï¹«¤ú¡ÏÃÊßï¡×¡H¡H",
-  "¤p¤ß±½©ª¤£­n¶Ã´§..", "£°¡ã¤f¤ô¤£­n¬y¨ì¤ô´¹²y¤W.."},
+  /* é­”æ³•æ•™è‚² */
+  /* æˆ‘è®Š æˆ‘è®Š æˆ‘è®Šè®Šè®Š.. */
+  /* è›‡è†½ï¼‹èŸ‹èœ´å°¾ï¼‹é¼ ç‰™ï¼‹èŸ¾èœï¼ï¼Ÿï¼Ÿ */
+  {"\xC5\x5D\xAA\x6B\xB1\xD0\xA8\x7C", "\xA7\xDA\xC5\xDC \xA7\xDA\xC5\xDC \xA7\xDA\xC5\xDC\xC5\xDC\xC5\xDC..", "\xB3\x44\xC1\x78\xA1\xCF\xC1\xB5\xBB\x69\xA7\xC0\xA1\xCF\xB9\xAB\xA4\xFA\xA1\xCF\xC3\xCA\xDF\xEF\xA1\xD7\xA1\x48\xA1\x48",
+  /* å°å¿ƒæƒå¸šä¸è¦äº‚æ®.. */
+  /* ã„Ÿï½å£æ°´ä¸è¦æµåˆ°æ°´æ™¶çƒä¸Š.. */
+  "\xA4\x70\xA4\xDF\xB1\xBD\xA9\xAA\xA4\xA3\xAD\x6E\xB6\xC3\xB4\xA7..", "\xA3\xB0\xA1\xE3\xA4\x66\xA4\xF4\xA4\xA3\xAD\x6E\xAC\x79\xA8\xEC\xA4\xF4\xB4\xB9\xB2\x79\xA4\x57.."},
 
-  {"Â§»ö±Ğ¨|", "­n·í°¦¦³Â§»ªªºÂû..", "¼Ú¶Ù­ò..£«­ù£«¨§..",
-  "«ç»ò¾Ç¤£·|£«¡H¤Ñ§r..", "¨«°_¸ô¨Ó¨S¨«¼Ë..¤Ñ£«.."},
+  /* ç¦®å„€æ•™è‚² */
+  /* è¦ç•¶éš»æœ‰ç¦®è²Œçš„é›.. */
+  /* æ­å—¨å”·..ã„šå“©ã„šè±†.. */
+  {"\xC2\xA7\xBB\xF6\xB1\xD0\xA8\x7C", "\xAD\x6E\xB7\xED\xB0\xA6\xA6\xB3\xC2\xA7\xBB\xAA\xAA\xBA\xC2\xFB..", "\xBC\xDA\xB6\xD9\xAD\xF2..\xA3\xAB\xAD\xF9\xA3\xAB\xA8\xA7..",
+  /* æ€éº¼å­¸ä¸æœƒã„šï¼Ÿå¤©å‘€.. */
+  /* èµ°èµ·è·¯ä¾†æ²’èµ°æ¨£..å¤©ã„š.. */
+  "\xAB\xE7\xBB\xF2\xBE\xC7\xA4\xA3\xB7\x7C\xA3\xAB\xA1\x48\xA4\xD1\xA7\x72..", "\xA8\xAB\xB0\x5F\xB8\xF4\xA8\xD3\xA8\x53\xA8\xAB\xBC\xCB..\xA4\xD1\xA3\xAB.."},
 
-  {"Ã¸µe§Ş¥©", "«Ü¤£¿ù­ò..¦³¬ü³N¤Ñ¥÷..", "³o´TµeªºÃC¦â·f°tªº«Ü¦n..",
-  "¤£­n°­µe²Å°Õ..­n¥[ªo..", "¤£­n«rµeµ§°Õ..ÃaÃa¤pÂû³á.."},
+  /* ç¹ªç•«æŠ€å·§ */
+  /* å¾ˆä¸éŒ¯å”·..æœ‰ç¾è¡“å¤©ä»½.. */
+  /* é€™å¹…ç•«çš„é¡è‰²æ­é…çš„å¾ˆå¥½.. */
+  {"\xC3\xB8\xB5\x65\xA7\xDE\xA5\xA9", "\xAB\xDC\xA4\xA3\xBF\xF9\xAD\xF2..\xA6\xB3\xAC\xFC\xB3\x4E\xA4\xD1\xA5\xF7..", "\xB3\x6F\xB4\x54\xB5\x65\xAA\xBA\xC3\x43\xA6\xE2\xB7\x66\xB0\x74\xAA\xBA\xAB\xDC\xA6\x6E..",
+  /* ä¸è¦é¬¼ç•«ç¬¦å•¦..è¦åŠ æ²¹.. */
+  /* ä¸è¦å’¬ç•«ç­†å•¦..å£å£å°é›å–”.. */
+  "\xA4\xA3\xAD\x6E\xB0\xAD\xB5\x65\xB2\xC5\xB0\xD5..\xAD\x6E\xA5\x5B\xAA\x6F..", "\xA4\xA3\xAD\x6E\xAB\x72\xB5\x65\xB5\xA7\xB0\xD5..\xC3\x61\xC3\x61\xA4\x70\xC2\xFB\xB3\xE1.."},
 
-  {"»RÁĞ§Ş¥©", "¬ü±o´N¹³¤@°¦¤ÑÃZ³á..", "»RÁĞ²Ó­M«Ü¦n³á..",
-  "¨­Åé¦A¬X³n¤@ÂI..", "«ô°U¤£­n³o»ò²Ê¾|.."}
+  /* èˆè¹ˆæŠ€å·§ */
+  /* ç¾å¾—å°±åƒä¸€éš»å¤©éµå–”.. */
+  /* èˆè¹ˆç´°èƒå¾ˆå¥½å–”.. */
+  {"\xBB\x52\xC1\xD0\xA7\xDE\xA5\xA9", "\xAC\xFC\xB1\x6F\xB4\x4E\xB9\xB3\xA4\x40\xB0\xA6\xA4\xD1\xC3\x5A\xB3\xE1..", "\xBB\x52\xC1\xD0\xB2\xD3\xAD\x4D\xAB\xDC\xA6\x6E\xB3\xE1..",
+  /* èº«é«”å†æŸ”è»Ÿä¸€é».. */
+  /* æ‹œè¨—ä¸è¦é€™éº¼ç²—é­¯.. */
+  "\xA8\xAD\xC5\xE9\xA6\x41\xAC\x58\xB3\x6E\xA4\x40\xC2\x49..", "\xAB\xF4\xB0\x55\xA4\xA3\xAD\x6E\xB3\x6F\xBB\xF2\xB2\xCA\xBE\x7C.."}
 };
 
 
 /*-------------------------------------------------------*/
-/* ¨ç¦¡®w                                                */
+/* å‡½å¼åº«                                                */
 /*-------------------------------------------------------*/
 
 
 static int
-pip_practice_gradeup(classnum, classgrade, newgrade)	/* ­×¦æµ¥¯Å´£¤É */
-  int classnum;		/* ½Ò¸¹ */
-  int classgrade;	/* ¦~¯Å */
-  int newgrade;		/* ·s¦~¯Å */
+pip_practice_gradeup(classnum, classgrade, newgrade)	/* ä¿®è¡Œç­‰ç´šæå‡ */
+  int classnum;		/* èª²è™Ÿ */
+  int classgrade;	/* å¹´ç´š */
+  int newgrade;		/* æ–°å¹´ç´š */
 {
-  /* itoc.0108802: ¬°¬Ù­pºâ¡Anewgrade ±q 0 ¶}©lºâ¡Aclassgrade ±q 1 ¶}©lºâ */
+  /* itoc.0108802: ç‚ºçœè¨ˆç®—ï¼Œnewgrade å¾ 0 é–‹å§‹ç®—ï¼Œclassgrade å¾ 1 é–‹å§‹ç®— */
   if (newgrade >= classgrade && newgrade < 5)
   {
     char buf[80];
-    sprintf(buf, "¤U¦¸´«¤W [%8s%4s½Òµ{]", classword[classnum][0], classrank[newgrade + 1]);
+    /* ä¸‹æ¬¡æ›ä¸Š [%8s%4sèª²ç¨‹] */
+    sprintf(buf, "\xA4\x55\xA6\xB8\xB4\xAB\xA4\x57 [%8s%4s\xBD\xD2\xB5\x7B]", classword[classnum][0], classrank[newgrade + 1]);
     vmsg(buf);
   }
   return 0;
 }
 
 
-/* ¶Ç¤J:½Ò¸¹ µ¥¯Å ¥Í©R §Ö¼Ö º¡¨¬ Å¼Å¼ ¶Ç¦^:ÅÜ¼Æ12345   ¶Ç¦^: -1:©ñ±ó 0:¥¢±Ñ 1:¦¨¥\ */
+/* å‚³å…¥:èª²è™Ÿ ç­‰ç´š ç”Ÿå‘½ å¿«æ¨‚ æ»¿è¶³ é«’é«’ å‚³å›:è®Šæ•¸12345   å‚³å›: -1:æ”¾æ£„ 0:å¤±æ•— 1:æˆåŠŸ */
 static int
 pip_practice_function(classnum, classgrade, pic1, pic2, change1, change2, change3, change4, change5)
-  int classnum;			/* ­×¦æºØÃş */
-  int classgrade;		/* ­×¦æµ¥¯Å */
-  int pic1, pic2;		/* ¹ÏÀÉ */
-  int *change1;			/* ¥D­nÄİ©Ê¼W¥[ */
-  int *change2;			/* ¦¸­nÄİ©Ê¼W¥[ */
-  int *change3;			/* ªş¥[Äİ©Ê¼W¥[ */
-  int *change4;			/* ¬Û«gÄİ©Ê´î¤Ö */
-  int *change5;			/* ¬Û¥¸Äİ©Ê´î¤Ö */
+  int classnum;			/* ä¿®è¡Œç¨®é¡ */
+  int classgrade;		/* ä¿®è¡Œç­‰ç´š */
+  int pic1, pic2;		/* åœ–æª” */
+  int *change1;			/* ä¸»è¦å±¬æ€§å¢åŠ  */
+  int *change2;			/* æ¬¡è¦å±¬æ€§å¢åŠ  */
+  int *change3;			/* é™„åŠ å±¬æ€§å¢åŠ  */
+  int *change4;			/* ç›¸å‰‹å±¬æ€§æ¸›å°‘ */
+  int *change5;			/* ç›¸æ–¥å±¬æ€§æ¸›å°‘ */
 {
   int grade, success;
   char buf[80];
 
-  /* itoc.010803: ÀË¬d classgrade¡AÁ×§K·N¥~ */
-  /* ¦]¬°ÁÙ¨S update¡Alearn_skill ¥i¯à < 0 */
+  /* itoc.010803: æª¢æŸ¥ classgradeï¼Œé¿å…æ„å¤– */
+  /* å› ç‚ºé‚„æ²’ updateï¼Œlearn_skill å¯èƒ½ < 0 */
   if (LEARN_LEVEL < 0)
   {
-    vmsg("±z¤w¸g²Ö¨ìÃz¤F");
+    /* æ‚¨å·²ç¶“ç´¯åˆ°çˆ†äº† */
+    vmsg("\xB1\x7A\xA4\x77\xB8\x67\xB2\xD6\xA8\xEC\xC3\x7A\xA4\x46");
     return -1;
   }
 
-  /* itoc.010803: classgrade À³¸Ó¥u±q 1~5 ¯Å */
+  /* itoc.010803: classgrade æ‡‰è©²åªå¾ 1~5 ç´š */
   if (classgrade < 0)
     grade = 1;
   else if (classgrade > 5)
@@ -128,68 +191,70 @@ pip_practice_function(classnum, classgrade, pic1, pic2, change1, change2, change
   else
     grade = classgrade;
 
-  /* ¿úªººâªk */
-  success = grade * classmoney[classnum][0] + classmoney[classnum][1];	/* ­É¥Î success */
-  sprintf(buf, "  [%8s%4s½Òµ{]­nªá %d¤¸¡A½T©w­n¶Ü(Y/N)¡H[Y] ", classword[classnum][0], classrank[grade], success);
+  /* éŒ¢çš„ç®—æ³• */
+  success = grade * classmoney[classnum][0] + classmoney[classnum][1];	/* å€Ÿç”¨ success */
+  /*   [%8s%4sèª²ç¨‹]è¦èŠ± %då…ƒï¼Œç¢ºå®šè¦å—(Y/N)ï¼Ÿ[Y]  */
+  sprintf(buf, "  [%8s%4s\xBD\xD2\xB5\x7B]\xAD\x6E\xAA\xE1 %d\xA4\xB8\xA1\x41\xBD\x54\xA9\x77\xAD\x6E\xB6\xDC(Y/N)\xA1\x48[Y] ", classword[classnum][0], classrank[grade], success);
 
   if (ians(b_lines - 2, 0, buf) == 'n')
     return -1;
   if (d.money < success)
   {
-    vmsg("«Ü©êºp¡A±zªº¿ú¤£°÷³á");
+    /* å¾ˆæŠ±æ­‰ï¼Œæ‚¨çš„éŒ¢ä¸å¤ å–” */
+    vmsg("\xAB\xDC\xA9\xEA\xBA\x70\xA1\x41\xB1\x7A\xAA\xBA\xBF\xFA\xA4\xA3\xB0\xF7\xB3\xE1");
     return -1;
   }
   count_tired(4, 5, 1, 100, 1);
   d.money -= success;
 
-  /* ¦¨¥\»P§_ªº§PÂ_ */
-  success = (d.hp / 2 + rand() % 20 > d.tired);		/* 1: ¦¨¥\   0: ¥¢±Ñ */
+  /* æˆåŠŸèˆ‡å¦çš„åˆ¤æ–· */
+  success = (d.hp / 2 + rand() % 20 > d.tired);		/* 1: æˆåŠŸ   0: å¤±æ•— */
 
   d.hp -= rand() % 5 + classvariable[classnum][0];
   d.happy -= rand() % 5 + classvariable[classnum][1];
   d.satisfy -= rand() % 5 + classvariable[classnum][2];
   d.shit += rand() % 5 + classvariable[classnum][3];
 
-  /* ¥[ªºÂI¼Æ¦¨¥\¬O¥¢±Ñªº 1.5 ­¿¡A¦©ªºÂI¼Æ¥¢±Ñ¬O¦¨¥\ªº 1.5 ­¿ */
-  /* learn_skill ¥i±q 2%~100% */
-  *change1 = (7 + 6 * (rand() % grade)) * 2 * LEARN_LEVEL / (3 - success);	/* ¥D­nÄİ©Ê¥[´Á±æ­È 3*classgrade+4 (­Y­×¦æ¦¨¥\¥B°²³] learn_level = 100%) */
-  *change2 = (5 + 4 * (rand() % grade)) * 2 * LEARN_LEVEL / (3 - success);	/* ¦¸­nÄİ©Ê¥[´Á±æ­È 2*classgrade+3 (­Y­×¦æ¦¨¥\¥B°²³] learn_level = 100%) */
-  *change3 = (3 + 2 * (rand() % grade)) * 2 * LEARN_LEVEL / (3 - success);	/* ªş¥[Äİ©Ê¥[´Á±æ­È classgrade+2   (­Y­×¦æ¦¨¥\¥B°²³] learn_level = 100%) */
+  /* åŠ çš„é»æ•¸æˆåŠŸæ˜¯å¤±æ•—çš„ 1.5 å€ï¼Œæ‰£çš„é»æ•¸å¤±æ•—æ˜¯æˆåŠŸçš„ 1.5 å€ */
+  /* learn_skill å¯å¾ 2%~100% */
+  *change1 = (7 + 6 * (rand() % grade)) * 2 * LEARN_LEVEL / (3 - success);	/* ä¸»è¦å±¬æ€§åŠ æœŸæœ›å€¼ 3*classgrade+4 (è‹¥ä¿®è¡ŒæˆåŠŸä¸”å‡è¨­ learn_level = 100%) */
+  *change2 = (5 + 4 * (rand() % grade)) * 2 * LEARN_LEVEL / (3 - success);	/* æ¬¡è¦å±¬æ€§åŠ æœŸæœ›å€¼ 2*classgrade+3 (è‹¥ä¿®è¡ŒæˆåŠŸä¸”å‡è¨­ learn_level = 100%) */
+  *change3 = (3 + 2 * (rand() % grade)) * 2 * LEARN_LEVEL / (3 - success);	/* é™„åŠ å±¬æ€§åŠ æœŸæœ›å€¼ classgrade+2   (è‹¥ä¿®è¡ŒæˆåŠŸä¸”å‡è¨­ learn_level = 100%) */
 
-  *change4 = (5 + rand() % grade) * 2 / (1 + success);			/* ¬Û«gÄİ©Ê¦©´Á±æ­È classgrade/2+4.5 (­Y­×¦æ¦¨¥\) */
-  *change5 = (5 + rand() % grade) * 2 / (2 + success);			/* ¬Û¥¸Äİ©Ê¦©´Á±æ­È classgrade/3+3 (­Y­×¦æ¦¨¥\) */
+  *change4 = (5 + rand() % grade) * 2 / (1 + success);			/* ç›¸å‰‹å±¬æ€§æ‰£æœŸæœ›å€¼ classgrade/2+4.5 (è‹¥ä¿®è¡ŒæˆåŠŸ) */
+  *change5 = (5 + rand() % grade) * 2 / (2 + success);			/* ç›¸æ–¥å±¬æ€§æ‰£æœŸæœ›å€¼ classgrade/3+3 (è‹¥ä¿®è¡ŒæˆåŠŸ) */
 
-  /* ¶Ã¼Æ¿ï¤@­Ó¹Ï¨Ó¨q */
+  /* äº‚æ•¸é¸ä¸€å€‹åœ–ä¾†ç§€ */
   if (rand() % 2)
     show_practice_pic(pic1);
   else
     show_practice_pic(pic2);
 
-  vmsg(classword[classnum][3 - 2 * success + rand() % 2]);	/* ²Ä¤@¤G­Ó¬O¦¨¥\°T®§¡A¤T¥|­Ó¬O¥¢±Ñ°T®§ */
+  vmsg(classword[classnum][3 - 2 * success + rand() % 2]);	/* ç¬¬ä¸€äºŒå€‹æ˜¯æˆåŠŸè¨Šæ¯ï¼Œä¸‰å››å€‹æ˜¯å¤±æ•—è¨Šæ¯ */
   return success;
 }
 
 
 /*-------------------------------------------------------*/
-/* ­×¦æ¿ï³æ:©À®Ñ ½mªZ ­×¦æ     				 */
+/* ä¿®è¡Œé¸å–®:å¿µæ›¸ ç·´æ­¦ ä¿®è¡Œ     				 */
 /*-------------------------------------------------------*/
 
 
-/* itoc.010802: ¦UÃş classgrage ªº¬É©w¬O¤pÂûªº¬Y¶µÄİ©Ê / 200¡A·íµM¤]¥i¥H¥[Åv³B²z */
+/* itoc.010802: å„é¡ classgrage çš„ç•Œå®šæ˜¯å°é›çš„æŸé …å±¬æ€§ / 200ï¼Œç•¶ç„¶ä¹Ÿå¯ä»¥åŠ æ¬Šè™•ç† */
 
 int
 pip_practice_classA()
 {
-  /* ¢z¢w¢w¢w¢w¢s¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢{ */
-  /* ¢x¦ÛµM¬ì¾Ç¢x¥¿Äİ©Ê¡G´¼¤O¡B§ÜÅ]¡B±q¯Ê          ¢x */
-  /* ¢x        ¢u¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢t */
-  /* ¢x        ¢x­tÄİ©Ê¡G«H¥õ¡B±q¯Ê                ¢x */
-  /* ¢|¢w¢w¢w¢w¢r¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢} */
+  /* â”Œâ”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â” */
+  /* â”‚è‡ªç„¶ç§‘å­¸â”‚æ­£å±¬æ€§ï¼šæ™ºåŠ›ã€æŠ—é­”ã€å¾ç¼º          â”‚ */
+  /* â”‚        â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤ */
+  /* â”‚        â”‚è² å±¬æ€§ï¼šä¿¡ä»°ã€å¾ç¼º                â”‚ */
+  /* â””â”€â”€â”€â”€â”´â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ */
 
   int class;
   int change1, change2, change3, change4, change5;
 
-  class = (d.wisdom * 3 + d.immune * 2) / 1000 + 1;	/* ¬ì¾Ç */
+  class = (d.wisdom * 3 + d.immune * 2) / 1000 + 1;	/* ç§‘å­¸ */
 
   if (pip_practice_function(1, class, 11, 12, &change1, &change2, &change3, &change4, &change5) < 0)
     return 0;
@@ -202,7 +267,7 @@ pip_practice_classA()
   if (d.belief < 0)
     d.belief = 0;
 
-  /* itoc.010802: ¶Ã¼Æ¾Ç·|¨s·¥ªk³N */
+  /* itoc.010802: äº‚æ•¸å­¸æœƒç©¶æ¥µæ³•è¡“ */
   if (rand() % 30 == 0)
     pip_learn_skill(-7);
 
@@ -214,16 +279,16 @@ pip_practice_classA()
 int
 pip_practice_classB()
 {
-  /* ¢z¢w¢w¢w¢w¢s¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢{ */
-  /* ¢x  ¸Öµü  ¢x¥¿Äİ©Ê¡G·P¨ü¡B®ğ½è¡BÃÀ³N          ¢x */
-  /* ¢x        ¢u¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢t */
-  /* ¢x        ¢x­tÄİ©Ê¡G±q¯Ê¡B§ÜÅ]                ¢x */
-  /* ¢|¢w¢w¢w¢w¢r¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢} */
+  /* â”Œâ”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â” */
+  /* â”‚  è©©è©  â”‚æ­£å±¬æ€§ï¼šæ„Ÿå—ã€æ°£è³ªã€è—è¡“          â”‚ */
+  /* â”‚        â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤ */
+  /* â”‚        â”‚è² å±¬æ€§ï¼šå¾ç¼ºã€æŠ—é­”                â”‚ */
+  /* â””â”€â”€â”€â”€â”´â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ */
 
   int class;
   int change1, change2, change3, change4, change5;
 
-  class = (d.affect * 3 + d.character * 2 + d.art) / 1200 + 1;	/* ¸Öµü */
+  class = (d.affect * 3 + d.character * 2 + d.art) / 1200 + 1;	/* è©©è© */
 
   if (pip_practice_function(2, class, 21, 22, &change1, &change2, &change3, &change4, &change5) < 0)
     return 0;
@@ -237,7 +302,7 @@ pip_practice_classB()
   if (d.immune < 0)
     d.immune = 0;
 
-  /* itoc.010814: ¶Ã¼Æ¾Ç·|¤ßªk */
+  /* itoc.010814: äº‚æ•¸å­¸æœƒå¿ƒæ³• */
   if (rand() % 10 == 0)
     pip_learn_skill(3);
 
@@ -249,16 +314,16 @@ pip_practice_classB()
 int
 pip_practice_classC()
 {
-  /* ¢z¢w¢w¢w¢w¢s¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢{ */
-  /* ¢x  ¯«¾Ç  ¢x¥¿Äİ©Ê¡G«H¥õ¡B§ÜÅ]¡B´¼¤O          ¢x */
-  /* ¢x        ¢u¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢t */
-  /* ¢x        ¢x­tÄİ©Ê¡G§ğÀ»¡B±q¯Ê                ¢x */
-  /* ¢|¢w¢w¢w¢w¢r¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢} */
+  /* â”Œâ”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â” */
+  /* â”‚  ç¥å­¸  â”‚æ­£å±¬æ€§ï¼šä¿¡ä»°ã€æŠ—é­”ã€æ™ºåŠ›          â”‚ */
+  /* â”‚        â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤ */
+  /* â”‚        â”‚è² å±¬æ€§ï¼šæ”»æ“Šã€å¾ç¼º                â”‚ */
+  /* â””â”€â”€â”€â”€â”´â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ */
   
   int class;
   int change1, change2, change3, change4, change5;
 
-  class = (d.belief * 3 + d.immune * 2 + d.wisdom) / 1200 + 1;	/* ¯«¾Ç */
+  class = (d.belief * 3 + d.immune * 2 + d.wisdom) / 1200 + 1;	/* ç¥å­¸ */
 
   if (pip_practice_function(3, class, 31, 32, &change1, &change2, &change3, &change4, &change5) < 0)
     return 0;
@@ -272,7 +337,7 @@ pip_practice_classC()
   if (d.attack < 0)
     d.attack = 0;
 
-  /* itoc.010802: ¶Ã¼Æ¾Ç·|ªvÀøªk³N */
+  /* itoc.010802: äº‚æ•¸å­¸æœƒæ²»ç™‚æ³•è¡“ */
   if (rand() % 10 == 0)
     pip_learn_skill(-1);
 
@@ -284,11 +349,11 @@ pip_practice_classC()
 int
 pip_practice_classD()
 {
-  /* ¢z¢w¢w¢w¢w¢s¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢{ */
-  /* ¢x  ­x¾Ç  ¢x¥¿Äİ©Ê¡G¾Ô°«§Ş³N¡B´¼¤O¡B±q¯Ê      ¢x */
-  /* ¢x        ¢u¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢t */
-  /* ¢x        ¢x­tÄİ©Ê¡G·P¨ü¡B±q¯Ê                ¢x */
-  /* ¢|¢w¢w¢w¢w¢r¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢} */
+  /* â”Œâ”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â” */
+  /* â”‚  è»å­¸  â”‚æ­£å±¬æ€§ï¼šæˆ°é¬¥æŠ€è¡“ã€æ™ºåŠ›ã€å¾ç¼º      â”‚ */
+  /* â”‚        â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤ */
+  /* â”‚        â”‚è² å±¬æ€§ï¼šæ„Ÿå—ã€å¾ç¼º                â”‚ */
+  /* â””â”€â”€â”€â”€â”´â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ */
 
   int class;
   int change1, change2, change3, change4, change5;
@@ -306,7 +371,7 @@ pip_practice_classD()
   if (d.affect < 0)
     d.affect = 0;
 
-  /* itoc.010814: ¶Ã¼Æ¾Ç·|Å@¨­ */
+  /* itoc.010814: äº‚æ•¸å­¸æœƒè­·èº« */
   if (rand() % 10 == 0)
     pip_learn_skill(1);
 
@@ -318,11 +383,11 @@ pip_practice_classD()
 int
 pip_practice_classE()
 {
-  /* ¢z¢w¢w¢w¢w¢s¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢{ */
-  /* ¢x  ¼C³N  ¢x¥¿Äİ©Ê¡G§ğÀ»¡B¾Ô°«§Ş³N¡B¨¾¿m      ¢x */
-  /* ¢x        ¢u¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢t */
-  /* ¢x        ¢x­tÄİ©Ê¡G·P¨ü¡B±q¯Ê                ¢x */
-  /* ¢|¢w¢w¢w¢w¢r¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢} */
+  /* â”Œâ”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â” */
+  /* â”‚  åŠè¡“  â”‚æ­£å±¬æ€§ï¼šæ”»æ“Šã€æˆ°é¬¥æŠ€è¡“ã€é˜²ç¦¦      â”‚ */
+  /* â”‚        â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤ */
+  /* â”‚        â”‚è² å±¬æ€§ï¼šæ„Ÿå—ã€å¾ç¼º                â”‚ */
+  /* â””â”€â”€â”€â”€â”´â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ */
 
   int class;
   int change1, change2, change3, change4, change5;
@@ -341,7 +406,7 @@ pip_practice_classE()
   if (d.affect < 0)
     d.affect = 0;
 
-  /* itoc.010802: ¶Ã¼Æ¾Ç·|¼Cªk */
+  /* itoc.010802: äº‚æ•¸å­¸æœƒåŠæ³• */
   if (rand() % 10 == 0)
     pip_learn_skill(5);
 
@@ -353,11 +418,11 @@ pip_practice_classE()
 int
 pip_practice_classF()
 {
-  /* ¢z¢w¢w¢w¢w¢s¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢{ */
-  /* ¢x  ®æ°«  ¢x¥¿Äİ©Ê¡G¨¾¿m¡B³t«×¡B§ğÀ»          ¢x */
-  /* ¢x        ¢u¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢t */
-  /* ¢x        ¢x­tÄİ©Ê¡G·P¨ü¡B±q¯Ê                ¢x */
-  /* ¢|¢w¢w¢w¢w¢r¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢} */
+  /* â”Œâ”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â” */
+  /* â”‚  æ ¼é¬¥  â”‚æ­£å±¬æ€§ï¼šé˜²ç¦¦ã€é€Ÿåº¦ã€æ”»æ“Š          â”‚ */
+  /* â”‚        â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤ */
+  /* â”‚        â”‚è² å±¬æ€§ï¼šæ„Ÿå—ã€å¾ç¼º                â”‚ */
+  /* â””â”€â”€â”€â”€â”´â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ */
 
   int class;
   int change1, change2, change3, change4, change5;
@@ -376,7 +441,7 @@ pip_practice_classF()
   if (d.affect < 0)
     d.affect = 0;
 
-  /* itoc.010802: ¶Ã¼Æ¾Ç·|®±ªk */
+  /* itoc.010802: äº‚æ•¸å­¸æœƒæ‹³æ³• */
   if (rand() % 10 == 0)
     pip_learn_skill(4);
 
@@ -388,11 +453,11 @@ pip_practice_classF()
 int
 pip_practice_classG()
 {
-  /* ¢z¢w¢w¢w¢w¢s¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢{ */
-  /* ¢x  Å]ªk  ¢x¥¿Äİ©Ê¡GÅ]ªk§Ş³N¡B§ÜÅ]¡B±q¯Ê      ¢x */
-  /* ¢x        ¢u¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢t */
-  /* ¢x        ¢x­tÄİ©Ê¡G§ğÀ»¡B³t«×                ¢x */
-  /* ¢|¢w¢w¢w¢w¢r¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢} */
+  /* â”Œâ”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â” */
+  /* â”‚  é­”æ³•  â”‚æ­£å±¬æ€§ï¼šé­”æ³•æŠ€è¡“ã€æŠ—é­”ã€å¾ç¼º      â”‚ */
+  /* â”‚        â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤ */
+  /* â”‚        â”‚è² å±¬æ€§ï¼šæ”»æ“Šã€é€Ÿåº¦                â”‚ */
+  /* â””â”€â”€â”€â”€â”´â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ */
 
   int class;
   int change1, change2, change3, change4, change5;
@@ -413,7 +478,7 @@ pip_practice_classG()
   if (d.speed < 0)
     d.speed = 0;
 
-  /* itoc.010802: ¶Ã¼Æ¾Ç·|¤­¨tÅ]ªk¤§¤@ */
+  /* itoc.010802: äº‚æ•¸å­¸æœƒäº”ç³»é­”æ³•ä¹‹ä¸€ */
   if (rand() % 7 == 0)
     pip_learn_skill(- 2 - rand() % 5);
 
@@ -425,11 +490,11 @@ pip_practice_classG()
 int
 pip_practice_classH()
 {
-  /* ¢z¢w¢w¢w¢w¢s¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢{ */
-  /* ¢x  Â§»ö  ¢x¥¿Äİ©Ê¡GÂ§»ö¡B®ğ½è¡B½Í¦R          ¢x */
-  /* ¢x        ¢u¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢t */
-  /* ¢x        ¢x­tÄİ©Ê¡G³t«×¡B±q¯Ê                ¢x */
-  /* ¢|¢w¢w¢w¢w¢r¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢} */
+  /* â”Œâ”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â” */
+  /* â”‚  ç¦®å„€  â”‚æ­£å±¬æ€§ï¼šç¦®å„€ã€æ°£è³ªã€è«‡å          â”‚ */
+  /* â”‚        â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤ */
+  /* â”‚        â”‚è² å±¬æ€§ï¼šé€Ÿåº¦ã€å¾ç¼º                â”‚ */
+  /* â””â”€â”€â”€â”€â”´â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ */
 
   int class;
   int change1, change2, change3, change4, change5;
@@ -456,11 +521,11 @@ pip_practice_classH()
 int
 pip_practice_classI()
 {
-  /* ¢z¢w¢w¢w¢w¢s¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢{ */
-  /* ¢x  Ã¸µe  ¢x¥¿Äİ©Ê¡GÃÀ³N¡B·P¨ü¡B±q¯Ê          ¢x */
-  /* ¢x        ¢u¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢t */
-  /* ¢x        ¢x­tÄİ©Ê¡G±q¯Ê¡B±q¯Ê                ¢x */
-  /* ¢|¢w¢w¢w¢w¢r¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢} */
+  /* â”Œâ”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â” */
+  /* â”‚  ç¹ªç•«  â”‚æ­£å±¬æ€§ï¼šè—è¡“ã€æ„Ÿå—ã€å¾ç¼º          â”‚ */
+  /* â”‚        â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤ */
+  /* â”‚        â”‚è² å±¬æ€§ï¼šå¾ç¼ºã€å¾ç¼º                â”‚ */
+  /* â””â”€â”€â”€â”€â”´â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ */
 
   int class;
   int change1, change2, change3, change4, change5;
@@ -474,7 +539,7 @@ pip_practice_classI()
   d.character += change2;
   d.classI++;
 
-  /* itoc.010814: ¶Ã¼Æ¾Ç·|¤Mªk */
+  /* itoc.010814: äº‚æ•¸å­¸æœƒåˆ€æ³• */
   if (rand() % 10 == 0)
     pip_learn_skill(6);
 
@@ -486,11 +551,11 @@ pip_practice_classI()
 int
 pip_practice_classJ()
 {
-  /* ¢z¢w¢w¢w¢w¢s¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢{ */
-  /* ¢x  »RÁĞ  ¢x¥¿Äİ©Ê¡GÃÀ³N¡B¾y¤O¡B®ğ½è          ¢x */
-  /* ¢x        ¢u¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢t */
-  /* ¢x        ¢x­tÄİ©Ê¡G§ğÀ»¡BÅ]ªk§Ş³N            ¢x */
-  /* ¢|¢w¢w¢w¢w¢r¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢} */
+  /* â”Œâ”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â” */
+  /* â”‚  èˆè¹ˆ  â”‚æ­£å±¬æ€§ï¼šè—è¡“ã€é­…åŠ›ã€æ°£è³ª          â”‚ */
+  /* â”‚        â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤ */
+  /* â”‚        â”‚è² å±¬æ€§ï¼šæ”»æ“Šã€é­”æ³•æŠ€è¡“            â”‚ */
+  /* â””â”€â”€â”€â”€â”´â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ */
 
   int class;
   int change1, change2, change3, change4, change5;
@@ -512,7 +577,7 @@ pip_practice_classJ()
   if (d.mskill < 0)
     d.mskill = 0;
 
-  /* itoc.010802: ¶Ã¼Æ¾Ç·|»´¥\ */
+  /* itoc.010802: äº‚æ•¸å­¸æœƒè¼•åŠŸ */
   if (rand() % 10 == 0)
     pip_learn_skill(2);
 

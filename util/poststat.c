@@ -1,7 +1,7 @@
 /*-------------------------------------------------------*/
 /* util/poststat.c	( NTHU CS MapleBBS Ver 3.00 )	 */
 /*-------------------------------------------------------*/
-/* target : ²Î­p¤µ¤é¡B¶g¡B¤ë¡B¦~¼öªù¸ÜÃD		 */
+/* target : çµ±è¨ˆä»Šæ—¥ã€é€±ã€æœˆã€å¹´ç†±é–€è©±é¡Œ		 */
 /* create : 95/03/29				 	 */
 /* update : 97/08/29				 	 */
 /*-------------------------------------------------------*/
@@ -15,7 +15,11 @@
 static char *myfile[] = {"day", "week", "month", "year"};
 static int mycount[4] = {7, 4, 12};
 static int mytop[] = {10, 50, 100, 100};
-static char *mytitle[] = {"¤é¤Q", "¶g¤­¤Q", "¤ë¦Ê", "¦~«×¦Ê"};
+/* æ—¥å */
+/* é€±äº”å */
+/* æœˆç™¾ */
+/* å¹´åº¦ç™¾ */
+static char *mytitle[] = {"\xA4\xE9\xA4\x51", "\xB6\x67\xA4\xAD\xA4\x51", "\xA4\xEB\xA6\xCA", "\xA6\x7E\xAB\xD7\xA6\xCA"};
 
 
 #define FN_RUN_POST_AUTHOR	"run/var/post.author"
@@ -87,7 +91,7 @@ search(t)
   if (found)
   {
     p->number += t->number;
-    if (p->date < t->date)	/* ¨ú¸ûªñ¤é´Á */
+    if (p->date < t->date)	/* å–è¼ƒè¿‘æ—¥æœŸ */
       p->date = t->date;
   }
   else
@@ -236,7 +240,8 @@ poststat(mytype)
   {
     int max, cnt;
 
-    fprintf(fp, "%16s\033[1;34m-----\033[37m=====\033[41m ¥»%s¤j¼öªù¸ÜÃD \033[40m=====\033[34m-----\033[m\n\n", 
+    /* %16s\033[1;34m-----\033[37m=====\033[41m æœ¬%så¤§ç†±é–€è©±é¡Œ \033[40m=====\033[34m-----\033[m\n\n */
+    fprintf(fp, "%16s\033[1;34m-----\033[37m=====\033[41m \xA5\xBB%s\xA4\x6A\xBC\xF6\xAA\xF9\xB8\xDC\xC3\x44 \033[40m=====\033[34m-----\033[m\n\n", 
       "", mytitle[mytype]);
 
     max = mytop[mytype];
@@ -247,8 +252,10 @@ poststat(mytype)
       strcpy(buf, Btime((tp->date)));
       buf[23] = '\0';
       fprintf(fp,
-	"\033[1;31m%3d. \033[33m¬ÝªO : \033[32m%-16s\033[35m¡m%s¡n\033[36m%4d ½g\033[33m%+16s\n"
-	"     \033[33m¼ÐÃD : \033[0;44;37m%-60.60s\033[40m\n", 
+	/* \033[1;31m%3d. \033[33mçœ‹æ¿ : \033[32m%-16s\033[35mã€Š%sã€‹\033[36m%4d ç¯‡\033[33m%+16s\n */
+	"\033[1;31m%3d. \033[33m\xAC\xDD\xAA\x4F : \033[32m%-16s\033[35m\xA1\x6D%s\xA1\x6E\033[36m%4d \xBD\x67\033[33m%+16s\n"
+	/*      \033[33mæ¨™é¡Œ : \033[0;44;37m%-60.60s\033[40m\n */
+	"     \033[33m\xBC\xD0\xC3\x44 : \033[0;44;37m%-60.60s\033[40m\n", 
 	++cnt, tp->board, p, tp->number, tp->author, tp->title);
     }
     fclose(fp);

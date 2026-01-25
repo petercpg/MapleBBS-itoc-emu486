@@ -1,7 +1,7 @@
 /*-------------------------------------------------------*/
 /* classtable.c	( YZU WindTopBBS Ver 3.02 )		 */
 /*-------------------------------------------------------*/
-/* target : ¥\½Òªí					 */
+/* target : åŠŸèª²è¡¨					 */
 /* create :   /  /                                       */
 /* update : 02/07/12                                     */
 /* author :						 */
@@ -14,60 +14,76 @@
 #ifdef HAVE_CLASSTABLE
 
 /* ----------------------------------------------------- */
-/* classtable.c ¤¤¹B¥Îªº¸ê®Æµ²ºc			 */
+/* classtable.c ä¸­é‹ç”¨çš„è³‡æ–™çµæ§‹			 */
 /* ----------------------------------------------------- */
 
 
-#define MAX_WEEKDAY	6	/* ¤@¬P´Á¦³ 6 ¤Ñ */
-#define	MAX_DAYCLASS	16	/* ¤@¤Ñ¦³ 16 ¸` */
+#define MAX_WEEKDAY	6	/* ä¸€æ˜ŸæœŸæœ‰ 6 å¤© */
+#define	MAX_DAYCLASS	16	/* ä¸€å¤©æœ‰ 16 ç¯€ */
 
 
 typedef struct
 {
-  char name[9];		/* ½Ò¦W */
-  char teacher[9];	/* ±Ğ®v */
-  char class[5];	/* ±Ğ«Ç */
-  char objid[7];	/* ½Ò¸¹ */
+  char name[9];		/* èª²å */
+  char teacher[9];	/* æ•™å¸« */
+  char class[5];	/* æ•™å®¤ */
+  char objid[7];	/* èª²è™Ÿ */
 }   CLASS;
 
 
 typedef struct
 {
-  CLASS table[MAX_WEEKDAY][MAX_DAYCLASS];	/* ¤@¬P´Á MAX_WEEKDAY * MAX_DAYCLASS °ó½Ò */
+  CLASS table[MAX_WEEKDAY][MAX_DAYCLASS];	/* ä¸€æ˜ŸæœŸ MAX_WEEKDAY * MAX_DAYCLASS å ‚èª² */
 }   CLASS_TABLE;
 
 
 typedef struct
 {
-  char c_class[5];	/* ²Ä´X¸` */
-  char c_start[6];	/* ¤W½Ò®É¶¡ */
-  char c_break[6];	/* ¤U½Ò®É¶¡ */
+  char c_class[5];	/* ç¬¬å¹¾ç¯€ */
+  char c_start[6];	/* ä¸Šèª²æ™‚é–“ */
+  char c_break[6];	/* ä¸‹èª²æ™‚é–“ */
 }  CLOCK;
 
 
-static CLOCK class_time[MAX_DAYCLASS] = 	/* ½Ò°ó®É¶¡ */
+static CLOCK class_time[MAX_DAYCLASS] = 	/* èª²å ‚æ™‚é–“ */
 {
-  {" ¤@ ", "06:00", "06:50"}, 
-  {" ¤G ", "07:00", "07:50"}, 
-  {" ¤T ", "08:00", "08:50"}, 
-  {" ¥| ", "09:00", "09:50"}, 
-  {" ¤­ ", "10:10", "11:00"}, 
-  {" ¤» ", "11:10", "12:00"}, 
-  {" ¤C ", "12:30", "13:20"}, 
-  {" ¤K ", "13:30", "14:20"}, 
-  {" ¤E ", "14:30", "15:20"}, 
-  {" ¤Q ", "15:40", "16:30"}, 
-  {"¤Q¤@", "16:40", "17:30"}, 
-  {"¤Q¤G", "17:40", "18:30"}, 
-  {"¤Q¤T", "18:30", "19:20"}, 
-  {"¤Q¥|", "19:30", "20:20"}, 
-  {"¤Q¤­", "20:30", "21:20"}, 
-  {"¤Q¤»", "21:30", "22:20"}
+  /*  ä¸€  */
+  {" \xA4\x40 ", "06:00", "06:50"}, 
+  /*  äºŒ  */
+  {" \xA4\x47 ", "07:00", "07:50"}, 
+  /*  ä¸‰  */
+  {" \xA4\x54 ", "08:00", "08:50"}, 
+  /*  å››  */
+  {" \xA5\x7C ", "09:00", "09:50"}, 
+  /*  äº”  */
+  {" \xA4\xAD ", "10:10", "11:00"}, 
+  /*  å…­  */
+  {" \xA4\xBB ", "11:10", "12:00"}, 
+  /*  ä¸ƒ  */
+  {" \xA4\x43 ", "12:30", "13:20"}, 
+  /*  å…«  */
+  {" \xA4\x4B ", "13:30", "14:20"}, 
+  /*  ä¹  */
+  {" \xA4\x45 ", "14:30", "15:20"}, 
+  /*  å  */
+  {" \xA4\x51 ", "15:40", "16:30"}, 
+  /* åä¸€ */
+  {"\xA4\x51\xA4\x40", "16:40", "17:30"}, 
+  /* åäºŒ */
+  {"\xA4\x51\xA4\x47", "17:40", "18:30"}, 
+  /* åä¸‰ */
+  {"\xA4\x51\xA4\x54", "18:30", "19:20"}, 
+  /* åå›› */
+  {"\xA4\x51\xA5\x7C", "19:30", "20:20"}, 
+  /* åäº” */
+  {"\xA4\x51\xA4\xAD", "20:30", "21:20"}, 
+  /* åå…­ */
+  {"\xA4\x51\xA4\xBB", "21:30", "22:20"}
 };
 
 
 /* ----------------------------------------------------- */
-/* CLASS ³B²z¨ç¼Æ					 */
+/* CLASS è™•ç†å‡½æ•¸					 */
 /* ----------------------------------------------------- */
 
 
@@ -77,13 +93,17 @@ class_show(x, y, class)
   CLASS *class;
 {
   move(x, y);
-  prints("½Ò¦W¡G%s", class->name);
+  /* èª²åï¼š%s */
+  prints("\xBD\xD2\xA6\x57\xA1\x47%s", class->name);
   move(x + 1, y);
-  prints("±Ğ®v¡G%s", class->teacher);
+  /* æ•™å¸«ï¼š%s */
+  prints("\xB1\xD0\xAE\x76\xA1\x47%s", class->teacher);
   move(x + 2, y);
-  prints("±Ğ«Ç¡G%s", class->class);
+  /* æ•™å®¤ï¼š%s */
+  prints("\xB1\xD0\xAB\xC7\xA1\x47%s", class->class);
   move(x + 3, y);
-  prints("½Ò¸¹¡G%s", class->objid);
+  /* èª²è™Ÿï¼š%s */
+  prints("\xBD\xD2\xB8\xB9\xA1\x47%s", class->objid);
 }
 
 
@@ -94,23 +114,29 @@ class_edit(class)
   int echo;
 
   echo = *(class->name) ? GCARRY : DOECHO;
-  vget(4, 0, "½Ò¦W¡G", class->name, sizeof(class->name), echo);
-  vget(5, 0, "±Ğ®v¡G", class->teacher, sizeof(class->teacher), echo);
-  vget(6, 0, "±Ğ«Ç¡G", class->class, sizeof(class->class), echo);
-  vget(7, 0, "½Ò¸¹¡G", class->objid, sizeof(class->objid), echo);
+  /* èª²åï¼š */
+  vget(4, 0, "\xBD\xD2\xA6\x57\xA1\x47", class->name, sizeof(class->name), echo);
+  /* æ•™å¸«ï¼š */
+  vget(5, 0, "\xB1\xD0\xAE\x76\xA1\x47", class->teacher, sizeof(class->teacher), echo);
+  /* æ•™å®¤ï¼š */
+  vget(6, 0, "\xB1\xD0\xAB\xC7\xA1\x47", class->class, sizeof(class->class), echo);
+  /* èª²è™Ÿï¼š */
+  vget(7, 0, "\xBD\xD2\xB8\xB9\xA1\x47", class->objid, sizeof(class->objid), echo);
 }
 
 
-static int			/* 1:¥¿½T 0:¿ù»~ */
-class_number(day, class)	/* ¶Ç¦^¬P´Á´X²Ä´X¸` */
+static int			/* 1:æ­£ç¢º 0:éŒ¯èª¤ */
+class_number(day, class)	/* å‚³å›æ˜ŸæœŸå¹¾ç¬¬å¹¾ç¯€ */
   int *day;
   int *class;
 {
   char ans[5];
 
   move(2, 0);
-  outs("503 ªí¥Ü¬P´Á¤­²Ä¤T¸`");
-  *day = vget(3, 0, "¤W½Ò®É¶¡¡G", ans, 4, DOECHO) - '1';	/* 503 ªí¥Ü¬P´Á¤­²Ä¤T¸` */
+  /* 503 è¡¨ç¤ºæ˜ŸæœŸäº”ç¬¬ä¸‰ç¯€ */
+  outs("503 \xAA\xED\xA5\xDC\xAC\x50\xB4\xC1\xA4\xAD\xB2\xC4\xA4\x54\xB8\x60");
+  /* ä¸Šèª²æ™‚é–“ï¼š */
+  *day = vget(3, 0, "\xA4\x57\xBD\xD2\xAE\xC9\xB6\xA1\xA1\x47", ans, 4, DOECHO) - '1';	/* 503 è¡¨ç¤ºæ˜ŸæœŸäº”ç¬¬ä¸‰ç¯€ */
   *class = atoi(ans + 1) - 1;
   if (*day > MAX_WEEKDAY - 1 || *day < 0 || *class > MAX_DAYCLASS - 1 || *class < 0)
     return 0;
@@ -120,12 +146,12 @@ class_number(day, class)	/* ¶Ç¦^¬P´Á´X²Ä´X¸` */
 
 
 /* ----------------------------------------------------- */
-/* CLASS_TABLE ³B²z¨ç¼Æ					 */
+/* CLASS_TABLE è™•ç†å‡½æ•¸					 */
 /* ----------------------------------------------------- */
 
 
 static void
-table_file(fpath, table)	/* §â table ¼g¤J FN_CLASSTBL_LOG */
+table_file(fpath, table)	/* æŠŠ table å¯«å…¥ FN_CLASSTBL_LOG */
   char *fpath;
   CLASS_TABLE *table;
 {
@@ -134,10 +160,12 @@ table_file(fpath, table)	/* §â table ¼g¤J FN_CLASSTBL_LOG */
 
   fp = fopen(fpath, "w");
 
-  fprintf(fp, "           ¬P´Á¤@    ¬P´Á¤G    ¬P´Á¤T    ¬P´Á¥|    ¬P´Á¤­    ¬P´Á¤»\n");
+  /*            æ˜ŸæœŸä¸€    æ˜ŸæœŸäºŒ    æ˜ŸæœŸä¸‰    æ˜ŸæœŸå››    æ˜ŸæœŸäº”    æ˜ŸæœŸå…­\n */
+  fprintf(fp, "           \xAC\x50\xB4\xC1\xA4\x40    \xAC\x50\xB4\xC1\xA4\x47    \xAC\x50\xB4\xC1\xA4\x54    \xAC\x50\xB4\xC1\xA5\x7C    \xAC\x50\xB4\xC1\xA4\xAD    \xAC\x50\xB4\xC1\xA4\xBB\n");
   for (i = 0; i < MAX_DAYCLASS; i++)
   {
-    fprintf(fp, "²Ä%s¸`  ", class_time[i].c_class);
+    /* ç¬¬%sç¯€   */
+    fprintf(fp, "\xB2\xC4%s\xB8\x60  ", class_time[i].c_class);
     for (j = 0; j < MAX_WEEKDAY; j++)
       fprintf(fp, "%-8.8s  ", table->table[j][i].name);
 
@@ -145,7 +173,8 @@ table_file(fpath, table)	/* §â table ¼g¤J FN_CLASSTBL_LOG */
     for (j = 0; j < MAX_WEEKDAY; j++)
       fprintf(fp, "%-8.8s  ", table->table[j][i].teacher);
 
-    fprintf(fp, "\n   ¡õ     ");
+    /* \n   â†“      */
+    fprintf(fp, "\n   \xA1\xF5     ");
     for (j = 0; j < MAX_WEEKDAY; j++)
       fprintf(fp, "%-8.8s  ", table->table[j][i].class);
 
@@ -179,7 +208,8 @@ table_mail(table)
 
   usr_fpath(fpath, cuser.userid, FN_CLASSTBL_LOG);
   table_file(fpath, table);
-  mail_self(fpath, cuser.userid, "­Ó¤H¥\\½Òªí", MAIL_READ);
+  /* å€‹äººåŠŸèª²è¡¨ */
+  mail_self(fpath, cuser.userid, "\xAD\xD3\xA4\x48\xA5\x5C\xBD\xD2\xAA\xED", MAIL_READ);
 }
 
 
@@ -189,7 +219,8 @@ table_edit(table)
 {
   int i, j;
 
-  vs_bar("½s¿è­Ó¤H¥\\½Òªí");
+  /* ç·¨è¼¯å€‹äººåŠŸèª²è¡¨ */
+  vs_bar("\xBD\x73\xBF\xE8\xAD\xD3\xA4\x48\xA5\x5C\xBD\xD2\xAA\xED");
 
   if (class_number(&i, &j))
   {
@@ -205,7 +236,8 @@ table_del(table)
 {
   int i, j;
 
-  vs_bar("§R°£­Ó¤H¥\\½Òªí");
+  /* åˆªé™¤å€‹äººåŠŸèª²è¡¨ */
+  vs_bar("\xA7\x52\xB0\xA3\xAD\xD3\xA4\x48\xA5\x5C\xBD\xD2\xAA\xED");
 
   if (!class_number(&i, &j))
     return;
@@ -223,17 +255,20 @@ table_copy(table)
 {
   int i, j, x, y;
 
-  vs_bar("­Ó¤H¥\\½Òªí");
+  /* å€‹äººåŠŸèª²è¡¨ */
+  vs_bar("\xAD\xD3\xA4\x48\xA5\x5C\xBD\xD2\xAA\xED");
 
   move(9, 0);
-  outs("¨Ó·½¡G");
+  /* ä¾†æºï¼š */
+  outs("\xA8\xD3\xB7\xBD\xA1\x47");
   if (!class_number(&i, &j))
     return;
 
   class_show(10, 0, &(table->table[i][j]));
 
   move(9, 39);
-  outs("¥Øªº¡G");
+  /* ç›®çš„ï¼š */
+  outs("\xA5\xD8\xAA\xBA\xA1\x47");
   if (!class_number(&x, &y))
     return;
 
@@ -259,7 +294,8 @@ main_classtable()
 
   for (;;)
   {
-    switch (vans("½Òªí¨t²Î (E/C/D)½s¿è/½Æ»s/§R°£ P)¦L¥X K)¥ş¬å S)¦sÀÉ M)«H½c Q)Â÷¶} [Q] "))
+    /* èª²è¡¨ç³»çµ± (E/C/D)ç·¨è¼¯/è¤‡è£½/åˆªé™¤ P)å°å‡º K)å…¨ç  S)å­˜æª” M)ä¿¡ç®± Q)é›¢é–‹ [Q]  */
+    switch (vans("\xBD\xD2\xAA\xED\xA8\x74\xB2\xCE (E/C/D)\xBD\x73\xBF\xE8/\xBD\xC6\xBB\x73/\xA7\x52\xB0\xA3 P)\xA6\x4C\xA5\x58 K)\xA5\xFE\xAC\xE5 S)\xA6\x73\xC0\xC9 M)\xAB\x48\xBD\x63 Q)\xC2\xF7\xB6\x7D [Q] "))
     {
     case 'e':
       table_edit(ptr);
@@ -281,7 +317,8 @@ main_classtable()
     case 's':
       rec_put(fpath, ptr, sizeof(CLASS_TABLE), 0, NULL);
       memcpy(&oldtable, ptr, sizeof(CLASS_TABLE));
-      vmsg("Àx¦s§¹¦¨");
+      /* å„²å­˜å®Œæˆ */
+      vmsg("\xC0\x78\xA6\x73\xA7\xB9\xA6\xA8");
       break;
     case 'k':
       if (vans(msg_sure_ny) == 'y')
@@ -299,10 +336,11 @@ main_classtable()
 
 end_loop:
 
-  /* ÀË¬d·sÂÂ¬O§_¤@¼Ë¡A­Y¤£¤@¼Ë­n°İ¬O§_¦sÀÉ */
+  /* æª¢æŸ¥æ–°èˆŠæ˜¯å¦ä¸€æ¨£ï¼Œè‹¥ä¸ä¸€æ¨£è¦å•æ˜¯å¦å­˜æª” */
   if (memcmp(&oldtable, ptr, sizeof(CLASS_TABLE)))
   {
-    if (vans("¬O§_Àx¦s(Y/N)¡H[Y] ") != 'n')
+    /* æ˜¯å¦å„²å­˜(Y/N)ï¼Ÿ[Y]  */
+    if (vans("\xAC\x4F\xA7\x5F\xC0\x78\xA6\x73(Y/N)\xA1\x48[Y] ") != 'n')
       rec_put(fpath, ptr, sizeof(CLASS_TABLE), 0, NULL);
   }
 

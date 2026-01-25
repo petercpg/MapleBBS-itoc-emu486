@@ -17,57 +17,58 @@ extern char xo_pool[];
 
 /*------------------------------------------------------------------------
   Thor.980509:
-  ·sªº ¤å³¹·j´M¼Ò¦¡ ¥i«ü©w¤@ keyword, ¦C¥X©Ò¦³keyword¬ÛÃö¤§¤å³¹¦Cªí
+  æ–°çš„ æ–‡ç« æœå°‹æ¨¡å¼ å¯æŒ‡å®šä¸€ keyword, åˆ—å‡ºæ‰€æœ‰keywordç›¸é—œä¹‹æ–‡ç« åˆ—è¡¨
 
-  ¦b tmp/ ¤U¶} xpost.{pid} §@¬° folder, ¥t«Ø¤@map°}¦C, ¥Î§@»P­ì post §@ map
-  °O¸ü¸Ó¤å³¹¬O¦b­ì post ªº¦ó³B, ¦p¦¹¥i§@ mark, gem, edit, title µ¥¥\¯à,
-  ¥B¯àÂ÷¶}®É¦^¦Ü¹ïÀ³¤å³¹³B
-  <¥H¤W·Qªk obsolete...>
+  åœ¨ tmp/ ä¸‹é–‹ xpost.{pid} ä½œç‚º folder, å¦å»ºä¸€mapé™£åˆ—, ç”¨ä½œèˆ‡åŸ post ä½œ map
+  è¨˜è¼‰è©²æ–‡ç« æ˜¯åœ¨åŸ post çš„ä½•è™•, å¦‚æ­¤å¯ä½œ mark, gem, edit, title ç­‰åŠŸèƒ½,
+  ä¸”èƒ½é›¢é–‹æ™‚å›è‡³å°æ‡‰æ–‡ç« è™•
+  <ä»¥ä¸Šæƒ³æ³• obsolete...>
 
   Thor.980510:
-  «Ø¥ß¤å³¹°Q½×¦ê, like tin, ±N¤å³¹¦ê index ©ñ¤J memory ¤¤,
-  ¤£¨Ï¥Î thread, ¦]¬° thread­n¥Î folder ÀÉ...
+  å»ºç«‹æ–‡ç« è¨è«–ä¸², like tin, å°‡æ–‡ç« ä¸² index æ”¾å…¥ memory ä¸­,
+  ä¸ä½¿ç”¨ thread, å› ç‚º threadè¦ç”¨ folder æª”...
 
-  ¤À¬°¨âºØ Mode, Title & post list
+  åˆ†ç‚ºå…©ç¨® Mode, Title & post list
 
-  ¦ı¦Ò¼{´£¨ÑÂ²¤Æªº ¤W¤UÁä²¾°Ê..
+  ä½†è€ƒæ…®æä¾›ç°¡åŒ–çš„ ä¸Šä¸‹éµç§»å‹•..
 
   O->O->O->...
   |  |  |
   o  o  o
   |  |  |
 
-  index§tfield {next, text} §¡¬°int, °t¸m¤]¥Î int
-  ²Ä¤@¼h sorted by title, ´¡¤J®É¥Î binary search
-  ¥B MMAP only , ²Ä¤@¼hÅã¥Ü # and +
+  indexå«field {next, text} å‡ç‚ºint, é…ç½®ä¹Ÿç”¨ int
+  ç¬¬ä¸€å±¤ sorted by title, æ’å…¥æ™‚ç”¨ binary search
+  ä¸” MMAP only , ç¬¬ä¸€å±¤é¡¯ç¤º # and +
 
-  ¤£´£¨Ñ¥ô¦ó°Ï¬q§R°£°Ê§@, Á×§K²V¶Ã
+  ä¸æä¾›ä»»ä½•å€æ®µåˆªé™¤å‹•ä½œ, é¿å…æ··äº‚
 -------------------------------------------------------------------------*/
 
-#if 0	/* itoc.060206.µù¸Ñ */
+#if 0	/* itoc.060206.è¨»è§£ */
 
-  ·í¨Ï¥ÎªÌ¿é¤J·j´M±ø¥ó«á¡A·|¶i¤J XoXpost() ±N xo->dir ³oÀÉ®×¤¤©Ò°O¿ıªº©Ò¦³ HDR
-  ¤@¤@ÂsÄı¡AµM«á±Nº¡¨¬±ø¥óªº HDR ¦b xo->dir ¤¤©Ò¹ïÀ³¦ì¸m°O¿ı¦b xpostIndex[]¡A
-  ±µµÛ¶i¤J xover(XZ_XPOST) ·|©I¥s xpost_init()¡A¦A©ó xpost_pick() ±N xpostIndex[]
-  ©Ò°O¿ıªº¦ì¸m±q xo->dir §Û¨ì xo_pool[]¡C
+  ç•¶ä½¿ç”¨è€…è¼¸å…¥æœå°‹æ¢ä»¶å¾Œï¼Œæœƒé€²å…¥ XoXpost() å°‡ xo->dir é€™æª”æ¡ˆä¸­æ‰€è¨˜éŒ„çš„æ‰€æœ‰ HDR
+  ä¸€ä¸€ç€è¦½ï¼Œç„¶å¾Œå°‡æ»¿è¶³æ¢ä»¶çš„ HDR åœ¨ xo->dir ä¸­æ‰€å°æ‡‰ä½ç½®è¨˜éŒ„åœ¨ xpostIndex[]ï¼Œ
+  æ¥è‘—é€²å…¥ xover(XZ_XPOST) æœƒå‘¼å« xpost_init()ï¼Œå†æ–¼ xpost_pick() å°‡ xpostIndex[]
+  æ‰€è¨˜éŒ„çš„ä½ç½®å¾ xo->dir æŠ„åˆ° xo_pool[]ã€‚
 
-  ·í¼W¥[±ø¥ó°µ¤G¦¸·j´M®É¡A¦¹®É¤£»İ­n±½¾ã­Ó xo->dir ¤ºªº©Ò¦³ HDR¡A¥uÂsÄı°O¿ı¦b
-  xpostIndex[] ¸Ì­±ªº¨º¨Ç¡C¥Ñ©ó¤G¦¸·j´M®É­n¬İ¦P¤@­Ó xo->dir¡A©Ò¥H every_Z ®É
-  ­n¸T¤î¶i¤J XZ_XPOST ¤G¦¸¡C
+  ç•¶å¢åŠ æ¢ä»¶åšäºŒæ¬¡æœå°‹æ™‚ï¼Œæ­¤æ™‚ä¸éœ€è¦æƒæ•´å€‹ xo->dir å…§çš„æ‰€æœ‰ HDRï¼Œåªç€è¦½è¨˜éŒ„åœ¨
+  xpostIndex[] è£¡é¢çš„é‚£äº›ã€‚ç”±æ–¼äºŒæ¬¡æœå°‹æ™‚è¦çœ‹åŒä¸€å€‹ xo->dirï¼Œæ‰€ä»¥ every_Z æ™‚
+  è¦ç¦æ­¢é€²å…¥ XZ_XPOST äºŒæ¬¡ã€‚
 
-  ¤wª¾°İÃD¬O¡G·í¨Ï¥ÎªÌÁÙ¦b XZ_XPOST ¸Ì­±®É¡A­Y xo->dir ªº¶¶§Ç¦³²§°Ê®É (¨Ò¦p§R°£)¡A
-  ¦Ó¨Ï¥ÎªÌ­n¨D xpick_pick() ®É (¨Ò¦pÂ½­¶¡B¤G¦¸·j´M)¡A¥Ñ©ó xpostIndex[] °O¿ıªº¬O¦b 
-  xo->dir ªº¦ì¸m¡A¦¹®Éµ²ªG·|¥X¿ù¡C
+  å·²çŸ¥å•é¡Œæ˜¯ï¼šç•¶ä½¿ç”¨è€…é‚„åœ¨ XZ_XPOST è£¡é¢æ™‚ï¼Œè‹¥ xo->dir çš„é †åºæœ‰ç•°å‹•æ™‚ (ä¾‹å¦‚åˆªé™¤)ï¼Œ
+  è€Œä½¿ç”¨è€…è¦æ±‚ xpick_pick() æ™‚ (ä¾‹å¦‚ç¿»é ã€äºŒæ¬¡æœå°‹)ï¼Œç”±æ–¼ xpostIndex[] è¨˜éŒ„çš„æ˜¯åœ¨ 
+  xo->dir çš„ä½ç½®ï¼Œæ­¤æ™‚çµæœæœƒå‡ºéŒ¯ã€‚
 
 #endif
 
 /* ----------------------------------------------------- */
-/* ¦ê¦C·j´M¥Dµ{¦¡					 */
+/* ä¸²åˆ—æœå°‹ä¸»ç¨‹å¼					 */
 /* ----------------------------------------------------- */
 
 
 #ifdef EVERY_Z
-#define MSG_XYDENY	"½Ğ¥ı°h¥X¨Ï¥Î ^Z ¥H«eªº¦ê±µ/·s»D¥\\¯à"
+/* è«‹å…ˆé€€å‡ºä½¿ç”¨ ^Z ä»¥å‰çš„ä¸²æ¥/æ–°èåŠŸèƒ½ */
+#define MSG_XYDENY	"\xBD\xD0\xA5\xFD\xB0\x68\xA5\x58\xA8\xCF\xA5\xCE ^Z \xA5\x48\xAB\x65\xAA\xBA\xA6\xEA\xB1\xB5/\xB7\x73\xBB\x44\xA5\x5C\xAF\xE0"
 extern int z_status;
 #endif
 
@@ -75,7 +76,7 @@ extern KeyFunc xpost_cb[];
 extern KeyFunc xmbox_cb[];
 
 static int *xpostIndex;		/* Thor: first ypost pos in ypost_xo.key */
-static int comebackPos;		/* °O¿ı³Ì«á¾\Åª¨º½g¤å³¹ªº¦ì¸m */
+static int comebackPos;		/* è¨˜éŒ„æœ€å¾Œé–±è®€é‚£ç¯‡æ–‡ç« çš„ä½ç½® */
 
 
 static char HintWord[TTLEN + 1];
@@ -85,9 +86,9 @@ static char HintAuthor[IDLEN + 1];
 static int
 XoXpost(xo, hdr, on, off, fchk)		/* Thor: eXtended post : call from post_cb */
   XO *xo;
-  HDR *hdr;		/* ·j´Mªº±ø¥ó */
-  int on, off;		/* ·j´Mªº½d³ò (on~off-1) */
-  int (*fchk) ();	/* ·j´Mªº¨ç¦¡ */
+  HDR *hdr;		/* æœå°‹çš„æ¢ä»¶ */
+  int on, off;		/* æœå°‹çš„ç¯„åœ (on~off-1) */
+  int (*fchk) ();	/* æœå°‹çš„å‡½å¼ */
 {
   int *list, fsize, max, locus, count, i;
   char *fimage;
@@ -97,7 +98,7 @@ XoXpost(xo, hdr, on, off, fchk)		/* Thor: eXtended post : call from post_cb */
   int returnPos;
 #endif
 
-  if (xo->max <= 0)	/* Thor.980911.µù¸Ñ: ¥H¨¾¸U¤@ */
+  if (xo->max <= 0)	/* Thor.980911.è¨»è§£: ä»¥é˜²è¬ä¸€ */
     return XO_FOOT;
   
   /* build index according to input condition */
@@ -106,26 +107,27 @@ XoXpost(xo, hdr, on, off, fchk)		/* Thor: eXtended post : call from post_cb */
 
   if (fimage == (char *) -1)
   {
-    vmsg("¥Ø«eµLªk¶}±Ò¯Á¤ŞÀÉ");
+    /* ç›®å‰ç„¡æ³•é–‹å•Ÿç´¢å¼•æª” */
+    vmsg("\xA5\xD8\xAB\x65\xB5\x4C\xAA\x6B\xB6\x7D\xB1\xD2\xAF\xC1\xA4\xDE\xC0\xC9");
     return XO_FOOT;
   }
 
   /* allocate index memory, remember free first */
 
-  /* Thor.990113: ©È°İtitle, authorªºÀş¶¡¤S¦³¤Hpost */
+  /* Thor.990113: æ€•å•title, authorçš„ç¬é–“åˆæœ‰äººpost */
   max = xpostIndex ?  xo->max : fsize / sizeof(HDR);
   list = (int *) malloc(sizeof(int) * max);
 
-  count = 0;			/* Á`¦@¦³´X½gº¡¨¬±ø¥ó */
+  count = 0;			/* ç¸½å…±æœ‰å¹¾ç¯‡æ»¿è¶³æ¢ä»¶ */
 
   if (max > off)
     max = off;
 
   for (i = on; i < max; i++)
   {
-    if (xpostIndex)		/* ¼W¥[±ø¥ó¦A¦¸·j´M®É¡A¥u»İ­n§ä¦b xpostIndex[] ¸Ì­±ªº */
+    if (xpostIndex)		/* å¢åŠ æ¢ä»¶å†æ¬¡æœå°‹æ™‚ï¼Œåªéœ€è¦æ‰¾åœ¨ xpostIndex[] è£¡é¢çš„ */
       locus = xpostIndex[i];
-    else			/* ¾ã­Ó xo->dir ³£±½¤@¦¸ */
+    else			/* æ•´å€‹ xo->dir éƒ½æƒä¸€æ¬¡ */
       locus = i;
 
     head = (HDR *) fimage + locus;
@@ -151,7 +153,7 @@ XoXpost(xo, hdr, on, off, fchk)		/* Thor: eXtended post : call from post_cb */
     return XO_FOOT;
   }
 
-  /* ¼W¥[±ø¥ó¦A¦¸·j´M */
+  /* å¢åŠ æ¢ä»¶å†æ¬¡æœå°‹ */
   if (xpostIndex)
   {
     free(xpostIndex);
@@ -163,7 +165,7 @@ XoXpost(xo, hdr, on, off, fchk)		/* Thor: eXtended post : call from post_cb */
     return xpost_init(xo);
   }
 
-  /* ­º¦¸·j´M */
+  /* é¦–æ¬¡æœå°‹ */
   xpostIndex = list;
 
   /* build XO for xpost_xo */
@@ -186,10 +188,10 @@ XoXpost(xo, hdr, on, off, fchk)		/* Thor: eXtended post : call from post_cb */
 
 #ifdef HAVE_XYNEWS
   if (xz[XZ_NEWS - XO_ZONE].xo)
-    xo->pos = returnPos;	/* ±q XZ_XPOST ¦^¨ì XZ_NEWS ´å¼Ğ²¾¥h­ì¨Óªº¦a¤è */
+    xo->pos = returnPos;	/* å¾ XZ_XPOST å›åˆ° XZ_NEWS æ¸¸æ¨™ç§»å»åŸä¾†çš„åœ°æ–¹ */
   else
 #endif
-    xo->pos = comebackPos;	/* ±q XZ_XPOST ¦^¨ì XZ_POST ´å¼Ğ²¾¥h­ì¨Óªº¦a¤è©Î©Ò¾\Åª¤å³¹ªº¯u¥¿¦ì¸m */
+    xo->pos = comebackPos;	/* å¾ XZ_XPOST å›åˆ° XZ_POST æ¸¸æ¨™ç§»å»åŸä¾†çš„åœ°æ–¹æˆ–æ‰€é–±è®€æ–‡ç« çš„çœŸæ­£ä½ç½® */
 
   /* free xpost_xo */
 
@@ -212,21 +214,21 @@ XoXpost(xo, hdr, on, off, fchk)		/* Thor: eXtended post : call from post_cb */
 
 
   /* --------------------------------------------------- */
-  /* ·j´M§@ªÌ/¼ĞÃD					 */
+  /* æœå°‹ä½œè€…/æ¨™é¡Œ					 */
   /* --------------------------------------------------- */
 
 
-static int			/* 0:¤£º¡¨¬±ø¥ó  !=0:º¡¨¬±ø¥ó */
+static int			/* 0:ä¸æ»¿è¶³æ¢ä»¶  !=0:æ»¿è¶³æ¢ä»¶ */
 filter_select(head, hdr)
-  HDR *head;	/* «İ´úª« */
-  HDR *hdr;	/* ±ø¥ó */
+  HDR *head;	/* å¾…æ¸¬ç‰© */
+  HDR *hdr;	/* æ¢ä»¶ */
 {
   char *title;
   usint str4;
 
-  /* ­É¥Î hdr->xid ·í strlen(hdr->owner) */
+  /* å€Ÿç”¨ hdr->xid ç•¶ strlen(hdr->owner) */
 
-  /* Thor.981109: ¯S§Oª`·N¡A¬°¤F­°§C load¡Aauthor ¬O±qÀY match¡A¤£¬O substr match */
+  /* Thor.981109: ç‰¹åˆ¥æ³¨æ„ï¼Œç‚ºäº†é™ä½ loadï¼Œauthor æ˜¯å¾é ­ matchï¼Œä¸æ˜¯ substr match */
   if (hdr->xid && str_ncmp(head->owner, hdr->owner, hdr->xid))
     return 0;
 
@@ -234,7 +236,7 @@ filter_select(head, hdr)
   {
     title = head->title;
     str4 = STR4(title);
-    if (str4 == STR4(STR_REPLY) || str4 == STR4(STR_FORWARD))	/* Thor.980911: ¥ı§â Re:/Fw: °£¥~ */
+    if (str4 == STR4(STR_REPLY) || str4 == STR4(STR_FORWARD))	/* Thor.980911: å…ˆæŠŠ Re:/Fw: é™¤å¤– */
       title += 4;
     if (!str_sub(title, hdr->title))
       return 0;
@@ -252,7 +254,7 @@ XoXselect(xo)
   char *key;
 
 #ifdef EVERY_Z
-  if (z_status && xz[XZ_XPOST - XO_ZONE].xo)	/* itoc.020308: ¤£±o²Ö¿n¶i¤J¤G¦¸ */
+  if (z_status && xz[XZ_XPOST - XO_ZONE].xo)	/* itoc.020308: ä¸å¾—ç´¯ç©é€²å…¥äºŒæ¬¡ */
   {
     vmsg(MSG_XYDENY);
     return XO_FOOT;
@@ -293,7 +295,7 @@ XoXselect(xo)
 
 
   /* --------------------------------------------------- */
-  /* ·j´M§@ªÌ						 */
+  /* æœå°‹ä½œè€…						 */
   /* --------------------------------------------------- */
 
 
@@ -305,7 +307,7 @@ XoXauthor(xo)
   char *author;
 
 #ifdef EVERY_Z
-  if (z_status && xz[XZ_XPOST - XO_ZONE].xo)	/* itoc.020308: ¤£±o²Ö¿n¶i¤J¤G¦¸ */
+  if (z_status && xz[XZ_XPOST - XO_ZONE].xo)	/* itoc.020308: ä¸å¾—ç´¯ç©é€²å…¥äºŒæ¬¡ */
   {
     vmsg(MSG_XYDENY);
     return XO_FOOT;
@@ -328,7 +330,7 @@ XoXauthor(xo)
 
 
   /* --------------------------------------------------- */
-  /* ·j´M¼ĞÃD						 */
+  /* æœå°‹æ¨™é¡Œ						 */
   /* --------------------------------------------------- */
 
 
@@ -340,7 +342,7 @@ XoXtitle(xo)
   char *title;
 
 #ifdef EVERY_Z
-  if (z_status && xz[XZ_XPOST - XO_ZONE].xo)	/* itoc.020308: ¤£±o²Ö¿n¶i¤J¤G¦¸ */
+  if (z_status && xz[XZ_XPOST - XO_ZONE].xo)	/* itoc.020308: ä¸å¾—ç´¯ç©é€²å…¥äºŒæ¬¡ */
   {
     vmsg(MSG_XYDENY);
     return XO_FOOT;
@@ -362,21 +364,21 @@ XoXtitle(xo)
 
 
   /* --------------------------------------------------- */
-  /* ·j´M¬Û¦P¼ĞÃD					 */
+  /* æœå°‹ç›¸åŒæ¨™é¡Œ					 */
   /* --------------------------------------------------- */
 
 
-static int			/* 0:¤£º¡¨¬±ø¥ó  !=0:º¡¨¬±ø¥ó */
+static int			/* 0:ä¸æ»¿è¶³æ¢ä»¶  !=0:æ»¿è¶³æ¢ä»¶ */
 filter_search(head, hdr)
-  HDR *head;	/* «İ´úª« */
-  HDR *hdr;	/* ±ø¥ó */
+  HDR *head;	/* å¾…æ¸¬ç‰© */
+  HDR *hdr;	/* æ¢ä»¶ */
 {
   char *title, buf[TTLEN + 1];
   usint str4;
 
   title = head->title;
   str4 = STR4(title);
-  if (str4 == STR4(STR_REPLY) || str4 == STR4(STR_FORWARD))	/* Thor.980911: ¥ı§â Re:/Fw: °£¥~ */
+  if (str4 == STR4(STR_REPLY) || str4 == STR4(STR_FORWARD))	/* Thor.980911: å…ˆæŠŠ Re:/Fw: é™¤å¤– */
     title += 4;
   str_lowest(buf, title);
   return !strcmp(buf, hdr->title);
@@ -392,7 +394,7 @@ XoXsearch(xo)
   usint str4;
 
 #ifdef EVERY_Z
-  if (z_status && xz[XZ_XPOST - XO_ZONE].xo)	/* itoc.020308: ¤£±o²Ö¿n¶i¤J¤G¦¸ */
+  if (z_status && xz[XZ_XPOST - XO_ZONE].xo)	/* itoc.020308: ä¸å¾—ç´¯ç©é€²å…¥äºŒæ¬¡ */
   {
     vmsg(MSG_XYDENY);
     return XO_FOOT;
@@ -403,7 +405,7 @@ XoXsearch(xo)
 
   title = mhdr->title;
   str4 = STR4(title);
-  if (str4 == STR4(STR_REPLY) || str4 == STR4(STR_FORWARD))	/* Thor.980911: ¥ı§â Re:/Fw: °£¥~ */
+  if (str4 == STR4(STR_REPLY) || str4 == STR4(STR_FORWARD))	/* Thor.980911: å…ˆæŠŠ Re:/Fw: é™¤å¤– */
     title += 4;
 
   strcpy(HintWord, title);
@@ -416,29 +418,30 @@ XoXsearch(xo)
 
 
   /* --------------------------------------------------- */
-  /* ¥ş¤å·j´M						 */
+  /* å…¨æ–‡æœå°‹						 */
   /* --------------------------------------------------- */
 
 
 static char *search_folder;
-static int search_fit;		/* >=0:§ä¨ì´X½g -1:¤¤Â_·j´M */
-static int search_all;		/* ¤w·j´M´X½g */
+static int search_fit;		/* >=0:æ‰¾åˆ°å¹¾ç¯‡ -1:ä¸­æ–·æœå°‹ */
+static int search_all;		/* å·²æœå°‹å¹¾ç¯‡ */
 
-static int			/* 0:¤£º¡¨¬±ø¥ó  !=0:º¡¨¬±ø¥ó */
+static int			/* 0:ä¸æ»¿è¶³æ¢ä»¶  !=0:æ»¿è¶³æ¢ä»¶ */
 filter_full(head, hdr)
-  HDR *head;	/* «İ´úª« */
-  HDR *hdr;	/* ±ø¥ó */
+  HDR *head;	/* å¾…æ¸¬ç‰© */
+  HDR *hdr;	/* æ¢ä»¶ */
 {
   char buf[80], *fimage;
   int rc, fsize;
   struct timeval tv = {0, 10};
 
-  if (search_fit < 0)		/* ¤¤Â_·j´M */
+  if (search_fit < 0)		/* ä¸­æ–·æœå°‹ */
     return 0;
 
-  if (search_all % 100 == 0)	/* ¨C 100 ½g¤~³ø§i¤@¦¸¶i«× */
+  if (search_all % 100 == 0)	/* æ¯ 100 ç¯‡æ‰å ±å‘Šä¸€æ¬¡é€²åº¦ */
   {
-    sprintf(buf, "¥Ø«e§ä¨ì \033[1;33m%d / %d\033[m ½g¡A¥ş¤å·j´M¤¤\033[5m...\033[m«ö¥ô·NÁä¤¤Â_", 
+    /* ç›®å‰æ‰¾åˆ° \033[1;33m%d / %d\033[m ç¯‡ï¼Œå…¨æ–‡æœå°‹ä¸­\033[5m...\033[mæŒ‰ä»»æ„éµä¸­æ–· */
+    sprintf(buf, "\xA5\xD8\xAB\x65\xA7\xE4\xA8\xEC \033[1;33m%d / %d\033[m \xBD\x67\xA1\x41\xA5\xFE\xA4\xE5\xB7\x6A\xB4\x4D\xA4\xA4\033[5m...\033[m\xAB\xF6\xA5\xF4\xB7\x4E\xC1\xE4\xA4\xA4\xC2\x5F", 
       search_fit, search_all);
     outz(buf);
     refresh();
@@ -460,7 +463,7 @@ filter_full(head, hdr)
 
   munmap(fimage, fsize);
 
-  /* ¨Ï¥ÎªÌ¥i¥H¤¤Â_·j´M */
+  /* ä½¿ç”¨è€…å¯ä»¥ä¸­æ–·æœå°‹ */
   fsize = 1;
   if (select(1, (fd_set *) &fsize, NULL, NULL, &tv) > 0)
   {
@@ -481,7 +484,7 @@ XoXfull(xo)
   int head, tail;
 
 #ifdef EVERY_Z
-  if (z_status && xz[XZ_XPOST - XO_ZONE].xo)	/* itoc.020308: ¤£±o²Ö¿n¶i¤J¤G¦¸ */
+  if (z_status && xz[XZ_XPOST - XO_ZONE].xo)	/* itoc.020308: ä¸å¾—ç´¯ç©é€²å…¥äºŒæ¬¡ */
   {
     vmsg(MSG_XYDENY);
     return XO_FOOT;
@@ -491,20 +494,24 @@ XoXfull(xo)
   /* input condition */
 
   key = hdr.title;
-  if (!vget(b_lines, 0, "¤º¤åÃöÁä¦r¡G", key, 30, DOECHO))
+  /* å…§æ–‡é—œéµå­—ï¼š */
+  if (!vget(b_lines, 0, "\xA4\xBA\xA4\xE5\xC3\xF6\xC1\xE4\xA6\x72\xA1\x47", key, 30, DOECHO))
     return XO_FOOT;
 
-  vget(b_lines, 0, "[³]©w·j´M½d³ò] °_ÂI¡G(Enter)±qÀY¶}©l ", ans, 6, DOECHO);
+  /* [è¨­å®šæœå°‹ç¯„åœ] èµ·é»ï¼š(Enter)å¾é ­é–‹å§‹  */
+  vget(b_lines, 0, "[\xB3\x5D\xA9\x77\xB7\x6A\xB4\x4D\xBD\x64\xB3\xF2] \xB0\x5F\xC2\x49\xA1\x47(Enter)\xB1\x71\xC0\x59\xB6\x7D\xA9\x6C ", ans, 6, DOECHO);
   if ((head = atoi(ans)) <= 0)
     head = 1; 
 
-  vget(b_lines, 44, "²×ÂI¡G(Enter)§ä¨ì³Ì«á ", ans, 6, DOECHO);
+  /* çµ‚é»ï¼š(Enter)æ‰¾åˆ°æœ€å¾Œ  */
+  vget(b_lines, 44, "\xB2\xD7\xC2\x49\xA1\x47(Enter)\xA7\xE4\xA8\xEC\xB3\xCC\xAB\xE1 ", ans, 6, DOECHO);
   if ((tail = atoi(ans)) < head)
     tail = INT_MAX;
 
   head--;
 
-  sprintf(HintWord, "[¥ş¤å·j´M] %s", key);
+  /* [å…¨æ–‡æœå°‹] %s */
+  sprintf(HintWord, "[\xA5\xFE\xA4\xE5\xB7\x6A\xB4\x4D] %s", key);
   HintAuthor[0] = '\0';
   str_lowest(key, key);
 
@@ -517,14 +524,14 @@ XoXfull(xo)
 
 
   /* --------------------------------------------------- */
-  /* ·j´M mark						 */
+  /* æœå°‹ mark						 */
   /* --------------------------------------------------- */
 
 
-static int			/* 0:¤£º¡¨¬±ø¥ó  !=0:º¡¨¬±ø¥ó */
+static int			/* 0:ä¸æ»¿è¶³æ¢ä»¶  !=0:æ»¿è¶³æ¢ä»¶ */
 filter_mark(head, hdr)
-  HDR *head;	/* «İ´úª« */
-  HDR *hdr;	/* ±ø¥ó */
+  HDR *head;	/* å¾…æ¸¬ç‰© */
+  HDR *hdr;	/* æ¢ä»¶ */
 {
   return (head->xmode & POST_MARKED);
 }
@@ -535,14 +542,15 @@ XoXmark(xo)
   XO *xo;
 {
 #ifdef EVERY_Z
-  if (z_status && xz[XZ_XPOST - XO_ZONE].xo)	/* itoc.020308: ¤£±o²Ö¿n¶i¤J¤G¦¸ */
+  if (z_status && xz[XZ_XPOST - XO_ZONE].xo)	/* itoc.020308: ä¸å¾—ç´¯ç©é€²å…¥äºŒæ¬¡ */
   {
     vmsg(MSG_XYDENY);
     return XO_FOOT;
   }
 #endif
 
-  strcpy(HintWord, "\033[1;33m©Ò¦³ mark ¤å³¹\033[m");
+  /* \033[1;33mæ‰€æœ‰ mark æ–‡ç« \033[m */
+  strcpy(HintWord, "\033[1;33m\xA9\xD2\xA6\xB3 mark \xA4\xE5\xB3\xB9\033[m");
   HintAuthor[0] = '\0';
 
   return XoXpost(xo, NULL, 0, INT_MAX, filter_mark);
@@ -550,14 +558,14 @@ XoXmark(xo)
 
 
   /* --------------------------------------------------- */
-  /* ·j´M¥»¦a						 */
+  /* æœå°‹æœ¬åœ°						 */
   /* --------------------------------------------------- */
 
 
-static int			/* 0:¤£º¡¨¬±ø¥ó  !=0:º¡¨¬±ø¥ó */
+static int			/* 0:ä¸æ»¿è¶³æ¢ä»¶  !=0:æ»¿è¶³æ¢ä»¶ */
 filter_local(head, hdr)
-  HDR *head;	/* «İ´úª« */
-  HDR *hdr;	/* ±ø¥ó */
+  HDR *head;	/* å¾…æ¸¬ç‰© */
+  HDR *hdr;	/* æ¢ä»¶ */
 {
   return !(head->xmode & POST_INCOME);
 }
@@ -569,19 +577,21 @@ XoXlocal(xo)
 {
   if (currbattr & BRD_NOTRAN)
   {
-    vmsg("¥»ªO¬°¤£Âà«HªO¡A¥ş³¡³£¬O¥»¦a¤å³¹");
+    /* æœ¬æ¿ç‚ºä¸è½‰ä¿¡æ¿ï¼Œå…¨éƒ¨éƒ½æ˜¯æœ¬åœ°æ–‡ç«  */
+    vmsg("\xA5\xBB\xAA\x4F\xAC\xB0\xA4\xA3\xC2\xE0\xAB\x48\xAA\x4F\xA1\x41\xA5\xFE\xB3\xA1\xB3\xA3\xAC\x4F\xA5\xBB\xA6\x61\xA4\xE5\xB3\xB9");
     return XO_FOOT;
   }
 
 #ifdef EVERY_Z
-  if (z_status && xz[XZ_XPOST - XO_ZONE].xo)	/* itoc.020308: ¤£±o²Ö¿n¶i¤J¤G¦¸ */
+  if (z_status && xz[XZ_XPOST - XO_ZONE].xo)	/* itoc.020308: ä¸å¾—ç´¯ç©é€²å…¥äºŒæ¬¡ */
   {
     vmsg(MSG_XYDENY);
     return XO_FOOT;
   }
 #endif
 
-  strcpy(HintWord, "\033[1;33m©Ò¦³«DÂà¶i¤å³¹\033[m");
+  /* \033[1;33mæ‰€æœ‰éè½‰é€²æ–‡ç« \033[m */
+  strcpy(HintWord, "\033[1;33m\xA9\xD2\xA6\xB3\xAB\x44\xC2\xE0\xB6\x69\xA4\xE5\xB3\xB9\033[m");
   HintAuthor[0] = '\0';
 
   return XoXpost(xo, NULL, 0, INT_MAX, filter_local);
@@ -589,7 +599,7 @@ XoXlocal(xo)
 
 
 /* ----------------------------------------------------- */
-/* ¦ê¦C·j´M¬É­±						 */
+/* ä¸²åˆ—æœå°‹ç•Œé¢						 */
 /* ----------------------------------------------------- */
 
 
@@ -597,16 +607,22 @@ int
 xpost_head(xo)
   XO *xo;
 {
-  vs_head("¥DÃD¦ê¦C", xo->xyz);
+  /* ä¸»é¡Œä¸²åˆ— */
+  vs_head("\xA5\x44\xC3\x44\xA6\xEA\xA6\x43", xo->xyz);
 
-  /* itoc.010323: ¦P®É´£¥Ü§@ªÌ/¥DÃD */
-  outs("[¦ê±µ¨t¦C] ");
+  /* itoc.010323: åŒæ™‚æç¤ºä½œè€…/ä¸»é¡Œ */
+  /* [ä¸²æ¥ç³»åˆ—]  */
+  outs("[\xA6\xEA\xB1\xB5\xA8\x74\xA6\x43] ");
   if (*HintAuthor)
-    prints("§@ªÌ¡G%-13s   ", HintAuthor);
+    /* ä½œè€…ï¼š%-13s    */
+    prints("\xA7\x40\xAA\xCC\xA1\x47%-13s   ", HintAuthor);
   if (*HintWord)
-    prints("¼ĞÃD¡G%.30s", HintWord);
+    /* æ¨™é¡Œï¼š%.30s */
+    prints("\xBC\xD0\xC3\x44\xA1\x47%.30s", HintWord);
 
-  prints(NECKER_XPOST, d_cols, "", currbattr & BRD_NOSCORE ? "¢®" : "¡³");
+  /* â•³ */
+  /* â—‹ */
+  prints(NECKER_XPOST, d_cols, "", currbattr & BRD_NOSCORE ? "\xA2\xAE" : "\xA1\xB3");
 
   return XO_BODY;
 }
@@ -637,10 +653,10 @@ xpost_pick(xo)
   do
   {
     pos = list[top++];
-    if (pos >= num)	/* hightman.030528: Á×§K .DIR ³Q§R´î®É¡A·|¨S¦³¤å³¹¥i¥HÅã¥Ü */
+    if (pos >= num)	/* hightman.030528: é¿å… .DIR è¢«åˆªæ¸›æ™‚ï¼Œæœƒæ²’æœ‰æ–‡ç« å¯ä»¥é¡¯ç¤º */
       continue;
     memcpy(hdr, fimage + pos, sizeof(HDR));
-    hdr->xid = pos;		/* ¥Î hdr->xid ¨Ó°O¿ı¨ä­ì¥ı¦b¬İªO¤¤ªº pos */
+    hdr->xid = pos;		/* ç”¨ hdr->xid ä¾†è¨˜éŒ„å…¶åŸå…ˆåœ¨çœ‹æ¿ä¸­çš„ pos */
     hdr++;
   } while (top < max);
 
@@ -673,7 +689,7 @@ xpost_load(xo)
 
 
 static void
-xpost_history(xo, fhdr)		/* ±N fhdr ³o½g¥[¤J brh */
+xpost_history(xo, fhdr)		/* å°‡ fhdr é€™ç¯‡åŠ å…¥ brh */
   XO *xo;
   HDR *fhdr;
 {
@@ -683,7 +699,7 @@ xpost_history(xo, fhdr)		/* ±N fhdr ³o½g¥[¤J brh */
   HDR buf;
 
   chrono = fhdr->chrono;
-  if (!brh_unread(chrono))	/* ¦pªG¤w¦b brh ¤¤¡A´NµL»İ°Ê§@ */
+  if (!brh_unread(chrono))	/* å¦‚æœå·²åœ¨ brh ä¸­ï¼Œå°±ç„¡éœ€å‹•ä½œ */
     return;
 
   dir = xo->dir;
@@ -717,7 +733,7 @@ xpost_browse(xo)
   {
     hdr = (HDR *) xo_pool + (xo->pos - xo->top);
 
-#if 0	/* itoc.010822: ¤£»İ­n¡A¦b XoXpost() ¤¤¤w³Q­ç°£ */
+#if 0	/* itoc.010822: ä¸éœ€è¦ï¼Œåœ¨ XoXpost() ä¸­å·²è¢«å‰”é™¤ */
 #ifdef HAVE_REFUSEMARK
     if (!chkrestrict(hdr))
       continue;
@@ -726,18 +742,18 @@ xpost_browse(xo)
 
     hdr_fpath(fpath, dir, hdr);
 
-    /* Thor.990204: ¬°¦Ò¼{more ¶Ç¦^­È */   
+    /* Thor.990204: ç‚ºè€ƒæ…®more å‚³å›å€¼ */   
     if ((key = more(fpath, FOOTER_POST)) < 0)
       break;
 
     comebackPos = hdr->xid; 
-    /* Thor.980911: ±q¦ê±µ¼Ò¦¡¦^¨Ó®É­n¦^¨ì¬İ¹Lªº¨º½g¤å³¹¦ì¸m */
+    /* Thor.980911: å¾ä¸²æ¥æ¨¡å¼å›ä¾†æ™‚è¦å›åˆ°çœ‹éçš„é‚£ç¯‡æ–‡ç« ä½ç½® */
 
     xpost_history(xo, hdr);
     strcpy(currtitle, str_ttl(hdr->title));
 
 re_key:
-    /* Thor.990204: ¬°¦Ò¼{more ¶Ç¦^­È */   
+    /* Thor.990204: ç‚ºè€ƒæ…®more å‚³å›å€¼ */   
     if (!key)
       key = vkey();
 
@@ -745,12 +761,12 @@ re_key:
     {
     case KEY_UP:
     case KEY_PGUP:
-    case '[':	/* itoc.000227: ¦ê¦C·j´M¤¤¡A¦³®É·Q¥Î [ ¬İ¤W¤@½g¤å³¹ */
-    case 'k':	/* itoc.000227: ¦ê¦C·j´M¤¤¡A¦³®É·Q¥Î k ¬İ¤W¤@½g¤å³¹ */
+    case '[':	/* itoc.000227: ä¸²åˆ—æœå°‹ä¸­ï¼Œæœ‰æ™‚æƒ³ç”¨ [ çœ‹ä¸Šä¸€ç¯‡æ–‡ç«  */
+    case 'k':	/* itoc.000227: ä¸²åˆ—æœå°‹ä¸­ï¼Œæœ‰æ™‚æƒ³ç”¨ k çœ‹ä¸Šä¸€ç¯‡æ–‡ç«  */
       {
 	int pos = xo->pos - 1;
 
-	/* itoc.000227: Á×§K¬İ¹LÀY */
+	/* itoc.000227: é¿å…çœ‹éé ­ */
 	if (pos < 0)
 	  return xpost_head(xo);
 
@@ -764,13 +780,13 @@ re_key:
 
     case KEY_DOWN:
     case KEY_PGDN:
-    case ']':	/* Thor.990204: ¦ê¦C·j´M¤¤¡A¦³®É·Q¥Î ] ¬İ¤U¤@½g¤å³¹ */
-    case 'j':	/* Thor.990204: ¦ê¦C·j´M¤¤¡A¦³®É·Q¥Î j ¬İ¤U¤@½g¤å³¹ */
+    case ']':	/* Thor.990204: ä¸²åˆ—æœå°‹ä¸­ï¼Œæœ‰æ™‚æƒ³ç”¨ ] çœ‹ä¸‹ä¸€ç¯‡æ–‡ç«  */
+    case 'j':	/* Thor.990204: ä¸²åˆ—æœå°‹ä¸­ï¼Œæœ‰æ™‚æƒ³ç”¨ j çœ‹ä¸‹ä¸€ç¯‡æ–‡ç«  */
     case ' ':
       {
 	int pos = xo->pos + 1;
 
-	/* Thor.980727: ­×¥¿¬İ¹LÀYªºbug */
+	/* Thor.980727: ä¿®æ­£çœ‹éé ­çš„bug */
 
 	if (pos >= xo->max)
     	  return xpost_head(xo);
@@ -787,7 +803,7 @@ re_key:
     case 'r':
       if (bbstate & STAT_POST)
       {
-	if (do_reply(xo, hdr) == XO_INIT)	/* ¦³¦¨¥\¦a post ¥X¥h¤F */
+	if (do_reply(xo, hdr) == XO_INIT)	/* æœ‰æˆåŠŸåœ° post å‡ºå»äº† */
 	  return xpost_init(xo);
       }
       break;
@@ -795,7 +811,7 @@ re_key:
     case 'm': 
       if ((bbstate & STAT_BOARD) && !(hdr->xmode & POST_MARKED))
       {
-	/* ¦b xpost_browse ®É¬İ¤£¨ì m °O¸¹¡A©Ò¥H­­¨î¥u¯à mark */
+	/* åœ¨ xpost_browse æ™‚çœ‹ä¸åˆ° m è¨˜è™Ÿï¼Œæ‰€ä»¥é™åˆ¶åªèƒ½ mark */
 	hdr->xmode ^= POST_MARKED;
 	currchrono = hdr->chrono;
 	rec_put(dir, hdr, sizeof(HDR), hdr->xid, cmpchrono);
@@ -809,7 +825,8 @@ re_key:
 #endif
 
     case '/':
-      if (vget(b_lines, 0, "·j´M¡G", hunt, sizeof(hunt), DOECHO))
+      /* æœå°‹ï¼š */
+      if (vget(b_lines, 0, "\xB7\x6A\xB4\x4D\xA1\x47", hunt, sizeof(hunt), DOECHO))
       {
 	key = more(fpath, FOOTER_POST);
 	goto re_key;
@@ -819,7 +836,7 @@ re_key:
     case 'E':
       return post_edit(xo);
 
-    case 'C':	/* itoc.000515: xpost_browse ®É¥i¦s¤J¼È¦sÀÉ */
+    case 'C':	/* itoc.000515: xpost_browse æ™‚å¯å­˜å…¥æš«å­˜æª” */
       {
 	FILE *fp;
 	if (fp = tbf_open())
@@ -858,17 +875,17 @@ xmbox_browse(xo)
 
     hdr_fpath(fpath, dir, hdr);
 
-    /* Thor.990204: ¬°¦Ò¼{more ¶Ç¦^­È */   
+    /* Thor.990204: ç‚ºè€ƒæ…®more å‚³å›å€¼ */   
     if ((key = more(fpath, FOOTER_MAILER)) < 0)
       break;
 
     comebackPos = hdr->xid; 
-    /* Thor.980911: ±q¦ê±µ¼Ò¦¡¦^¨Ó®É­n¦^¨ì¬İ¹Lªº¨º½g¤å³¹¦ì¸m */
+    /* Thor.980911: å¾ä¸²æ¥æ¨¡å¼å›ä¾†æ™‚è¦å›åˆ°çœ‹éçš„é‚£ç¯‡æ–‡ç« ä½ç½® */
 
     strcpy(currtitle, str_ttl(hdr->title));
 
 re_key:
-    /* Thor.990204: ¬°¦Ò¼{more ¶Ç¦^­È */   
+    /* Thor.990204: ç‚ºè€ƒæ…®more å‚³å›å€¼ */   
     if (!key)
       key = vkey();
 
@@ -876,12 +893,12 @@ re_key:
     {
     case KEY_UP:
     case KEY_PGUP:
-    case '[':	/* itoc.000227: ¦ê¦C·j´M¤¤¡A¦³®É·Q¥Î [ ¬İ¤W¤@½g¤å³¹ */
-    case 'k':	/* itoc.000227: ¦ê¦C·j´M¤¤¡A¦³®É·Q¥Î k ¬İ¤W¤@½g¤å³¹ */
+    case '[':	/* itoc.000227: ä¸²åˆ—æœå°‹ä¸­ï¼Œæœ‰æ™‚æƒ³ç”¨ [ çœ‹ä¸Šä¸€ç¯‡æ–‡ç«  */
+    case 'k':	/* itoc.000227: ä¸²åˆ—æœå°‹ä¸­ï¼Œæœ‰æ™‚æƒ³ç”¨ k çœ‹ä¸Šä¸€ç¯‡æ–‡ç«  */
       {
 	int pos = xo->pos - 1;
 
-	/* itoc.000227: Á×§K¬İ¹LÀY */
+	/* itoc.000227: é¿å…çœ‹éé ­ */
 	if (pos < 0)
 	  return xpost_head(xo);
 
@@ -895,13 +912,13 @@ re_key:
 
     case KEY_DOWN:
     case KEY_PGDN:
-    case ']':	/* Thor.990204: ¦ê¦C·j´M¤¤¡A¦³®É·Q¥Î ] ¬İ¤U¤@½g¤å³¹ */
-    case 'j':	/* Thor.990204: ¦ê¦C·j´M¤¤¡A¦³®É·Q¥Î j ¬İ¤U¤@½g¤å³¹ */
+    case ']':	/* Thor.990204: ä¸²åˆ—æœå°‹ä¸­ï¼Œæœ‰æ™‚æƒ³ç”¨ ] çœ‹ä¸‹ä¸€ç¯‡æ–‡ç«  */
+    case 'j':	/* Thor.990204: ä¸²åˆ—æœå°‹ä¸­ï¼Œæœ‰æ™‚æƒ³ç”¨ j çœ‹ä¸‹ä¸€ç¯‡æ–‡ç«  */
     case ' ':
       {
 	int pos = xo->pos + 1;
 
-	/* Thor.980727: ­×¥¿¬İ¹LÀYªºbug */
+	/* Thor.980727: ä¿®æ­£çœ‹éé ­çš„bug */
 
 	if (pos >= xo->max)
     	  return xpost_head(xo);
@@ -923,7 +940,7 @@ re_key:
     case 'm': 
       if (!(hdr->xmode & POST_MARKED))
       {
-	/* ¦b xmbox_browse ®É¬İ¤£¨ì m °O¸¹¡A©Ò¥H­­¨î¥u¯à mark */
+	/* åœ¨ xmbox_browse æ™‚çœ‹ä¸åˆ° m è¨˜è™Ÿï¼Œæ‰€ä»¥é™åˆ¶åªèƒ½ mark */
 	hdr->xmode ^= POST_MARKED;
 	currchrono = hdr->chrono;
 	rec_put(dir, hdr, sizeof(HDR), hdr->xid, cmpchrono);
@@ -931,7 +948,8 @@ re_key:
       break;
 
     case '/':
-      if (vget(b_lines, 0, "·j´M¡G", hunt, sizeof(hunt), DOECHO))
+      /* æœå°‹ï¼š */
+      if (vget(b_lines, 0, "\xB7\x6A\xB4\x4D\xA1\x47", hunt, sizeof(hunt), DOECHO))
       {
 	key = more(fpath, FOOTER_MAILER);
 	goto re_key;
@@ -941,7 +959,7 @@ re_key:
     case 'E':
       return mbox_edit(xo);
 
-    case 'C':	/* itoc.000515: xmbox_browse ®É¥i¦s¤J¼È¦sÀÉ */
+    case 'C':	/* itoc.000515: xmbox_browse æ™‚å¯å­˜å…¥æš«å­˜æª” */
       {
 	FILE *fp;
 	if (fp = tbf_open())
@@ -963,16 +981,16 @@ re_key:
 }
 
 
-#ifdef HAVE_XYNEWS	/* itoc.010822: news ¾\Åª¼Ò¦¡ */
+#ifdef HAVE_XYNEWS	/* itoc.010822: news é–±è®€æ¨¡å¼ */
 
-#if 0	/* ºc·Q */
+#if 0	/* æ§‹æƒ³ */
 
-¦b¤j¬İªO(³s½u¬İªO)¤¤±`±`¦³«Ü¦hÄé¤ô¤å³¹¡A¥é·Ó news ªº¾\Åª¤è¦¡¡A
-§â©Ò¦³ reply ªº¤å³¹³£¥ıÁôÂÃ¡A¥uÅã¥Ü²Ä¤@«Êµo¤å¡C
+åœ¨å¤§çœ‹æ¿(é€£ç·šçœ‹æ¿)ä¸­å¸¸å¸¸æœ‰å¾ˆå¤šçŒæ°´æ–‡ç« ï¼Œä»¿ç…§ news çš„é–±è®€æ–¹å¼ï¼Œ
+æŠŠæ‰€æœ‰ reply çš„æ–‡ç« éƒ½å…ˆéš±è—ï¼Œåªé¡¯ç¤ºç¬¬ä¸€å°ç™¼æ–‡ã€‚
 
-²Ä¤@½ü§Q¥Î XoNews ¨Ó­ç°£ reply ¤å³¹
-²Ä¤G½ü§Q¥Î­ì¦³ªº XoXsearch ·j´M¦P¥DÃD¤å³¹
-¦p¦¹´N¥i¥H¹F¨ì·s»D¾\Åª¼Ò¦¡ªº®ÄªG
+ç¬¬ä¸€è¼ªåˆ©ç”¨ XoNews ä¾†å‰”é™¤ reply æ–‡ç« 
+ç¬¬äºŒè¼ªåˆ©ç”¨åŸæœ‰çš„ XoXsearch æœå°‹åŒä¸»é¡Œæ–‡ç« 
+å¦‚æ­¤å°±å¯ä»¥é”åˆ°æ–°èé–±è®€æ¨¡å¼çš„æ•ˆæœ
 
 #endif
 
@@ -986,7 +1004,8 @@ int
 news_head(xo)
   XO *xo;
 {
-  vs_head("·s»D¾\\Åª", xo->xyz);
+  /* æ–°èé–±è®€ */
+  vs_head("\xB7\x73\xBB\x44\xBE\x5C\xC5\xAA", xo->xyz);
   prints(NECKER_NEWS, d_cols, "");
   return XO_BODY;
 }
@@ -1017,7 +1036,7 @@ news_pick(xo)
   {
     pos = list[top++];
     memcpy(hdr, fimage + pos, sizeof(HDR));
-    /* hdr->xid = pos; */	/* ¦b XZ_NEWS ¨S¥Î¨ì xid¡A¥i¥H¦Ò¼{«O¯dµ¹ reply ½g¼Æ */
+    /* hdr->xid = pos; */	/* åœ¨ XZ_NEWS æ²’ç”¨åˆ° xidï¼Œå¯ä»¥è€ƒæ…®ä¿ç•™çµ¦ reply ç¯‡æ•¸ */
     hdr++;
   } while (top < max);
 
@@ -1055,11 +1074,11 @@ XoNews(xo)			/* itoc: News reader : call from post_cb */
   HDR *head;
   XO *xt;
 
-  if (xo->max <= 0)		/* Thor.980911.µù¸Ñ: ¥H¨¾¸U¤@ */
+  if (xo->max <= 0)		/* Thor.980911.è¨»è§£: ä»¥é˜²è¬ä¸€ */
     return XO_FOOT;
 
-#ifdef EVERY_Z		/* itoc.060206: ¥u¦³¥Î ^Z ¤~¥i¯à±q¤£¦P¬İªO¶i¤J·s»D¼Ò¦¡ */
-  if (xz[XZ_NEWS - XO_ZONE].xo)		/* itoc.020308: ¤£±o²Ö¿n¶i¤J¤G¦¸ */
+#ifdef EVERY_Z		/* itoc.060206: åªæœ‰ç”¨ ^Z æ‰å¯èƒ½å¾ä¸åŒçœ‹æ¿é€²å…¥æ–°èæ¨¡å¼ */
+  if (xz[XZ_NEWS - XO_ZONE].xo)		/* itoc.020308: ä¸å¾—ç´¯ç©é€²å…¥äºŒæ¬¡ */
   {
     vmsg(MSG_XYDENY);
     return XO_FOOT;
@@ -1072,13 +1091,14 @@ XoNews(xo)			/* itoc: News reader : call from post_cb */
 
   if (fimage == (char *) -1)
   {
-    vmsg("¥Ø«eµLªk¶}±Ò¯Á¤ŞÀÉ");
+    /* ç›®å‰ç„¡æ³•é–‹å•Ÿç´¢å¼•æª” */
+    vmsg("\xA5\xD8\xAB\x65\xB5\x4C\xAA\x6B\xB6\x7D\xB1\xD2\xAF\xC1\xA4\xDE\xC0\xC9");
     return XO_FOOT;
   }
 
   /* allocate index memory, remember free first */
 
-  /* Thor.990113: ©È°İtitle, authorªºÀş¶¡¤S¦³¤Hpost */
+  /* Thor.990113: æ€•å•title, authorçš„ç¬é–“åˆæœ‰äººpost */
   max = fsize / sizeof(HDR);
   list = (int *) malloc(sizeof(int) * max);
 
@@ -1094,7 +1114,7 @@ XoNews(xo)			/* itoc: News reader : call from post_cb */
 #endif
 
     /* check condition */
-    if (STR4(head->title) == STR4(STR_REPLY))	/* reply ªº¤å³¹¤£­n */
+    if (STR4(head->title) == STR4(STR_REPLY))	/* reply çš„æ–‡ç« ä¸è¦ */
       continue;
 
     list[count++] = i;
@@ -1125,7 +1145,7 @@ XoNews(xo)			/* itoc: News reader : call from post_cb */
 
   /* set xo->pos for new location */
 
-  xo->pos = returnPos;		/* ±q XZ_NEWS ¦^¨ì XZ_POST ´å¼Ğ²¾¥h­ì¨Óªº¦a¤è */
+  xo->pos = returnPos;		/* å¾ XZ_NEWS å›åˆ° XZ_POST æ¸¸æ¨™ç§»å»åŸä¾†çš„åœ°æ–¹ */
 
   /* free news_xo */
 

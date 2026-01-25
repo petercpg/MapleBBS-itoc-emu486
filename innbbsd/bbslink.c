@@ -16,25 +16,25 @@
 #include <stdarg.h>
 
 
-#if 0	/* itoc.030122.µù¸Ñ: µ{¦¡¬yµ{ */
+#if 0	/* itoc.030122.è¨»è§£: ç¨‹å¼æµç¨‹ */
 
-  0. bbsd ·|§â·s¤å³¹ªºÀÉÀY°O¿ı¦b out.bntp
+  0. bbsd æœƒæŠŠæ–°æ–‡ç« çš„æª”é ­è¨˜éŒ„åœ¨ out.bntp
 
-  1. °õ¦æ¥»µ{¦¡¥H«á¡A¦b main() ³B²z¤@¤U°Ñ¼Æ
+  1. åŸ·è¡Œæœ¬ç¨‹å¼ä»¥å¾Œï¼Œåœ¨ main() è™•ç†ä¸€ä¸‹åƒæ•¸
 
-  2. ¦b main():initial_bbs() Åª¥X³]©wÀÉ¡AµM«á¶i¤J bbslink()
+  2. åœ¨ main():initial_bbs() è®€å‡ºè¨­å®šæª”ï¼Œç„¶å¾Œé€²å…¥ bbslink()
 
-  3. ¦b bbslink():deal_bntp() ¤¤­º¥ı³B²z out.bntp
-     ¥Ñ©ó out.bntp ¬O§â©Ò¦³ªOªº·s¤å³¹³£©ñ¦b¤@°_¡A©Ò¥H¦b³o¸Ì§â³o out.bntp ÀÉ¨Ì¯¸¥x¤À¥h *.link
+  3. åœ¨ bbslink():deal_bntp() ä¸­é¦–å…ˆè™•ç† out.bntp
+     ç”±æ–¼ out.bntp æ˜¯æŠŠæ‰€æœ‰æ¿çš„æ–°æ–‡ç« éƒ½æ”¾åœ¨ä¸€èµ·ï¼Œæ‰€ä»¥åœ¨é€™è£¡æŠŠé€™ out.bntp æª”ä¾ç«™å°åˆ†å» *.link
 
-  4. ¦b bbslink():visit_site() ¤¤¨Ì¥H¤U¨BÆJ¡A¤@¤@«ô³X¦U¯¸
+  4. åœ¨ bbslink():visit_site() ä¸­ä¾ä»¥ä¸‹æ­¥é©Ÿï¼Œä¸€ä¸€æ‹œè¨ªå„ç«™
 
-     4.1. open_connect() ¶}±Ò³s½u
-     4.2. send_outgoing() §â¥»¯¸¥x¹ïÀ³ªº link ÀÉ¤@µ§¤@µ§Åª¥X¨Ó¡A§â«H°e¥h¹ï¤è¯¸
-     4.3. readnews() ¨Ì§ÇÅª¨ú¨C­Ó·Q­nªº newsgroup¡A¨Ã¨ú¹ï¤è¯¸ªº«H
-     4.4. close_connect() Ãö³¬³s½u
+     4.1. open_connect() é–‹å•Ÿé€£ç·š
+     4.2. send_outgoing() æŠŠæœ¬ç«™å°å°æ‡‰çš„ link æª”ä¸€ç­†ä¸€ç­†è®€å‡ºä¾†ï¼ŒæŠŠä¿¡é€å»å°æ–¹ç«™
+     4.3. readnews() ä¾åºè®€å–æ¯å€‹æƒ³è¦çš„ newsgroupï¼Œä¸¦å–å°æ–¹ç«™çš„ä¿¡
+     4.4. close_connect() é—œé–‰é€£ç·š
 
-  [µù] §Y¨Ï¨S¦³±Ò°Ê innbbsd¡A¤]¥i¥H¨Ï¥Î bbslink
+  [è¨»] å³ä½¿æ²’æœ‰å•Ÿå‹• innbbsdï¼Œä¹Ÿå¯ä»¥ä½¿ç”¨ bbslink
 
 #endif
 
@@ -45,19 +45,19 @@ static FILE *SERVERwfp = NULL;
 static char SERVERbuffer[1024];
 
 
-/* itoc.030122.µù¸Ñ: ¥H¤U³o´X­Ó¦b«ü©w°Ñ¼Æ®É¤~¦³¥Î */
-static int Verbose = 0;			/* 1: Åã¥Ü¸Ô²Ó°T®§ */
-static int KillFormerProc = 0;		/* 1: §R°£¤W¦¸°õ¦æ¥¢±Ñªº bbslink */
-static int ResetActive = 0;		/* 1: ±N high-number §ó·s¨ì»P news server ¤W¬Û¦P */
-static int MaxArts = MAX_ARTS;		/* ¹ï news server ¨C­Ó¸s²Õ³Ì¦h¥u§ì´X«Ê¤å³¹ */
-static char *DefaultProcSite = NULL;	/* !=NULL: ¥u³B²z¬Y¯S©w¯¸¥x */
+/* itoc.030122.è¨»è§£: ä»¥ä¸‹é€™å¹¾å€‹åœ¨æŒ‡å®šåƒæ•¸æ™‚æ‰æœ‰ç”¨ */
+static int Verbose = 0;			/* 1: é¡¯ç¤ºè©³ç´°è¨Šæ¯ */
+static int KillFormerProc = 0;		/* 1: åˆªé™¤ä¸Šæ¬¡åŸ·è¡Œå¤±æ•—çš„ bbslink */
+static int ResetActive = 0;		/* 1: å°‡ high-number æ›´æ–°åˆ°èˆ‡ news server ä¸Šç›¸åŒ */
+static int MaxArts = MAX_ARTS;		/* å° news server æ¯å€‹ç¾¤çµ„æœ€å¤šåªæŠ“å¹¾å°æ–‡ç«  */
+static char *DefaultProcSite = NULL;	/* !=NULL: åªè™•ç†æŸç‰¹å®šç«™å° */
 
 
 #define DEBUG(arg)	if (Verbose) printf arg
 
 
 /*-------------------------------------------------------*/
-/* ³B²z bntp ÀÉ						 */
+/* è™•ç† bntp æª”						 */
 /*-------------------------------------------------------*/
 
 
@@ -104,7 +104,7 @@ queuefeed(node, sover)
 {
   int fd;
 
-  /* itoc.030122.µù¸Ñ: *.link ÀÉ¬O¨Ì¯¸¥x¤À¦n «İ°e(©Î°e¤£¦¨)ªº batch */
+  /* itoc.030122.è¨»è§£: *.link æª”æ˜¯ä¾ç«™å°åˆ†å¥½ å¾…é€(æˆ–é€ä¸æˆ)çš„ batch */
 
   if (node->feedfd < 0)
   {
@@ -121,13 +121,13 @@ queuefeed(node, sover)
   }
 
   /* flock(fd, LOCK_EX); */
-  /* Thor.981205: ¥Î fcntl ¨ú¥Nflock, POSIX¼Ğ·Ç¥Îªk */
+  /* Thor.981205: ç”¨ fcntl å–ä»£flock, POSIXæ¨™æº–ç”¨æ³• */
   f_exlock(fd);
 
   write(fd, sover, sizeof(soverview_t));
 
   /* flock(fd, LOCK_UN); */
-  /* Thor.981205: ¥Î fcntl ¨ú¥Nflock, POSIX¼Ğ·Ç¥Îªk */
+  /* Thor.981205: ç”¨ fcntl å–ä»£flock, POSIXæ¨™æº–ç”¨æ³• */
   f_unlock(fd);
 }
 
@@ -158,8 +158,10 @@ deal_sover(bntp)
 
   if (!(nf = search_newsfeeds_byboard(board)))
   {
-    bbslog("<bbslink> :Warn: %s ¦¹ªO¤£¦b newsfeeds.bbs ¤¤\n", board);
-    DEBUG(("¢w¡÷:Warn: %s ¦¹ªO¤£¦b newsfeeds.bbs ¤¤\n", board));
+    /* <bbslink> :Warn: %s æ­¤æ¿ä¸åœ¨ newsfeeds.bbs ä¸­\n */
+    bbslog("<bbslink> :Warn: %s \xA6\xB9\xAA\x4F\xA4\xA3\xA6\x62 newsfeeds.bbs \xA4\xA4\n", board);
+    /* â”€â†’:Warn: %s æ­¤æ¿ä¸åœ¨ newsfeeds.bbs ä¸­\n */
+    DEBUG(("\xA2\x77\xA1\xF7:Warn: %s \xA6\xB9\xAA\x4F\xA4\xA3\xA6\x62 newsfeeds.bbs \xA4\xA4\n", board));
     return;
   }
 
@@ -170,7 +172,7 @@ deal_sover(bntp)
 
   memset(&sover, 0, sizeof(soverview_t));
 
-  if (bntp->chrono > 0)		/* ·s«H */
+  if (bntp->chrono > 0)		/* æ–°ä¿¡ */
   {
     mtime = bntp->chrono;
     str_ncpy(sover.title, bntp->title, sizeof(sover.title));
@@ -179,9 +181,9 @@ deal_sover(bntp)
   else				/* cancel */
   {
     time(&mtime);
-    sprintf(buf, "%s$%s@" MYHOSTNAME, board, filename);		/* ±ı¬å¤å³¹ªº Message-ID */
+    sprintf(buf, "%s$%s@" MYHOSTNAME, board, filename);		/* æ¬²ç æ–‡ç« çš„ Message-ID */
     sprintf(sover.title, "cmsg cancel <%s>", buf);
-    sprintf(sover.msgid, "C%s$%s@" MYHOSTNAME, board, filename);/* LHD.030628: ¦b­ì msgid ¥[¥ô·N¦r¦ê·í§@ cmsg ªº Message-ID */
+    sprintf(sover.msgid, "C%s$%s@" MYHOSTNAME, board, filename);/* LHD.030628: åœ¨åŸ msgid åŠ ä»»æ„å­—ä¸²ç•¶ä½œ cmsg çš„ Message-ID */
     sprintf(sover.control, "cancel <%s>", buf);
   }
 
@@ -199,22 +201,22 @@ deal_sover(bntp)
 static void
 deal_bntp()
 {
-  char *OUTING = "innd/.outing";		/* ³B²z®É¼È¦sªºÀÉ */
+  char *OUTING = "innd/.outing";		/* è™•ç†æ™‚æš«å­˜çš„æª” */
   int fd, i;
   nodelist_t *node;
   bntp_t bntp;
 
-  if (rename("innd/out.bntp", OUTING))	/* ¨S¦³·s¤å³¹ */
+  if (rename("innd/out.bntp", OUTING))	/* æ²’æœ‰æ–°æ–‡ç«  */
     return;
 
-  /* initail ¦U node ªº feedfd */
+  /* initail å„ node çš„ feedfd */
   for (i = 0; i < NLCOUNT; i++)
   {
     node = NODELIST + i;
     node->feedfd = -1;
   }
 
-  /* ¶K¨ì¦U­Ó¯¸¥x©ÒÄİªº *.link */
+  /* è²¼åˆ°å„å€‹ç«™å°æ‰€å±¬çš„ *.link */
   if ((fd = open(OUTING, O_RDONLY)) >= 0)
   {
     while (read(fd, &bntp, sizeof(bntp_t)) == sizeof(bntp_t))
@@ -222,7 +224,7 @@ deal_bntp()
     close(fd);
   }
 
-  /* close ¦U node ªº feedfd */
+  /* close å„ node çš„ feedfd */
   for (i = 0; i < NLCOUNT; i++)
   {
     node = NODELIST + i;
@@ -235,7 +237,7 @@ deal_bntp()
 
 
 /*-------------------------------------------------------*/
-/* ³s¥h¬Y­Ó¯¸						 */
+/* é€£å»æŸå€‹ç«™						 */
 /*-------------------------------------------------------*/
 
 
@@ -301,66 +303,79 @@ tcpcommand(char *fmt, ...)
 }
 
 
-static int			/* 200~202:¦¨¥\ 0:¥¢±Ñ */
-open_connect(node)		/* ³s¥h³o­Ó¯¸ */
+static int			/* 200~202:æˆåŠŸ 0:å¤±æ•— */
+open_connect(node)		/* é€£å»é€™å€‹ç«™ */
   nodelist_t *node;
 {
   char *host = node->host;
   int port = node->port;
 
-  DEBUG(("¢~<open_connect> ¥¿¦b¶}±Ò³s½u\n"));
+  /* â•­<open_connect> æ­£åœ¨é–‹å•Ÿé€£ç·š\n */
+  DEBUG(("\xA2\x7E<open_connect> \xA5\xBF\xA6\x62\xB6\x7D\xB1\xD2\xB3\x73\xBD\x75\n"));
 
   if ((SERVERfd = inetclient(host, port)) < 0)
   {
-    bbslog("<bbslink> :Err: ¦øªA¾¹³s½u¥¢±Ñ¡G%s %d\n", host, port);
-    DEBUG(("¢¢<open_connect> ¦øªA¾¹³s½u¥¢±Ñ\n"));
+    /* <bbslink> :Err: ä¼ºæœå™¨é€£ç·šå¤±æ•—ï¼š%s %d\n */
+    bbslog("<bbslink> :Err: \xA6\xF8\xAA\x41\xBE\xB9\xB3\x73\xBD\x75\xA5\xA2\xB1\xD1\xA1\x47%s %d\n", host, port);
+    /* â•°<open_connect> ä¼ºæœå™¨é€£ç·šå¤±æ•—\n */
+    DEBUG(("\xA2\xA2<open_connect> \xA6\xF8\xAA\x41\xBE\xB9\xB3\x73\xBD\x75\xA5\xA2\xB1\xD1\n"));
     return 0;
   }
 
   if (!(SERVERrfp = fdopen(SERVERfd, "r")) || !(SERVERwfp = fdopen(SERVERfd, "w")))
   {
-    bbslog("<bbslink> :Err: fdopen µo¥Í¿ù»~\n");
-    DEBUG(("¢¢<open_connect> fdopen µo¥Í¿ù»~\n"));
+    /* <bbslink> :Err: fdopen ç™¼ç”ŸéŒ¯èª¤\n */
+    bbslog("<bbslink> :Err: fdopen \xB5\x6F\xA5\xCD\xBF\xF9\xBB\x7E\n");
+    /* â•°<open_connect> fdopen ç™¼ç”ŸéŒ¯èª¤\n */
+    DEBUG(("\xA2\xA2<open_connect> fdopen \xB5\x6F\xA5\xCD\xBF\xF9\xBB\x7E\n"));
     return 0;
   }
 
-  if (!fgets(SERVERbuffer, sizeof(SERVERbuffer), SERVERrfp) || SERVERbuffer[0] != '2')	/* 200 201 202 ³£¯à¨ú«H */
+  if (!fgets(SERVERbuffer, sizeof(SERVERbuffer), SERVERrfp) || SERVERbuffer[0] != '2')	/* 200 201 202 éƒ½èƒ½å–ä¿¡ */
   {
-    bbslog("<bbslink> :Err: ¦øªA¾¹©Úµ´³s½u¡G%s %d\n", host, port);
-    DEBUG(("¢¢<open_connect> ¦øªA¾¹©Úµ´³s½u\n"));
+    /* <bbslink> :Err: ä¼ºæœå™¨æ‹’çµ•é€£ç·šï¼š%s %d\n */
+    bbslog("<bbslink> :Err: \xA6\xF8\xAA\x41\xBE\xB9\xA9\xDA\xB5\xB4\xB3\x73\xBD\x75\xA1\x47%s %d\n", host, port);
+    /* â•°<open_connect> ä¼ºæœå™¨æ‹’çµ•é€£ç·š\n */
+    DEBUG(("\xA2\xA2<open_connect> \xA6\xF8\xAA\x41\xBE\xB9\xA9\xDA\xB5\xB4\xB3\x73\xBD\x75\n"));
     return 0;
   }
 
-  /* itoc.040512: MODE READER ¥u­nÁ¿¤@¦¸´N°÷¤F */
+  /* itoc.040512: MODE READER åªè¦è¬›ä¸€æ¬¡å°±å¤ äº† */
   if (node->xmode & INN_USEPOST)
   {
     tcpcommand("MODE READER");
-    if (SERVERbuffer[0] != '2')	/* 200 201 202 ³£¯à¨ú«H */
+    if (SERVERbuffer[0] != '2')	/* 200 201 202 éƒ½èƒ½å–ä¿¡ */
     {
-      bbslog("<bbslink> :Err: ¦øªA¾¹©Úµ´³s½u¡G%s %d\n", host, port);
-      DEBUG(("¢¢<open_connect> ¦øªA¾¹©Úµ´³s½u\n"));
+      /* <bbslink> :Err: ä¼ºæœå™¨æ‹’çµ•é€£ç·šï¼š%s %d\n */
+      bbslog("<bbslink> :Err: \xA6\xF8\xAA\x41\xBE\xB9\xA9\xDA\xB5\xB4\xB3\x73\xBD\x75\xA1\x47%s %d\n", host, port);
+      /* â•°<open_connect> ä¼ºæœå™¨æ‹’çµ•é€£ç·š\n */
+      DEBUG(("\xA2\xA2<open_connect> \xA6\xF8\xAA\x41\xBE\xB9\xA9\xDA\xB5\xB4\xB3\x73\xBD\x75\n"));
       return 0;
     }
   }
 
-  DEBUG(("¢x<open_connect> ¦øªA¾¹³s½u¦¨¥\\\n"));
+  /* â”‚<open_connect> ä¼ºæœå™¨é€£ç·šæˆåŠŸ\n */
+  DEBUG(("\xA2\x78<open_connect> \xA6\xF8\xAA\x41\xBE\xB9\xB3\x73\xBD\x75\xA6\xA8\xA5\x5C\n"));
   return atoi(SERVERbuffer);
 }
 
 
 static void
-close_connect()		/* µ²§ô³s¥h³o­Ó¯¸ */
+close_connect()		/* çµæŸé€£å»é€™å€‹ç«™ */
 {
   int status;
 
   status = tcpcommand("QUIT");
   if (status != NNTP_GOODBYE_ACK_VAL && status != 221)
   {
-    bbslog("<bbslink> :Warn: µLªk¥¿±`Â_½u\n");
-    DEBUG(("¢x<close_connect> µLªk¥¿±`Â_½u\n"));
+    /* <bbslink> :Warn: ç„¡æ³•æ­£å¸¸æ–·ç·š\n */
+    bbslog("<bbslink> :Warn: \xB5\x4C\xAA\x6B\xA5\xBF\xB1\x60\xC2\x5F\xBD\x75\n");
+    /* â”‚<close_connect> ç„¡æ³•æ­£å¸¸æ–·ç·š\n */
+    DEBUG(("\xA2\x78<close_connect> \xB5\x4C\xAA\x6B\xA5\xBF\xB1\x60\xC2\x5F\xBD\x75\n"));
   }
 
-  DEBUG(("¢¢<close_connect> ¤wÃö³¬³s½u\n"));
+  /* â•°<close_connect> å·²é—œé–‰é€£ç·š\n */
+  DEBUG(("\xA2\xA2<close_connect> \xA4\x77\xC3\xF6\xB3\xAC\xB3\x73\xBD\x75\n"));
 
   if (SERVERrfp)
     fclose(SERVERrfp);
@@ -372,29 +387,29 @@ close_connect()		/* µ²§ô³s¥h³o­Ó¯¸ */
 
 
 /*-------------------------------------------------------*/
-/* °e¥X¤å³¹						 */
+/* é€å‡ºæ–‡ç« 						 */
 /*-------------------------------------------------------*/
 
 
-static int			/* -1:¥¢±Ñ */
+static int			/* -1:å¤±æ•— */
 sover_post(sover)
   soverview_t *sover;
 {
-  if (sover->control[0])	/* °e¥X cancel message */
+  if (sover->control[0])	/* é€å‡º cancel message */
   {
     static char BODY_BUF[128];
 
     sprintf(BODY_BUF, "%s\r\n", sover->title);
-    BODY = BODY_BUF;	/* cancel message ®É¡ABODY «ü¦V BODY_BUF */
+    BODY = BODY_BUF;	/* cancel message æ™‚ï¼ŒBODY æŒ‡å‘ BODY_BUF */
   }
-  else				/* °e¥X·s¤å³¹ */
+  else				/* é€å‡ºæ–°æ–‡ç«  */
   {
     static char *BODY_BUF;
     char *ptr, *str, fpath[64];
     int fd, size;
     struct stat st;
 
-    /* ÀË¬d¤å³¹ÁÙ¦b¤£¦b */
+    /* æª¢æŸ¥æ–‡ç« é‚„åœ¨ä¸åœ¨ */
     sprintf(fpath, "brd/%s/%c/%s", sover->board, sover->filename[7], sover->filename);
     if ((fd = open(fpath, O_RDONLY)) < 0)
       return -1;
@@ -406,7 +421,7 @@ sover_post(sover)
       return -1;
     }
 
-    /* ¤@¯ë¤å³¹®É¡ABODY «ü¦V malloc ¥Í¥X¨Óªº°Ï¶ô */
+    /* ä¸€èˆ¬æ–‡ç« æ™‚ï¼ŒBODY æŒ‡å‘ malloc ç”Ÿå‡ºä¾†çš„å€å¡Š */
 
     BODY_BUF = !BODY_BUF ? (char *) malloc(size + 1) : (char *) realloc(BODY_BUF, size + 1);
     read(fd, BODY_BUF, size);
@@ -414,17 +429,17 @@ sover_post(sover)
     ptr = BODY_BUF + size;
     *ptr = '\0';
 
-    /* ¸õ¹L¤å³¹ªº«e´X¦æÀÉÀY¤£­n */
+    /* è·³éæ–‡ç« çš„å‰å¹¾è¡Œæª”é ­ä¸è¦ */
     for (str = BODY_BUF;;str = ptr + 1)
     {
       ptr = strchr(str, '\n');
-      if (!ptr)			/* §ä¨ì¤å³¹³Ì«á¤FÁÙ§ä¤£¨ìªÅ¦æ¡A¨º»ò¾ã­ÓÀÉ®×³£·í°µ¤º¤å */
+      if (!ptr)			/* æ‰¾åˆ°æ–‡ç« æœ€å¾Œäº†é‚„æ‰¾ä¸åˆ°ç©ºè¡Œï¼Œé‚£éº¼æ•´å€‹æª”æ¡ˆéƒ½ç•¶åšå…§æ–‡ */
       {
 	BODY = BODY_BUF;
 	break;
       }
 
-      if (ptr == str)		/* §ä¨ì¤@¦æªÅ¦æ¡A¨º»ò¥H¤U´N³£¬O¤º¤å¤F */
+      if (ptr == str)		/* æ‰¾åˆ°ä¸€è¡Œç©ºè¡Œï¼Œé‚£éº¼ä»¥ä¸‹å°±éƒ½æ˜¯å…§æ–‡äº† */
       {
 	BODY = str + 1;
 	break;
@@ -448,7 +463,8 @@ fail_post(msgid)
   char *msgid;
 {
   bbslog("<bbslink> :Warn: %s <%s>\n", SERVERbuffer, msgid);
-  DEBUG(("¢x¡÷:Warn: %s <%s>\n", SERVERbuffer, msgid));
+  /* â”‚â†’:Warn: %s <%s>\n */
+  DEBUG(("\xA2\x78\xA1\xF7:Warn: %s <%s>\n", SERVERbuffer, msgid));
 }
 
 
@@ -462,19 +478,24 @@ send_outgoing(node, sover)
 
   msgid = sover->msgid;
 
-  DEBUG(("¢x¢z MSGID: %s\n", msgid));
-  DEBUG(("¢x¢x GROUP: %s\n", sover->group));
-  DEBUG(("¢x¢x FROM : %s\n", sover->from));
-  DEBUG(("¢x¢| SUBJ : %s\n", sover->title));
+  /* â”‚â”Œ MSGID: %s\n */
+  DEBUG(("\xA2\x78\xA2\x7A MSGID: %s\n", msgid));
+  /* â”‚â”‚ GROUP: %s\n */
+  DEBUG(("\xA2\x78\xA2\x78 GROUP: %s\n", sover->group));
+  /* â”‚â”‚ FROM : %s\n */
+  DEBUG(("\xA2\x78\xA2\x78 FROM : %s\n", sover->from));
+  /* â”‚â”” SUBJ : %s\n */
+  DEBUG(("\xA2\x78\xA2\x7C SUBJ : %s\n", sover->title));
 
-  /* ¥ı§â¤å³¹·Ç³Æ¦n */
+  /* å…ˆæŠŠæ–‡ç« æº–å‚™å¥½ */
   if (sover_post(sover) < 0)
   {
-    DEBUG(("¢x¡÷ ¥»½g¤å³¹¤w¾D§R°£©ÎÀÉ®×¿ò¥¢¡A¨ú®ø°e¥X\n"));
+    /* â”‚â†’ æœ¬ç¯‡æ–‡ç« å·²é­åˆªé™¤æˆ–æª”æ¡ˆéºå¤±ï¼Œå–æ¶ˆé€å‡º\n */
+    DEBUG(("\xA2\x78\xA1\xF7 \xA5\xBB\xBD\x67\xA4\xE5\xB3\xB9\xA4\x77\xBE\x44\xA7\x52\xB0\xA3\xA9\xCE\xC0\xC9\xAE\xD7\xBF\xF2\xA5\xA2\xA1\x41\xA8\xFA\xAE\xF8\xB0\x65\xA5\x58\n"));
     return;
   }
 
-  /* ¦V server °e¥X IHAVE/POST ­n¨D */
+  /* å‘ server é€å‡º IHAVE/POST è¦æ±‚ */
   if (node->xmode & INN_USEIHAVE)
   {
     status = tcpcommand("IHAVE <%s>", msgid);
@@ -494,28 +515,28 @@ send_outgoing(node, sover)
     }
   }
 
-  /* ¼g¤J¤å³¹ªºÀÉÀY */
+  /* å¯«å…¥æ–‡ç« çš„æª”é ­ */
   fprintf(SERVERwfp, "Path: %s\r\n", MYBBSID);
   fprintf(SERVERwfp, "From: %s\r\n", sover->from);
   fprintf(SERVERwfp, "Newsgroups: %s\r\n", sover->group);
   /* fprintf(SERVERwfp, "Subject: %s\r\n", sover->title); */
   output_rfc2047_qp(SERVERwfp, "Subject: ", sover->title, sover->charset, "\r\n");
   fprintf(SERVERwfp, "Date: %s\r\n", sover->date);
-  fprintf(SERVERwfp, "Organization: %s\r\n", *sover->charset == 'b' ? BBSNAME : BBSNAME2);	/* itoc.040425: ­Y¤£¬O big5 ´N¥Î­^¤å¯¸¦W */
+  fprintf(SERVERwfp, "Organization: %s\r\n", *sover->charset == 'b' ? BBSNAME : BBSNAME2);	/* itoc.040425: è‹¥ä¸æ˜¯ big5 å°±ç”¨è‹±æ–‡ç«™å */
   fprintf(SERVERwfp, "Message-ID: <%s>\r\n", msgid);
   fprintf(SERVERwfp, "Mime-Version: 1.0\r\n");
   fprintf(SERVERwfp, "Content-Type: text/plain; charset=\"%s\"\r\n", sover->charset);
   fprintf(SERVERwfp, "Content-Transfer-Encoding: 8bit\r\n");
   if (sover->control[0])
     fprintf(SERVERwfp, "Control: %s\r\n", sover->control);
-  fputs("\r\n", SERVERwfp);	/* ÀÉÀY©M¤º¤åªÅ¤@¦æ */
+  fputs("\r\n", SERVERwfp);	/* æª”é ­å’Œå…§æ–‡ç©ºä¸€è¡Œ */
 
-  /* ¼g¤J¤å³¹ªº¤º®e */
+  /* å¯«å…¥æ–‡ç« çš„å…§å®¹ */
   for (str = BODY; cc = *str; str++)
   {
     if (cc == '\n')
     {
-      /* itoc.030127.µù¸Ñ: §â "\n" ´«¦¨ "\r\n" */
+      /* itoc.030127.è¨»è§£: æŠŠ "\n" æ›æˆ "\r\n" */
       fputc('\r', SERVERwfp);
     }
     else if (cc == '.')
@@ -529,7 +550,7 @@ send_outgoing(node, sover)
     fputc(cc, SERVERwfp);
   }
 
-  /* IHAVE/POST µ²§ô */
+  /* IHAVE/POST çµæŸ */
   status = tcpcommand(".");
   if (node->xmode & INN_USEIHAVE)
   {
@@ -545,12 +566,12 @@ send_outgoing(node, sover)
 
 
 /*-------------------------------------------------------*/
-/* ¹ï news server ¤U«ü¥O				 */
+/* å° news server ä¸‹æŒ‡ä»¤				 */
 /*-------------------------------------------------------*/
 
 
-static int		/* 1:¦¨¥\ 0:¥¢±Ñ */
-NNRPgroup(newsgroup, low, high)	/* ¤Á´« group¡A¨Ã¶Ç¦^ low-number ¤Î high-number */
+static int		/* 1:æˆåŠŸ 0:å¤±æ•— */
+NNRPgroup(newsgroup, low, high)	/* åˆ‡æ› groupï¼Œä¸¦å‚³å› low-number åŠ high-number */
   char *newsgroup;
   int *low, *high;
 {
@@ -562,7 +583,7 @@ NNRPgroup(newsgroup, low, high)	/* ¤Á´« group¡A¨Ã¶Ç¦^ low-number ¤Î high-number 
 
   ptr = SERVERbuffer;
 
-  /* §ä SERVERbuffer ªº²Ä¤G­Ó ' ' */
+  /* æ‰¾ SERVERbuffer çš„ç¬¬äºŒå€‹ ' ' */
   for (i = 0; i < 2; i++)
   {
     ptr++;
@@ -572,7 +593,7 @@ NNRPgroup(newsgroup, low, high)	/* ¤Á´« group¡A¨Ã¶Ç¦^ low-number ¤Î high-number 
   if ((i = atoi(ptr + 1)) >= 0)
     *low = i;
 
-  /* §ä SERVERbuffer ªº²Ä¤T­Ó ' ' */
+  /* æ‰¾ SERVERbuffer çš„ç¬¬ä¸‰å€‹ ' ' */
   ptr++;
   if (!*ptr || !(ptr = strchr(ptr, ' ')))
     return 0;
@@ -585,8 +606,8 @@ NNRPgroup(newsgroup, low, high)	/* ¤Á´« group¡A¨Ã¶Ç¦^ low-number ¤Î high-number 
 
 static char *tempfile = "innd/bbslinktmp";
 
-static int			/* 1:¦¨¥\ 0:¥¢±Ñ */
-NNRParticle(artno)		/* ¨ú¦^²Ä artno ½gªº¥ş¤å */
+static int			/* 1:æˆåŠŸ 0:å¤±æ•— */
+NNRParticle(artno)		/* å–å›ç¬¬ artno ç¯‡çš„å…¨æ–‡ */
   int artno;
 {
   FILE *fp;
@@ -605,7 +626,7 @@ NNRParticle(artno)		/* ¨ú¦^²Ä artno ½gªº¥ş¤å */
     if (ptr = strchr(SERVERbuffer, '\n'))
       *ptr = '\0';
 
-    if (!strcmp(SERVERbuffer, "."))	/* ¤å³¹µ²§ô */
+    if (!strcmp(SERVERbuffer, "."))	/* æ–‡ç« çµæŸ */
       break;
 
     fprintf(fp, "%s\n", SERVERbuffer);
@@ -617,10 +638,10 @@ NNRParticle(artno)		/* ¨ú¦^²Ä artno ½gªº¥ş¤å */
 
 
 
-#if 0	/* itoc.030109.µù¸Ñ: my_post ªº¬yµ{ */
-            ¢z¡÷ receive_article() ¡÷ bbspost_add()
-  my_post() ¢u¡÷ receive_nocem()   ¡÷ °e¥h nocem.c ³B²z
-            ¢|¡÷ cancel_article()  ¡÷ bbspost_cancel()
+#if 0	/* itoc.030109.è¨»è§£: my_post çš„æµç¨‹ */
+            â”Œâ†’ receive_article() â†’ bbspost_add()
+  my_post() â”œâ†’ receive_nocem()   â†’ é€å» nocem.c è™•ç†
+            â””â†’ cancel_article()  â†’ bbspost_cancel()
 #endif
 
 
@@ -635,16 +656,16 @@ my_post()
   {
     fstat(rel, &st);
     size = st.st_size;
-    data = (char *) malloc(size + 1);	/* «O¯d 1 byte µ¹ '\0' */
+    data = (char *) malloc(size + 1);	/* ä¿ç•™ 1 byte çµ¦ '\0' */
     size = read(rel, data, size);
     close(rel);
 
     if (size >= 2)
     {
-      if (data[size - 2] == '\n')	/* §â³Ì«á­«ÂĞªº '\n' ´«¦¨ '\0' */
+      if (data[size - 2] == '\n')	/* æŠŠæœ€å¾Œé‡è¦†çš„ '\n' æ›æˆ '\0' */
         size--;
     }
-    data[size] = '\0';		/* ¸É¤W '\0' */
+    data[size] = '\0';		/* è£œä¸Š '\0' */
 
     rel = readlines(data - 1);
 
@@ -667,16 +688,19 @@ my_post()
 
       if (rel < 0)
       {
-	DEBUG(("¢x¡÷<my_post> ±µ¦¬¤å³¹¥¢±Ñ\n"));
+	/* â”‚â†’<my_post> æ¥æ”¶æ–‡ç« å¤±æ•—\n */
+	DEBUG(("\xA2\x78\xA1\xF7<my_post> \xB1\xB5\xA6\xAC\xA4\xE5\xB3\xB9\xA5\xA2\xB1\xD1\n"));
       }
     }
-    else if (rel == 0)		/* PATH¥]¬A¦Û¤v */
+    else if (rel == 0)		/* PATHåŒ…æ‹¬è‡ªå·± */
     {
-      DEBUG(("¢x¡÷<my_post> PATH ¥]¬A¦Û¤v\n"));
+      /* â”‚â†’<my_post> PATH åŒ…æ‹¬è‡ªå·±\n */
+      DEBUG(("\xA2\x78\xA1\xF7<my_post> PATH \xA5\x5D\xAC\x41\xA6\xDB\xA4\x76\n"));
     }
-    else /* if (rel < 0) */	/* ÀÉÀYÄæ¦ì¤£§¹¾ã */
+    else /* if (rel < 0) */	/* æª”é ­æ¬„ä½ä¸å®Œæ•´ */
     {
-      DEBUG(("¢x¡÷<my_post> ÀÉÀYÄæ¦ì¤£§¹¾ã\n"));
+      /* â”‚â†’<my_post> æª”é ­æ¬„ä½ä¸å®Œæ•´\n */
+      DEBUG(("\xA2\x78\xA1\xF7<my_post> \xC0\xC9\xC0\x59\xC4\xE6\xA6\xEC\xA4\xA3\xA7\xB9\xBE\xE3\n"));
     }
 
     free(data);
@@ -687,7 +711,7 @@ my_post()
 
 
 /*-------------------------------------------------------*/
-/* §ó·s high-number					 */
+/* æ›´æ–° high-number					 */
 /*-------------------------------------------------------*/
 
 
@@ -718,8 +742,8 @@ changehigh(hdd, ram)
 static void
 updaterc(nf, pos, high)
   newsfeeds_t *nf;
-  int pos;			/* ©ó newsfeeds.bbs ¸Ì­±ªº¦ì¸m */
-  int high;			/* >=0:¥Ø«e§ì¨ì­ş¤@½g <0:error */
+  int pos;			/* æ–¼ newsfeeds.bbs è£¡é¢çš„ä½ç½® */
+  int high;			/* >=0:ç›®å‰æŠ“åˆ°å“ªä¸€ç¯‡ <0:error */
 {
   nf->high = high;
   GROUP = nf->newsgroup;
@@ -728,7 +752,7 @@ updaterc(nf, pos, high)
 
 
 /*-------------------------------------------------------*/
-/* §ì¨ú¤å³¹						 */
+/* æŠ“å–æ–‡ç« 						 */
 /*-------------------------------------------------------*/
 
 
@@ -742,31 +766,34 @@ readnews(node)
 
   name = node->name;
 
-  for (i = 0; i < NFCOUNT; i++)	/* ¨Ì§ÇÅª¨ú¨C­Ó newsgroup */
+  for (i = 0; i < NFCOUNT; i++)	/* ä¾åºè®€å–æ¯å€‹ newsgroup */
   {
     nf = NEWSFEEDS + i;
 
-    if (strcmp(name, nf->path))	/* ¦pªG¤£¬O³o­Ó¯¸¥x´N¸õ¹L */
+    if (strcmp(name, nf->path))	/* å¦‚æœä¸æ˜¯é€™å€‹ç«™å°å°±è·³é */
       continue;
 
     newsgroup = nf->newsgroup;
 
-    DEBUG(("¢x¢z<readnews> ¶i¤J %s\n", newsgroup));
+    /* â”‚â”Œ<readnews> é€²å…¥ %s\n */
+    DEBUG(("\xA2\x78\xA2\x7A<readnews> \xB6\x69\xA4\x4A %s\n", newsgroup));
 
-    /* ¨ú±o news server ¤Wªº low-number ¤Î high-number */
+    /* å–å¾— news server ä¸Šçš„ low-number åŠ high-number */
     if (!NNRPgroup(newsgroup, &low, &high))
     {
       updaterc(nf, i, -1);
-      DEBUG(("¢x¢|<readnews> µLªk¨ú±o¦¹¸s²Õªº low-number ¤Î high-number ©Î¦¹¸s²Õ¤£¦s¦b\n"));
-      continue;		/* ¦¹¸s²Õ¤£¦s¦b¡A½ü¤U¤@­Ó¸s²Õ */
+      /* â”‚â””<readnews> ç„¡æ³•å–å¾—æ­¤ç¾¤çµ„çš„ low-number åŠ high-number æˆ–æ­¤ç¾¤çµ„ä¸å­˜åœ¨\n */
+      DEBUG(("\xA2\x78\xA2\x7C<readnews> \xB5\x4C\xAA\x6B\xA8\xFA\xB1\x6F\xA6\xB9\xB8\x73\xB2\xD5\xAA\xBA low-number \xA4\xCE high-number \xA9\xCE\xA6\xB9\xB8\x73\xB2\xD5\xA4\xA3\xA6\x73\xA6\x62\n"));
+      continue;		/* æ­¤ç¾¤çµ„ä¸å­˜åœ¨ï¼Œè¼ªä¸‹ä¸€å€‹ç¾¤çµ„ */
     }
 
     if (ResetActive)
     {
       if (nf->high != high || nf->xmode & INN_ERROR)
         updaterc(nf, i, high);
-      DEBUG(("¢x¢|<readnews> µ²§ô %s¡A¦¹¸s²Õ¤§ high-number ¤w»P¦øªA¾¹¦P¨B\n", newsgroup));
-      continue;		/* ­Y ResetActive «h¤£¨ú«H¡A½ü¤U¤@­Ó¸s²Õ */
+      /* â”‚â””<readnews> çµæŸ %sï¼Œæ­¤ç¾¤çµ„ä¹‹ high-number å·²èˆ‡ä¼ºæœå™¨åŒæ­¥\n */
+      DEBUG(("\xA2\x78\xA2\x7C<readnews> \xB5\xB2\xA7\xF4 %s\xA1\x41\xA6\xB9\xB8\x73\xB2\xD5\xA4\xA7 high-number \xA4\x77\xBB\x50\xA6\xF8\xAA\x41\xBE\xB9\xA6\x50\xA8\x42\n", newsgroup));
+      continue;		/* è‹¥ ResetActive å‰‡ä¸å–ä¿¡ï¼Œè¼ªä¸‹ä¸€å€‹ç¾¤çµ„ */
     }
 
     if (nf->high >= high)
@@ -774,25 +801,28 @@ readnews(node)
       if (nf->high > high || nf->xmode & INN_ERROR)	/* server re-number */
 	updaterc(nf, i, high);
 
-      DEBUG(("¢x¢|<readnews> µ²§ô %s¡A¦¹¸s²Õ¤w¨S¦³·s¤å³¹\n", newsgroup));
-      continue;		/* ³o¸s²Õ¤w¨S¦³·s¤å³¹¡A½ü¤U¤@­Ó¸s²Õ */
+      /* â”‚â””<readnews> çµæŸ %sï¼Œæ­¤ç¾¤çµ„å·²æ²’æœ‰æ–°æ–‡ç« \n */
+      DEBUG(("\xA2\x78\xA2\x7C<readnews> \xB5\xB2\xA7\xF4 %s\xA1\x41\xA6\xB9\xB8\x73\xB2\xD5\xA4\x77\xA8\x53\xA6\xB3\xB7\x73\xA4\xE5\xB3\xB9\n", newsgroup));
+      continue;		/* é€™ç¾¤çµ„å·²æ²’æœ‰æ–°æ–‡ç« ï¼Œè¼ªä¸‹ä¸€å€‹ç¾¤çµ„ */
     }
 
     if (nf->high < low - 1)				/* server re-number */
     {
       updaterc(nf, i, high);
-      DEBUG(("¢x¢|<readnews> µ²§ô %s¡A¦¹¸s²Õ¤§ high-number ¦]¦øªA¾¹²§°Ê¦Ó§ó·s\n", newsgroup));
-      continue;		/* ³o¸s²ÕÅÜ§ó¹L low-number¡A½ü¤U¤@­Ó¸s²Õ */
+      /* â”‚â””<readnews> çµæŸ %sï¼Œæ­¤ç¾¤çµ„ä¹‹ high-number å› ä¼ºæœå™¨ç•°å‹•è€Œæ›´æ–°\n */
+      DEBUG(("\xA2\x78\xA2\x7C<readnews> \xB5\xB2\xA7\xF4 %s\xA1\x41\xA6\xB9\xB8\x73\xB2\xD5\xA4\xA7 high-number \xA6\x5D\xA6\xF8\xAA\x41\xBE\xB9\xB2\xA7\xB0\xCA\xA6\xD3\xA7\xF3\xB7\x73\n", newsgroup));
+      continue;		/* é€™ç¾¤çµ„è®Šæ›´é low-numberï¼Œè¼ªä¸‹ä¸€å€‹ç¾¤çµ„ */
     }
 
-    /* ¨ú¦^¸s²Õ¤W²Ä nf->high + 1 ¶}©lªº MaxArts ½gªº¤å³¹ */
+    /* å–å›ç¾¤çµ„ä¸Šç¬¬ nf->high + 1 é–‹å§‹çš„ MaxArts ç¯‡çš„æ–‡ç«  */
 
     artcount = 0;
     for (artno = nf->high + 1;; artno++)
     {
       if (NNRParticle(artno))
       {
-	DEBUG(("¢x¢x<readnews> [%d] ¥¿¨ú¦^¸s²Õ¤W²Ä %d ½g¤å³¹\n", artcount, artno));
+	/* â”‚â”‚<readnews> [%d] æ­£å–å›ç¾¤çµ„ä¸Šç¬¬ %d ç¯‡æ–‡ç« \n */
+	DEBUG(("\xA2\x78\xA2\x78<readnews> [%d] \xA5\xBF\xA8\xFA\xA6\x5E\xB8\x73\xB2\xD5\xA4\x57\xB2\xC4 %d \xBD\x67\xA4\xE5\xB3\xB9\n", artcount, artno));
 	my_post();
 	if (++artcount >= MaxArts)
 	  break;
@@ -803,13 +833,14 @@ readnews(node)
 
     updaterc(nf, i, artno);
 
-    DEBUG(("¢x¢|<readnews> µ²§ô %s¡A¤@¦@¨ú¦^ %d ½g·s¤å³¹\n", newsgroup, artcount));
+    /* â”‚â””<readnews> çµæŸ %sï¼Œä¸€å…±å–å› %d ç¯‡æ–°æ–‡ç« \n */
+    DEBUG(("\xA2\x78\xA2\x7C<readnews> \xB5\xB2\xA7\xF4 %s\xA1\x41\xA4\x40\xA6\x40\xA8\xFA\xA6\x5E %d \xBD\x67\xB7\x73\xA4\xE5\xB3\xB9\n", newsgroup, artcount));
   }			/* end for() */
 }
 
 
 /*-------------------------------------------------------*/
-/* lock/unlock µ{¦¡¡A¦P®É¥u¯à¦³¤@­Ó bbslink ¦b¶]	 */
+/* lock/unlock ç¨‹å¼ï¼ŒåŒæ™‚åªèƒ½æœ‰ä¸€å€‹ bbslink åœ¨è·‘	 */
 /*-------------------------------------------------------*/
 
 
@@ -833,18 +864,19 @@ bbslink_get_lock()
     int pid;
     struct stat st;
 
-    /* lockfile ¤w¦s¦b¡A¥Nªí¦³ bbslink ¥¿¦b¶] */
+    /* lockfile å·²å­˜åœ¨ï¼Œä»£è¡¨æœ‰ bbslink æ­£åœ¨è·‘ */
 
     if (read(fd, buf, sizeof(buf)) > 0 && (pid = atoi(buf)) > 0 && kill(pid, 0) == 0)
     {
-      /* ¦pªG¥d¤Ó¤[¡A´N¦Û°Ê kill ±¼ */
+      /* å¦‚æœå¡å¤ªä¹…ï¼Œå°±è‡ªå‹• kill æ‰ */
       if (KillFormerProc || (!fstat(fd, &st) && st.st_mtime > time(NULL) + BBSLINK_EXPIRE))
       {
 	kill(pid, SIGTERM);
       }
       else
       {
-	DEBUG(("¦³¥t¥~¤@­Ó bbslink ªº process [%d] ¥¿¦b¹B§@¤¤\n", pid));
+	/* æœ‰å¦å¤–ä¸€å€‹ bbslink çš„ process [%d] æ­£åœ¨é‹ä½œä¸­\n */
+	DEBUG(("\xA6\xB3\xA5\x74\xA5\x7E\xA4\x40\xAD\xD3 bbslink \xAA\xBA process [%d] \xA5\xBF\xA6\x62\xB9\x42\xA7\x40\xA4\xA4\n", pid));
 	return 0;
       }
     }
@@ -862,7 +894,7 @@ bbslink_get_lock()
 
 
 /*-------------------------------------------------------*/
-/* ¥Dµ{¦¡						 */
+/* ä¸»ç¨‹å¼						 */
 /*-------------------------------------------------------*/
 
 
@@ -876,10 +908,11 @@ visit_site(node)
 
   NODENAME = node->name;
 
-  /* ­Y¦³«ü©w¥u³B²z¬Y¯S©w¯¸¡A¨º»ò´N¥u³B²z¸Ó¯¸¥x */
+  /* è‹¥æœ‰æŒ‡å®šåªè™•ç†æŸç‰¹å®šç«™ï¼Œé‚£éº¼å°±åªè™•ç†è©²ç«™å° */
   if (DefaultProcSite && strcmp(NODENAME, DefaultProcSite))
   {
-    DEBUG(("¡÷ ³o¨Ã«D©Ò«ü©w­n³B²zªº¯¸¥x¡Aª½±µ¸õ¹L\n"));
+    /* â†’ é€™ä¸¦éæ‰€æŒ‡å®šè¦è™•ç†çš„ç«™å°ï¼Œç›´æ¥è·³é\n */
+    DEBUG(("\xA1\xF7 \xB3\x6F\xA8\xC3\xAB\x44\xA9\xD2\xAB\xFC\xA9\x77\xAD\x6E\xB3\x42\xB2\x7A\xAA\xBA\xAF\xB8\xA5\x78\xA1\x41\xAA\xBD\xB1\xB5\xB8\xF5\xB9\x4C\n"));
     return;
   }
 
@@ -890,20 +923,21 @@ visit_site(node)
   if (!(node->xmode & INN_FEEDED))
     status ^= 0x02;
 
-  if (!status)		/* ¤£»İ­n¥h«ô³X¹ï¤è */
+  if (!status)		/* ä¸éœ€è¦å»æ‹œè¨ªå°æ–¹ */
   {
-    DEBUG(("¡÷ ¦¹¯¸¥x¨S¦³·s«H«İ°e¥B³QÁı«H¡A¤£»İ­n¥h«ô³X\n"));
+    /* â†’ æ­¤ç«™å°æ²’æœ‰æ–°ä¿¡å¾…é€ä¸”è¢«é¤µä¿¡ï¼Œä¸éœ€è¦å»æ‹œè¨ª\n */
+    DEBUG(("\xA1\xF7 \xA6\xB9\xAF\xB8\xA5\x78\xA8\x53\xA6\xB3\xB7\x73\xAB\x48\xAB\xDD\xB0\x65\xA5\x42\xB3\x51\xC1\xFD\xAB\x48\xA1\x41\xA4\xA3\xBB\xDD\xAD\x6E\xA5\x68\xAB\xF4\xB3\x58\n"));
     return;
   }
 
-  if (!(response = open_connect(node)))		/* ³s½u¥¢±Ñ */
+  if (!(response = open_connect(node)))		/* é€£ç·šå¤±æ•— */
     return;
 
-  if (status & 0x01)	/* ¦³·s«H«İ°e */
+  if (status & 0x01)	/* æœ‰æ–°ä¿¡å¾…é€ */
   {
     if (response == NNTP_POSTOK_VAL)
     {
-      /* §â linkfile ¸Ì­±©Ò°O¿ı­n°eªº«H¤@¤@°e¥X */
+      /* æŠŠ linkfile è£¡é¢æ‰€è¨˜éŒ„è¦é€çš„ä¿¡ä¸€ä¸€é€å‡º */
       num = 0;
       if ((fd = open(linkfile, O_RDONLY)) >= 0)
       {
@@ -915,25 +949,29 @@ visit_site(node)
 	close(fd);
 	unlink(linkfile);
       }
-      DEBUG(("¢x¡÷ Á`¦@°e¥X %d ½g¤å³¹\n", num));
+      /* â”‚â†’ ç¸½å…±é€å‡º %d ç¯‡æ–‡ç« \n */
+      DEBUG(("\xA2\x78\xA1\xF7 \xC1\x60\xA6\x40\xB0\x65\xA5\x58 %d \xBD\x67\xA4\xE5\xB3\xB9\n", num));
     }
     else
     {
-      DEBUG(("¢x¡÷ ¨S¦³¦b¦¹¯¸¥xµoªí¤å³¹ªºÅv­­\n"));
+      /* â”‚â†’ æ²’æœ‰åœ¨æ­¤ç«™å°ç™¼è¡¨æ–‡ç« çš„æ¬Šé™\n */
+      DEBUG(("\xA2\x78\xA1\xF7 \xA8\x53\xA6\xB3\xA6\x62\xA6\xB9\xAF\xB8\xA5\x78\xB5\x6F\xAA\xED\xA4\xE5\xB3\xB9\xAA\xBA\xC5\x76\xAD\xAD\n"));
     }
   }
   else
   {
-    DEBUG(("¢x¡÷ ¨S¦³·s«H«İ°e\n"));
+    /* â”‚â†’ æ²’æœ‰æ–°ä¿¡å¾…é€\n */
+    DEBUG(("\xA2\x78\xA1\xF7 \xA8\x53\xA6\xB3\xB7\x73\xAB\x48\xAB\xDD\xB0\x65\n"));
   }
 
-  if (status & 0x02)	/* »İ­n³s¥h¨ú«H */
+  if (status & 0x02)	/* éœ€è¦é€£å»å–ä¿¡ */
   {
     readnews(node);
   }
   else
   {
-    DEBUG(("¢x¡÷ ¦¹¯¸¥x³]©w³QÁı«H¡A¤£»İ­n¥h¨ú«H\n"));
+    /* â”‚â†’ æ­¤ç«™å°è¨­å®šè¢«é¤µä¿¡ï¼Œä¸éœ€è¦å»å–ä¿¡\n */
+    DEBUG(("\xA2\x78\xA1\xF7 \xA6\xB9\xAF\xB8\xA5\x78\xB3\x5D\xA9\x77\xB3\x51\xC1\xFD\xAB\x48\xA1\x41\xA4\xA3\xBB\xDD\xAD\x6E\xA5\x68\xA8\xFA\xAB\x48\n"));
   }
 
   close_connect();
@@ -946,28 +984,46 @@ bbslink()
   int i;
   nodelist_t *node;
 
-  /* °T®§Åã¥Ü */
-  DEBUG(("¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w\n"));
-  DEBUG(("¡° nodelist.bbs ¸Ì­±¤@¦@¦³ %d ­Ó¯¸¥x¡A±µ¤U¨Ó±N¤@¤@¥h«ô³X\n", NLCOUNT));
-  DEBUG(("¡° °Ñ¼Æ³]©w¡G\n"));
-  DEBUG(("   (1) §R°£¤W¦¸°õ¦æ¥¢±Ñªº bbslink¡G%s\n", KillFormerProc ? "¬O" : "§_"));
-  DEBUG(("   (2) ±N high-number §ó·s¨ì»P news server ¤W¬Û¦P¡G%s\n", ResetActive ? "¬O" : "§_"));
-  DEBUG(("   (3) ¹ï news server ¨C­Ó¸s²Õ³Ì¦h¥u§ì %d «Ê¤å³¹\n", MaxArts));
-  DEBUG(("   (4) ¥u³B²z¬Y¯S©w¯¸¥x©Î¬O³B²z©Ò¦³¯¸¥x¡G%s\n", DefaultProcSite ? DefaultProcSite : "³B²z©Ò¦³¯¸¥x"));
+  /* è¨Šæ¯é¡¯ç¤º */
+  /* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€\n */
+  DEBUG(("\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\n"));
+  /* â€» nodelist.bbs è£¡é¢ä¸€å…±æœ‰ %d å€‹ç«™å°ï¼Œæ¥ä¸‹ä¾†å°‡ä¸€ä¸€å»æ‹œè¨ª\n */
+  DEBUG(("\xA1\xB0 nodelist.bbs \xB8\xCC\xAD\xB1\xA4\x40\xA6\x40\xA6\xB3 %d \xAD\xD3\xAF\xB8\xA5\x78\xA1\x41\xB1\xB5\xA4\x55\xA8\xD3\xB1\x4E\xA4\x40\xA4\x40\xA5\x68\xAB\xF4\xB3\x58\n", NLCOUNT));
+  /* â€» åƒæ•¸è¨­å®šï¼š\n */
+  DEBUG(("\xA1\xB0 \xB0\xD1\xBC\xC6\xB3\x5D\xA9\x77\xA1\x47\n"));
+  /*    (1) åˆªé™¤ä¸Šæ¬¡åŸ·è¡Œå¤±æ•—çš„ bbslinkï¼š%s\n */
+  /* æ˜¯ */
+  /* å¦ */
+  DEBUG(("   (1) \xA7\x52\xB0\xA3\xA4\x57\xA6\xB8\xB0\xF5\xA6\xE6\xA5\xA2\xB1\xD1\xAA\xBA bbslink\xA1\x47%s\n", KillFormerProc ? "\xAC\x4F" : "\xA7\x5F"));
+  /*    (2) å°‡ high-number æ›´æ–°åˆ°èˆ‡ news server ä¸Šç›¸åŒï¼š%s\n */
+  /* æ˜¯ */
+  /* å¦ */
+  DEBUG(("   (2) \xB1\x4E high-number \xA7\xF3\xB7\x73\xA8\xEC\xBB\x50 news server \xA4\x57\xAC\xDB\xA6\x50\xA1\x47%s\n", ResetActive ? "\xAC\x4F" : "\xA7\x5F"));
+  /*    (3) å° news server æ¯å€‹ç¾¤çµ„æœ€å¤šåªæŠ“ %d å°æ–‡ç« \n */
+  DEBUG(("   (3) \xB9\xEF news server \xA8\x43\xAD\xD3\xB8\x73\xB2\xD5\xB3\xCC\xA6\x68\xA5\x75\xA7\xEC %d \xAB\xCA\xA4\xE5\xB3\xB9\n", MaxArts));
+  /*    (4) åªè™•ç†æŸç‰¹å®šç«™å°æˆ–æ˜¯è™•ç†æ‰€æœ‰ç«™å°ï¼š%s\n */
+  /* è™•ç†æ‰€æœ‰ç«™å° */
+  DEBUG(("   (4) \xA5\x75\xB3\x42\xB2\x7A\xAC\x59\xAF\x53\xA9\x77\xAF\xB8\xA5\x78\xA9\xCE\xAC\x4F\xB3\x42\xB2\x7A\xA9\xD2\xA6\xB3\xAF\xB8\xA5\x78\xA1\x47%s\n", DefaultProcSite ? DefaultProcSite : "\xB3\x42\xB2\x7A\xA9\xD2\xA6\xB3\xAF\xB8\xA5\x78"));
 
-  DEBUG(("¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w\n"));
-  DEBUG(("¡· ¶}©l³B²z out.bntp¡A¾ã²z­n°e¥X¥hªº¤å³¹\n"));
+  /* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€\n */
+  DEBUG(("\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\n"));
+  /* â— é–‹å§‹è™•ç† out.bntpï¼Œæ•´ç†è¦é€å‡ºå»çš„æ–‡ç« \n */
+  DEBUG(("\xA1\xB7 \xB6\x7D\xA9\x6C\xB3\x42\xB2\x7A out.bntp\xA1\x41\xBE\xE3\xB2\x7A\xAD\x6E\xB0\x65\xA5\x58\xA5\x68\xAA\xBA\xA4\xE5\xB3\xB9\n"));
   deal_bntp();
-  DEBUG(("¡· out.bntp ¾ã²z§¹¦¨\n"));
-  DEBUG(("¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w\n"));
+  /* â— out.bntp æ•´ç†å®Œæˆ\n */
+  DEBUG(("\xA1\xB7 out.bntp \xBE\xE3\xB2\x7A\xA7\xB9\xA6\xA8\n"));
+  /* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€\n */
+  DEBUG(("\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\n"));
 
-  /* §â nodelist.bbs ¤¤ªº©Ò¦³¯¸¥x³£¥h«ô³X¤@¹M */
+  /* æŠŠ nodelist.bbs ä¸­çš„æ‰€æœ‰ç«™å°éƒ½å»æ‹œè¨ªä¸€é */
   for (i = 0; i < NLCOUNT; i++)
   {
     node = NODELIST + i;
-    DEBUG(("¡· [%d] ¶}©l«ô³X <%s> %s (%d)\n", i + 1, node->name, node->host, node->port));
+    /* â— [%d] é–‹å§‹æ‹œè¨ª <%s> %s (%d)\n */
+    DEBUG(("\xA1\xB7 [%d] \xB6\x7D\xA9\x6C\xAB\xF4\xB3\x58 <%s> %s (%d)\n", i + 1, node->name, node->host, node->port));
     visit_site(node);
-    DEBUG(("¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w\n"));
+    /* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€\n */
+    DEBUG(("\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\n"));
   }
 }
 
@@ -977,11 +1033,16 @@ usage(argv)
   char *argv;
 {
   printf("Usage: %s [options]\n", argv);
-  printf("       -c  ±N high-number »P¦øªA¾¹¤W¦P¨B(¤£¨ú«H)\n");
-  printf("       -k  ¬å±¼¥Ø«e¥¿¦b¶]ªº bbslink¡A¨Ã­«·s±Ò°Ê bbslink\n");
-  printf("       -v  Åã¥Ü¸Ô²Óªº³s½u¹Lµ{\n");
-  printf("       -a ######  «ü©w¨C­Ó¸s²Õ³Ì¦h¨ú´X«Ê«H(¹w³] %d «Ê)\n", MAX_ARTS);
-  printf("       -s site    ¥u¨ú³o­Ó¯¸¥xªº¤å³¹\n");
+  /*        -c  å°‡ high-number èˆ‡ä¼ºæœå™¨ä¸ŠåŒæ­¥(ä¸å–ä¿¡)\n */
+  printf("       -c  \xB1\x4E high-number \xBB\x50\xA6\xF8\xAA\x41\xBE\xB9\xA4\x57\xA6\x50\xA8\x42(\xA4\xA3\xA8\xFA\xAB\x48)\n");
+  /*        -k  ç æ‰ç›®å‰æ­£åœ¨è·‘çš„ bbslinkï¼Œä¸¦é‡æ–°å•Ÿå‹• bbslink\n */
+  printf("       -k  \xAC\xE5\xB1\xBC\xA5\xD8\xAB\x65\xA5\xBF\xA6\x62\xB6\x5D\xAA\xBA bbslink\xA1\x41\xA8\xC3\xAD\xAB\xB7\x73\xB1\xD2\xB0\xCA bbslink\n");
+  /*        -v  é¡¯ç¤ºè©³ç´°çš„é€£ç·šéç¨‹\n */
+  printf("       -v  \xC5\xE3\xA5\xDC\xB8\xD4\xB2\xD3\xAA\xBA\xB3\x73\xBD\x75\xB9\x4C\xB5\x7B\n");
+  /*        -a ######  æŒ‡å®šæ¯å€‹ç¾¤çµ„æœ€å¤šå–å¹¾å°ä¿¡(é è¨­ %d å°)\n */
+  printf("       -a ######  \xAB\xFC\xA9\x77\xA8\x43\xAD\xD3\xB8\x73\xB2\xD5\xB3\xCC\xA6\x68\xA8\xFA\xB4\x58\xAB\xCA\xAB\x48(\xB9\x77\xB3\x5D %d \xAB\xCA)\n", MAX_ARTS);
+  /*        -s site    åªå–é€™å€‹ç«™å°çš„æ–‡ç« \n */
+  printf("       -s site    \xA5\x75\xA8\xFA\xB3\x6F\xAD\xD3\xAF\xB8\xA5\x78\xAA\xBA\xA4\xE5\xB3\xB9\n");
 }
 
 
@@ -1032,7 +1093,7 @@ main(argc, argv)
     return -1;
   }
 
-  /* ¶}©l bbslink¡A±N bbslink Âê¦í */
+  /* é–‹å§‹ bbslinkï¼Œå°‡ bbslink é–ä½ */
   if (!bbslink_get_lock())
     return -1;
 
@@ -1041,7 +1102,7 @@ main(argc, argv)
   if (initial_bbs())
     bbslink();
 
-  /* µ²§ô bbslink¡A±N bbslink ¸Ñ¶} */
+  /* çµæŸ bbslinkï¼Œå°‡ bbslink è§£é–‹ */
   bbslink_un_lock();
 
   return 0;

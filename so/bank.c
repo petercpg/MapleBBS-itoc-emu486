@@ -1,7 +1,7 @@
 /*-------------------------------------------------------*/
 /* bank.c	( NTHU CS MapleBBS Ver 3.10 )		 */
 /*-------------------------------------------------------*/
-/* target : »È¦æ¡BÁÊ¶RÅv­­¥\¯à				 */
+/* target : éŠ€è¡Œã€è³¼è²·æ¬Šé™åŠŸèƒ½				 */
 /* create : 01/07/16					 */
 /* update :   /  /  					 */
 /* author : itoc.bbs@bbs.tnfsh.tn.edu.tw		 */
@@ -23,7 +23,8 @@ x_give()
   time_t now;
   PAYCHECK paycheck;
 
-  if (!vget(13, 0, "±z­n§â¿úÂàµ¹½Ö©O¡H", userid, IDLEN + 1, DOECHO))
+  /* æ‚¨è¦æŠŠéŒ¢è½‰çµ¦èª°å‘¢ï¼Ÿ */
+  if (!vget(13, 0, "\xB1\x7A\xAD\x6E\xA7\xE2\xBF\xFA\xC2\xE0\xB5\xB9\xBD\xD6\xA9\x4F\xA1\x48", userid, IDLEN + 1, DOECHO))
     return;
 
   if (acct_userno(userid) <= 0)
@@ -32,13 +33,15 @@ x_give()
     return;
   }
 
-  way = vget(15, 0, "Âà±b 1)Âà»È¹ô 2)Âàª÷¹ô¡G", buf, 3, DOECHO) - '1';
+  /* è½‰å¸³ 1)è½‰éŠ€å¹£ 2)è½‰é‡‘å¹£ï¼š */
+  way = vget(15, 0, "\xC2\xE0\xB1\x62 1)\xC2\xE0\xBB\xC8\xB9\xF4 2)\xC2\xE0\xAA\xF7\xB9\xF4\xA1\x47", buf, 3, DOECHO) - '1';
   if (way < 0 || way > 1)
     return;
 
   do
   {
-    if (!vget(17, 0, "­nÂà¦h¤Ö¿ú¹L¥h¡H", buf, 9, DOECHO))	/* ³Ì¦hÂà 99999999 Á×§K·¸¦ì */
+    /* è¦è½‰å¤šå°‘éŒ¢éå»ï¼Ÿ */
+    if (!vget(17, 0, "\xAD\x6E\xC2\xE0\xA6\x68\xA4\xD6\xBF\xFA\xB9\x4C\xA5\x68\xA1\x48", buf, 9, DOECHO))	/* æœ€å¤šè½‰ 99999999 é¿å…æº¢ä½ */
       return;
 
     dollar = atoi(buf);
@@ -46,19 +49,24 @@ x_give()
     if (!way)
     {
       if (dollar > cuser.money)
-	dollar = cuser.money;	/* ¥şÂà¹L¥h */
+	dollar = cuser.money;	/* å…¨è½‰éå» */
     }
     else
     {
       if (dollar > cuser.gold)
-	dollar = cuser.gold;	/* ¥şÂà¹L¥h */
+	dollar = cuser.gold;	/* å…¨è½‰éå» */
     }
-  } while (dollar <= 1);	/* ¤£¯à¥uÂà 1¡A·|¥şÅÜ¤âÄò¶O */
+  } while (dollar <= 1);	/* ä¸èƒ½åªè½‰ 1ï¼Œæœƒå…¨è®Šæ‰‹çºŒè²» */
 
-  if (!vget(19, 0, "½Ğ¿é¤J²z¥Ñ¡G", reason, 40, DOECHO))
-    strcpy(reason, "¿ú¤Ó¦h");
+  /* è«‹è¼¸å…¥ç†ç”±ï¼š */
+  if (!vget(19, 0, "\xBD\xD0\xBF\xE9\xA4\x4A\xB2\x7A\xA5\xD1\xA1\x47", reason, 40, DOECHO))
+    /* éŒ¢å¤ªå¤š */
+    strcpy(reason, "\xBF\xFA\xA4\xD3\xA6\x68");
 
-  sprintf(buf, "¬O§_­nÂà±bµ¹ %s %s¹ô %d (Y/N)¡H[N] ", userid, !way ? "»È" : "ª÷", dollar);
+  /* æ˜¯å¦è¦è½‰å¸³çµ¦ %s %så¹£ %d (Y/N)ï¼Ÿ[N]  */
+  /* éŠ€ */
+  /* é‡‘ */
+  sprintf(buf, "\xAC\x4F\xA7\x5F\xAD\x6E\xC2\xE0\xB1\x62\xB5\xB9 %s %s\xB9\xF4 %d (Y/N)\xA1\x48[N] ", userid, !way ? "\xBB\xC8" : "\xAA\xF7", dollar);
   if (vget(21, 0, buf, fpath, 3, LCECHO) == 'y')
   {
     if (!way)
@@ -66,23 +74,29 @@ x_give()
     else
       cuser.gold -= dollar;
 
-    dollar -= dollar / 10 + ((dollar % 10) ? 1 : 0);	/* 10% ¤âÄò¶O */
+    dollar -= dollar / 10 + ((dollar % 10) ? 1 : 0);	/* 10% æ‰‹çºŒè²» */
 
-    /* itoc.020831: ¥[¤J¶×¿ú°O¿ı */
+    /* itoc.020831: åŠ å…¥åŒ¯éŒ¢è¨˜éŒ„ */
     time(&now);
-    sprintf(buf, "%-13sÂàµ¹ %-13s­p %d %s (%s)\n",
-      cuser.userid, userid, dollar, !way ? "»È" : "ª÷", Btime(now));
+    /* %-13sè½‰çµ¦ %-13sè¨ˆ %d %s (%s)\n */
+    sprintf(buf, "%-13s\xC2\xE0\xB5\xB9 %-13s\xAD\x70 %d %s (%s)\n",
+      /* éŠ€ */
+      /* é‡‘ */
+      cuser.userid, userid, dollar, !way ? "\xBB\xC8" : "\xAA\xF7", Btime(now));
     f_cat(FN_RUN_BANK_LOG, buf);
 
     usr_fpath(folder, userid, fn_dir);
     if (fp = fdopen(hdr_stamp(folder, 0, &hdr, fpath), "w"))
     {
-      fprintf(fp, "%s %s (%s)\n¼ĞÃD: Âà±b³qª¾\n®É¶¡: %s\n\n", 
+      /* %s %s (%s)\næ¨™é¡Œ: è½‰å¸³é€šçŸ¥\næ™‚é–“: %s\n\n */
+      fprintf(fp, "%s %s (%s)\n\xBC\xD0\xC3\x44: \xC2\xE0\xB1\x62\xB3\x71\xAA\xBE\n\xAE\xC9\xB6\xA1: %s\n\n", 
 	str_author1, cuser.userid, cuser.username, Btime(now));
-      fprintf(fp, "%s\n¥Lªº²z¥Ñ¬O¡G%s\n\n½Ğ±z¦Üª÷¿Ä¤¤¤ß±N¤ä²¼§I²{", buf, reason);
+      /* %s\nä»–çš„ç†ç”±æ˜¯ï¼š%s\n\nè«‹æ‚¨è‡³é‡‘èä¸­å¿ƒå°‡æ”¯ç¥¨å…Œç¾ */
+      fprintf(fp, "%s\n\xA5\x4C\xAA\xBA\xB2\x7A\xA5\xD1\xAC\x4F\xA1\x47%s\n\n\xBD\xD0\xB1\x7A\xA6\xDC\xAA\xF7\xBF\xC4\xA4\xA4\xA4\xDF\xB1\x4E\xA4\xE4\xB2\xBC\xA7\x49\xB2\x7B", buf, reason);
       fclose(fp);      
 
-      strcpy(hdr.title, "Âà±b³qª¾");
+      /* è½‰å¸³é€šçŸ¥ */
+      strcpy(hdr.title, "\xC2\xE0\xB1\x62\xB3\x71\xAA\xBE");
       strcpy(hdr.owner, cuser.userid);
       rec_add(folder, &hdr, sizeof(HDR));
     }
@@ -93,22 +107,25 @@ x_give()
       paycheck.money = dollar;
     else
       paycheck.gold = dollar;
-    sprintf(paycheck.reason, "[Âà±b] %s", cuser.userid);
+    /* [è½‰å¸³] %s */
+    sprintf(paycheck.reason, "[\xC2\xE0\xB1\x62] %s", cuser.userid);
     usr_fpath(fpath, userid, FN_PAYCHECK);
     rec_add(fpath, &paycheck, sizeof(PAYCHECK));
 
-    sprintf(buf, "±z¨­¤W¦³»È¹ô %d ¤¸¡Aª÷¹ô %d ¤¸", cuser.money, cuser.gold);
+    /* æ‚¨èº«ä¸Šæœ‰éŠ€å¹£ %d å…ƒï¼Œé‡‘å¹£ %d å…ƒ */
+    sprintf(buf, "\xB1\x7A\xA8\xAD\xA4\x57\xA6\xB3\xBB\xC8\xB9\xF4 %d \xA4\xB8\xA1\x41\xAA\xF7\xB9\xF4 %d \xA4\xB8", cuser.money, cuser.gold);
     vmsg(buf);
   }
   else
   {
-    vmsg("¨ú®ø¥æ©ö");
+    /* å–æ¶ˆäº¤æ˜“ */
+    vmsg("\xA8\xFA\xAE\xF8\xA5\xE6\xA9\xF6");
   }
 }
 
 
-#define GOLD2MONEY	900000	/* ª÷¹ô¡÷»È¹ô ¶×²v */
-#define MONEY2GOLD	1100000	/* »È¹ô¡÷ª÷¹ô ¶×²v */
+#define GOLD2MONEY	900000	/* é‡‘å¹£â†’éŠ€å¹£ åŒ¯ç‡ */
+#define MONEY2GOLD	1100000	/* éŠ€å¹£â†’é‡‘å¹£ åŒ¯ç‡ */
 
 static void
 x_exchange()
@@ -117,9 +134,11 @@ x_exchange()
   char buf[80], ans[8];
 
   move(13, 0);
-  prints("»È¹ô¡÷ª÷¹ô = %d¡G1  ª÷¹ô¡÷»È¹ô = 1¡G%d", MONEY2GOLD, GOLD2MONEY);
+  /* éŠ€å¹£â†’é‡‘å¹£ = %dï¼š1  é‡‘å¹£â†’éŠ€å¹£ = 1ï¼š%d */
+  prints("\xBB\xC8\xB9\xF4\xA1\xF7\xAA\xF7\xB9\xF4 = %d\xA1\x47""1  \xAA\xF7\xB9\xF4\xA1\xF7\xBB\xC8\xB9\xF4 = 1\xA1\x47%d", MONEY2GOLD, GOLD2MONEY);
 
-  way = vget(15, 0, "¶×§I 1)»È¹ô¡÷ª÷¹ô 2)ª÷¹ô¡÷»È¹ô¡G", ans, 3, DOECHO) - '1';
+  /* åŒ¯å…Œ 1)éŠ€å¹£â†’é‡‘å¹£ 2)é‡‘å¹£â†’éŠ€å¹£ï¼š */
+  way = vget(15, 0, "\xB6\xD7\xA7\x49 1)\xBB\xC8\xB9\xF4\xA1\xF7\xAA\xF7\xB9\xF4 2)\xAA\xF7\xB9\xF4\xA1\xF7\xBB\xC8\xB9\xF4\xA1\x47", ans, 3, DOECHO) - '1';
 
   if (!way)
     money = cuser.money / MONEY2GOLD;
@@ -129,11 +148,13 @@ x_exchange()
     return;
 
   if (!way)
-    sprintf(buf, "±z­n±N»È¹ô§I´«¦¨¦h¤Ö­Óª÷¹ô©O¡H[1 - %d] ", money);
+    /* æ‚¨è¦å°‡éŠ€å¹£å…Œæ›æˆå¤šå°‘å€‹é‡‘å¹£å‘¢ï¼Ÿ[1 - %d]  */
+    sprintf(buf, "\xB1\x7A\xAD\x6E\xB1\x4E\xBB\xC8\xB9\xF4\xA7\x49\xB4\xAB\xA6\xA8\xA6\x68\xA4\xD6\xAD\xD3\xAA\xF7\xB9\xF4\xA9\x4F\xA1\x48[1 - %d] ", money);
   else
-    sprintf(buf, "±z­n§I´«¦h¤Ö­Óª÷¹ô¦¨¬°»È¹ô©O¡H[1 - %d] ", money);
+    /* æ‚¨è¦å…Œæ›å¤šå°‘å€‹é‡‘å¹£æˆç‚ºéŠ€å¹£å‘¢ï¼Ÿ[1 - %d]  */
+    sprintf(buf, "\xB1\x7A\xAD\x6E\xA7\x49\xB4\xAB\xA6\x68\xA4\xD6\xAD\xD3\xAA\xF7\xB9\xF4\xA6\xA8\xAC\xB0\xBB\xC8\xB9\xF4\xA9\x4F\xA1\x48[1 - %d] ", money);
     
-  if (!vget(17, 0, buf, ans, 4, DOECHO))	/* ªø«×¤ñ¸ûµu¡AÁ×§K·¸¦ì */
+  if (!vget(17, 0, buf, ans, 4, DOECHO))	/* é•·åº¦æ¯”è¼ƒçŸ­ï¼Œé¿å…æº¢ä½ */
     return;
 
   gold = atoi(ans);
@@ -144,21 +165,25 @@ x_exchange()
   {
     if (gold > (INT_MAX - cuser.gold))
     {
-      vmsg("±z´«¤Ó¦h¿úÅo¡ã·|·¸¦ìªº¡I");
+      /* æ‚¨æ›å¤ªå¤šéŒ¢å›‰ï½æœƒæº¢ä½çš„ï¼ */
+      vmsg("\xB1\x7A\xB4\xAB\xA4\xD3\xA6\x68\xBF\xFA\xC5\x6F\xA1\xE3\xB7\x7C\xB7\xB8\xA6\xEC\xAA\xBA\xA1\x49");
       return;
     }
     money = gold * MONEY2GOLD;
-    sprintf(buf, "¬O§_­n§I´«»È¹ô %d ¤¸ ¬°ª÷¹ô %d (Y/N)¡H[N] ", money, gold);
+    /* æ˜¯å¦è¦å…Œæ›éŠ€å¹£ %d å…ƒ ç‚ºé‡‘å¹£ %d (Y/N)ï¼Ÿ[N]  */
+    sprintf(buf, "\xAC\x4F\xA7\x5F\xAD\x6E\xA7\x49\xB4\xAB\xBB\xC8\xB9\xF4 %d \xA4\xB8 \xAC\xB0\xAA\xF7\xB9\xF4 %d (Y/N)\xA1\x48[N] ", money, gold);
   }
   else
   {
     money = gold * GOLD2MONEY;
     if (money > (INT_MAX - cuser.money))
     {
-      vmsg("±z´«¤Ó¦h¿úÅo¡ã·|·¸¦ìªº¡I");
+      /* æ‚¨æ›å¤ªå¤šéŒ¢å›‰ï½æœƒæº¢ä½çš„ï¼ */
+      vmsg("\xB1\x7A\xB4\xAB\xA4\xD3\xA6\x68\xBF\xFA\xC5\x6F\xA1\xE3\xB7\x7C\xB7\xB8\xA6\xEC\xAA\xBA\xA1\x49");
       return;
     }
-    sprintf(buf, "¬O§_­n§I´«ª÷¹ô %d ¤¸ ¬°»È¹ô %d (Y/N)¡H[N] ", gold, money);
+    /* æ˜¯å¦è¦å…Œæ›é‡‘å¹£ %d å…ƒ ç‚ºéŠ€å¹£ %d (Y/N)ï¼Ÿ[N]  */
+    sprintf(buf, "\xAC\x4F\xA7\x5F\xAD\x6E\xA7\x49\xB4\xAB\xAA\xF7\xB9\xF4 %d \xA4\xB8 \xAC\xB0\xBB\xC8\xB9\xF4 %d (Y/N)\xA1\x48[N] ", gold, money);
   }
 
   if (vget(19, 0, buf, ans, 3, LCECHO) == 'y')
@@ -173,12 +198,14 @@ x_exchange()
       cuser.gold -= gold;
       addmoney(money);
     }
-    sprintf(buf, "±z¨­¤W¦³»È¹ô %d ¤¸¡Aª÷¹ô %d ¤¸", cuser.money, cuser.gold);
+    /* æ‚¨èº«ä¸Šæœ‰éŠ€å¹£ %d å…ƒï¼Œé‡‘å¹£ %d å…ƒ */
+    sprintf(buf, "\xB1\x7A\xA8\xAD\xA4\x57\xA6\xB3\xBB\xC8\xB9\xF4 %d \xA4\xB8\xA1\x41\xAA\xF7\xB9\xF4 %d \xA4\xB8", cuser.money, cuser.gold);
     vmsg(buf);
   }
   else
   {
-    vmsg("¨ú®ø¥æ©ö");
+    /* å–æ¶ˆäº¤æ˜“ */
+    vmsg("\xA8\xFA\xAE\xF8\xA5\xE6\xA9\xF6");
   }
 }
 
@@ -194,33 +221,37 @@ x_cash()
   usr_fpath(fpath, cuser.userid, FN_PAYCHECK);
   if ((fd = open(fpath, O_RDONLY)) < 0)
   {
-    vmsg("±z¥Ø«e¨S¦³¤ä²¼¥¼§I²{");
+    /* æ‚¨ç›®å‰æ²’æœ‰æ”¯ç¥¨æœªå…Œç¾ */
+    vmsg("\xB1\x7A\xA5\xD8\xAB\x65\xA8\x53\xA6\xB3\xA4\xE4\xB2\xBC\xA5\xBC\xA7\x49\xB2\x7B");
     return;
   }
 
   usr_fpath(buf, cuser.userid, "cashed");
   fp = fopen(buf, "w");
-  fputs("¥H¤U¬O±zªº¤ä²¼§I´«²M³æ¡G\n\n", fp);
+  /* ä»¥ä¸‹æ˜¯æ‚¨çš„æ”¯ç¥¨å…Œæ›æ¸…å–®ï¼š\n\n */
+  fputs("\xA5\x48\xA4\x55\xAC\x4F\xB1\x7A\xAA\xBA\xA4\xE4\xB2\xBC\xA7\x49\xB4\xAB\xB2\x4D\xB3\xE6\xA1\x47\n\n", fp);
 
   money = gold = 0;
   while (read(fd, &paycheck, sizeof(PAYCHECK)) == sizeof(PAYCHECK))
   {
-    if (paycheck.money < (INT_MAX - money))	/* Á×§K·¸¦ì */
+    if (paycheck.money < (INT_MAX - money))	/* é¿å…æº¢ä½ */
       money += paycheck.money;
     else
       money = INT_MAX;
-    if (paycheck.gold < (INT_MAX - gold))	/* Á×§K·¸¦ì */
+    if (paycheck.gold < (INT_MAX - gold))	/* é¿å…æº¢ä½ */
       gold += paycheck.gold;
     else
       gold = INT_MAX;
 
-    fprintf(fp, "%s %s %d »È %d ª÷\n", 
+    /* %s %s %d éŠ€ %d é‡‘\n */
+    fprintf(fp, "%s %s %d \xBB\xC8 %d \xAA\xF7\n", 
       Btime(paycheck.tissue), paycheck.reason, paycheck.money, paycheck.gold);
   }
   close(fd);
   unlink(fpath);
 
-  fprintf(fp, "\n±z¦@§I²{ %d »È %d ª÷\n", money, gold);
+  /* \næ‚¨å…±å…Œç¾ %d éŠ€ %d é‡‘\n */
+  fprintf(fp, "\n\xB1\x7A\xA6\x40\xA7\x49\xB2\x7B %d \xBB\xC8 %d \xAA\xF7\n", money, gold);
   fclose(fp);
 
   addmoney(money);
@@ -242,26 +273,36 @@ x_bank()
     return XEASY;
   }
 
-  vs_bar("«H°U»È¦æ");
+  /* ä¿¡è¨—éŠ€è¡Œ */
+  vs_bar("\xAB\x48\xB0\x55\xBB\xC8\xA6\xE6");
   move(2, 0);
 
-  /* itoc.011208: ¥H¨¾¸U¤@ */
+  /* itoc.011208: ä»¥é˜²è¬ä¸€ */
   if (cuser.money < 0)
     cuser.money = 0;
   if (cuser.gold < 0)
     cuser.gold = 0;
 
-  outs("\033[1;36m  ùúùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùû\n");
-  prints("  ùø\033[32m±z²{¦b¦³»È¹ô \033[33m%12d\033[32m ¤¸¡Aª÷¹ô \033[33m%12d\033[32m ¤¸\033[36m        ùø\n", 
+  /* \033[1;36m  â•­â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•®\n */
+  outs("\033[1;36m  \xF9\xFA\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xFB\n");
+  /*   â•‘\033[32mæ‚¨ç¾åœ¨æœ‰éŠ€å¹£ \033[33m%12d\033[32m å…ƒï¼Œé‡‘å¹£ \033[33m%12d\033[32m å…ƒ\033[36m        â•‘\n */
+  prints("  \xF9\xF8\033[32m\xB1\x7A\xB2\x7B\xA6\x62\xA6\xB3\xBB\xC8\xB9\xF4 \033[33m%12d\033[32m \xA4\xB8\xA1\x41\xAA\xF7\xB9\xF4 \033[33m%12d\033[32m \xA4\xB8\033[36m        \xF9\xF8\n", 
     cuser.money, cuser.gold);
-  outs("  ùàùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùâ\n"
-    "  ùø ¥Ø«e»È¦æ´£¨Ñ¤U¦C´X¶µªA°È¡G                               ùø\n"
-    "  ùø\033[33m1.\033[37m Âà±b -- Âà±bµ¹¨ä¥L¤H   (©â¨ú 10% ¤âÄò¶O) \033[36m              ùø\n"
-    "  ùø\033[33m2.\033[37m ¶×§I -- »È¹ô/ª÷¹ô §I´« (©â¨ú 10% ¤âÄò¶O) \033[36m              ùø\n"
-    "  ùø\033[33m3.\033[37m §I²{ -- ¤ä²¼§I²{                         \033[36m              ùø\n"
-    "  ùüùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùı\033[m");
+  /*   â• â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•£\n */
+  outs("  \xF9\xE0\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xE2\n"
+    /*   â•‘ ç›®å‰éŠ€è¡Œæä¾›ä¸‹åˆ—å¹¾é …æœå‹™ï¼š                               â•‘\n */
+    "  \xF9\xF8 \xA5\xD8\xAB\x65\xBB\xC8\xA6\xE6\xB4\xA3\xA8\xD1\xA4\x55\xA6\x43\xB4\x58\xB6\xB5\xAA\x41\xB0\xC8\xA1\x47                               \xF9\xF8\n"
+    /*   â•‘\033[33m1.\033[37m è½‰å¸³ -- è½‰å¸³çµ¦å…¶ä»–äºº   (æŠ½å– 10% æ‰‹çºŒè²») \033[36m              â•‘\n */
+    "  \xF9\xF8\033[33m1.\033[37m \xC2\xE0\xB1\x62 -- \xC2\xE0\xB1\x62\xB5\xB9\xA8\xE4\xA5\x4C\xA4\x48   (\xA9\xE2\xA8\xFA 10% \xA4\xE2\xC4\xF2\xB6\x4F) \033[36m              \xF9\xF8\n"
+    /*   â•‘\033[33m2.\033[37m åŒ¯å…Œ -- éŠ€å¹£/é‡‘å¹£ å…Œæ› (æŠ½å– 10% æ‰‹çºŒè²») \033[36m              â•‘\n */
+    "  \xF9\xF8\033[33m2.\033[37m \xB6\xD7\xA7\x49 -- \xBB\xC8\xB9\xF4/\xAA\xF7\xB9\xF4 \xA7\x49\xB4\xAB (\xA9\xE2\xA8\xFA 10% \xA4\xE2\xC4\xF2\xB6\x4F) \033[36m              \xF9\xF8\n"
+    /*   â•‘\033[33m3.\033[37m å…Œç¾ -- æ”¯ç¥¨å…Œç¾                         \033[36m              â•‘\n */
+    "  \xF9\xF8\033[33m3.\033[37m \xA7\x49\xB2\x7B -- \xA4\xE4\xB2\xBC\xA7\x49\xB2\x7B                         \033[36m              \xF9\xF8\n"
+    /*   â•°â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•¯\033[m */
+    "  \xF9\xFC\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xFD\033[m");
 
-  vget(11, 0, "½Ğ¿é¤J±z»İ­nªºªA°È¡G", ans, 3, DOECHO);
+  /* è«‹è¼¸å…¥æ‚¨éœ€è¦çš„æœå‹™ï¼š */
+  vget(11, 0, "\xBD\xD0\xBF\xE9\xA4\x4A\xB1\x7A\xBB\xDD\xAD\x6E\xAA\xBA\xAA\x41\xB0\xC8\xA1\x47", ans, 3, DOECHO);
   if (ans[0] == '1')
     x_give();
   else if (ans[0] == '2')
@@ -284,43 +325,47 @@ b_invis()
 
   if (cuser.ufo & UFO_CLOAK)
   {
-    if (vans("¬O§_²{¨­(Y/N)¡H[N] ") != 'y')
+    /* æ˜¯å¦ç¾èº«(Y/N)ï¼Ÿ[N]  */
+    if (vans("\xAC\x4F\xA7\x5F\xB2\x7B\xA8\xAD(Y/N)\xA1\x48[N] ") != 'y')
       return XEASY; 
-    /* ²{¨­§K¶O */
+    /* ç¾èº«å…è²» */
   }
   else
   {
     if (HAS_PERM(PERM_CLOAK))
     {
-      if (vans("¬O§_Áô§Î(Y/N)¡H[N] ") != 'y')
+      /* æ˜¯å¦éš±å½¢(Y/N)ï¼Ÿ[N]  */
+      if (vans("\xAC\x4F\xA7\x5F\xC1\xF4\xA7\xCE(Y/N)\xA1\x48[N] ") != 'y')
 	return XEASY;
-      /* ¦³µL­­Áô§ÎÅv­­ªÌ§K¶O */
+      /* æœ‰ç„¡é™éš±å½¢æ¬Šé™è€…å…è²» */
     }
     else
     {
       if (cuser.gold < 10)
       {
-	vmsg("­n 10 ª÷¹ô¤~¯àÁô§Î³á");
+	/* è¦ 10 é‡‘å¹£æ‰èƒ½éš±å½¢å–” */
+	vmsg("\xAD\x6E 10 \xAA\xF7\xB9\xF4\xA4\x7E\xAF\xE0\xC1\xF4\xA7\xCE\xB3\xE1");
 	return XEASY;
       }
-      if (vans("¬O§_ªá 10 ª÷¹ôÁô§Î(Y/N)¡H[N] ") != 'y')
+      /* æ˜¯å¦èŠ± 10 é‡‘å¹£éš±å½¢(Y/N)ï¼Ÿ[N]  */
+      if (vans("\xAC\x4F\xA7\x5F\xAA\xE1 10 \xAA\xF7\xB9\xF4\xC1\xF4\xA7\xCE(Y/N)\xA1\x48[N] ") != 'y')
 	return XEASY;
       cuser.gold -= 10;
     }
   }
 
   cuser.ufo ^= UFO_CLOAK;
-  cutmp->ufo ^= UFO_CLOAK;	/* ufo ­n¦P¨B */
+  cutmp->ufo ^= UFO_CLOAK;	/* ufo è¦åŒæ­¥ */
 
   return XEASY;
 }
 
 
 static void
-buy_level(userlevel)		/* itoc.010830: ¥u¦s level Äæ¦ì¡A¥H§KÅÜ°Ê¨ì¦b½u¤W§ó°Êªº»{ÃÒÄæ¦ì */
+buy_level(userlevel)		/* itoc.010830: åªå­˜ level æ¬„ä½ï¼Œä»¥å…è®Šå‹•åˆ°åœ¨ç·šä¸Šæ›´å‹•çš„èªè­‰æ¬„ä½ */
   usint userlevel;
 {
-  if (!HAS_STATUS(STATUS_DATALOCK))	/* itoc.010811: ­n¨S¦³³Q¯¸ªøÂê©w¡A¤~¯à¼g¤J */
+  if (!HAS_STATUS(STATUS_DATALOCK))	/* itoc.010811: è¦æ²’æœ‰è¢«ç«™é•·é–å®šï¼Œæ‰èƒ½å¯«å…¥ */
   {
     int fd;
     char fpath[80];
@@ -335,7 +380,8 @@ buy_level(userlevel)		/* itoc.010830: ¥u¦s level Äæ¦ì¡A¥H§KÅÜ°Ê¨ì¦b½u¤W§ó°Êªº»{Ã
 	tuser.userlevel |= userlevel;
 	lseek(fd, (off_t) 0, SEEK_SET);
 	write(fd, &tuser, sizeof(ACCT));
-	vmsg("±z¤w¸gÀò±oÅv­­¡A½Ğ­«·s¤W¯¸");
+	/* æ‚¨å·²ç¶“ç²å¾—æ¬Šé™ï¼Œè«‹é‡æ–°ä¸Šç«™ */
+	vmsg("\xB1\x7A\xA4\x77\xB8\x67\xC0\xF2\xB1\x6F\xC5\x76\xAD\xAD\xA1\x41\xBD\xD0\xAD\xAB\xB7\x73\xA4\x57\xAF\xB8");
       }
       close(fd);
     }
@@ -354,15 +400,18 @@ b_cloak()
 
   if (HAS_PERM(PERM_CLOAK))
   {
-    vmsg("±z¤w¸g¯àµL­­Áô§Î¤F");
+    /* æ‚¨å·²ç¶“èƒ½ç„¡é™éš±å½¢äº† */
+    vmsg("\xB1\x7A\xA4\x77\xB8\x67\xAF\xE0\xB5\x4C\xAD\xAD\xC1\xF4\xA7\xCE\xA4\x46");
   }
   else
   {
     if (cuser.gold < 1000)
     {
-      vmsg("­n 1000 ª÷¹ô¤~¯àÁÊ¶RµL­­Áô§ÎÅv­­³á");
+      /* è¦ 1000 é‡‘å¹£æ‰èƒ½è³¼è²·ç„¡é™éš±å½¢æ¬Šé™å–” */
+      vmsg("\xAD\x6E 1000 \xAA\xF7\xB9\xF4\xA4\x7E\xAF\xE0\xC1\xCA\xB6\x52\xB5\x4C\xAD\xAD\xC1\xF4\xA7\xCE\xC5\x76\xAD\xAD\xB3\xE1");
     }
-    else if (vans("¬O§_ªá 1000 ª÷¹ôÁÊ¶RµL­­Áô§ÎÅv­­(Y/N)¡H[N] ") == 'y')
+    /* æ˜¯å¦èŠ± 1000 é‡‘å¹£è³¼è²·ç„¡é™éš±å½¢æ¬Šé™(Y/N)ï¼Ÿ[N]  */
+    else if (vans("\xAC\x4F\xA7\x5F\xAA\xE1 1000 \xAA\xF7\xB9\xF4\xC1\xCA\xB6\x52\xB5\x4C\xAD\xAD\xC1\xF4\xA7\xCE\xC5\x76\xAD\xAD(Y/N)\xA1\x48[N] ") == 'y')
     {
       cuser.gold -= 1000;
       buy_level(PERM_CLOAK);
@@ -384,15 +433,18 @@ b_mbox()
 
   if (HAS_PERM(PERM_MBOX))
   {
-    vmsg("±zªº«H½c¤w¸g¨S¦³¤W­­¤F");
+    /* æ‚¨çš„ä¿¡ç®±å·²ç¶“æ²’æœ‰ä¸Šé™äº† */
+    vmsg("\xB1\x7A\xAA\xBA\xAB\x48\xBD\x63\xA4\x77\xB8\x67\xA8\x53\xA6\xB3\xA4\x57\xAD\xAD\xA4\x46");
   }
   else
   {
     if (cuser.gold < 1000)
     {
-      vmsg("­n 1000 ª÷¹ô¤~¯àÁÊ¶R«H½cµL­­Åv­­³á");
+      /* è¦ 1000 é‡‘å¹£æ‰èƒ½è³¼è²·ä¿¡ç®±ç„¡é™æ¬Šé™å–” */
+      vmsg("\xAD\x6E 1000 \xAA\xF7\xB9\xF4\xA4\x7E\xAF\xE0\xC1\xCA\xB6\x52\xAB\x48\xBD\x63\xB5\x4C\xAD\xAD\xC5\x76\xAD\xAD\xB3\xE1");
     }
-    else if (vans("¬O§_ªá 1000 ª÷¹ôÁÊ¶R«H½cµL­­Åv­­(Y/N)¡H[N] ") == 'y')
+    /* æ˜¯å¦èŠ± 1000 é‡‘å¹£è³¼è²·ä¿¡ç®±ç„¡é™æ¬Šé™(Y/N)ï¼Ÿ[N]  */
+    else if (vans("\xAC\x4F\xA7\x5F\xAA\xE1 1000 \xAA\xF7\xB9\xF4\xC1\xCA\xB6\x52\xAB\x48\xBD\x63\xB5\x4C\xAD\xAD\xC5\x76\xAD\xAD(Y/N)\xA1\x48[N] ") == 'y')
     {
       cuser.gold -= 1000;
       buy_level(PERM_MBOX);
@@ -414,15 +466,18 @@ b_xempt()
 
   if (HAS_PERM(PERM_XEMPT))
   {
-    vmsg("±zªº±b¸¹¤w¸g¥Ã¤[«O¯d¤F");
+    /* æ‚¨çš„å¸³è™Ÿå·²ç¶“æ°¸ä¹…ä¿ç•™äº† */
+    vmsg("\xB1\x7A\xAA\xBA\xB1\x62\xB8\xB9\xA4\x77\xB8\x67\xA5\xC3\xA4\x5B\xAB\x4F\xAF\x64\xA4\x46");
   }
   else
   {
     if (cuser.gold < 1000)
     {
-      vmsg("­n 1000 ª÷¹ô¤~¯àÁÊ¶R±b¸¹¥Ã¤[«O¯dÅv­­³á");
+      /* è¦ 1000 é‡‘å¹£æ‰èƒ½è³¼è²·å¸³è™Ÿæ°¸ä¹…ä¿ç•™æ¬Šé™å–” */
+      vmsg("\xAD\x6E 1000 \xAA\xF7\xB9\xF4\xA4\x7E\xAF\xE0\xC1\xCA\xB6\x52\xB1\x62\xB8\xB9\xA5\xC3\xA4\x5B\xAB\x4F\xAF\x64\xC5\x76\xAD\xAD\xB3\xE1");
     }
-    else if (vans("¬O§_ªá 1000 ª÷¹ôÁÊ¶R±b¸¹¥Ã¤[«O¯dÅv­­(Y/N)¡H[N] ") == 'y')
+    /* æ˜¯å¦èŠ± 1000 é‡‘å¹£è³¼è²·å¸³è™Ÿæ°¸ä¹…ä¿ç•™æ¬Šé™(Y/N)ï¼Ÿ[N]  */
+    else if (vans("\xAC\x4F\xA7\x5F\xAA\xE1 1000 \xAA\xF7\xB9\xF4\xC1\xCA\xB6\x52\xB1\x62\xB8\xB9\xA5\xC3\xA4\x5B\xAB\x4F\xAF\x64\xC5\x76\xAD\xAD(Y/N)\xA1\x48[N] ") == 'y')
     {
       cuser.gold -= 1000;
       buy_level(PERM_XEMPT);
@@ -433,7 +488,7 @@ b_xempt()
 }
 
 
-#if 0	/* ¤£´£¨ÑÁÊ¶R¦Û±ş¥\¯à */
+#if 0	/* ä¸æä¾›è³¼è²·è‡ªæ®ºåŠŸèƒ½ */
 int
 b_purge()
 {
@@ -445,15 +500,18 @@ b_purge()
 
   if (HAS_PERM(PERM_PURGE))
   {
-    vmsg("¨t²Î¦b¤U¦¸©w´Á²M±b¸¹®É¡A±N²M°£¦¹ ID");
+    /* ç³»çµ±åœ¨ä¸‹æ¬¡å®šæœŸæ¸…å¸³è™Ÿæ™‚ï¼Œå°‡æ¸…é™¤æ­¤ ID */
+    vmsg("\xA8\x74\xB2\xCE\xA6\x62\xA4\x55\xA6\xB8\xA9\x77\xB4\xC1\xB2\x4D\xB1\x62\xB8\xB9\xAE\xC9\xA1\x41\xB1\x4E\xB2\x4D\xB0\xA3\xA6\xB9 ID");
   }
   else
   {
     if (cuser.gold < 1000)
     {
-      vmsg("­n 1000 ª÷¹ô¤~¯à¦Û±ş³á");
+      /* è¦ 1000 é‡‘å¹£æ‰èƒ½è‡ªæ®ºå–” */
+      vmsg("\xAD\x6E 1000 \xAA\xF7\xB9\xF4\xA4\x7E\xAF\xE0\xA6\xDB\xB1\xFE\xB3\xE1");
     }
-    else if (vans("¬O§_ªá 1000 ª÷¹ô¦Û±ş(Y/N)¡H[N] ") == 'y')
+    /* æ˜¯å¦èŠ± 1000 é‡‘å¹£è‡ªæ®º(Y/N)ï¼Ÿ[N]  */
+    else if (vans("\xAC\x4F\xA7\x5F\xAA\xE1 1000 \xAA\xF7\xB9\xF4\xA6\xDB\xB1\xFE(Y/N)\xA1\x48[N] ") == 'y')
     {
       cuser.gold -= 1000;
       buy_level(PERM_PURGE);

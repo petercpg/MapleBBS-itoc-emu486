@@ -1,7 +1,7 @@
 /*-------------------------------------------------------*/
 /* todo.c	( NTHU CS MapleBBS Ver 3.10 )		 */
 /*-------------------------------------------------------*/
-/* target : ¦æ¨Æ¾ä					 */
+/* target : è¡Œäº‹æ›†					 */
 /* create : 00/09/13					 */
 /* update : 03/08/24					 */
 /* author : DavidYu.bbs@ptt2.twbbs.org			 */
@@ -19,11 +19,11 @@
 
 
 /*-------------------------------------------------------*/
-/* ¤é´Á³B²z¨ç¦¡						 */
+/* æ—¥æœŸè™•ç†å‡½å¼						 */
 /*-------------------------------------------------------*/
 
 
-static int 		/* ³o­Ó¤ë¦³´X¤Ñ */
+static int 		/* é€™å€‹æœˆæœ‰å¹¾å¤© */
 month_day(y, m)
   int y, m;
 {
@@ -57,8 +57,8 @@ make_time(year, month, day)
 
 static time_t
 parse_date(date, year, month, day)
-  char *date;				/* ¶Ç¤J date ®æ¦¡¬° 2003/08/25 */
-  int *year, *month, *day;		/* ¶Ç¥X time_t year month day */
+  char *date;				/* å‚³å…¥ date æ ¼å¼ç‚º 2003/08/25 */
+  int *year, *month, *day;		/* å‚³å‡º time_t year month day */
 {
   char *yy, *mm, *dd;
 
@@ -79,15 +79,15 @@ parse_date(date, year, month, day)
 
 
 /*-------------------------------------------------------*/
-/* ¨Æ¥ó³B²z¨ç¦¡						 */
+/* äº‹ä»¶è™•ç†å‡½å¼						 */
 /*-------------------------------------------------------*/
 
 
 typedef struct EVENT
 {
-  time_t chrono;		/* µ´¹ï®É¶¡ */
-  int year, month, day;		/* ¤é´Á: ¦~/¤ë/¤é */
-  char content[40];		/* ±Ô­z */
+  time_t chrono;		/* çµ•å°æ™‚é–“ */
+  int year, month, day;		/* æ—¥æœŸ: å¹´/æœˆ/æ—¥ */
+  char content[40];		/* æ•˜è¿° */
   struct EVENT *next;
 }       EVENT;
 
@@ -171,7 +171,7 @@ event_read(today)
 
 
 /*-------------------------------------------------------*/
-/* ¤ë¾ä²£¥Í¾¹						 */
+/* æœˆæ›†ç”¢ç”Ÿå™¨						 */
 /*-------------------------------------------------------*/
 
 
@@ -195,12 +195,19 @@ AllocCalBuffer(line, len)
 
 
 static int 
-GenerateCalendar(calendar, y, m, tm_mon, tm_mday)	/* ²£¥Í¤ë¾ä */
+GenerateCalendar(calendar, y, m, tm_mon, tm_mday)	/* ç”¢ç”Ÿæœˆæ›† */
   char **calendar;
-  int y, m;			/* ­n²£¥Í´X¦~´X¤ëªº¤ë¾ä */
-  int tm_mon, tm_mday;		/* ¤µ¤Ñ¬O´X¤ë´X¤é */
+  int y, m;			/* è¦ç”¢ç”Ÿå¹¾å¹´å¹¾æœˆçš„æœˆæ›† */
+  int tm_mon, tm_mday;		/* ä»Šå¤©æ˜¯å¹¾æœˆå¹¾æ—¥ */
 {
-  static char week_str[7][3] = {"¤é", "¤@", "¤G", "¤T", "¥|", "¤­", "¤»"};
+  /* æ—¥ */
+  /* ä¸€ */
+  /* äºŒ */
+  /* ä¸‰ */
+  /* å›› */
+  /* äº” */
+  /* å…­ */
+  static char week_str[7][3] = {"\xA4\xE9", "\xA4\x40", "\xA4\x47", "\xA4\x54", "\xA5\x7C", "\xA4\xAD", "\xA4\xBB"};
   static char month_color[12][8] = 
   {
     "\033[1;32m", "\033[1;33m", "\033[1;35m", "\033[1;36m",
@@ -209,8 +216,20 @@ GenerateCalendar(calendar, y, m, tm_mon, tm_mday)	/* ²£¥Í¤ë¾ä */
   };
   static char *month_str[12] = 
   {
-    "¤@¤ë  ", "¤G¤ë  ", "¤T¤ë  ", "¥|¤ë  ", "¤­¤ë  ", "¤»¤ë  ",
-    "¤C¤ë  ", "¤K¤ë  ", "¤E¤ë  ", "¤Q¤ë  ", "¤Q¤@¤ë", "¤Q¤G¤ë"
+    /* ä¸€æœˆ   */
+    /* äºŒæœˆ   */
+    /* ä¸‰æœˆ   */
+    /* å››æœˆ   */
+    /* äº”æœˆ   */
+    /* å…­æœˆ   */
+    "\xA4\x40\xA4\xEB  ", "\xA4\x47\xA4\xEB  ", "\xA4\x54\xA4\xEB  ", "\xA5\x7C\xA4\xEB  ", "\xA4\xAD\xA4\xEB  ", "\xA4\xBB\xA4\xEB  ",
+    /* ä¸ƒæœˆ   */
+    /* å…«æœˆ   */
+    /* ä¹æœˆ   */
+    /* åæœˆ   */
+    /* åä¸€æœˆ */
+    /* åäºŒæœˆ */
+    "\xA4\x43\xA4\xEB  ", "\xA4\x4B\xA4\xEB  ", "\xA4\x45\xA4\xEB  ", "\xA4\x51\xA4\xEB  ", "\xA4\x51\xA4\x40\xA4\xEB", "\xA4\x51\xA4\x47\xA4\xEB"
   };
 
   char *p;
@@ -273,7 +292,7 @@ GenerateCalendar(calendar, y, m, tm_mon, tm_mday)	/* ²£¥Í¤ë¾ä */
 
 
 /*-------------------------------------------------------*/
-/* ¥Dµ{¦¡						 */
+/* ä¸»ç¨‹å¼						 */
 /*-------------------------------------------------------*/
 
 
@@ -284,7 +303,7 @@ main_todo()
   time_t now, today;
   struct tm *ptime, ntime;
   int i, y, m;
-  int lines;			/* ¥Ø«e¦³´X¦æ¨Æ¥ó */
+  int lines;			/* ç›®å‰æœ‰å¹¾è¡Œäº‹ä»¶ */
   EVENT *head, *e;
 
   /* initialize date */
@@ -301,8 +320,8 @@ main_todo()
   /* generate calendar */
   lines = 0;
 
-  calendar = AllocCalBuffer(21, 128);	/* ¤T­Ó¤ë³Ì¦h­n 21 ¦C */
-  for (i = 0; i < 3; i++)		/* ¨C¦¸¨q¥X¤T­Ó¤ëªº¦æ¨Æ¾ä */
+  calendar = AllocCalBuffer(21, 128);	/* ä¸‰å€‹æœˆæœ€å¤šè¦ 21 åˆ— */
+  for (i = 0; i < 3; i++)		/* æ¯æ¬¡ç§€å‡ºä¸‰å€‹æœˆçš„è¡Œäº‹æ›† */
   {
     lines += GenerateCalendar(calendar + lines, y, m, ntime.tm_mon + 1, ntime.tm_mday) + 1;
     if (m == 12)
@@ -317,7 +336,8 @@ main_todo()
   }
 
   /* output */
-  vs_bar("¦æ¨Æ¾ä");
+  /* è¡Œäº‹æ›† */
+  vs_bar("\xA6\xE6\xA8\xC6\xBE\xE4");
 
   today /= 86400;
 
@@ -335,7 +355,8 @@ main_todo()
     }
     else if (i == 0)
     {
-      prints("    \033[1;37m²{¦b¬O %d/%02d/%02d %2d:%02d:%02d%cm\033[m",
+      /*     \033[1;37mç¾åœ¨æ˜¯ %d/%02d/%02d %2d:%02d:%02d%cm\033[m */
+      prints("    \033[1;37m\xB2\x7B\xA6\x62\xAC\x4F %d/%02d/%02d %2d:%02d:%02d%cm\033[m",
 	ntime.tm_year + 1900, ntime.tm_mon + 1, ntime.tm_mday,
 	(ntime.tm_hour == 0 || ntime.tm_hour == 12) ? 12 : ntime.tm_hour % 12, 
 	ntime.tm_min, ntime.tm_sec,
@@ -346,7 +367,8 @@ main_todo()
   event_free(head);
 
   /* edit */
-  switch (vans("¦æ¨Æ¾ä (D)§R°£ (E)­×§ï (Q)¨ú®ø¡H[Q] "))
+  /* è¡Œäº‹æ›† (D)åˆªé™¤ (E)ä¿®æ”¹ (Q)å–æ¶ˆï¼Ÿ[Q]  */
+  switch (vans("\xA6\xE6\xA8\xC6\xBE\xE4 (D)\xA7\x52\xB0\xA3 (E)\xAD\xD7\xA7\xEF (Q)\xA8\xFA\xAE\xF8\xA1\x48[Q] "))
   {
   case 'e':
     more("etc/todo.welcome", NULL);

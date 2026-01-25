@@ -1,7 +1,7 @@
 /*-------------------------------------------------------*/
 /* newbrd.c   ( YZU_CSE WindTop BBS )                    */
 /*-------------------------------------------------------*/
-/* target : ³s¸p¥\¯à    			 	 */
+/* target : é€£ç½²åŠŸèƒ½    			 	 */
 /* create : 00/01/02				 	 */
 /* update : 02/04/29				 	 */
 /*-------------------------------------------------------*/
@@ -18,13 +18,14 @@
 
 extern XZ xz[];
 extern char xo_pool[];
-extern BCACHE *bshm;		/* itoc.010805: ¶}·sªO¥Î */
+extern BCACHE *bshm;		/* itoc.010805: é–‹æ–°æ¿ç”¨ */
 
 static int nbrd_add();
 static int nbrd_body();
 static int nbrd_head();
 
-static char *split_line = "\033[33m¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w\033[m\n";
+/* \033[33mâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€\033[m\n */
+static char *split_line = "\033[33m\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\033[m\n";
 
 
 typedef struct
@@ -48,7 +49,7 @@ nbrd_attr(nbrd)
 {
   int xmode = nbrd->mode;
 
-  /* µ§¹º¶V¤Öªº¡A¶V¶É¦Vµ²®× */
+  /* ç­†åŠƒè¶Šå°‘çš„ï¼Œè¶Šå‚¾å‘çµæ¡ˆ */
   if (xmode & NBRD_FINISH)
     return ' ';
   if (xmode & NBRD_END)
@@ -143,7 +144,8 @@ nbrd_item(num, nbrd)
 {
   prints("%6d %c %-5s %-13s [%s] %.*s\n", 
     num, nbrd_attr(nbrd), nbrd->date + 3, nbrd->owner, 
-    (nbrd->mode & NBRD_NEWBOARD) ? nbrd->brdname : "\033[1;33m¥»¯¸¤½§ë\033[m", d_cols + 20, nbrd->title);
+    /* \033[1;33mæœ¬ç«™å…¬æŠ•\033[m */
+    (nbrd->mode & NBRD_NEWBOARD) ? nbrd->brdname : "\033[1;33m\xA5\xBB\xAF\xB8\xA4\xBD\xA7\xEB\033[m", d_cols + 20, nbrd->title);
 }
 
 
@@ -157,7 +159,8 @@ nbrd_body(xo)
   max = xo->max;
   if (max <= 0)
   {
-    if (vans("­n·s¼W³s¸p¶µ¥Ø¶Ü(Y/N)¡H[N] ") == 'y')
+    /* è¦æ–°å¢é€£ç½²é …ç›®å—(Y/N)ï¼Ÿ[N]  */
+    if (vans("\xAD\x6E\xB7\x73\xBC\x57\xB3\x73\xB8\x70\xB6\xB5\xA5\xD8\xB6\xDC(Y/N)\xA1\x48[N] ") == 'y')
       return nbrd_add(xo);
     return XO_QUIT;
   }
@@ -184,7 +187,8 @@ static int
 nbrd_head(xo)
   XO *xo;
 {
-  vs_head("³s¸p¨t²Î", str_site);
+  /* é€£ç½²ç³»çµ± */
+  vs_head("\xB3\x73\xB8\x70\xA8\x74\xB2\xCE", str_site);
   prints(NECKER_COSIGN, d_cols, "");
   return nbrd_body(xo);
 }
@@ -226,19 +230,21 @@ nbrd_add(xo)
 
   if (HAS_PERM(PERM_ALLADMIN))
   {
-    ans = vans("³s¸p¼Ò¦¡ 1)¶}·sªO 2)°O¦W 3)µL°O¦W¡G[Q] ");
+    /* é€£ç½²æ¨¡å¼ 1)é–‹æ–°æ¿ 2)è¨˜å 3)ç„¡è¨˜åï¼š[Q]  */
+    ans = vans("\xB3\x73\xB8\x70\xBC\xD2\xA6\xA1 1)\xB6\x7D\xB7\x73\xAA\x4F 2)\xB0\x4F\xA6\x57 3)\xB5\x4C\xB0\x4F\xA6\x57\xA1\x47[Q] ");
     if (ans < '1' || ans > '3')
-      return xo->max ? XO_FOOT : nbrd_body(xo);	/* itoc.020122: ¦pªG¨S¦³¥ô¦ó³s¸p¡A­n¦^¨ì nbrd_body() */
-    /* itoc.030613: ¨ä¹ê¤U­±ªº return XO_FOOT; ¤]À³¸Ó³o¼Ë§ï */
+      return xo->max ? XO_FOOT : nbrd_body(xo);	/* itoc.020122: å¦‚æœæ²’æœ‰ä»»ä½•é€£ç½²ï¼Œè¦å›åˆ° nbrd_body() */
+    /* itoc.030613: å…¶å¯¦ä¸‹é¢çš„ return XO_FOOT; ä¹Ÿæ‡‰è©²é€™æ¨£æ”¹ */
   }
   else if (HAS_PERM(PERM_POST))
   {
-    /* ¤@¬q¨Ï¥ÎªÌ¥u¯à¶}·sªO³s¸p */
+    /* ä¸€æ®µä½¿ç”¨è€…åªèƒ½é–‹æ–°æ¿é€£ç½² */
     ans = '1';
   }
   else
   {
-    vmsg("¹ï¤£°_¡A¥»¬İªO¬O°ßÅªªº");
+    /* å°ä¸èµ·ï¼Œæœ¬çœ‹æ¿æ˜¯å”¯è®€çš„ */
+    vmsg("\xB9\xEF\xA4\xA3\xB0\x5F\xA1\x41\xA5\xBB\xAC\xDD\xAA\x4F\xAC\x4F\xB0\xDF\xC5\xAA\xAA\xBA");
     return XO_FOOT;
   }
 
@@ -248,24 +254,29 @@ nbrd_add(xo)
   class = nbrd.class;
   title = nbrd.title;
 
-  if (ans == '1')	/* ·sªO³s¸p */
+  if (ans == '1')	/* æ–°æ¿é€£ç½² */
   {
-    if (!vget(b_lines, 0, "­^¤åªO¦W¡G", brdname, sizeof(nbrd.brdname), DOECHO))
+    /* è‹±æ–‡æ¿åï¼š */
+    if (!vget(b_lines, 0, "\xAD\x5E\xA4\xE5\xAA\x4F\xA6\x57\xA1\x47", brdname, sizeof(nbrd.brdname), DOECHO))
       return XO_FOOT;
 
     if (brd_bno(brdname) >= 0 || !valid_brdname(brdname))
     {
-      vmsg("¤w¦³¦¹ªO©ÎªO¦W¤£¦Xªk");
+      /* å·²æœ‰æ­¤æ¿æˆ–æ¿åä¸åˆæ³• */
+      vmsg("\xA4\x77\xA6\xB3\xA6\xB9\xAA\x4F\xA9\xCE\xAA\x4F\xA6\x57\xA4\xA3\xA6\x58\xAA\x6B");
       return XO_FOOT;
     }
     if (nbrd_find(xo->dir, brdname))
     {
-      vmsg("¥¿¦b³s¸p¤¤");
+      /* æ­£åœ¨é€£ç½²ä¸­ */
+      vmsg("\xA5\xBF\xA6\x62\xB3\x73\xB8\x70\xA4\xA4");
       return XO_FOOT;
     }
 
-    if (!vget(b_lines, 0, "¬İªO¤ÀÃş¡G", class, sizeof(nbrd.class), DOECHO) ||
-      !vget(b_lines, 0, "¬İªO¥DÃD¡G", title, sizeof(nbrd.title), DOECHO))
+    /* çœ‹æ¿åˆ†é¡ï¼š */
+    if (!vget(b_lines, 0, "\xAC\xDD\xAA\x4F\xA4\xC0\xC3\xFE\xA1\x47", class, sizeof(nbrd.class), DOECHO) ||
+      /* çœ‹æ¿ä¸»é¡Œï¼š */
+      !vget(b_lines, 0, "\xAC\xDD\xAA\x4F\xA5\x44\xC3\x44\xA1\x47", title, sizeof(nbrd.title), DOECHO))
       return XO_FOOT;
 
     days = NBRD_DAY_BRD;
@@ -277,20 +288,23 @@ nbrd_add(xo)
     nbrd.mode = NBRD_NEWBOARD | NBRD_START;
 #endif
   }
-  else			/* ¨ä¥L³s¸p */
+  else			/* å…¶ä»–é€£ç½² */
   {
     char tmp[8];
 
-    if (!vget(b_lines, 0, "³s¸p¥DÃD¡G", title, sizeof(nbrd.title), DOECHO))
+    /* é€£ç½²ä¸»é¡Œï¼š */
+    if (!vget(b_lines, 0, "\xB3\x73\xB8\x70\xA5\x44\xC3\x44\xA1\x47", title, sizeof(nbrd.title), DOECHO))
       return XO_FOOT;
 
-    /* ³s¸p¤é´Á³Ì¦h 30 ¤Ñ¡A³s¸p¤H¼Æ³Ì¦h 500 ¤H */
-    if (!vget(b_lines, 0, "³s¸p¤Ñ¼Æ¡G", tmp, 5, DOECHO))
+    /* é€£ç½²æ—¥æœŸæœ€å¤š 30 å¤©ï¼Œé€£ç½²äººæ•¸æœ€å¤š 500 äºº */
+    /* é€£ç½²å¤©æ•¸ï¼š */
+    if (!vget(b_lines, 0, "\xB3\x73\xB8\x70\xA4\xD1\xBC\xC6\xA1\x47", tmp, 5, DOECHO))
       return XO_FOOT;
     days = atoi(tmp);
     if (days > 30 || days < 1)
       return XO_FOOT;
-    if (!vget(b_lines, 0, "³s¸p¤H¼Æ¡G", tmp, 6, DOECHO))
+    /* é€£ç½²äººæ•¸ï¼š */
+    if (!vget(b_lines, 0, "\xB3\x73\xB8\x70\xA4\x48\xBC\xC6\xA1\x47", tmp, 6, DOECHO))
       return XO_FOOT;
     numbers = atoi(tmp);
     if (numbers > 500 || numbers < 1)
@@ -299,8 +313,9 @@ nbrd_add(xo)
     nbrd.mode = (ans == '2') ? (NBRD_OTHER | NBRD_START) : (NBRD_OTHER | NBRD_START | NBRD_ANONYMOUS);
   }
 
-  vmsg("¶}©l½s¿è [¬İªO»¡©ú»PªO¥D©ê­t©Î³s¸p­ì¦]]");
-  sprintf(path, "tmp/%s.nbrd", cuser.userid);	/* ³s¸p­ì¦]ªº¼È¦sÀÉ®× */
+  /* é–‹å§‹ç·¨è¼¯ [çœ‹æ¿èªªæ˜èˆ‡æ¿ä¸»æŠ±è² æˆ–é€£ç½²åŸå› ] */
+  vmsg("\xB6\x7D\xA9\x6C\xBD\x73\xBF\xE8 [\xAC\xDD\xAA\x4F\xBB\xA1\xA9\xFA\xBB\x50\xAA\x4F\xA5\x44\xA9\xEA\xAD\x74\xA9\xCE\xB3\x73\xB8\x70\xAD\xEC\xA6\x5D]");
+  sprintf(path, "tmp/%s.nbrd", cuser.userid);	/* é€£ç½²åŸå› çš„æš«å­˜æª”æ¡ˆ */
   if (fd = vedit(path, 0))
   {
     unlink(path);
@@ -318,27 +333,40 @@ nbrd_add(xo)
   strcpy(nbrd.owner, cuser.userid);
 
   fp = fopen(fpath, "a");
-  fprintf(fp, "§@ªÌ: %s (%s) ¯¸¤º: ³s¸p¨t²Î\n", cuser.userid, cuser.username);
-  fprintf(fp, "¼ĞÃD: %s\n", title);
-  fprintf(fp, "®É¶¡: %s\n\n", Now());
+  /* ä½œè€…: %s (%s) ç«™å…§: é€£ç½²ç³»çµ±\n */
+  fprintf(fp, "\xA7\x40\xAA\xCC: %s (%s) \xAF\xB8\xA4\xBA: \xB3\x73\xB8\x70\xA8\x74\xB2\xCE\n", cuser.userid, cuser.username);
+  /* æ¨™é¡Œ: %s\n */
+  fprintf(fp, "\xBC\xD0\xC3\x44: %s\n", title);
+  /* æ™‚é–“: %s\n\n */
+  fprintf(fp, "\xAE\xC9\xB6\xA1: %s\n\n", Now());
 
   if (ans == '1')
   {
-    fprintf(fp, "­^¤åªO¦W¡G%s\n", brdname);
-    fprintf(fp, "¬İªO¤ÀÃş¡G%s\n", class);
-    fprintf(fp, "¬İªO¥DÃD¡G%s\n", title);
-    fprintf(fp, "ªO¥D¦WºÙ¡G%s\n", cuser.userid);
-    fprintf(fp, "¹q¤l«H½c¡G%s\n", cuser.email);
+    /* è‹±æ–‡æ¿åï¼š%s\n */
+    fprintf(fp, "\xAD\x5E\xA4\xE5\xAA\x4F\xA6\x57\xA1\x47%s\n", brdname);
+    /* çœ‹æ¿åˆ†é¡ï¼š%s\n */
+    fprintf(fp, "\xAC\xDD\xAA\x4F\xA4\xC0\xC3\xFE\xA1\x47%s\n", class);
+    /* çœ‹æ¿ä¸»é¡Œï¼š%s\n */
+    fprintf(fp, "\xAC\xDD\xAA\x4F\xA5\x44\xC3\x44\xA1\x47%s\n", title);
+    /* æ¿ä¸»åç¨±ï¼š%s\n */
+    fprintf(fp, "\xAA\x4F\xA5\x44\xA6\x57\xBA\xD9\xA1\x47%s\n", cuser.userid);
+    /* é›»å­ä¿¡ç®±ï¼š%s\n */
+    fprintf(fp, "\xB9\x71\xA4\x6C\xAB\x48\xBD\x63\xA1\x47%s\n", cuser.email);
   }
   else
   {
-    fprintf(fp, "³s¸p¥DÃD¡G%s\n", title);
+    /* é€£ç½²ä¸»é¡Œï¼š%s\n */
+    fprintf(fp, "\xB3\x73\xB8\x70\xA5\x44\xC3\x44\xA1\x47%s\n", title);
   }
-  fprintf(fp, "Á|¿ì¤é´Á¡G%s\n", nbrd.date);
-  fprintf(fp, "¨ì´Á¤Ñ¼Æ¡G%d\n", days);
-  fprintf(fp, "»İ³s¸p¤H¡G%d\n", numbers);
+  /* èˆ‰è¾¦æ—¥æœŸï¼š%s\n */
+  fprintf(fp, "\xC1\x7C\xBF\xEC\xA4\xE9\xB4\xC1\xA1\x47%s\n", nbrd.date);
+  /* åˆ°æœŸå¤©æ•¸ï¼š%d\n */
+  fprintf(fp, "\xA8\xEC\xB4\xC1\xA4\xD1\xBC\xC6\xA1\x47%d\n", days);
+  /* éœ€é€£ç½²äººï¼š%d\n */
+  fprintf(fp, "\xBB\xDD\xB3\x73\xB8\x70\xA4\x48\xA1\x47%d\n", numbers);
   fprintf(fp, split_line);
-  fprintf(fp, "³s¸p»¡©ú¡G\n");
+  /* é€£ç½²èªªæ˜ï¼š\n */
+  fprintf(fp, "\xB3\x73\xB8\x70\xBB\xA1\xA9\xFA\xA1\x47\n");
   f_suck(fp, path);
   unlink(path);
   fprintf(fp, split_line);
@@ -347,9 +375,12 @@ nbrd_add(xo)
   rec_add(dir, &nbrd, sizeof(NBRD));
 
 #ifdef SYSOP_START_COSIGN
-  vmsg(ans == '1' ? "°e¥æ¥Ó½Ğ¤F¡A½Ğµ¥­Ô®Ö­ã§a" : "³s¸p¶}©l¤F¡I");
+  /* é€äº¤ç”³è«‹äº†ï¼Œè«‹ç­‰å€™æ ¸å‡†å§ */
+  /* é€£ç½²é–‹å§‹äº†ï¼ */
+  vmsg(ans == '1' ? "\xB0\x65\xA5\xE6\xA5\xD3\xBD\xD0\xA4\x46\xA1\x41\xBD\xD0\xB5\xA5\xAD\xD4\xAE\xD6\xAD\xE3\xA7\x61" : "\xB3\x73\xB8\x70\xB6\x7D\xA9\x6C\xA4\x46\xA1\x49");
 #else
-  vmsg("³s¸p¶}©l¤F¡I");
+  /* é€£ç½²é–‹å§‹äº†ï¼ */
+  vmsg("\xB3\x73\xB8\x70\xB6\x7D\xA9\x6C\xA4\x46\xA1\x49");
 #endif
   return nbrd_init(xo);
 }
@@ -385,9 +416,9 @@ addreply(hdd, ram)
 {
   if (--hdd->total <= 0)
   {
-    if (hdd->mode & NBRD_NEWBOARD)	/* ·sªO³s¸p±¾ END */
+    if (hdd->mode & NBRD_NEWBOARD)	/* æ–°æ¿é€£ç½²æ› END */
       hdd->mode |= NBRD_END;
-    else				/* ¨ä¥L³s¸p±¾ FINISH */
+    else				/* å…¶ä»–é€£ç½²æ› FINISH */
       hdd->mode |= NBRD_FINISH;
   }
 }
@@ -410,7 +441,8 @@ nbrd_reply(xo)
 #ifdef SYSOP_START_COSIGN
   if (!(nbrd->mode & NBRD_START))
   {
-    vmsg("©|¥¼¶}©l³s¸p");
+    /* å°šæœªé–‹å§‹é€£ç½² */
+    vmsg("\xA9\x7C\xA5\xBC\xB6\x7D\xA9\x6C\xB3\x73\xB8\x70");
     return XO_FOOT;
   }
 #endif
@@ -418,7 +450,7 @@ nbrd_reply(xo)
   if (time(0) >= nbrd->etime)
   {
     currchrono = nbrd->btime;
-    if (nbrd->mode & NBRD_NEWBOARD)	/* ·sªO³s¸p±¾ END */
+    if (nbrd->mode & NBRD_NEWBOARD)	/* æ–°æ¿é€£ç½²æ› END */
     {
       if (!(nbrd->mode & NBRD_END))
       {
@@ -427,7 +459,7 @@ nbrd_reply(xo)
 	rec_put(xo->dir, nbrd, sizeof(NBRD), xo->pos, cmpbtime);
       }
     }
-    else				/* ¨ä¥L³s¸p±¾ FINISH */
+    else				/* å…¶ä»–é€£ç½²æ› FINISH */
     {
       if (!(nbrd->mode & NBRD_FINISH))
       {
@@ -436,13 +468,14 @@ nbrd_reply(xo)
 	rec_put(xo->dir, nbrd, sizeof(NBRD), xo->pos, cmpbtime);
       }
     }
-    vmsg("³s¸p¤w¸gºI¤î¤F");
+    /* é€£ç½²å·²ç¶“æˆªæ­¢äº† */
+    vmsg("\xB3\x73\xB8\x70\xA4\x77\xB8\x67\xBA\x49\xA4\xEE\xA4\x46");
     return XO_FOOT;
   }
 
 
   /* --------------------------------------------------- */
-  /* ÀË¬d¬O§_¤w¸g³s¸p¹L					 */
+  /* æª¢æŸ¥æ˜¯å¦å·²ç¶“é€£ç½²é					 */
   /* --------------------------------------------------- */
 
   nbrd_fpath(fpath, xo->dir, nbrd);
@@ -451,18 +484,21 @@ nbrd_reply(xo)
 
   if (nbrd_seek(fpath))
   {
-    vmsg("±z¤w¸g³s¸p¹L¤F¡I");
+    /* æ‚¨å·²ç¶“é€£ç½²éäº†ï¼ */
+    vmsg("\xB1\x7A\xA4\x77\xB8\x67\xB3\x73\xB8\x70\xB9\x4C\xA4\x46\xA1\x49");
     return XO_FOOT;
   }
 
   /* --------------------------------------------------- */
-  /* ¶}©l³s¸p						 */
+  /* é–‹å§‹é€£ç½²						 */
   /* --------------------------------------------------- */
 
   *fname = '@';
 
-  if (vans("­n¥[¤J³s¸p¶Ü(Y/N)¡H[N] ") == 'y' && 
-    vget(b_lines, 0, "§Ú¦³¸Ü­n»¡¡G", reason, 65, DOECHO))
+  /* è¦åŠ å…¥é€£ç½²å—(Y/N)ï¼Ÿ[N]  */
+  if (vans("\xAD\x6E\xA5\x5B\xA4\x4A\xB3\x73\xB8\x70\xB6\xDC(Y/N)\xA1\x48[N] ") == 'y' && 
+    /* æˆ‘æœ‰è©±è¦èªªï¼š */
+    vget(b_lines, 0, "\xA7\xDA\xA6\xB3\xB8\xDC\xAD\x6E\xBB\xA1\xA1\x47", reason, 65, DOECHO))
   {
     FILE *fp;
 
@@ -484,7 +520,8 @@ nbrd_reply(xo)
     *fname = 'G';
     rec_add(fpath, &mail, sizeof(LOG));
 
-    vmsg("¥[¤J³s¸p§¹¦¨");
+    /* åŠ å…¥é€£ç½²å®Œæˆ */
+    vmsg("\xA5\x5B\xA4\x4A\xB3\x73\xB8\x70\xA7\xB9\xA6\xA8");
     return nbrd_init(xo);
   }
 
@@ -509,14 +546,16 @@ nbrd_start(xo)
   if (nbrd->mode & (NBRD_FINISH | NBRD_END | NBRD_START))
     return XO_NONE;
 
-  if (vans("½Ğ½T©w¶}©l³s¸p(Y/N)¡H[N] ") != 'y')
+  /* è«‹ç¢ºå®šé–‹å§‹é€£ç½²(Y/N)ï¼Ÿ[N]  */
+  if (vans("\xBD\xD0\xBD\x54\xA9\x77\xB6\x7D\xA9\x6C\xB3\x73\xB8\x70(Y/N)\xA1\x48[N] ") != 'y')
     return XO_FOOT;
 
   nbrd_fpath(fpath, xo->dir, nbrd);
   etime = time(0) + NBRD_DAY_BRD * 86400;
 
   str_stamp(tmp, etime);
-  sprintf(buf, "¶}©l³s¸p¡G      ¨ì´Á¤é´Á¡G%s\n", tmp);
+  /* é–‹å§‹é€£ç½²ï¼š      åˆ°æœŸæ—¥æœŸï¼š%s\n */
+  sprintf(buf, "\xB6\x7D\xA9\x6C\xB3\x73\xB8\x70\xA1\x47      \xA8\xEC\xB4\xC1\xA4\xE9\xB4\xC1\xA1\x47%s\n", tmp);
   f_cat(fpath, buf);
   f_cat(fpath, split_line);
 
@@ -547,11 +586,13 @@ nbrd_finish(xo)
   if (nbrd->mode & NBRD_FINISH)
     return XO_NONE;
 
-  if (vans("½Ğ½T©wµ²§ô³s¸p(Y/N)¡H[N] ") != 'y')
+  /* è«‹ç¢ºå®šçµæŸé€£ç½²(Y/N)ï¼Ÿ[N]  */
+  if (vans("\xBD\xD0\xBD\x54\xA9\x77\xB5\xB2\xA7\xF4\xB3\x73\xB8\x70(Y/N)\xA1\x48[N] ") != 'y')
     return XO_FOOT;
 
-  vmsg("½Ğ½s¿èµ²§ô³s¸p­ì¦]");
-  sprintf(path, "tmp/%s", cuser.userid);	/* ³s¸p­ì¦]ªº¼È¦sÀÉ®× */
+  /* è«‹ç·¨è¼¯çµæŸé€£ç½²åŸå›  */
+  vmsg("\xBD\xD0\xBD\x73\xBF\xE8\xB5\xB2\xA7\xF4\xB3\x73\xB8\x70\xAD\xEC\xA6\x5D");
+  sprintf(path, "tmp/%s", cuser.userid);	/* é€£ç½²åŸå› çš„æš«å­˜æª”æ¡ˆ */
   if (fd = vedit(path, 0))
   {
     unlink(path);
@@ -561,7 +602,8 @@ nbrd_finish(xo)
 
   nbrd_fpath(fpath, xo->dir, nbrd);
 
-  f_cat(fpath, "µ²§ô³s¸p­ì¦]¡G\n\n");
+  /* çµæŸé€£ç½²åŸå› ï¼š\n\n */
+  f_cat(fpath, "\xB5\xB2\xA7\xF4\xB3\x73\xB8\x70\xAD\xEC\xA6\x5D\xA1\x47\n\n");
   fp = fopen(fpath, "a");
   f_suck(fp, path);
   fclose(fp);
@@ -576,23 +618,24 @@ nbrd_finish(xo)
 }
 
 
-static int			/* 1:¶}ªO¦¨¥\ */
-nbrd_newbrd(nbrd)		/* ¶}·sªO */
+static int			/* 1:é–‹æ¿æˆåŠŸ */
+nbrd_newbrd(nbrd)		/* é–‹æ–°æ¿ */
   NBRD *nbrd;
 {
   BRD newboard;
   ACCT acct;
 
-  /* itoc.030519: Á×§K­«ÂĞ¶}ªO */
+  /* itoc.030519: é¿å…é‡è¦†é–‹æ¿ */
   if (brd_bno(nbrd->brdname) >= 0)
   {
-    vmsg("¤w¦³¦¹ªO");
+    /* å·²æœ‰æ­¤æ¿ */
+    vmsg("\xA4\x77\xA6\xB3\xA6\xB9\xAA\x4F");
     return 1;
   }
 
   memset(&newboard, 0, sizeof(BRD));
 
-  /* itoc.010805: ·s¬İªO¹w³] battr = ¤£Âà«H; postlevel = PERM_POST; ¬İªOªO¥D¬°´£°_³s¸pªÌ */
+  /* itoc.010805: æ–°çœ‹æ¿é è¨­ battr = ä¸è½‰ä¿¡; postlevel = PERM_POST; çœ‹æ¿æ¿ä¸»ç‚ºæèµ·é€£ç½²è€… */
   newboard.battr = BRD_NOTRAN | BRD_NOCHANGE;
   newboard.postlevel = PERM_POST;
   strcpy(newboard.brdname, nbrd->brdname);
@@ -606,13 +649,14 @@ nbrd_newbrd(nbrd)		/* ¶}·sªO */
   if (brd_new(&newboard) < 0)
     return 0;
 
-  vmsg("·sªO¦¨¥ß¡A°OµÛ¥[¤J¤ÀÃş¸s²Õ");
+  /* æ–°æ¿æˆç«‹ï¼Œè¨˜è‘—åŠ å…¥åˆ†é¡ç¾¤çµ„ */
+  vmsg("\xB7\x73\xAA\x4F\xA6\xA8\xA5\xDF\xA1\x41\xB0\x4F\xB5\xDB\xA5\x5B\xA4\x4A\xA4\xC0\xC3\xFE\xB8\x73\xB2\xD5");
   return 1;
 }
 
 
 static int
-nbrd_open(xo)		/* itoc.010805: ¶}·sªO³s¸p¡A³s¸p§¹²¦¶}·s¬İªO */
+nbrd_open(xo)		/* itoc.010805: é–‹æ–°æ¿é€£ç½²ï¼Œé€£ç½²å®Œç•¢é–‹æ–°çœ‹æ¿ */
   XO *xo;
 {
   NBRD *nbrd;
@@ -625,7 +669,8 @@ nbrd_open(xo)		/* itoc.010805: ¶}·sªO³s¸p¡A³s¸p§¹²¦¶}·s¬İªO */
   if (nbrd->mode & NBRD_FINISH || !(nbrd->mode & NBRD_NEWBOARD))
     return XO_NONE;
 
-  if (vans("½Ğ½T©w¶}±Ò¬İªO(Y/N)¡H[N] ") == 'y')
+  /* è«‹ç¢ºå®šé–‹å•Ÿçœ‹æ¿(Y/N)ï¼Ÿ[N]  */
+  if (vans("\xBD\xD0\xBD\x54\xA9\x77\xB6\x7D\xB1\xD2\xAC\xDD\xAA\x4F(Y/N)\xA1\x48[N] ") == 'y')
   {
     if (nbrd_newbrd(nbrd))
     {
@@ -648,7 +693,7 @@ nbrd_browse(xo)
   NBRD *nbrd;
   char fpath[80];
 
-  /* itoc.010304: ¬°¤FÅı¾\Åª¨ì¤@¥b¤]¥i¥H¥[¤J³s¸p¡A¦Ò¼{ more ¶Ç¦^­È */
+  /* itoc.010304: ç‚ºäº†è®“é–±è®€åˆ°ä¸€åŠä¹Ÿå¯ä»¥åŠ å…¥é€£ç½²ï¼Œè€ƒæ…® more å‚³å›å€¼ */
   for (;;)
   {
     nbrd = (NBRD *) xo_pool + (xo->pos - xo->top);
@@ -721,7 +766,7 @@ nbrd_delete(xo)
 {
   NBRD *nbrd;
   char *fname, fpath[80];
-  char *list = "@G";		/* itoc.µù¸Ñ: ²M newbrd file */
+  char *list = "@G";		/* itoc.è¨»è§£: æ¸… newbrd file */
 
   nbrd = (NBRD *) xo_pool + (xo->pos - xo->top);
   if (strcmp(cuser.userid, nbrd->owner) && !HAS_PERM(PERM_ALLBOARD))
@@ -734,7 +779,7 @@ nbrd_delete(xo)
   fname = strrchr(fpath, '@');
   while (*fname = *list++)
   {
-    unlink(fpath);	/* Thor: ½T©w¦W¦r´N¬å */
+    unlink(fpath);	/* Thor: ç¢ºå®šåå­—å°±ç  */
   }
 
   currchrono = nbrd->btime;
@@ -773,23 +818,32 @@ nbrd_setup(xo)
   if (!HAS_PERM(PERM_ALLBOARD))
     return XO_NONE;
 
-  vs_bar("³s¸p³]©w");
+  /* é€£ç½²è¨­å®š */
+  vs_bar("\xB3\x73\xB8\x70\xB3\x5D\xA9\x77");
   nbrd = (NBRD *) xo_pool + (xo->pos - xo->top);
   memcpy(&newnh, nbrd, sizeof(NBRD));
 
-  prints("¬İªO¦WºÙ¡G%s\n¬İªO»¡©ú¡G%4.4s %s\n³s¸pµo°_¡G%s\n",
+  /* çœ‹æ¿åç¨±ï¼š%s\nçœ‹æ¿èªªæ˜ï¼š%4.4s %s\né€£ç½²ç™¼èµ·ï¼š%s\n */
+  prints("\xAC\xDD\xAA\x4F\xA6\x57\xBA\xD9\xA1\x47%s\n\xAC\xDD\xAA\x4F\xBB\xA1\xA9\xFA\xA1\x47%4.4s %s\n\xB3\x73\xB8\x70\xB5\x6F\xB0\x5F\xA1\x47%s\n",
     newnh.brdname, newnh.class, newnh.title, newnh.owner);
-  prints("¶}©l®É¶¡¡G%s\n", Btime(newnh.btime));
-  prints("µ²§ô®É¶¡¡G%s\n", Btime(newnh.etime));
-  prints("ÁÙ»İ¤H¼Æ¡G%d\n", newnh.total);
+  /* é–‹å§‹æ™‚é–“ï¼š%s\n */
+  prints("\xB6\x7D\xA9\x6C\xAE\xC9\xB6\xA1\xA1\x47%s\n", Btime(newnh.btime));
+  /* çµæŸæ™‚é–“ï¼š%s\n */
+  prints("\xB5\xB2\xA7\xF4\xAE\xC9\xB6\xA1\xA1\x47%s\n", Btime(newnh.etime));
+  /* é‚„éœ€äººæ•¸ï¼š%d\n */
+  prints("\xC1\xD9\xBB\xDD\xA4\x48\xBC\xC6\xA1\x47%d\n", newnh.total);
 
-  if (vget(8, 0, "(E)³]©w (Q)¨ú®ø¡H[Q] ", ans, 3, LCECHO) == 'e')
+  /* (E)è¨­å®š (Q)å–æ¶ˆï¼Ÿ[Q]  */
+  if (vget(8, 0, "(E)\xB3\x5D\xA9\x77 (Q)\xA8\xFA\xAE\xF8\xA1\x48[Q] ", ans, 3, LCECHO) == 'e')
   {
     vget(11, 0, MSG_BID, newnh.brdname, BNLEN + 1, GCARRY);
-    vget(12, 0, "¬İªO¤ÀÃş¡G", newnh.class, sizeof(newnh.class), GCARRY);
-    vget(13, 0, "¬İªO¥DÃD¡G", newnh.title, sizeof(newnh.title), GCARRY);
+    /* çœ‹æ¿åˆ†é¡ï¼š */
+    vget(12, 0, "\xAC\xDD\xAA\x4F\xA4\xC0\xC3\xFE\xA1\x47", newnh.class, sizeof(newnh.class), GCARRY);
+    /* çœ‹æ¿ä¸»é¡Œï¼š */
+    vget(13, 0, "\xAC\xDD\xAA\x4F\xA5\x44\xC3\x44\xA1\x47", newnh.title, sizeof(newnh.title), GCARRY);
     sprintf(ans, "%d", newnh.total);
-    vget(14, 0, "³s¸p¤H¼Æ¡G", ans, 6, GCARRY);
+    /* é€£ç½²äººæ•¸ï¼š */
+    vget(14, 0, "\xB3\x73\xB8\x70\xA4\x48\xBC\xC6\xA1\x47", ans, 6, GCARRY);
     numbers = atoi(ans);
     if (numbers <= 500 && numbers >= 1)
       newnh.total = numbers;

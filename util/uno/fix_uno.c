@@ -1,7 +1,7 @@
 /*-------------------------------------------------------*/
 /* util/fix_uno.c	( NTHU CS MapleBBS Ver 3.10 )	 */
 /*-------------------------------------------------------*/
-/* target : ­««Ø©Ò¦³¨Ï¥ÎªÌªº userno			 */
+/* target : é‡å»ºæ‰€æœ‰ä½¿ç”¨è€…çš„ userno			 */
 /* create : 04/10/16					 */
 /* update :   /  /  					 */
 /* author : itoc.bbs@bbs.tnfsh.tn.edu.tw		 */
@@ -11,7 +11,7 @@
 #include "bbs.h"
 
 
-#undef	VERBOSE		/* ¬O§_Åã¥Ü¸Ô²Ó°T®§ */
+#undef	VERBOSE		/* æ˜¯å¦é¡¯ç¤ºè©³ç´°è¨Šæ¯ */
 
 #ifdef VERBOSE
 #define DEBUG(arg)	printf arg
@@ -20,7 +20,7 @@
 #endif
 
 
-#define FN_OLDACCT	"olduserno"	/* °O¿ı¥ş¯¸ÂÂªº userno */
+#define FN_OLDACCT	"olduserno"	/* è¨˜éŒ„å…¨ç«™èˆŠçš„ userno */
 
 
 typedef struct
@@ -31,7 +31,7 @@ typedef struct
 
 
 /*-------------------------------------------------------*/
-/* ­««Ø .ACCT ¤Î .USR					 */
+/* é‡å»º .ACCT åŠ .USR					 */
 /*-------------------------------------------------------*/
 
 
@@ -39,8 +39,8 @@ static int
 new_acct(userid)
   char *userid;
 {
-  static int userno = 1;	/* userno ±q 1 ¶}©l */
-  static time_t now = 100000;	/* ÀH«Kµ¹¤@­Ó®É¶¡ */
+  static int userno = 1;	/* userno å¾ 1 é–‹å§‹ */
+  static time_t now = 100000;	/* éš¨ä¾¿çµ¦ä¸€å€‹æ™‚é–“ */
 
   char fpath[64];
   ACCT acct;
@@ -50,7 +50,7 @@ new_acct(userid)
   usr_fpath(fpath, userid, FN_ACCT);
   if (rec_get(fpath, &acct, sizeof(ACCT), 0) < 0)
   {
-    /* ¦pªG§ä¤£¨ì .ACCT¡A­n§R°£©Ò¦³¦W³æ */
+    /* å¦‚æœæ‰¾ä¸åˆ° .ACCTï¼Œè¦åˆªé™¤æ‰€æœ‰åå–® */
     usr_fpath(fpath, userid, FN_PAL);
     unlink(fpath);
 #ifdef HAVE_LIST
@@ -62,11 +62,12 @@ new_acct(userid)
     unlink(fpath);
 #endif
 
-    DEBUG(("±Â¤© %s ·sªº userno ¥¢±Ñ => µLªkÅª¨ú¸Ó¨Ï¥ÎªÌªº¸ê®Æ\n", userid));
+    /* æˆäºˆ %s æ–°çš„ userno å¤±æ•— => ç„¡æ³•è®€å–è©²ä½¿ç”¨è€…çš„è³‡æ–™\n */
+    DEBUG(("\xB1\xC2\xA4\xA9 %s \xB7\x73\xAA\xBA userno \xA5\xA2\xB1\xD1 => \xB5\x4C\xAA\x6B\xC5\xAA\xA8\xFA\xB8\xD3\xA8\xCF\xA5\xCE\xAA\xCC\xAA\xBA\xB8\xEA\xAE\xC6\n", userid));
     return;
   }
 
-  /* ±N­ì¥»ªº userno ³Æ¥÷µ¹¤ô²y¦CªíÂà´«¨Ï¥Î */
+  /* å°‡åŸæœ¬çš„ userno å‚™ä»½çµ¦æ°´çƒåˆ—è¡¨è½‰æ›ä½¿ç”¨ */
   memset(&uno, 0, sizeof(UNO));
   uno.userno = acct.userno;
   str_ncpy(uno.userid, acct.userid, sizeof(uno.userid));
@@ -81,12 +82,13 @@ new_acct(userid)
   memcpy(slot.userid, acct.userid, IDLEN);
   rec_add(FN_SCHEMA, &slot, sizeof(SCHEMA));
 
-  DEBUG(("±Â¤© %s ·sªº userno ¦¨¥\\\n", userid));
+  /* æˆäºˆ %s æ–°çš„ userno æˆåŠŸ\n */
+  DEBUG(("\xB1\xC2\xA4\xA9 %s \xB7\x73\xAA\xBA userno \xA6\xA8\xA5\x5C\n", userid));
 }
 
 
 /*-------------------------------------------------------*/
-/* ¬d userno						 */
+/* æŸ¥ userno						 */
 /*-------------------------------------------------------*/
 
 
@@ -118,7 +120,7 @@ collect_new_uno()
       while (read(fd, &slot, sizeof(SCHEMA)) == sizeof(SCHEMA) && num < new_num)
       {
 	new_uno[num].userno = num + 1;
-	str_ncpy(new_uno[num].userid, slot.userid, sizeof(new_uno[num].userid));	/* slot.userid ¤£§t '\0' */
+	str_ncpy(new_uno[num].userid, slot.userid, sizeof(new_uno[num].userid));	/* slot.userid ä¸å« '\0' */
 	num++;
       }
       close(fd);
@@ -131,12 +133,12 @@ collect_new_uno()
 
 
 static int
-acct_uno(userid)	/* ¥Î ID §ä·sªº userno */
+acct_uno(userid)	/* ç”¨ ID æ‰¾æ–°çš„ userno */
   char *userid;
 {
   UNO uno, *find;
 
-  str_ncpy(uno.userid, userid, sizeof(uno.userid));	/* ¨ä¹ê¥Î strcpy §Y¥i¡A¦ı¥H¨¾¸U¤@ */
+  str_ncpy(uno.userid, userid, sizeof(uno.userid));	/* å…¶å¯¦ç”¨ strcpy å³å¯ï¼Œä½†ä»¥é˜²è¬ä¸€ */
   if (find = bsearch(&uno, new_uno, new_num, sizeof(UNO), uno_cmp_userid))
     return find->userno;
   return 0;
@@ -170,7 +172,7 @@ collect_old_uno()
 
 
 static int
-acct_uno2(olduno)	/* ¥ÎÂÂªº userno §ä·sªº userno */
+acct_uno2(olduno)	/* ç”¨èˆŠçš„ userno æ‰¾æ–°çš„ userno */
   int olduno;
 {
   UNO uno, *find;
@@ -183,11 +185,11 @@ acct_uno2(olduno)	/* ¥ÎÂÂªº userno §ä·sªº userno */
 
 
 /*-------------------------------------------------------*/
-/* ­««Ø pal/list.?/aloha/benz/bpal			 */
+/* é‡å»º pal/list.?/aloha/benz/bpal			 */
 /*-------------------------------------------------------*/
 
 
-#define BENZ_MAX	512	/* °²³]¨C­Ó¤Hªº¨t²Î¨ó´M¤£¶W¹L 512 ¤H */
+#define BENZ_MAX	512	/* å‡è¨­æ¯å€‹äººçš„ç³»çµ±å”å°‹ä¸è¶…é 512 äºº */
 
 static int rec_max;
 static char *rec_pool;
@@ -217,7 +219,8 @@ new_pal(userid)
 
     unlink(folder);
     rec_add(folder, rec_pool, num * sizeof(PAL));
-    DEBUG(("¦¨¥\\­««Ø %s ªºªB¤Í¦W³æ¡A¦@ %d ¤H\n", userid, num));
+    /* æˆåŠŸé‡å»º %s çš„æœ‹å‹åå–®ï¼Œå…± %d äºº\n */
+    DEBUG(("\xA6\xA8\xA5\x5C\xAD\xAB\xAB\xD8 %s \xAA\xBA\xAA\x42\xA4\xCD\xA6\x57\xB3\xE6\xA1\x41\xA6\x40 %d \xA4\x48\n", userid, num));
   }
 }
 
@@ -250,7 +253,8 @@ new_list(userid)
 
       unlink(folder);
       rec_add(folder, rec_pool, num * sizeof(PAL));
-      DEBUG(("¦¨¥\\­««Ø %s ªº¯S®í¦W³æ¡A¦@ %d ¤H\n", userid, num));
+      /* æˆåŠŸé‡å»º %s çš„ç‰¹æ®Šåå–®ï¼Œå…± %d äºº\n */
+      DEBUG(("\xA6\xA8\xA5\x5C\xAD\xAB\xAB\xD8 %s \xAA\xBA\xAF\x53\xAE\xED\xA6\x57\xB3\xE6\xA1\x41\xA6\x40 %d \xA4\x48\n", userid, num));
     }
   }
 }
@@ -272,7 +276,7 @@ new_aloha(userid)
   usr_fpath(folder, userid, FN_ALOHA);
   if ((fd = open(folder, O_RDONLY)) >= 0)
   {
-    /* ·Ç³Æ¦n­n¥[¤J¹ï¤èªº frienz */
+    /* æº–å‚™å¥½è¦åŠ å…¥å°æ–¹çš„ frienz */
     memset(&frienz, 0, sizeof(FRIENZ));
     strcpy(frienz.userid, userid);
     if ((frienz.userno = acct_uno(userid)) > 0)
@@ -285,10 +289,11 @@ new_aloha(userid)
 	  memcpy(rec_pool + num * sizeof(ALOHA), &aloha, sizeof(ALOHA));
 	  num++;
 
-	  /* §â¦Û¤v¥[¤J¹ï¤èªº frienz ¤¤ */
+	  /* æŠŠè‡ªå·±åŠ å…¥å°æ–¹çš„ frienz ä¸­ */
 	  usr_fpath(fpath, aloha.userid, FN_FRIENZ);
 	  rec_add(fpath, &frienz, sizeof(FRIENZ));
-	  DEBUG(("¦¨¥\\­««Ø %s ªº¤W¯¸³qª¾¦W³æ¡A¦@ %d ¤H\n", userid, num));
+	  /* æˆåŠŸé‡å»º %s çš„ä¸Šç«™é€šçŸ¥åå–®ï¼Œå…± %d äºº\n */
+	  DEBUG(("\xA6\xA8\xA5\x5C\xAD\xAB\xAB\xD8 %s \xAA\xBA\xA4\x57\xAF\xB8\xB3\x71\xAA\xBE\xA6\x57\xB3\xE6\xA1\x41\xA6\x40 %d \xA4\x48\n", userid, num));
 	}
       }
     }
@@ -326,7 +331,8 @@ new_benz(userid)
 
     unlink(folder);
     rec_add(folder, rec_pool, num * sizeof(BENZ));
-    DEBUG(("¦¨¥\\­««Ø %s ªº¨t²Î¨ó´M¦W³æ¡A¦@ %d ¤H\n", userid, num));
+    /* æˆåŠŸé‡å»º %s çš„ç³»çµ±å”å°‹åå–®ï¼Œå…± %d äºº\n */
+    DEBUG(("\xA6\xA8\xA5\x5C\xAD\xAB\xAB\xD8 %s \xAA\xBA\xA8\x74\xB2\xCE\xA8\xF3\xB4\x4D\xA6\x57\xB3\xE6\xA1\x41\xA6\x40 %d \xA4\x48\n", userid, num));
   }
 }
 #endif
@@ -355,7 +361,8 @@ new_bmw(userid)
     rec_add(folder, data, fsize);
     free(data);
 
-    DEBUG(("¦¨¥\\­««Ø %s ªº¤ô²y¦Cªí¡A¦@ %d ­Ó\n", userid, fsize / sizeof(BMW)));
+    /* æˆåŠŸé‡å»º %s çš„æ°´çƒåˆ—è¡¨ï¼Œå…± %d å€‹\n */
+    DEBUG(("\xA6\xA8\xA5\x5C\xAD\xAB\xAB\xD8 %s \xAA\xBA\xA4\xF4\xB2\x79\xA6\x43\xAA\xED\xA1\x41\xA6\x40 %d \xAD\xD3\n", userid, fsize / sizeof(BMW)));
   }
 }
 
@@ -385,14 +392,15 @@ new_bpal(brdname)
 
     unlink(folder);
     rec_add(folder, rec_pool, num * sizeof(PAL));
-    DEBUG(("¦¨¥\\­««Ø %s ªºªO¤Í¦W³æ¡A¦@ %d ¤H\n", brdname, num));
+    /* æˆåŠŸé‡å»º %s çš„æ¿å‹åå–®ï¼Œå…± %d äºº\n */
+    DEBUG(("\xA6\xA8\xA5\x5C\xAD\xAB\xAB\xD8 %s \xAA\xBA\xAA\x4F\xA4\xCD\xA6\x57\xB3\xE6\xA1\x41\xA6\x40 %d \xA4\x48\n", brdname, num));
   }
 }
 #endif
 
 
 /*-------------------------------------------------------*/
-/* ¥D¨ç¦¡						 */
+/* ä¸»å‡½å¼						 */
 /*-------------------------------------------------------*/
 
 
@@ -409,7 +417,7 @@ main()
 
   chdir(BBSHOME);
 
-  /* itoc.050113: ¥ıµe¤@¶ô°O¾ĞÅé¨Ó¦s¡A³Ì«á¦A¤@¦¸¼g¦^¡A¸`¬Ù I/O */
+  /* itoc.050113: å…ˆç•«ä¸€å¡Šè¨˜æ†¶é«”ä¾†å­˜ï¼Œæœ€å¾Œå†ä¸€æ¬¡å¯«å›ï¼Œç¯€çœ I/O */
   rec_max = PAL_MAX;
 #ifdef HAVE_ALOHA
   if (rec_max < ALOHA_MAX)
@@ -422,14 +430,15 @@ main()
   rec_pool = (char *) malloc(REC_SIZ * rec_max);
 
   /*-----------------------------------------------------*/
-  /* ²Ä¤@°é: ±Â¤©·sªº userno¡A¨Ã§R°£ frienz		 */
+  /* ç¬¬ä¸€åœˆ: æˆäºˆæ–°çš„ usernoï¼Œä¸¦åˆªé™¤ frienz		 */
   /*-----------------------------------------------------*/
 
   unlink(FN_SCHEMA);
 
   for (c = 'a'; c <= 'z'; c++)
   {
-    printf("±Â¤©·sªº userno: ¶}©l³B²z %c ¶}ÀYªº ID\n", c);
+    /* æˆäºˆæ–°çš„ userno: é–‹å§‹è™•ç† %c é–‹é ­çš„ ID\n */
+    printf("\xB1\xC2\xA4\xA9\xB7\x73\xAA\xBA userno: \xB6\x7D\xA9\x6C\xB3\x42\xB2\x7A %c \xB6\x7D\xC0\x59\xAA\xBA ID\n", c);
     sprintf(fpath, "usr/%c", c);
 
     if (!(dirp = opendir(fpath)))
@@ -441,11 +450,11 @@ main()
       if (*userid <= ' ' || *userid == '.')
 	continue;
 
-      /* ±N .ACCT ´«·sªº userno¡A¨Ã¼g¦^ .USR */
+      /* å°‡ .ACCT æ›æ–°çš„ usernoï¼Œä¸¦å¯«å› .USR */
       new_acct(userid);
 
 #ifdef HAVE_ALOHA
-      /* §R°£ frienz */
+      /* åˆªé™¤ frienz */
       usr_fpath(fpath, userid, FN_FRIENZ);
       unlink(fpath);
 #endif
@@ -456,16 +465,18 @@ main()
 
   collect_new_uno();
   collect_old_uno();
-  printf("±Â¤©©Ò¦³¤H·sªº userno §¹¦¨¡A¥ş¯¸¦@ %d ¤H\n", new_num);
+  /* æˆäºˆæ‰€æœ‰äººæ–°çš„ userno å®Œæˆï¼Œå…¨ç«™å…± %d äºº\n */
+  printf("\xB1\xC2\xA4\xA9\xA9\xD2\xA6\xB3\xA4\x48\xB7\x73\xAA\xBA userno \xA7\xB9\xA6\xA8\xA1\x41\xA5\xFE\xAF\xB8\xA6\x40 %d \xA4\x48\n", new_num);
 
 
   /*-----------------------------------------------------*/
-  /* ²Ä¤G°é: ­««Ø©Ò¦³¤Hªº pal/list.?/aloha/benz/bmw	 */
+  /* ç¬¬äºŒåœˆ: é‡å»ºæ‰€æœ‰äººçš„ pal/list.?/aloha/benz/bmw	 */
   /*-----------------------------------------------------*/
 
   for (c = 'a'; c <= 'z'; c++)
   {
-    printf("­««Ø·sªº pal/list/aloha/benz: ¶}©l³B²z %c ¶}ÀYªº ID\n", c);
+    /* é‡å»ºæ–°çš„ pal/list/aloha/benz: é–‹å§‹è™•ç† %c é–‹é ­çš„ ID\n */
+    printf("\xAD\xAB\xAB\xD8\xB7\x73\xAA\xBA pal/list/aloha/benz: \xB6\x7D\xA9\x6C\xB3\x42\xB2\x7A %c \xB6\x7D\xC0\x59\xAA\xBA ID\n", c);
     sprintf(fpath, "usr/%c", c);
 
     if (!(dirp = opendir(fpath)))
@@ -496,10 +507,11 @@ main()
 
 #ifdef HAVE_MODERATED_BOARD
   /*-----------------------------------------------------*/
-  /* ²Ä¤T°é: ­««Ø©Ò¦³¬İªOªº bpal			 */
+  /* ç¬¬ä¸‰åœˆ: é‡å»ºæ‰€æœ‰çœ‹æ¿çš„ bpal			 */
   /*-----------------------------------------------------*/
 
-  printf("­««Ø·sªº bpal\n");
+  /* é‡å»ºæ–°çš„ bpal\n */
+  printf("\xAD\xAB\xAB\xD8\xB7\x73\xAA\xBA bpal\n");
   if (fp = fopen(FN_BRD, "r"))
   {
     BRD brd;

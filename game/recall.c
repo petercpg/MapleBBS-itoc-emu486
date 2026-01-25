@@ -16,7 +16,7 @@ enum
   MG_XPOS = 4,
   MG_YPOS = 4,
 
-  /* MAX_X * MAX_Y •≤∂∑¨O∞∏º∆ */
+  /* MAX_X * MAX_Y ÂøÖÈ†àÊòØÂÅ∂Êï∏ */
   MAX_X = 10,
   MAX_Y = 10,
 };
@@ -24,12 +24,64 @@ enum
 
 static int cx, cy;
 static int board[MAX_X][MAX_Y], isopen[MAX_X][MAX_Y];
-static char card[52][3] = {"¢œ", "¢–", "¢—", "¢“", "¢”", "¢‘", "¢’", "¢÷", "¢◊", "¢ÿ", 
-			   "¢Ÿ", "¢⁄", "¢€", "¢‹", "¢›", "¢ﬁ", "¢ﬂ", "¢‡", "¢·", "¢‚", 
-			   "¢„", "¢‰", "¢Â", "¢Ê", "¢Á", "¢Ë", "¢È", "¢Í", "¢Î", "¢Ï", 
-			   "¢Ì", "¢Ó", "¢Ô", "¢", "¢Ò", "¢Ú", "¢Û", "¢Ù", "¢ı", "¢ˆ", 			   
-			   "¢˜", "¢¯", "¢˘", "¢˙", "¢˚", "¢¸", "¢˝", "¢˛", "£@", "£A", 
-			   "£B", "£C"};
+/* Ôº° */
+/* Ôº¢ */
+/* Ôº£ */
+/* Ôº§ */
+/* Ôº• */
+/* Ôº¶ */
+/* Ôºß */
+/* Ôº® */
+/* Ôº© */
+/* Ôº™ */
+static char card[52][3] = {"\xA2\xCF", "\xA2\xD0", "\xA2\xD1", "\xA2\xD2", "\xA2\xD3", "\xA2\xD4", "\xA2\xD5", "\xA2\xD6", "\xA2\xD7", "\xA2\xD8", 
+			   /* Ôº´ */
+			   /* Ôº¨ */
+			   /* Ôº≠ */
+			   /* ÔºÆ */
+			   /* ÔºØ */
+			   /* Ôº∞ */
+			   /* Ôº± */
+			   /* Ôº≤ */
+			   /* Ôº≥ */
+			   /* Ôº¥ */
+			   "\xA2\xD9", "\xA2\xDA", "\xA2\xDB", "\xA2\xDC", "\xA2\xDD", "\xA2\xDE", "\xA2\xDF", "\xA2\xE0", "\xA2\xE1", "\xA2\xE2", 
+			   /* Ôºµ */
+			   /* Ôº∂ */
+			   /* Ôº∑ */
+			   /* Ôº∏ */
+			   /* Ôºπ */
+			   /* Ôº∫ */
+			   /* ÔΩÅ */
+			   /* ÔΩÇ */
+			   /* ÔΩÉ */
+			   /* ÔΩÑ */
+			   "\xA2\xE3", "\xA2\xE4", "\xA2\xE5", "\xA2\xE6", "\xA2\xE7", "\xA2\xE8", "\xA2\xE9", "\xA2\xEA", "\xA2\xEB", "\xA2\xEC", 
+			   /* ÔΩÖ */
+			   /* ÔΩÜ */
+			   /* ÔΩá */
+			   /* ÔΩà */
+			   /* ÔΩâ */
+			   /* ÔΩä */
+			   /* ÔΩã */
+			   /* ÔΩå */
+			   /* ÔΩç */
+			   /* ÔΩé */
+			   "\xA2\xED", "\xA2\xEE", "\xA2\xEF", "\xA2\xF0", "\xA2\xF1", "\xA2\xF2", "\xA2\xF3", "\xA2\xF4", "\xA2\xF5", "\xA2\xF6", 			   
+			   /* ÔΩè */
+			   /* ÔΩê */
+			   /* ÔΩë */
+			   /* ÔΩí */
+			   /* ÔΩì */
+			   /* ÔΩî */
+			   /* ÔΩï */
+			   /* ÔΩñ */
+			   /* ÔΩó */
+			   /* ÔΩò */
+			   "\xA2\xF7", "\xA2\xF8", "\xA2\xF9", "\xA2\xFA", "\xA2\xFB", "\xA2\xFC", "\xA2\xFD", "\xA2\xFE", "\xA3\x40", "\xA3\x41", 
+			   /* ÔΩô */
+			   /* ÔΩö */
+			   "\xA3\x42", "\xA3\x43"};
 
 
 
@@ -69,7 +121,8 @@ show_board()
 {
   int i, j;
 
-  vs_bar("∞Oæ–πC¿∏");
+  /* Ë®òÊÜ∂ÈÅäÊà≤ */
+  vs_bar("\xB0\x4F\xBE\xD0\xB9\x43\xC0\xB8");
 
   for (i = 0; i < MAX_X; i++)
   {
@@ -82,17 +135,21 @@ show_board()
       }
       else
       {
-	outs("°Ω");
+	/* ‚ñ† */
+	outs("\xA1\xBD");
       }
     }
   }
 
   move(3, 40);
-  outs("°Ù°ı°ˆ°˜         §Ë¶V¡‰");
+  /* ‚Üë‚Üì‚Üê‚Üí         ÊñπÂêëÈçµ */
+  outs("\xA1\xF4\xA1\xF5\xA1\xF6\xA1\xF7         \xA4\xE8\xA6\x56\xC1\xE4");
   move(5, 40);
-  outs("[Space][Enter]   ¬Ω∂}");
+  /* [Space][Enter]   ÁøªÈñã */
+  outs("[Space][Enter]   \xC2\xBD\xB6\x7D");
   move(7, 40);
-  outs("Q/q              ¬˜∂}");
+  /* Q/q              Èõ¢Èñã */
+  outs("Q/q              \xC2\xF7\xB6\x7D");
 
   move(MG_XPOS + cx, MG_YPOS + cy * 2 + 1);
 }
@@ -165,7 +222,7 @@ main_recall()
   while (1)
   {
 
-    while (1)			/* ≤ƒ§@¶∏ */
+    while (1)			/* Á¨¨‰∏ÄÊ¨° */
     {
       get_pos(&fx, &fy);
       if (fx < 0)
@@ -183,7 +240,7 @@ main_recall()
       break;
     }
 
-    while (1)			/* ≤ƒ§G¶∏ */
+    while (1)			/* Á¨¨‰∫åÊ¨° */
     {
       get_pos(&sx, &sy);
       if (sx < 0)
@@ -204,14 +261,17 @@ main_recall()
       }
       else
       {
-	vmsg("¨›≤M∑°§F®S°H");
+	/* ÁúãÊ∏ÖÊ•ö‰∫ÜÊ≤íÔºü */
+	vmsg("\xAC\xDD\xB2\x4D\xB7\xA1\xA4\x46\xA8\x53\xA1\x48");
 	move(b_lines, 0);
 	clrtoeol();
 	move(MG_XPOS + fx, MG_YPOS + 2 * fy);
-	outs("°Ω");
+	/* ‚ñ† */
+	outs("\xA1\xBD");
 	isopen[fx][fy] = 0;
 	move(MG_XPOS + sx, MG_YPOS + 2 * sy);
-	outs("°Ω");
+	/* ‚ñ† */
+	outs("\xA1\xBD");
 	move(MG_XPOS + sx, MG_YPOS + 2 * sy + 1);
 	isopen[sx][sy] = 0;
       }
@@ -220,7 +280,8 @@ main_recall()
 
     if (count == MAX_X * MAX_Y)
     {
-      vmsg("Æ•≥ﬂ±z¶®•\\§F");
+      /* ÊÅ≠ÂñúÊÇ®ÊàêÂäü‰∫Ü */
+      vmsg("\xAE\xA5\xB3\xDF\xB1\x7A\xA6\xA8\xA5\x5C\xA4\x46");
       break;
     }
 

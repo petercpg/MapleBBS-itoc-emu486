@@ -1,7 +1,7 @@
 /*-------------------------------------------------------*/
 /* bj.c          ( NTHU CS MapleBBS Ver 3.10 )           */
 /*-------------------------------------------------------*/
-/* target : ¶Â³Ç§J¤G¤Q¤@ÂI¹CÀ¸                           */
+/* target : é»‘å‚‘å…‹äºŒåä¸€é»éŠæˆ²                           */
 /* create :   /  /                                       */
 /* update : 01/04/23                                     */
 /* author : unknown                                      */
@@ -16,25 +16,81 @@
 
 
 enum
-{				/* ­¿²v */
+{				/* å€ç‡ */
 
   SEVEN = 5,			/* 777 */
   SUPERAJ = 5,			/* spade A+J */
   AJ = 4,			/* A+J */
-  FIVE = 3,			/* ¹L¤­Ãö */
-  JACK = 3,			/* ¬°«e¨â±i´N 21 ÂI */
-  WIN = 2			/* Ä¹ */
+  FIVE = 3,			/* éäº”é—œ */
+  JACK = 3,			/* ç‚ºå‰å…©å¼µå°± 21 é» */
+  WIN = 2			/* è´ */
 };
 
 
-static char *flower[4] = {"¢á", "¢Ö", "¢Ò", "¢Ñ"};
+/* ï¼³ */
+/* ï¼¨ */
+/* ï¼¤ */
+/* ï¼£ */
+static char *flower[4] = {"\xA2\xE1", "\xA2\xD6", "\xA2\xD2", "\xA2\xD1"};
 static char *poker[53] = 
 {
-  "¢Ï", "¢Ï", "¢Ï", "¢Ï", "¢±", "¢±", "¢±", "¢±", "¢²", "¢²", "¢²", "¢²",
-  "¢³", "¢³", "¢³", "¢³", "¢´", "¢´", "¢´", "¢´", "¢µ", "¢µ", "¢µ", "¢µ",
-  "¢¶", "¢¶", "¢¶", "¢¶", "¢·", "¢·", "¢·", "¢·", "¢¸", "¢¸", "¢¸", "¢¸",
-  "¢â", "¢â", "¢â", "¢â", "¢Ø", "¢Ø", "¢Ø", "¢Ø", "¢ß", "¢ß", "¢ß", "¢ß",
-  "¢Ù", "¢Ù", "¢Ù", "¢Ù", "  "
+  /* ï¼¡ */
+  /* ï¼¡ */
+  /* ï¼¡ */
+  /* ï¼¡ */
+  /* ï¼’ */
+  /* ï¼’ */
+  /* ï¼’ */
+  /* ï¼’ */
+  /* ï¼“ */
+  /* ï¼“ */
+  /* ï¼“ */
+  /* ï¼“ */
+  "\xA2\xCF", "\xA2\xCF", "\xA2\xCF", "\xA2\xCF", "\xA2\xB1", "\xA2\xB1", "\xA2\xB1", "\xA2\xB1", "\xA2\xB2", "\xA2\xB2", "\xA2\xB2", "\xA2\xB2",
+  /* ï¼” */
+  /* ï¼” */
+  /* ï¼” */
+  /* ï¼” */
+  /* ï¼• */
+  /* ï¼• */
+  /* ï¼• */
+  /* ï¼• */
+  /* ï¼– */
+  /* ï¼– */
+  /* ï¼– */
+  /* ï¼– */
+  "\xA2\xB3", "\xA2\xB3", "\xA2\xB3", "\xA2\xB3", "\xA2\xB4", "\xA2\xB4", "\xA2\xB4", "\xA2\xB4", "\xA2\xB5", "\xA2\xB5", "\xA2\xB5", "\xA2\xB5",
+  /* ï¼— */
+  /* ï¼— */
+  /* ï¼— */
+  /* ï¼— */
+  /* ï¼˜ */
+  /* ï¼˜ */
+  /* ï¼˜ */
+  /* ï¼˜ */
+  /* ï¼™ */
+  /* ï¼™ */
+  /* ï¼™ */
+  /* ï¼™ */
+  "\xA2\xB6", "\xA2\xB6", "\xA2\xB6", "\xA2\xB6", "\xA2\xB7", "\xA2\xB7", "\xA2\xB7", "\xA2\xB7", "\xA2\xB8", "\xA2\xB8", "\xA2\xB8", "\xA2\xB8",
+  /* ï¼´ */
+  /* ï¼´ */
+  /* ï¼´ */
+  /* ï¼´ */
+  /* ï¼ª */
+  /* ï¼ª */
+  /* ï¼ª */
+  /* ï¼ª */
+  /* ï¼± */
+  /* ï¼± */
+  /* ï¼± */
+  /* ï¼± */
+  "\xA2\xE2", "\xA2\xE2", "\xA2\xE2", "\xA2\xE2", "\xA2\xD8", "\xA2\xD8", "\xA2\xD8", "\xA2\xD8", "\xA2\xDF", "\xA2\xDF", "\xA2\xDF", "\xA2\xDF",
+  /* ï¼« */
+  /* ï¼« */
+  /* ï¼« */
+  /* ï¼« */
+  "\xA2\xD9", "\xA2\xD9", "\xA2\xD9", "\xA2\xD9", "  "
 };
 
 
@@ -43,21 +99,31 @@ out_song()
 {
   static int count = 0;
 
-  /* ³\¯øªå£»·R¥u³Ñ¤@¬í */
+  /* è¨±èŒ¹èŠ¸Ë™æ„›åªå‰©ä¸€ç§’ */
   uschar *msg[9] = 
   {
-    "½t¥÷§Ö·À¤F  ²´«e¬O®ü¨¤  ÁÙ©¹«e¸õ  ¤âÀ¹¤W¤â¾R",
-    "¤£·QÅı¾Ö©ê¡@¦A©ñ±¼  §A¤@±Ã¤ã  §Ú´Nµh¨ì  ©I§l¤£¤F",
-    "·R´¿¨º»ò¦n  ¤£¯à¨ì¦Ñ  §A¦ó­W¡@³s°²À¸¯u§@§A³£°µ¤£¨ì",
-    "²´¬İ  ©¯ºÖ¥u³Ñ¤@¬í  §AÁÙ¸¨²\\¨DÄÇ",
-    "­n¨D§Ú©ñ±¼¡@¤£ª¾¸Ó»¡¤°»ò¤~¦n",
-    "¦Û¤v²`·Rªº¤H  ³º¹³¤p«Ä¡@µL²z¨ú¾x",
-    "¥Í©R¡@¦pªG¥u³Ñ¤@¬í  §Ú¥u·Q­n§ë¾a",
-    "¦º¦b§AÃh©ê  ¹Ú¸Ì¦Û´M¤Ñ¯î¦a¦Ñ¡@¹j¥@§â¤ß¸®±¼",
-    "§Aªººp·N¡@¦A¶Ë¤£¤F¡@§Úªº¦n"
+    /* ç·£ä»½å¿«æ»…äº†  çœ¼å‰æ˜¯æµ·è§’  é‚„å¾€å‰è·³  æ‰‹æˆ´ä¸Šæ‰‹éŠ¬ */
+    "\xBD\x74\xA5\xF7\xA7\xD6\xB7\xC0\xA4\x46  \xB2\xB4\xAB\x65\xAC\x4F\xAE\xFC\xA8\xA4  \xC1\xD9\xA9\xB9\xAB\x65\xB8\xF5  \xA4\xE2\xC0\xB9\xA4\x57\xA4\xE2\xBE\x52",
+    /* ä¸æƒ³è®“æ“æŠ±ã€€å†æ”¾æ‰  ä½ ä¸€æ™æ‰  æˆ‘å°±ç—›åˆ°  å‘¼å¸ä¸äº† */
+    "\xA4\xA3\xB7\x51\xC5\xFD\xBE\xD6\xA9\xEA\xA1\x40\xA6\x41\xA9\xF1\xB1\xBC  \xA7\x41\xA4\x40\xB1\xC3\xA4\xE3  \xA7\xDA\xB4\x4E\xB5\x68\xA8\xEC  \xA9\x49\xA7\x6C\xA4\xA3\xA4\x46",
+    /* æ„›æ›¾é‚£éº¼å¥½  ä¸èƒ½åˆ°è€  ä½ ä½•è‹¦ã€€é€£å‡æˆ²çœŸä½œä½ éƒ½åšä¸åˆ° */
+    "\xB7\x52\xB4\xBF\xA8\xBA\xBB\xF2\xA6\x6E  \xA4\xA3\xAF\xE0\xA8\xEC\xA6\xD1  \xA7\x41\xA6\xF3\xAD\x57\xA1\x40\xB3\x73\xB0\xB2\xC0\xB8\xAF\x75\xA7\x40\xA7\x41\xB3\xA3\xB0\xB5\xA4\xA3\xA8\xEC",
+    /* çœ¼çœ‹  å¹¸ç¦åªå‰©ä¸€ç§’  ä½ é‚„è½æ·šæ±‚é¥’ */
+    "\xB2\xB4\xAC\xDD  \xA9\xAF\xBA\xD6\xA5\x75\xB3\xD1\xA4\x40\xAC\xED  \xA7\x41\xC1\xD9\xB8\xA8\xB2\x5C\xA8\x44\xC4\xC7",
+    /* è¦æ±‚æˆ‘æ”¾æ‰ã€€ä¸çŸ¥è©²èªªä»€éº¼æ‰å¥½ */
+    "\xAD\x6E\xA8\x44\xA7\xDA\xA9\xF1\xB1\xBC\xA1\x40\xA4\xA3\xAA\xBE\xB8\xD3\xBB\xA1\xA4\xB0\xBB\xF2\xA4\x7E\xA6\x6E",
+    /* è‡ªå·±æ·±æ„›çš„äºº  ç«Ÿåƒå°å­©ã€€ç„¡ç†å–é¬§ */
+    "\xA6\xDB\xA4\x76\xB2\x60\xB7\x52\xAA\xBA\xA4\x48  \xB3\xBA\xB9\xB3\xA4\x70\xAB\xC4\xA1\x40\xB5\x4C\xB2\x7A\xA8\xFA\xBE\x78",
+    /* ç”Ÿå‘½ã€€å¦‚æœåªå‰©ä¸€ç§’  æˆ‘åªæƒ³è¦æŠ•é  */
+    "\xA5\xCD\xA9\x52\xA1\x40\xA6\x70\xAA\x47\xA5\x75\xB3\xD1\xA4\x40\xAC\xED  \xA7\xDA\xA5\x75\xB7\x51\xAD\x6E\xA7\xEB\xBE\x61",
+    /* æ­»åœ¨ä½ æ‡·æŠ±  å¤¢è£¡è‡ªå°‹å¤©è’åœ°è€ã€€éš”ä¸–æŠŠå¿ƒè‘¬æ‰ */
+    "\xA6\xBA\xA6\x62\xA7\x41\xC3\x68\xA9\xEA  \xB9\xDA\xB8\xCC\xA6\xDB\xB4\x4D\xA4\xD1\xAF\xEE\xA6\x61\xA6\xD1\xA1\x40\xB9\x6A\xA5\x40\xA7\xE2\xA4\xDF\xB8\xAE\xB1\xBC",
+    /* ä½ çš„æ­‰æ„ã€€å†å‚·ä¸äº†ã€€æˆ‘çš„å¥½ */
+    "\xA7\x41\xAA\xBA\xBA\x70\xB7\x4E\xA1\x40\xA6\x41\xB6\xCB\xA4\xA3\xA4\x46\xA1\x40\xA7\xDA\xAA\xBA\xA6\x6E"
   };
   move(b_lines - 2, 0);
-  prints("\033[1;3%dm%s\033[m  Äw½XÁÙ¦³ %d ¤¸", time(0) % 7, msg[count], cuser.money);
+  /* \033[1;3%dm%s\033[m  ç±Œç¢¼é‚„æœ‰ %d å…ƒ */
+  prints("\033[1;3%dm%s\033[m  \xC4\x77\xBD\x58\xC1\xD9\xA6\xB3 %d \xA4\xB8", time(0) % 7, msg[count], cuser.money);
   clrtoeol();
   if (++count == 9)
     count = 0;
@@ -69,42 +135,49 @@ print_card(int card, int x, int y)
 {
 
   move(x, y);
-  outs("¢~¢w¢w¢w¢¡");
+  /* â•­â”€â”€â”€â•® */
+  outs("\xA2\x7E\xA2\x77\xA2\x77\xA2\x77\xA2\xA1");
   move(x + 1, y);
-  prints("¢x%s    ¢x", poker[card]);
+  /* â”‚%s    â”‚ */
+  prints("\xA2\x78%s    \xA2\x78", poker[card]);
   move(x + 2, y);
-  prints("¢x%s    ¢x", card != 52 ? flower[card % 4] : "  ");
+  /* â”‚%s    â”‚ */
+  prints("\xA2\x78%s    \xA2\x78", card != 52 ? flower[card % 4] : "  ");
   move(x + 3, y);
-  outs("¢x      ¢x");
+  /* â”‚      â”‚ */
+  outs("\xA2\x78      \xA2\x78");
   move(x + 4, y);
-  outs("¢x      ¢x");
+  /* â”‚      â”‚ */
+  outs("\xA2\x78      \xA2\x78");
   move(x + 5, y);
-  outs("¢x      ¢x");
+  /* â”‚      â”‚ */
+  outs("\xA2\x78      \xA2\x78");
   move(x + 6, y);
-  outs("¢¢¢w¢w¢w¢£");
+  /* â•°â”€â”€â”€â•¯ */
+  outs("\xA2\xA2\xA2\x77\xA2\x77\xA2\x77\xA2\xA3");
 }
 
 
 static char
 get_newcard(mode)
-  int mode;			/* 0:­«·s¬~µP  1:µoµP */
+  int mode;			/* 0:é‡æ–°æ´—ç‰Œ  1:ç™¼ç‰Œ */
 {
-  static char card[10];	/* ³Ì¦h¥u·|¥Î¨ì 10 ±iµP */
-  static int now;	/* µo¥X²Ä now ±iµP */
+  static char card[10];	/* æœ€å¤šåªæœƒç”¨åˆ° 10 å¼µç‰Œ */
+  static int now;	/* ç™¼å‡ºç¬¬ now å¼µç‰Œ */
   char num;
   int i;
 
-  if (!mode)	/* ­«·s¬~µP */
+  if (!mode)	/* é‡æ–°æ´—ç‰Œ */
   {
     now = 0;
     return -1;
   }
 
-rand_num:		/* random ¥X¤@±i©M¤§«e³£¤£¦PªºµP */
+rand_num:		/* random å‡ºä¸€å¼µå’Œä¹‹å‰éƒ½ä¸åŒçš„ç‰Œ */
   num = rnd(52);
   for (i = 0; i < now; i++)
   {
-    if (num == card[i])	/* ³o±iµP¥H«e random ¹L¤F */
+    if (num == card[i])	/* é€™å¼µç‰Œä»¥å‰ random éäº† */
       goto rand_num;
   }
 
@@ -118,27 +191,27 @@ rand_num:		/* random ¥X¤@±i©M¤§«e³£¤£¦PªºµP */
 int
 main_bj()
 {
-  int money;			/* ©ãª÷ */
+  int money;			/* æŠ¼é‡‘ */
 
-  /* ¹q¸£¬O²ø®a */
-  char host_card[12];		/* ¹q¸£ªºµP±i */
-  char guest_card[12];		/* ª±®aªºµP±i */
+  /* é›»è…¦æ˜¯èŠå®¶ */
+  char host_card[12];		/* é›»è…¦çš„ç‰Œå¼µ */
+  char guest_card[12];		/* ç©å®¶çš„ç‰Œå¼µ */
 
-  int host_count;		/* ¹q¸£®³¤F´X±iµP */
-  int guest_count;		/* ª±®a®³¤F´X±iµP */
+  int host_count;		/* é›»è…¦æ‹¿äº†å¹¾å¼µç‰Œ */
+  int guest_count;		/* ç©å®¶æ‹¿äº†å¹¾å¼µç‰Œ */
 
-  int host_A;			/* ¹q¸£®³ A ªº±i¼Æ */
-  int guest_A;			/* ª±®a®³ A ªº±i¼Æ */
-  int host_point;		/* ¹q¸£®³ªºÁ`ÂI¼Æ */
-  int guest_point;		/* ª±®a®³ªºÁ`ÂI¼Æ */
+  int host_A;			/* é›»è…¦æ‹¿ A çš„å¼µæ•¸ */
+  int guest_A;			/* ç©å®¶æ‹¿ A çš„å¼µæ•¸ */
+  int host_point;		/* é›»è…¦æ‹¿çš„ç¸½é»æ•¸ */
+  int guest_point;		/* ç©å®¶æ‹¿çš„ç¸½é»æ•¸ */
 
-  int doub;			/* ¬O§_¤w¸g¥[­¿©ãª÷ */
-  int ch;			/* «öÁä */
+  int doub;			/* æ˜¯å¦å·²ç¶“åŠ å€æŠ¼é‡‘ */
+  int ch;			/* æŒ‰éµ */
 
   int card;
   char buf[60];
 
-  int num[52] =		/* ¦U±iµPªºÂI¼Æ */
+  int num[52] =		/* å„å¼µç‰Œçš„é»æ•¸ */
   {
     11, 11, 11, 11, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6,
     7, 7, 7, 7, 8, 8, 8, 8, 9, 9, 9, 9, 10, 10, 10, 10, 10, 10, 10, 10,
@@ -153,35 +226,38 @@ main_bj()
 
   while (1)
   {
-    vs_bar("¶Â³Ç§J¤j¾Ô");
+    /* é»‘å‚‘å…‹å¤§æˆ° */
+    vs_bar("\xB6\xC2\xB3\xC7\xA7\x4A\xA4\x6A\xBE\xD4");
     out_song();
 
-    vget(2, 0, "½Ğ°İ­n¤Uª`¦h¤Ö©O¡H(1 ~ 50000) ", buf, 6, DOECHO);
+    /* è«‹å•è¦ä¸‹æ³¨å¤šå°‘å‘¢ï¼Ÿ(1 ~ 50000)  */
+    vget(2, 0, "\xBD\xD0\xB0\xDD\xAD\x6E\xA4\x55\xAA\x60\xA6\x68\xA4\xD6\xA9\x4F\xA1\x48(1 ~ 50000) ", buf, 6, DOECHO);
     money = atoi(buf);
     if (money < 1 || money > 50000 || money > cuser.money)
-      break;			/* Â÷¶}½ä³õ */
+      break;			/* é›¢é–‹è³­å ´ */
 
     cuser.money -= money;
     doub = 0;
 
     move(3, 0);
-    outs("(«ö y ÄòµP, n ¤£ÄòµP, d double)");
+    /* (æŒ‰ y çºŒç‰Œ, n ä¸çºŒç‰Œ, d double) */
+    outs("(\xAB\xF6 y \xC4\xF2\xB5\x50, n \xA4\xA3\xC4\xF2\xB5\x50, d double)");
 
     out_song();
 
-    get_newcard(0);	/* ¬~µP */
+    get_newcard(0);	/* æ´—ç‰Œ */
 
     guest_card[0] = get_newcard(1);
     guest_card[1] = get_newcard(1);
     host_card[0] = get_newcard(1);
     host_card[1] = get_newcard(1);
 
-    host_count = 2;		/* ¦¹®É¡AÂù¤è¦U¦³¤G±iµP */
+    host_count = 2;		/* æ­¤æ™‚ï¼Œé›™æ–¹å„æœ‰äºŒå¼µç‰Œ */
     guest_count = 2;
-    host_A = 0;			/* ¦¹®É¡AÂù¤è³£¨S¦³ Ace */
+    host_A = 0;			/* æ­¤æ™‚ï¼Œé›™æ–¹éƒ½æ²’æœ‰ Ace */
     guest_A = 0;
 
-    /* ÀË¬d A ªº±i¼Æ¡A¨Ó¨M©w¬O§_¦³ Black Jack ©Î¬O§â A ·í 11 ÂI */
+    /* æª¢æŸ¥ A çš„å¼µæ•¸ï¼Œä¾†æ±ºå®šæ˜¯å¦æœ‰ Black Jack æˆ–æ˜¯æŠŠ A ç•¶ 11 é» */
 
     if (host_card[0] < 4)
       host_A++;
@@ -192,33 +268,36 @@ main_bj()
     if (guest_card[1] < 4)
       guest_A++;
 
-    print_card(52, 5, 0);		/* ¦L¥X¹q¸£ªº²Ä¤@±iµP(¦ıÅã¥ÜªÅ¥Õ) */
-    print_card(host_card[1], 5, 4);	/* ¦L¥X¹q¸£ªº²Ä¤G±iµP */
-    print_card(guest_card[0], 14, 0);	/* ¦L¥Xª±®aªº²Ä¤@±iµP */
-    print_card(guest_card[1], 14, 4);	/* ¦L¥Xª±®aªº²Ä¤G±iµP */
+    print_card(52, 5, 0);		/* å°å‡ºé›»è…¦çš„ç¬¬ä¸€å¼µç‰Œ(ä½†é¡¯ç¤ºç©ºç™½) */
+    print_card(host_card[1], 5, 4);	/* å°å‡ºé›»è…¦çš„ç¬¬äºŒå¼µç‰Œ */
+    print_card(guest_card[0], 14, 0);	/* å°å‡ºç©å®¶çš„ç¬¬ä¸€å¼µç‰Œ */
+    print_card(guest_card[1], 14, 4);	/* å°å‡ºç©å®¶çš„ç¬¬äºŒå¼µç‰Œ */
 
-    host_point = num[host_card[1]];	/* ¹q¸£ªº²Ä¤@±iµP¼È®É¤£ºâÂI(¥H§K¼ÉÅSµª®×) */
+    host_point = num[host_card[1]];	/* é›»è…¦çš„ç¬¬ä¸€å¼µç‰Œæš«æ™‚ä¸ç®—é»(ä»¥å…æš´éœ²ç­”æ¡ˆ) */
     guest_point = num[guest_card[0]] + num[guest_card[1]];
 
     move(12, 0);
-    prints("\033[1;32mÂI¼Æ¡G\033[33m%2d\033[m", host_point);
+    /* \033[1;32mé»æ•¸ï¼š\033[33m%2d\033[m */
+    prints("\033[1;32m\xC2\x49\xBC\xC6\xA1\x47\033[33m%2d\033[m", host_point);
 
     for (;;)
     {
-      /* ÀË¬dµP«¬ */
+      /* æª¢æŸ¥ç‰Œå‹ */
 check_condition:
 
-      /* itoc.011025: ª±®a¨C¨ú¤@±iµP´N­n­«Ã¸¤@¦¸ÂI¼Æ */
+      /* itoc.011025: ç©å®¶æ¯å–ä¸€å¼µç‰Œå°±è¦é‡ç¹ªä¸€æ¬¡é»æ•¸ */
       move(13, 0);
-      prints("\033[1;35mÂI¼Æ¡G\033[36m%2d\033[m", guest_point);
+      /* \033[1;35mé»æ•¸ï¼š\033[36m%2d\033[m */
+      prints("\033[1;35m\xC2\x49\xBC\xC6\xA1\x47\033[36m%2d\033[m", guest_point);
 
-      if (guest_count == 3 &&	/* ­nÀË¬d guest_count ¥H§K²Ä¤T±iµP¬O¤W¦¸µP */
+      if (guest_count == 3 &&	/* è¦æª¢æŸ¥ guest_count ä»¥å…ç¬¬ä¸‰å¼µç‰Œæ˜¯ä¸Šæ¬¡ç‰Œ */
 	(guest_card[0] >= 24 && guest_card[0] <= 27) &&
 	(guest_card[1] >= 24 && guest_card[1] <= 27) &&
 	(guest_card[2] >= 24 && guest_card[2] <= 27))
       {
 	money *= SEVEN;
-	sprintf(buf, "\033[1;41;33m     ¢¶¢¶¢¶     ±o¼úª÷ %d »È¨â   \033[m", money);
+	/* \033[1;41;33m     ï¼—ï¼—ï¼—     å¾—çé‡‘ %d éŠ€å…©   \033[m */
+	sprintf(buf, "\033[1;41;33m     \xA2\xB6\xA2\xB6\xA2\xB6     \xB1\x6F\xBC\xFA\xAA\xF7 %d \xBB\xC8\xA8\xE2   \033[m", money);
 	goto next_game;
       }
 
@@ -226,7 +305,8 @@ check_condition:
 	(guest_card[0] == 0 && guest_card[1] == 40))
       {
         money *= SUPERAJ;
-	sprintf(buf, "\033[1;41;33m¥¿²Î BLACK JACK ±o¼úª÷ %d »È¨â   \033[m", money);
+	/* \033[1;41;33mæ­£çµ± BLACK JACK å¾—çé‡‘ %d éŠ€å…©   \033[m */
+	sprintf(buf, "\033[1;41;33m\xA5\xBF\xB2\xCE BLACK JACK \xB1\x6F\xBC\xFA\xAA\xF7 %d \xBB\xC8\xA8\xE2   \033[m", money);
 	goto next_game;
       }
 
@@ -236,21 +316,24 @@ check_condition:
 	(guest_card[0] <= 43 && guest_card[0] >= 40)))
       {
 	money *= AJ;
-	sprintf(buf, "\033[1;41;33m  BLACK JACK    ±o¼úª÷ %d »È¨â   \033[m", money);
+	/* \033[1;41;33m  BLACK JACK    å¾—çé‡‘ %d éŠ€å…©   \033[m */
+	sprintf(buf, "\033[1;41;33m  BLACK JACK    \xB1\x6F\xBC\xFA\xAA\xF7 %d \xBB\xC8\xA8\xE2   \033[m", money);
 	goto next_game;
       }
 
-      else if (guest_point == 21 && guest_count == 2)	/* «e¨â±i´N 21 ÂI */
+      else if (guest_point == 21 && guest_count == 2)	/* å‰å…©å¼µå°± 21 é» */
       {
 	money *= JACK;
-	sprintf(buf, "\033[1;41;33m     JACK       ±o¼úª÷ %d »È¨â   \033[m", money);
+	/* \033[1;41;33m     JACK       å¾—çé‡‘ %d éŠ€å…©   \033[m */
+	sprintf(buf, "\033[1;41;33m     JACK       \xB1\x6F\xBC\xFA\xAA\xF7 %d \xBB\xC8\xA8\xE2   \033[m", money);
 	goto next_game;
       }
 
       else if (guest_count == 5 && guest_point <= 21)
       {
 	money *= FIVE;
-	sprintf(buf, "\033[1;41;33m    ¹L¤­Ãö      ±o¼úª÷ %d »È¨â   \033[m", money);
+	/* \033[1;41;33m    éäº”é—œ      å¾—çé‡‘ %d éŠ€å…©   \033[m */
+	sprintf(buf, "\033[1;41;33m    \xB9\x4C\xA4\xAD\xC3\xF6      \xB1\x6F\xBC\xFA\xAA\xF7 %d \xBB\xC8\xA8\xE2   \033[m", money);
 	goto next_game;
       }
 
@@ -259,32 +342,34 @@ check_condition:
 	guest_point -= 10;
 	guest_A--;
         move(13, 0);
-        prints("\033[1;35mÂI¼Æ¡G\033[36m%2d\033[m", guest_point);
+        /* \033[1;35mé»æ•¸ï¼š\033[36m%2d\033[m */
+        prints("\033[1;35m\xC2\x49\xBC\xC6\xA1\x47\033[36m%2d\033[m", guest_point);
 	goto check_condition;
       }
 
-      /* ¤@¯ëµP«¬ */
+      /* ä¸€èˆ¬ç‰Œå‹ */
 
       else
       {
-	/* Ãz¤F */
+	/* çˆ†äº† */
 
 	if (guest_point > 21)
 	{
 	  money = 0;
-	  strcpy(buf, "\033[1;41;33m     Ãz¤F       ¿ú³Q¦Y¥ú¤F   \033[m");
+	  /* \033[1;41;33m     çˆ†äº†       éŒ¢è¢«åƒå…‰äº†   \033[m */
+	  strcpy(buf, "\033[1;41;33m     \xC3\x7A\xA4\x46       \xBF\xFA\xB3\x51\xA6\x59\xA5\xFA\xA4\x46   \033[m");
 	  goto next_game;
 	}
 
-	/* ¨SÃz */
+	/* æ²’çˆ† */
 
 	do
 	{
 	  ch = igetch();
 
-	  if (ch == 'd' && !doub && guest_count == 2)	/* ¥u¯à¦b²Ä¤G±iµP¯à®É double */
+	  if (ch == 'd' && !doub && guest_count == 2)	/* åªèƒ½åœ¨ç¬¬äºŒå¼µç‰Œèƒ½æ™‚ double */
 	  {
-	    doub = 1;	/* ¤w double¡A¤£¯à¦A double */
+	    doub = 1;	/* å·² doubleï¼Œä¸èƒ½å† double */
 
 	    if (cuser.money >= money)
 	    {
@@ -293,14 +378,14 @@ check_condition:
 	    }
 	    else
 	    {
-	      money += cuser.money;	/* ¿ú¤£°÷¤G­¿¡A´N¥ş±ô¤F */
+	      money += cuser.money;	/* éŒ¢ä¸å¤ äºŒå€ï¼Œå°±å…¨æ¢­äº† */
 	      cuser.money = 0;
 	    }
 	    out_song();
 	  }
 	} while (ch != 'y' && ch != 'n');
 
-	if (ch == 'y' && guest_point != 21)	/* ª±®aÄòµP */
+	if (ch == 'y' && guest_point != 21)	/* ç©å®¶çºŒç‰Œ */
 	{
 	  card = get_newcard(1);
 	  guest_card[guest_count] = card;
@@ -311,28 +396,29 @@ check_condition:
           print_card(card, 14, 4 * guest_count);
           guest_count++;
 	  move(13, 0);
-	  prints("\033[1;35mÂI¼Æ¡G\033[36m%2d\033[m", guest_point);
+	  /* \033[1;35mé»æ•¸ï¼š\033[36m%2d\033[m */
+	  prints("\033[1;35m\xC2\x49\xBC\xC6\xA1\x47\033[36m%2d\033[m", guest_point);
 	  goto check_condition;
 	}
-	else					/* ª±®a¤£ÄòµP */
+	else					/* ç©å®¶ä¸çºŒç‰Œ */
 	{
-	  /* ¥ıÅã¥Ü²ø®aªº²Ä¤@±iµP */
+	  /* å…ˆé¡¯ç¤ºèŠå®¶çš„ç¬¬ä¸€å¼µç‰Œ */
           move(6, 2);
           outs(poker[host_card[0]]);
           move(7, 2);
           outs(flower[host_card[0] % 4]);
-          host_point += num[host_card[0]];	/* §â­è¶}©l¨S¥[ªº²Ä¤@±iµPÂI¥[¦^¨Ó */
+          host_point += num[host_card[0]];	/* æŠŠå‰›é–‹å§‹æ²’åŠ çš„ç¬¬ä¸€å¼µç‰Œé»åŠ å›ä¾† */
 
-	  /* ½ü¨ì¹q¸£(²ø®a)¨úµP */
+	  /* è¼ªåˆ°é›»è…¦(èŠå®¶)å–ç‰Œ */
 
-	  if (host_A == 2)	/* ¯S¨Ò: ¹q¸£¤G±i©³µP«ê¦n³£¬O A ®É·|§PÂ_¿ù»~ */
+	  if (host_A == 2)	/* ç‰¹ä¾‹: é›»è…¦äºŒå¼µåº•ç‰Œæ°å¥½éƒ½æ˜¯ A æ™‚æœƒåˆ¤æ–·éŒ¯èª¤ */
 	  {
-	    /* §â¤@±i A ±q 11 ÂI´«¦¨ 1 ÂI */
+	    /* æŠŠä¸€å¼µ A å¾ 11 é»æ›æˆ 1 é» */
 	    host_point -= 10;
 	    host_A--;
 	  }
 
-	  while (host_point < guest_point)	/* ²ø®a¦pªGÂI¤ñ¸û¤Ö¡A´N±j­¢¨úµP */
+	  while (host_point < guest_point)	/* èŠå®¶å¦‚æœé»æ¯”è¼ƒå°‘ï¼Œå°±å¼·è¿«å–ç‰Œ */
 	  {
 	    card = get_newcard(1);
 	    host_card[host_count] = card;
@@ -349,40 +435,44 @@ check_condition:
 	      {
 	        host_point -= 10;
 	        host_A--;
-	        continue;	/* Ä~Äò¨ú¤U¤@±iµP */
+	        continue;	/* ç¹¼çºŒå–ä¸‹ä¸€å¼µç‰Œ */
 	      }
 
 	      move(12, 0);
-	      prints("\033[1;32mÂI¼Æ¡G\033[33m%2d\033[m", host_point);
+	      /* \033[1;32mé»æ•¸ï¼š\033[33m%2d\033[m */
+	      prints("\033[1;32m\xC2\x49\xBC\xC6\xA1\x47\033[33m%2d\033[m", host_point);
 
-	      /* ¹q¸£(²ø®a)Ãz¤F */
+	      /* é›»è…¦(èŠå®¶)çˆ†äº† */
 
 	      money *= WIN;
-	      sprintf(buf, "\033[1;41;33m    WINNER      ±o¼úª÷ %d »È¨â   \033[m", money);
+	      /* \033[1;41;33m    WINNER      å¾—çé‡‘ %d éŠ€å…©   \033[m */
+	      sprintf(buf, "\033[1;41;33m    WINNER      \xB1\x6F\xBC\xFA\xAA\xF7 %d \xBB\xC8\xA8\xE2   \033[m", money);
 	      goto next_game;
 	    }
 	  }
 
-	  /* ¹q¸£(²ø®a)¨úµPµ²§ô¡A¥B¨S¦³Ãz±¼¡A¹q¸£Àò³Ó */
+	  /* é›»è…¦(èŠå®¶)å–ç‰ŒçµæŸï¼Œä¸”æ²’æœ‰çˆ†æ‰ï¼Œé›»è…¦ç²å‹ */
 
 	  move(12, 0);
-	  prints("\033[1;32mÂI¼Æ¡G\033[33m%2d\033[m", host_point);
+	  /* \033[1;32mé»æ•¸ï¼š\033[33m%2d\033[m */
+	  prints("\033[1;32m\xC2\x49\xBC\xC6\xA1\x47\033[33m%2d\033[m", host_point);
 
 	  money = 0;
-	  strcpy(buf, "\033[1;41;33m     ¿é¤F       ¿ú³Q¦Y¥ú¤F   \033[m");
+	  /* \033[1;41;33m     è¼¸äº†       éŒ¢è¢«åƒå…‰äº†   \033[m */
+	  strcpy(buf, "\033[1;41;33m     \xBF\xE9\xA4\x46       \xBF\xFA\xB3\x51\xA6\x59\xA5\xFA\xA4\x46   \033[m");
 	  goto next_game;
 	}
 
-      }				/* if ÀË¬dµP«¬µ²§ô */
+      }				/* if æª¢æŸ¥ç‰Œå‹çµæŸ */
 
-    }				/* for °j°éµ²§ô¡Aµ²§ô³o¦^¦X */
+    }				/* for è¿´åœˆçµæŸï¼ŒçµæŸé€™å›åˆ */
 
 next_game:
     move(18, 3);
     outs(buf);
     addmoney(money);
     vmsg(NULL);
-  }				/* while °j°éµ²§ô¡AÂ÷¶}¹CÀ¸ */
+  }				/* while è¿´åœˆçµæŸï¼Œé›¢é–‹éŠæˆ² */
 
   return 0;
 }

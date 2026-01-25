@@ -1,7 +1,7 @@
 /*-------------------------------------------------------*/
 /* mine.c         ( NTHU CS MapleBBS Ver 3.10 )          */
 /*-------------------------------------------------------*/
-/* target : ½ò¦a¹p¹CÀ¸                                   */
+/* target : è¸©åœ°é›·éŠæˆ²                                   */
 /* create : 01/02/15                                     */
 /* update : 01/03/01                                     */
 /* author : piaip.bbs@sob.twbbs.org                      */
@@ -13,45 +13,58 @@
 
 #ifdef HAVE_GAME
 
-#define _CHINESE_	/* ¤¤¤å¦r symbol */
+#define _CHINESE_	/* ä¸­æ–‡å­— symbol */
 
 enum
 {
-  /* MINE_XPOS + MAP_MAX_X ­n¤p©ó b_lines - 2 = 21    *
-   * MINE_YPOS + MAP_MAX_Y * 2 ­n¤p©ó STRLEN - 1 = 79 *
-   * MINE_YPOS ­n¨¬°÷¨Ï out_prompt() ©ñ¤J             */
+  /* MINE_XPOS + MAP_MAX_X è¦å°æ–¼ b_lines - 2 = 21    *
+   * MINE_YPOS + MAP_MAX_Y * 2 è¦å°æ–¼ STRLEN - 1 = 79 *
+   * MINE_YPOS è¦è¶³å¤ ä½¿ out_prompt() æ”¾å…¥             */
 
   MINE_XPOS = 0,
   MINE_YPOS = 17,
-  MAP_MAX_X = 20,		/* ¡õ x ¤è¦V */
-  MAP_MAX_Y = 30,		/* ¡÷ y ¤è¦V */
+  MAP_MAX_X = 20,		/* â†“ x æ–¹å‘ */
+  MAP_MAX_Y = 30,		/* â†’ y æ–¹å‘ */
 
   /* These are flags for bitwise operators */
-  TILE_BLANK = 0,		/* ¨S¦³¦a¹p */
-  TILE_MINE = 1,		/* ¦³¦a¹p */
-  TILE_TAGGED = 0x10,		/* ³Q¼Ğ°O */
-  TILE_EXPAND = 0x20		/* ¤w³Q®i¶} */
+  TILE_BLANK = 0,		/* æ²’æœ‰åœ°é›· */
+  TILE_MINE = 1,		/* æœ‰åœ°é›· */
+  TILE_TAGGED = 0x10,		/* è¢«æ¨™è¨˜ */
+  TILE_EXPAND = 0x20		/* å·²è¢«å±•é–‹ */
 };
 
 
-static char MineMap[MAP_MAX_X + 2][MAP_MAX_Y + 2];	/* ¦a¹Ï¤W¨C®æªºÄİ©Ê */
-static char MineNei[MAP_MAX_X + 2][MAP_MAX_Y + 2];	/* ¦a¹Ï¤W¨C®æ¾F©~¦³¦h¤Ö¦a¹p */
+static char MineMap[MAP_MAX_X + 2][MAP_MAX_Y + 2];	/* åœ°åœ–ä¸Šæ¯æ ¼çš„å±¬æ€§ */
+static char MineNei[MAP_MAX_X + 2][MAP_MAX_Y + 2];	/* åœ°åœ–ä¸Šæ¯æ ¼é„°å±…æœ‰å¤šå°‘åœ°é›· */
 
-static int MAP_X, MAP_Y;	/* ´Ñ½L¤j¤p */
+static int MAP_X, MAP_Y;	/* æ£‹ç›¤å¤§å° */
 static int cx, cy;		/* current (x, y) */
-static int TotalMines;		/* ¤w¼Ğ°Oªº¦a¹p¼Æ */
-static int TaggedMines;		/* ¤w¼Ğ°Oªº¦a¹p¼Æ */
-static time_t InitTime;		/* ¶}©lª±ªº®É¶¡ */
-static int LoseGame;		/* 1: ¿é¤F     0: ÁÙ¦bª± */
-static int EndGame;		/* 1: Â÷¶}¹CÀ¸ 0: ÁÙ¦bª± */
+static int TotalMines;		/* å·²æ¨™è¨˜çš„åœ°é›·æ•¸ */
+static int TaggedMines;		/* å·²æ¨™è¨˜çš„åœ°é›·æ•¸ */
+static time_t InitTime;		/* é–‹å§‹ç©çš„æ™‚é–“ */
+static int LoseGame;		/* 1: è¼¸äº†     0: é‚„åœ¨ç© */
+static int EndGame;		/* 1: é›¢é–‹éŠæˆ² 0: é‚„åœ¨ç© */
 
 
 #ifdef _CHINESE_
-static char symTag[3] = "¡°";	/* ¼Ğ°O¦a¹p/¦¹³B¦³¦a¹p¥B¦³³Q¼Ğ¥Ü */
-static char symMine[3] = "¡ó";	/* /¦¹³B¦³¦a¹p¦ı¨S³Q¼Ğ¥Ü */
-static char symWrong[3] = "¢æ";	/* /¦¹³B¨S¦a¹p¦ı¦³³Q¼Ğ¥Ü */
-static char symBlank[3] = "¡½";	/* ¥¼³Q®i¶}/¦¹³B¨S¦a¹p¥B¨S³Q®i¶} */
-static char *strMines[9] = {"¡@", "¢°", "¢±", "¢²", "¢³", "¢´", "¢µ", "¢¶", "¢·"};	/* ®ÇÃä¦³´XÁû¦a¹p */
+/* â€» */
+static char symTag[3] = "\xA1\xB0";	/* æ¨™è¨˜åœ°é›·/æ­¤è™•æœ‰åœ°é›·ä¸”æœ‰è¢«æ¨™ç¤º */
+/* âŠ™ */
+static char symMine[3] = "\xA1\xF3";	/* /æ­¤è™•æœ‰åœ°é›·ä½†æ²’è¢«æ¨™ç¤º */
+/* ï¼¸ */
+static char symWrong[3] = "\xA2\xE6";	/* /æ­¤è™•æ²’åœ°é›·ä½†æœ‰è¢«æ¨™ç¤º */
+/* â–  */
+static char symBlank[3] = "\xA1\xBD";	/* æœªè¢«å±•é–‹/æ­¤è™•æ²’åœ°é›·ä¸”æ²’è¢«å±•é–‹ */
+/* ã€€ */
+/* ï¼‘ */
+/* ï¼’ */
+/* ï¼“ */
+/* ï¼” */
+/* ï¼• */
+/* ï¼– */
+/* ï¼— */
+/* ï¼˜ */
+static char *strMines[9] = {"\xA1\x40", "\xA2\xB0", "\xA2\xB1", "\xA2\xB2", "\xA2\xB3", "\xA2\xB4", "\xA2\xB5", "\xA2\xB6", "\xA2\xB7"};	/* æ—é‚Šæœ‰å¹¾é¡†åœ°é›· */
 #else
 static char symTag[3] = " M";
 static char symMine[3] = " m";
@@ -78,7 +91,7 @@ init_map()
 {
   int x, y, i;
 
-  /* ³]©w¦³®Ä´Ñ½L */
+  /* è¨­å®šæœ‰æ•ˆæ£‹ç›¤ */
 
   for (x = 0; x < MAP_X + 2; x++)
   {
@@ -90,7 +103,7 @@ init_map()
     }
   }
 
-  /* ³]©w¦a¹p©Ò¦b */
+  /* è¨­å®šåœ°é›·æ‰€åœ¨ */
 
   for (i = 0; i < TotalMines;)
   {
@@ -104,7 +117,7 @@ init_map()
     }
   }
 
-  /* ºâ¥X©Ò¦³®æªº¾F©~¦³¦h¤Ö¦a¹p */
+  /* ç®—å‡ºæ‰€æœ‰æ ¼çš„é„°å±…æœ‰å¤šå°‘åœ°é›· */
 
   for (x = 1; x <= MAP_X; x++)
   {
@@ -114,7 +127,7 @@ init_map()
     }
   }
 
-  /* ²{¦b¶}©l­p®É¡A¦]¬° out_map() ªº out_info() ­n¥Î¨ì */
+  /* ç¾åœ¨é–‹å§‹è¨ˆæ™‚ï¼Œå› ç‚º out_map() çš„ out_info() è¦ç”¨åˆ° */
   InitTime = time(0);
 }
 
@@ -122,19 +135,25 @@ init_map()
 static void
 out_prompt()
 {
-  /* outs() ¸Ì­±ªº±Ô­z¤£±o¶W¹L MINE_YPOS¡A§_«h·|¿ù¶Ã */
+  /* outs() è£¡é¢çš„æ•˜è¿°ä¸å¾—è¶…é MINE_YPOSï¼Œå¦å‰‡æœƒéŒ¯äº‚ */
   move(3, 0);
-  outs("«öÁä»¡©ú¡G");
+  /* æŒ‰éµèªªæ˜ï¼š */
+  outs("\xAB\xF6\xC1\xE4\xBB\xA1\xA9\xFA\xA1\x47");
   move(5, 0);
-  outs("²¾°Ê     ¤è¦VÁä");
+  /* ç§»å‹•     æ–¹å‘éµ */
+  outs("\xB2\xBE\xB0\xCA     \xA4\xE8\xA6\x56\xC1\xE4");
   move(7, 0);
-  outs("Â½¶}     ªÅ¥ÕÁä");
+  /* ç¿»é–‹     ç©ºç™½éµ */
+  outs("\xC2\xBD\xB6\x7D     \xAA\xC5\xA5\xD5\xC1\xE4");
   move(9, 0);
-  outs("¼Ğ°O¦a¹p   ¢î");
+  /* æ¨™è¨˜åœ°é›·   ï½† */
+  outs("\xBC\xD0\xB0\x4F\xA6\x61\xB9\x70   \xA2\xEE");
   move(11, 0);
-  outs("±½¹p       ¢ì");
+  /* æƒé›·       ï½„ */
+  outs("\xB1\xBD\xB9\x70       \xA2\xEC");
   move(13, 0);
-  outs("Â÷¶}       ¢ù");
+  /* é›¢é–‹       ï½‘ */
+  outs("\xC2\xF7\xB6\x7D       \xA2\xF9");
 }
 
 
@@ -143,14 +162,22 @@ out_song()
 {
   uschar *msg[8] = 
   {
-    "«D¿FªyµL¥H©ú§Ó¡A«D¹çÀRµL¥H­P»·",			/* ½Ñ¸¯«G»|¤l®Ñ */
-    "¤@µ°¤@¶º¡A·í«ä±o¨Ó¤£©ö¡F¥bµ·¥bÁ\\¡A«í©Àª«¤OºûÁ}",	/* ¦¶¤l­P®a®æ¨¥ */
-    "©y¥¼«B¦Óº÷Á[¡A¤ğÁ{´÷¦Ó±¸¤«",			/* ¦¶¤l­P®a®æ¨¥ */
-    "µL©Àº¸¯ª¡A¦Ö²ç³Ö¼w",				/* ¤j¶® */
-    "¤j¾Ç¤§¹D¡A¦b©ú©ú¼w¡A¦b¿Ë¥Á¡A¦b¤î©ó¦Üµ½",		/* ¤j¾Ç */
-    "¤Ñ©R¤§¿×©Ê¡A²v©Ê¤§»w¹D¡A²ç¹D¤§¿×±Ğ",		/* ¤¤±e */
-    "¤£±w¤H¤§¤£ª¾¤v¡A±w¤£ª¾¤H¤]",			/* ½×»y£»¾Ç¦Ó */
-    "´Â»D¹D¡A¤i¦º¥i¨o"					/* ½×»y£»¨½¤¯ */
+    /* éæ¾¹æ³Šç„¡ä»¥æ˜å¿—ï¼Œéå¯§éœç„¡ä»¥è‡´é  */
+    "\xAB\x44\xBF\x46\xAA\x79\xB5\x4C\xA5\x48\xA9\xFA\xA7\xD3\xA1\x41\xAB\x44\xB9\xE7\xC0\x52\xB5\x4C\xA5\x48\xAD\x50\xBB\xB7",			/* è«¸è‘›äº®èª¡å­æ›¸ */
+    /* ä¸€ç²¥ä¸€é£¯ï¼Œç•¶æ€å¾—ä¾†ä¸æ˜“ï¼›åŠçµ²åŠç¸·ï¼Œæ†å¿µç‰©åŠ›ç¶­è‰± */
+    "\xA4\x40\xB5\xB0\xA4\x40\xB6\xBA\xA1\x41\xB7\xED\xAB\xE4\xB1\x6F\xA8\xD3\xA4\xA3\xA9\xF6\xA1\x46\xA5\x62\xB5\xB7\xA5\x62\xC1\x5C\xA1\x41\xAB\xED\xA9\xC0\xAA\xAB\xA4\x4F\xBA\xFB\xC1\x7D",	/* æœ±å­è‡´å®¶æ ¼è¨€ */
+    /* å®œæœªé›¨è€Œç¶¢ç¹†ï¼Œæ¯‹è‡¨æ¸´è€Œæ˜äº• */
+    "\xA9\x79\xA5\xBC\xAB\x42\xA6\xD3\xBA\xF7\xC1\x5B\xA1\x41\xA4\xF0\xC1\x7B\xB4\xF7\xA6\xD3\xB1\xB8\xA4\xAB",			/* æœ±å­è‡´å®¶æ ¼è¨€ */
+    /* ç„¡å¿µçˆ¾ç¥–ï¼Œè¿è„©å¥å¾· */
+    "\xB5\x4C\xA9\xC0\xBA\xB8\xAF\xAA\xA1\x41\xA6\xD6\xB2\xE7\xB3\xD6\xBC\x77",				/* å¤§é›… */
+    /* å¤§å­¸ä¹‹é“ï¼Œåœ¨æ˜æ˜å¾·ï¼Œåœ¨è¦ªæ°‘ï¼Œåœ¨æ­¢æ–¼è‡³å–„ */
+    "\xA4\x6A\xBE\xC7\xA4\xA7\xB9\x44\xA1\x41\xA6\x62\xA9\xFA\xA9\xFA\xBC\x77\xA1\x41\xA6\x62\xBF\xCB\xA5\xC1\xA1\x41\xA6\x62\xA4\xEE\xA9\xF3\xA6\xDC\xB5\xBD",		/* å¤§å­¸ */
+    /* å¤©å‘½ä¹‹è¬‚æ€§ï¼Œç‡æ€§ä¹‹èª¦é“ï¼Œè„©é“ä¹‹è¬‚æ•™ */
+    "\xA4\xD1\xA9\x52\xA4\xA7\xBF\xD7\xA9\xCA\xA1\x41\xB2\x76\xA9\xCA\xA4\xA7\xBB\x77\xB9\x44\xA1\x41\xB2\xE7\xB9\x44\xA4\xA7\xBF\xD7\xB1\xD0",		/* ä¸­åº¸ */
+    /* ä¸æ‚£äººä¹‹ä¸çŸ¥å·±ï¼Œæ‚£ä¸çŸ¥äººä¹Ÿ */
+    "\xA4\xA3\xB1\x77\xA4\x48\xA4\xA7\xA4\xA3\xAA\xBE\xA4\x76\xA1\x41\xB1\x77\xA4\xA3\xAA\xBE\xA4\x48\xA4\x5D",			/* è«–èªË™å­¸è€Œ */
+    /* æœèé“ï¼Œå¤•æ­»å¯çŸ£ */
+    "\xB4\xC2\xBB\x44\xB9\x44\xA1\x41\xA4\x69\xA6\xBA\xA5\x69\xA8\x6F"					/* è«–èªË™é‡Œä» */
   };
   move(b_lines - 2, 0);
   prints("\033[1;3%dm%s\033[m", time(0) % 7, msg[time(0) % 8]);
@@ -162,7 +189,8 @@ static void
 out_info()
 {
   move(b_lines - 1, 0);
-  prints("©Òªá®É¶¡: %.0lf ¬í¡A³Ñ¤U %d ­Ó¦a¹p¥¼¼Ğ°O¡C",
+  /* æ‰€èŠ±æ™‚é–“: %.0lf ç§’ï¼Œå‰©ä¸‹ %d å€‹åœ°é›·æœªæ¨™è¨˜ã€‚ */
+  prints("\xA9\xD2\xAA\xE1\xAE\xC9\xB6\xA1: %.0lf \xAC\xED\xA1\x41\xB3\xD1\xA4\x55 %d \xAD\xD3\xA6\x61\xB9\x70\xA5\xBC\xBC\xD0\xB0\x4F\xA1\x43",
     difftime(time(0), InitTime), TotalMines - TaggedMines);
   clrtoeol();
 
@@ -175,7 +203,8 @@ out_map()
 {
   int x, y;
 
-  vs_bar("«lÃz½ò¦a¹p");
+  /* å‹çˆ†è¸©åœ°é›· */
+  vs_bar("\xAB\x6C\xC3\x7A\xBD\xF2\xA6\x61\xB9\x70");
 
   for (x = 1; x <= MAP_X; x++)
   {
@@ -191,11 +220,12 @@ out_map()
 
 
 static void
-draw_map()			/* µe¥X§¹¾ãµª®× */
+draw_map()			/* ç•«å‡ºå®Œæ•´ç­”æ¡ˆ */
 {
   int x, y;
 
-  vs_bar("«lÃz½ò¦a¹p");
+  /* å‹çˆ†è¸©åœ°é›· */
+  vs_bar("\xAB\x6C\xC3\x7A\xBD\xF2\xA6\x61\xB9\x70");
 
   for (x = 1; x <= MAP_X; x++)
   {
@@ -295,7 +325,7 @@ play_mine()
       EndGame = 1;
       return;
 
-      /* °µ¥ô¦ó°Ê§@³£­n§â´å¼Ğ¦^´_¨ì­ì¨Óªº¦ì¸m */
+      /* åšä»»ä½•å‹•ä½œéƒ½è¦æŠŠæ¸¸æ¨™å›å¾©åˆ°åŸä¾†çš„ä½ç½® */
 
     case KEY_UP:
       if (cx > 1)
@@ -345,7 +375,7 @@ play_mine()
     case 'f':
       if (MineMap[cx][cy] & TILE_EXPAND)
       {
-	if (MineMap[cx][cy] & TILE_TAGGED)	/* ¥»¨Ó³Q¼Ğ°O, ¨ú®ø */
+	if (MineMap[cx][cy] & TILE_TAGGED)	/* æœ¬ä¾†è¢«æ¨™è¨˜, å–æ¶ˆ */
 	{
 	  TaggedMines--;
 	  MineMap[cx][cy] ^= TILE_EXPAND;
@@ -354,7 +384,7 @@ play_mine()
 	  outs(symBlank);
 	}
       }
-      else		/* ¥»¨Ó¨S¼Ğ°O, ¤W¼Ğ°O */
+      else		/* æœ¬ä¾†æ²’æ¨™è¨˜, ä¸Šæ¨™è¨˜ */
       {
 	TaggedMines++;
 	MineMap[cx][cy] ^= TILE_EXPAND;
@@ -387,7 +417,7 @@ win()
       if (((MineMap[x][y] & TILE_TAGGED) && !(MineMap[x][y] & TILE_MINE)) ||
         (!(MineMap[x][y] & TILE_TAGGED) && (MineMap[x][y] & TILE_MINE)))
       {
-        return 0;		/* ¼Ğ¿ù¦a¤è */
+        return 0;		/* æ¨™éŒ¯åœ°æ–¹ */
       }
     }
   }
@@ -401,25 +431,29 @@ main_mine()
   int level;
   char ans[4];
 
-  level = vans("½Ğ¿ï¾Ü [1-5] µ¥¯Å¡A[0] ¦Û©w¡A©Î«ö [Q] Â÷¶}¡G");
+  /* è«‹é¸æ“‡ [1-5] ç­‰ç´šï¼Œ[0] è‡ªå®šï¼Œæˆ–æŒ‰ [Q] é›¢é–‹ï¼š */
+  level = vans("\xBD\xD0\xBF\xEF\xBE\xDC [1-5] \xB5\xA5\xAF\xC5\xA1\x41[0] \xA6\xDB\xA9\x77\xA1\x41\xA9\xCE\xAB\xF6 [Q] \xC2\xF7\xB6\x7D\xA1\x47");
   if (level == 'q')
   {
     return XEASY;
   }
-  else if (level < '1' || level > '5')	/* ¦Û©w´Ñ½L¤£±o¤j©ó 60 * 20 */
+  else if (level < '1' || level > '5')	/* è‡ªå®šæ£‹ç›¤ä¸å¾—å¤§æ–¼ 60 * 20 */
   {
-    vget(b_lines, 0, "½Ğ¿é¤J¦a¹Ïªºªø¡G", ans, 3, DOECHO);
+    /* è«‹è¼¸å…¥åœ°åœ–çš„é•·ï¼š */
+    vget(b_lines, 0, "\xBD\xD0\xBF\xE9\xA4\x4A\xA6\x61\xB9\xCF\xAA\xBA\xAA\xF8\xA1\x47", ans, 3, DOECHO);
     MAP_Y = atoi(ans) > MAP_MAX_Y ? MAP_MAX_Y : atoi(ans);
 
-    vget(b_lines, 0, "½Ğ¿é¤J¦a¹Ïªº¼e¡G", ans, 3, DOECHO);
+    /* è«‹è¼¸å…¥åœ°åœ–çš„å¯¬ï¼š */
+    vget(b_lines, 0, "\xBD\xD0\xBF\xE9\xA4\x4A\xA6\x61\xB9\xCF\xAA\xBA\xBC\x65\xA1\x47", ans, 3, DOECHO);
     MAP_X = atoi(ans) > MAP_MAX_X ? MAP_MAX_X : atoi(ans);
 
-    vget(b_lines, 0, "½Ğ¿é¤J¦a¹p¼Æ¡G", ans, 3, DOECHO);
+    /* è«‹è¼¸å…¥åœ°é›·æ•¸ï¼š */
+    vget(b_lines, 0, "\xBD\xD0\xBF\xE9\xA4\x4A\xA6\x61\xB9\x70\xBC\xC6\xA1\x47", ans, 3, DOECHO);
     level = atoi(ans);
     TotalMines = MAP_Y * MAP_X / 3;
     if (TotalMines > level)
       TotalMines = level;
-    /* ­­¨î¦a¹p¼Æ¤£±o¶W¹L MAP_Y * MAP_X / 3¡A¥H§K init_map() ¶Ã¼Æ¨ú¤Ó¤[ */
+    /* é™åˆ¶åœ°é›·æ•¸ä¸å¾—è¶…é MAP_Y * MAP_X / 3ï¼Œä»¥å… init_map() äº‚æ•¸å–å¤ªä¹… */
 
     if (MAP_Y < 1 || MAP_X < 1 || TotalMines < 1)
       return 0;
@@ -428,8 +462,8 @@ main_mine()
   else
   {
     level -= '0';
-    MAP_Y = 5 * level;		/* ¤£±o¶W¹L MAP_MAX_Y */
-    MAP_X = (level < 4) ? 5 * level : MAP_MAX_X;	/* ¤£±o¶W¹L MAP_MAX_X */
+    MAP_Y = 5 * level;		/* ä¸å¾—è¶…é MAP_MAX_Y */
+    MAP_X = (level < 4) ? 5 * level : MAP_MAX_X;	/* ä¸å¾—è¶…é MAP_MAX_X */
     TotalMines = MAP_Y * MAP_X / 10;
   }
 
@@ -446,21 +480,24 @@ main_mine()
     if (LoseGame)
     {
       draw_map();
-      vmsg("¸I¡I½ò¨ì¦a¹p¤F¡I");
+      /* ç¢°ï¼è¸©åˆ°åœ°é›·äº†ï¼ */
+      vmsg("\xB8\x49\xA1\x49\xBD\xF2\xA8\xEC\xA6\x61\xB9\x70\xA4\x46\xA1\x49");
     }
-    else	/* ¼Ğ°O¼Æ == ¦a¹p¼Æ */
+    else	/* æ¨™è¨˜æ•¸ == åœ°é›·æ•¸ */
     {
-      if (win())	/* itoc.010711: ­nÀË¬d¬O§_¯}Ãö¡A¥H§KÀH«K¶Ã¼Ğ°O¡A·í¼Ğ°O¼Æ=¦a¹p¼Æ´N»¡¹LÃö¤F */
+      if (win())	/* itoc.010711: è¦æª¢æŸ¥æ˜¯å¦ç ´é—œï¼Œä»¥å…éš¨ä¾¿äº‚æ¨™è¨˜ï¼Œç•¶æ¨™è¨˜æ•¸=åœ°é›·æ•¸å°±èªªéé—œäº† */
       {
 	char buf[STRLEN];
-	sprintf(buf, "±zªá¤F %.0lf ¬í ¯}²Ä %d Ãö ¦n±R«ô ^O^", difftime(time(0), InitTime), level);
+	/* æ‚¨èŠ±äº† %.0lf ç§’ ç ´ç¬¬ %d é—œ å¥½å´‡æ‹œ ^O^ */
+	sprintf(buf, "\xB1\x7A\xAA\xE1\xA4\x46 %.0lf \xAC\xED \xAF\x7D\xB2\xC4 %d \xC3\xF6 \xA6\x6E\xB1\x52\xAB\xF4 ^O^", difftime(time(0), InitTime), level);
 	vmsg(buf);
 	addmoney(level * 75);
       }
       else
       {
         draw_map();
-        vmsg("±z¼Ğ¿ù¦a¹p¤F³á =.=");
+        /* æ‚¨æ¨™éŒ¯åœ°é›·äº†å–” =.= */
+        vmsg("\xB1\x7A\xBC\xD0\xBF\xF9\xA6\x61\xB9\x70\xA4\x46\xB3\xE1 =.=");
       }
     }
   }

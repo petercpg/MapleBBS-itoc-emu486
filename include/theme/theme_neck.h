@@ -12,235 +12,330 @@
 
 
 /* ----------------------------------------------------- */
-/* °ò¥»ÃC¦â©w¸q¡A¥H§Q¤¶­±­×§ï				 */
+/* åŸºæœ¬é¡è‰²å®šç¾©ï¼Œä»¥åˆ©ä»‹é¢ä¿®æ”¹				 */
 /* ----------------------------------------------------- */
 
-#define COLOR1		"\033[1;37;44m"	/* footer/feeter ªº«e¬qÃC¦â */
-#define COLOR2		"\033[0;30;47m"	/* footer/feeter ªº«á¬qÃC¦â */
-#define COLOR3		"\033[30;47m"	/* neck ªºÃC¦â */
-#define COLOR4		"\033[1;44m"	/* ¥ú´Î ªºÃC¦â */
-#define COLOR5		"\033[34;47m"	/* more ÀÉÀYªº¼ÐÃDÃC¦â */
-#define COLOR6		"\033[37;44m"	/* more ÀÉÀYªº¤º®eÃC¦â */
-#define COLOR7		"\033[1m"	/* §@ªÌ¦b½u¤WªºÃC¦â */
-
-
-/* ----------------------------------------------------- */
-/* ¨Ï¥ÎªÌ¦W³æÃC¦â					 */
-/* ----------------------------------------------------- */
-
-#define COLOR_NORMAL	""		/* ¤@¯ë¨Ï¥ÎªÌ */
-#define COLOR_MYBAD	"\033[1;31m"	/* Ãa¤H */
-#define COLOR_MYGOOD	"\033[1;32m"	/* §Úªº¦n¤Í */
-#define COLOR_OGOOD	"\033[1;33m"	/* »P§Ú¬°¤Í */
-#define COLOR_CLOAK	"\033[1;35m"	/* Áô§Î */	/* itoc.µù¸Ñ: ¨S¥Î¨ì¡A­nªº¤H½Ð¦Û¦æ¥[¤J ulist_body() */
-#define COLOR_SELF	"\033[1;36m"	/* ¦Û¤v */
-#define COLOR_BOTHGOOD	"\033[1;37m"	/* ¤¬³]¦n¤Í */
-#define COLOR_BRDMATE	"\033[36m"	/* ªO¦ñ */
+#define COLOR1		"\033[1;37;44m"	/* footer/feeter çš„å‰æ®µé¡è‰² */
+#define COLOR2		"\033[0;30;47m"	/* footer/feeter çš„å¾Œæ®µé¡è‰² */
+#define COLOR3		"\033[30;47m"	/* neck çš„é¡è‰² */
+#define COLOR4		"\033[1;44m"	/* å…‰æ£’ çš„é¡è‰² */
+#define COLOR5		"\033[34;47m"	/* more æª”é ­çš„æ¨™é¡Œé¡è‰² */
+#define COLOR6		"\033[37;44m"	/* more æª”é ­çš„å…§å®¹é¡è‰² */
+#define COLOR7		"\033[1m"	/* ä½œè€…åœ¨ç·šä¸Šçš„é¡è‰² */
 
 
 /* ----------------------------------------------------- */
-/* ¿ï³æ¦ì¸m						 */
+/* ä½¿ç”¨è€…åå–®é¡è‰²					 */
 /* ----------------------------------------------------- */
 
-/* itoc.µù¸Ñ: ª`·N MENU_XPOS ­n >= MENU_XNOTE + MOVIE_LINES */
+#define COLOR_NORMAL	""		/* ä¸€èˆ¬ä½¿ç”¨è€… */
+#define COLOR_MYBAD	"\033[1;31m"	/* å£žäºº */
+#define COLOR_MYGOOD	"\033[1;32m"	/* æˆ‘çš„å¥½å‹ */
+#define COLOR_OGOOD	"\033[1;33m"	/* èˆ‡æˆ‘ç‚ºå‹ */
+#define COLOR_CLOAK	"\033[1;35m"	/* éš±å½¢ */	/* itoc.è¨»è§£: æ²’ç”¨åˆ°ï¼Œè¦çš„äººè«‹è‡ªè¡ŒåŠ å…¥ ulist_body() */
+#define COLOR_SELF	"\033[1;36m"	/* è‡ªå·± */
+#define COLOR_BOTHGOOD	"\033[1;37m"	/* äº’è¨­å¥½å‹ */
+#define COLOR_BRDMATE	"\033[36m"	/* æ¿ä¼´ */
 
-#define MENU_XNOTE	2		/* °ÊºA¬ÝªO¥Ñ (2, 0) ¶}©l */
-#define MOVIE_LINES	10		/* °Êµe³Ì¦h¦³ 10 ¦C */
 
-#define MENU_XPOS	13		/* ¿ï³æ¶}©lªº (x, y) ®y¼Ð */
+/* ----------------------------------------------------- */
+/* é¸å–®ä½ç½®						 */
+/* ----------------------------------------------------- */
+
+/* itoc.è¨»è§£: æ³¨æ„ MENU_XPOS è¦ >= MENU_XNOTE + MOVIE_LINES */
+
+#define MENU_XNOTE	2		/* å‹•æ…‹çœ‹æ¿ç”± (2, 0) é–‹å§‹ */
+#define MOVIE_LINES	10		/* å‹•ç•«æœ€å¤šæœ‰ 10 åˆ— */
+
+#define MENU_XPOS	13		/* é¸å–®é–‹å§‹çš„ (x, y) åº§æ¨™ */
 #define MENU_YPOS	((d_cols >> 1) + 18)
 
 
 /* ----------------------------------------------------- */
-/* °T®§¦r¦ê¡G*_neck() ®Éªº necker ³£§ì¥X¨Ó©w¸q¦b³o	 */
+/* è¨Šæ¯å­—ä¸²ï¼š*_neck() æ™‚çš„ necker éƒ½æŠ“å‡ºä¾†å®šç¾©åœ¨é€™	 */
 /* ----------------------------------------------------- */
 
-/* necker ªº¦æ¼Æ³£¬O¤G¦æ¡A±q (1, 0) ¨ì (2, 80) */
+/* necker çš„è¡Œæ•¸éƒ½æ˜¯äºŒè¡Œï¼Œå¾ž (1, 0) åˆ° (2, 80) */
 
-/* ©Ò¦³ªº XZ_* ³£¦³ necker¡A¥u¬O¦³¨Ç¦b *_neck()¡A¦³¨ÇÂÃ¦b *_head() */
+/* æ‰€æœ‰çš„ XZ_* éƒ½æœ‰ neckerï¼Œåªæ˜¯æœ‰äº›åœ¨ *_neck()ï¼Œæœ‰äº›è—åœ¨ *_head() */
 
-/* ulist_neck() ¤Î xpost_head() ªº²Ä¤@¦æ¤ñ¸û¯S§O¡A¤£¦b¦¹©w¸q */
+/* ulist_neck() åŠ xpost_head() çš„ç¬¬ä¸€è¡Œæ¯”è¼ƒç‰¹åˆ¥ï¼Œä¸åœ¨æ­¤å®šç¾© */
 
-#define NECKER_CLASS	"\033[40m¢¨\033[30;47m¬ÝªO\033[37;46m¢©¤å³¹¢@ºëµØ\033[36;40m¢©\033[37m          S)±Æ§Ç  c)·s¤å³¹¼Ò¦¡  v|V)¼Ð°O¤wÅª|¥¼Åª  h)»¡©ú\033[m\n" \
-			COLOR3 "  %s   ¬Ý  ªO       Ãþ§OÂà«H¤¤   ¤å   ±Ô   ­z%*s              ¤H®ð ªO    ¥D%*s    \033[m"
+/* \033[40mâ—¢\033[30;47mçœ‹æ¿\033[37;46mâ—£æ–‡ç« ï¼¼ç²¾è¯\033[36;40mâ—£\033[37m          S)æŽ’åº  c)æ–°æ–‡ç« æ¨¡å¼  v|V)æ¨™è¨˜å·²è®€|æœªè®€  h)èªªæ˜Ž\033[m\n */
+#define NECKER_CLASS	"\033[40m\xA2\xA8\033[30;47m\xAC\xDD\xAA\x4F\033[37;46m\xA2\xA9\xA4\xE5\xB3\xB9\xA2\x40\xBA\xEB\xB5\xD8\033[36;40m\xA2\xA9\033[37m          S)\xB1\xC6\xA7\xC7  c)\xB7\x73\xA4\xE5\xB3\xB9\xBC\xD2\xA6\xA1  v|V)\xBC\xD0\xB0\x4F\xA4\x77\xC5\xAA|\xA5\xBC\xC5\xAA  h)\xBB\xA1\xA9\xFA\033[m\n" \
+			/*   %s   çœ‹  æ¿       é¡žåˆ¥è½‰ä¿¡ä¸­   æ–‡   æ•˜   è¿°%*s              äººæ°£ æ¿    ä¸»%*s    \033[m */ \
+			COLOR3 "  %s   \xAC\xDD  \xAA\x4F       \xC3\xFE\xA7\x4F\xC2\xE0\xAB\x48\xA4\xA4   \xA4\xE5   \xB1\xD4   \xAD\x7A%*s              \xA4\x48\xAE\xF0 \xAA\x4F    \xA5\x44%*s    \033[m"
 
 #define NECKER_ULIST	"\n" \
-			COLOR3 "  ½s¸¹  ¥N¸¹         ¼ÊºÙ%*s                 %-*s               °ÊºA        ¶¢¸m \033[m"
+			/*   ç·¨è™Ÿ  ä»£è™Ÿ         æš±ç¨±%*s                 %-*s               å‹•æ…‹        é–’ç½® \033[m */ \
+			COLOR3 "  \xBD\x73\xB8\xB9  \xA5\x4E\xB8\xB9         \xBC\xCA\xBA\xD9%*s                 %-*s               \xB0\xCA\xBA\x41        \xB6\xA2\xB8\x6D \033[m"
 
-#define NECKER_PAL	"\033[30;46m¢«\033[37m¤ô²y¢¨\033[30;47m¦n¤Í\033[37;46m¢©¤W¯¸\033[36;40m¢©\033[37m   a)·s¼W  c)­×§ï  d)§R°£  s)¾ã²z  m)±H«H  w)¤ô²y  h)»¡©ú\033[m\n" \
-			COLOR3 "  ½s¸¹    ¥N ¸¹         ¤Í       ½Ë%*s                                           \033[m"
+/* \033[30;46mâ—¤\033[37mæ°´çƒâ—¢\033[30;47må¥½å‹\033[37;46mâ—£ä¸Šç«™\033[36;40mâ—£\033[37m   a)æ–°å¢ž  c)ä¿®æ”¹  d)åˆªé™¤  s)æ•´ç†  m)å¯„ä¿¡  w)æ°´çƒ  h)èªªæ˜Ž\033[m\n */
+#define NECKER_PAL	"\033[30;46m\xA2\xAB\033[37m\xA4\xF4\xB2\x79\xA2\xA8\033[30;47m\xA6\x6E\xA4\xCD\033[37;46m\xA2\xA9\xA4\x57\xAF\xB8\033[36;40m\xA2\xA9\033[37m   a)\xB7\x73\xBC\x57  c)\xAD\xD7\xA7\xEF  d)\xA7\x52\xB0\xA3  s)\xBE\xE3\xB2\x7A  m)\xB1\x48\xAB\x48  w)\xA4\xF4\xB2\x79  h)\xBB\xA1\xA9\xFA\033[m\n" \
+			/*   ç·¨è™Ÿ    ä»£ è™Ÿ         å‹       èª¼%*s                                           \033[m */ \
+			COLOR3 "  \xBD\x73\xB8\xB9    \xA5\x4E \xB8\xB9         \xA4\xCD       \xBD\xCB%*s                                           \033[m"
 
-#define NECKER_ALOHA	"\033[30;46m¢«\033[37m¤ô²y¢@¦n¤Í¢¨\033[30;47m¤W¯¸\033[37;40m¢© a)·s¼W  c)­×§ï  d|D)§R°£  f)¤Þ¤J  m)±H«H  w)¤ô²y  h)»¡©ú\033[m\n" \
-			COLOR3 "  ½s¸¹   ¤W ¯¸ ³q ª¾ ¦W ³æ%*s                                                    \033[m"
+/* \033[30;46mâ—¤\033[37mæ°´çƒï¼¼å¥½å‹â—¢\033[30;47mä¸Šç«™\033[37;40mâ—£ a)æ–°å¢ž  c)ä¿®æ”¹  d|D)åˆªé™¤  f)å¼•å…¥  m)å¯„ä¿¡  w)æ°´çƒ  h)èªªæ˜Ž\033[m\n */
+#define NECKER_ALOHA	"\033[30;46m\xA2\xAB\033[37m\xA4\xF4\xB2\x79\xA2\x40\xA6\x6E\xA4\xCD\xA2\xA8\033[30;47m\xA4\x57\xAF\xB8\033[37;40m\xA2\xA9 a)\xB7\x73\xBC\x57  c)\xAD\xD7\xA7\xEF  d|D)\xA7\x52\xB0\xA3  f)\xA4\xDE\xA4\x4A  m)\xB1\x48\xAB\x48  w)\xA4\xF4\xB2\x79  h)\xBB\xA1\xA9\xFA\033[m\n" \
+			/*   ç·¨è™Ÿ   ä¸Š ç«™ é€š çŸ¥ å å–®%*s                                                    \033[m */ \
+			COLOR3 "  \xBD\x73\xB8\xB9   \xA4\x57 \xAF\xB8 \xB3\x71 \xAA\xBE \xA6\x57 \xB3\xE6%*s                                                    \033[m"
 
-#define NECKER_VOTE	"\033[40m¢¨\033[30;47m§ë²¼\033[37;46m¢©¤¤¤ß¢@³s¸p\033[36;40m¢©\033[37m        R)µ²ªG  ^P|^Q)Á|¿ì|§ï´Á  V)¹wÄý  E)½s¿è  h)»¡©ú\033[m\n" \
-			COLOR3 "  ½s¸¹      ¶}²¼¤é   ¥D¿ì¤H       §ë  ²¼  ©v  ¦®%*s                              \033[m"
+/* \033[40mâ—¢\033[30;47mæŠ•ç¥¨\033[37;46mâ—£ä¸­å¿ƒï¼¼é€£ç½²\033[36;40mâ—£\033[37m        R)çµæžœ  ^P|^Q)èˆ‰è¾¦|æ”¹æœŸ  V)é è¦½  E)ç·¨è¼¯  h)èªªæ˜Ž\033[m\n */
+#define NECKER_VOTE	"\033[40m\xA2\xA8\033[30;47m\xA7\xEB\xB2\xBC\033[37;46m\xA2\xA9\xA4\xA4\xA4\xDF\xA2\x40\xB3\x73\xB8\x70\033[36;40m\xA2\xA9\033[37m        R)\xB5\xB2\xAA\x47  ^P|^Q)\xC1\x7C\xBF\xEC|\xA7\xEF\xB4\xC1  V)\xB9\x77\xC4\xFD  E)\xBD\x73\xBF\xE8  h)\xBB\xA1\xA9\xFA\033[m\n" \
+			/*   ç·¨è™Ÿ      é–‹ç¥¨æ—¥   ä¸»è¾¦äºº       æŠ•  ç¥¨  å®—  æ—¨%*s                              \033[m */ \
+			COLOR3 "  \xBD\x73\xB8\xB9      \xB6\x7D\xB2\xBC\xA4\xE9   \xA5\x44\xBF\xEC\xA4\x48       \xA7\xEB  \xB2\xBC  \xA9\x76  \xA6\xAE%*s                              \033[m"
 
-#define NECKER_BMW	"\033[40m¢¨\033[30;47m¤ô²y\033[37;46m¢©¦n¤Í¢@¤W¯¸\033[36;40m¢©\033[37m       s)§ó·s  w)¤ô²y   m)±H«H  d|D)§R°£  ¡÷)¬d¸ß  h)»¡©ú\033[m\n" \
-			COLOR3 "  ½s¸¹ ¥N  ¸¹       ¤º       ®e%*s                                          ®É¶¡ \033[m"
+/* \033[40mâ—¢\033[30;47mæ°´çƒ\033[37;46mâ—£å¥½å‹ï¼¼ä¸Šç«™\033[36;40mâ—£\033[37m       s)æ›´æ–°  w)æ°´çƒ   m)å¯„ä¿¡  d|D)åˆªé™¤  â†’)æŸ¥è©¢  h)èªªæ˜Ž\033[m\n */
+#define NECKER_BMW	"\033[40m\xA2\xA8\033[30;47m\xA4\xF4\xB2\x79\033[37;46m\xA2\xA9\xA6\x6E\xA4\xCD\xA2\x40\xA4\x57\xAF\xB8\033[36;40m\xA2\xA9\033[37m       s)\xA7\xF3\xB7\x73  w)\xA4\xF4\xB2\x79   m)\xB1\x48\xAB\x48  d|D)\xA7\x52\xB0\xA3  \xA1\xF7)\xAC\x64\xB8\xDF  h)\xBB\xA1\xA9\xFA\033[m\n" \
+			/*   ç·¨è™Ÿ ä»£  è™Ÿ       å…§       å®¹%*s                                          æ™‚é–“ \033[m */ \
+			COLOR3 "  \xBD\x73\xB8\xB9 \xA5\x4E  \xB8\xB9       \xA4\xBA       \xAE\x65%*s                                          \xAE\xC9\xB6\xA1 \033[m"
 
-#define NECKER_MF	"\033[40m¢¨\033[30;47m³Ì·R\033[37;46m¢©·s»D¢@ÂIºq\033[36;40m¢©\033[37m  ^P)·s¼W  d)§R°£  c)¤Á´«  C|^V)½Æ»s|¶K¤W  m)²¾°Ê  h)»¡©ú\033[m\n" \
-			COLOR3 "  %s   ¬Ý  ªO       Ãþ§OÂà«H¤¤   ¤å   ±Ô   ­z%*s              ¤H®ð ªO    ¥D%*s    \033[m"
+/* \033[40mâ—¢\033[30;47mæœ€æ„›\033[37;46mâ—£æ–°èžï¼¼é»žæ­Œ\033[36;40mâ—£\033[37m  ^P)æ–°å¢ž  d)åˆªé™¤  c)åˆ‡æ›  C|^V)è¤‡è£½|è²¼ä¸Š  m)ç§»å‹•  h)èªªæ˜Ž\033[m\n */
+#define NECKER_MF	"\033[40m\xA2\xA8\033[30;47m\xB3\xCC\xB7\x52\033[37;46m\xA2\xA9\xB7\x73\xBB\x44\xA2\x40\xC2\x49\xBA\x71\033[36;40m\xA2\xA9\033[37m  ^P)\xB7\x73\xBC\x57  d)\xA7\x52\xB0\xA3  c)\xA4\xC1\xB4\xAB  C|^V)\xBD\xC6\xBB\x73|\xB6\x4B\xA4\x57  m)\xB2\xBE\xB0\xCA  h)\xBB\xA1\xA9\xFA\033[m\n" \
+			/*   %s   çœ‹  æ¿       é¡žåˆ¥è½‰ä¿¡ä¸­   æ–‡   æ•˜   è¿°%*s              äººæ°£ æ¿    ä¸»%*s    \033[m */ \
+			COLOR3 "  %s   \xAC\xDD  \xAA\x4F       \xC3\xFE\xA7\x4F\xC2\xE0\xAB\x48\xA4\xA4   \xA4\xE5   \xB1\xD4   \xAD\x7A%*s              \xA4\x48\xAE\xF0 \xAA\x4F    \xA5\x44%*s    \033[m"
 
-#define NECKER_COSIGN	"\033[30;46m¢«\033[37m§ë²¼¢@¤¤¤ß¢¨\033[30;47m³s¸p\033[37;40m¢©                           ^P)µoªí  d)§R°£ y)¥[¤J  h)»¡©ú\033[m\n" \
-			COLOR3 "  ½s¸¹   ¤é ´Á  Á|¿ì¤H       ¬Ý  ªO  ¼Ð  ÃD%*s                                   \033[m"
+/* \033[30;46mâ—¤\033[37mæŠ•ç¥¨ï¼¼ä¸­å¿ƒâ—¢\033[30;47mé€£ç½²\033[37;40mâ—£                           ^P)ç™¼è¡¨  d)åˆªé™¤ y)åŠ å…¥  h)èªªæ˜Ž\033[m\n */
+#define NECKER_COSIGN	"\033[30;46m\xA2\xAB\033[37m\xA7\xEB\xB2\xBC\xA2\x40\xA4\xA4\xA4\xDF\xA2\xA8\033[30;47m\xB3\x73\xB8\x70\033[37;40m\xA2\xA9                           ^P)\xB5\x6F\xAA\xED  d)\xA7\x52\xB0\xA3 y)\xA5\x5B\xA4\x4A  h)\xBB\xA1\xA9\xFA\033[m\n" \
+			/*   ç·¨è™Ÿ   æ—¥ æœŸ  èˆ‰è¾¦äºº       çœ‹  æ¿  æ¨™  é¡Œ%*s                                   \033[m */ \
+			COLOR3 "  \xBD\x73\xB8\xB9   \xA4\xE9 \xB4\xC1  \xC1\x7C\xBF\xEC\xA4\x48       \xAC\xDD  \xAA\x4F  \xBC\xD0  \xC3\x44%*s                                   \033[m"
 
-#define NECKER_SONG	"\033[30;46m¢«\033[37m³Ì·R¢@·s»D¢¨\033[30;47mÂIºq\033[37;40m¢©                      o|m)ÂIºq|¬ÝªO|«H½c  ¡÷)ÂsÄý  h)»¡©ú\033[m\n" \
-			COLOR3 "  ½s¸¹     ¥D              ÃD%*s                            [½s      ¿ï] [¤é  ´Á]\033[m"
+/* \033[30;46mâ—¤\033[37mæœ€æ„›ï¼¼æ–°èžâ—¢\033[30;47mé»žæ­Œ\033[37;40mâ—£                      o|m)é»žæ­Œ|çœ‹æ¿|ä¿¡ç®±  â†’)ç€è¦½  h)èªªæ˜Ž\033[m\n */
+#define NECKER_SONG	"\033[30;46m\xA2\xAB\033[37m\xB3\xCC\xB7\x52\xA2\x40\xB7\x73\xBB\x44\xA2\xA8\033[30;47m\xC2\x49\xBA\x71\033[37;40m\xA2\xA9                      o|m)\xC2\x49\xBA\x71|\xAC\xDD\xAA\x4F|\xAB\x48\xBD\x63  \xA1\xF7)\xC2\x73\xC4\xFD  h)\xBB\xA1\xA9\xFA\033[m\n" \
+			/*   ç·¨è™Ÿ     ä¸»              é¡Œ%*s                            [ç·¨      é¸] [æ—¥  æœŸ]\033[m */ \
+			COLOR3 "  \xBD\x73\xB8\xB9     \xA5\x44              \xC3\x44%*s                            [\xBD\x73      \xBF\xEF] [\xA4\xE9  \xB4\xC1]\033[m"
 
-#define NECKER_NEWS	"\033[30;46m¢«\033[37m³Ì·R¢¨\033[30;47m·s»D\033[37;46m¢©ÂIºq\033[36;40m¢©\033[37m                                          ¡÷)ÂsÄý  h)»¡©ú\033[m\n" \
-			COLOR3 "  ½s¸¹    ¤é ´Á §@  ªÌ       ·s  »D  ¼Ð  ÃD%*s                                   \033[m"
+/* \033[30;46mâ—¤\033[37mæœ€æ„›â—¢\033[30;47mæ–°èž\033[37;46mâ—£é»žæ­Œ\033[36;40mâ—£\033[37m                                          â†’)ç€è¦½  h)èªªæ˜Ž\033[m\n */
+#define NECKER_NEWS	"\033[30;46m\xA2\xAB\033[37m\xB3\xCC\xB7\x52\xA2\xA8\033[30;47m\xB7\x73\xBB\x44\033[37;46m\xA2\xA9\xC2\x49\xBA\x71\033[36;40m\xA2\xA9\033[37m                                          \xA1\xF7)\xC2\x73\xC4\xFD  h)\xBB\xA1\xA9\xFA\033[m\n" \
+			/*   ç·¨è™Ÿ    æ—¥ æœŸ ä½œ  è€…       æ–°  èž  æ¨™  é¡Œ%*s                                   \033[m */ \
+			COLOR3 "  \xBD\x73\xB8\xB9    \xA4\xE9 \xB4\xC1 \xA7\x40  \xAA\xCC       \xB7\x73  \xBB\x44  \xBC\xD0  \xC3\x44%*s                                   \033[m"
 
 #define NECKER_XPOST	"\n" \
-			COLOR3 "  ½s¸¹    ¤é ´Á §@  ªÌ       ¤å  ³¹  ¼Ð  ÃD%*s                            µû:%s  \033[m"
+			/*   ç·¨è™Ÿ    æ—¥ æœŸ ä½œ  è€…       æ–‡  ç«   æ¨™  é¡Œ%*s                            è©•:%s  \033[m */ \
+			COLOR3 "  \xBD\x73\xB8\xB9    \xA4\xE9 \xB4\xC1 \xA7\x40  \xAA\xCC       \xA4\xE5  \xB3\xB9  \xBC\xD0  \xC3\x44%*s                            \xB5\xFB:%s  \033[m"
 
-#define NECKER_MBOX	"\033[40m¢¨\033[30;47m¶l§½\033[37;46m¢©»È¦æ¢@±b¤á\033[36;40m¢©\033[37m      d)§R°£  R|y)¸s²Õ|¦^«H  s)±H«H x|X)Âà¿ý|Âà¹F  h)»¡©ú\033[m\n" \
-			COLOR3 "  ½s¸¹   ¤é ´Á §@  ªÌ       «H  ¥ó  ¼Ð  ÃD%*s                                    \033[m"
+/* \033[40mâ—¢\033[30;47méƒµå±€\033[37;46mâ—£éŠ€è¡Œï¼¼å¸³æˆ¶\033[36;40mâ—£\033[37m      d)åˆªé™¤  R|y)ç¾¤çµ„|å›žä¿¡  s)å¯„ä¿¡ x|X)è½‰éŒ„|è½‰é”  h)èªªæ˜Ž\033[m\n */
+#define NECKER_MBOX	"\033[40m\xA2\xA8\033[30;47m\xB6\x6C\xA7\xBD\033[37;46m\xA2\xA9\xBB\xC8\xA6\xE6\xA2\x40\xB1\x62\xA4\xE1\033[36;40m\xA2\xA9\033[37m      d)\xA7\x52\xB0\xA3  R|y)\xB8\x73\xB2\xD5|\xA6\x5E\xAB\x48  s)\xB1\x48\xAB\x48 x|X)\xC2\xE0\xBF\xFD|\xC2\xE0\xB9\x46  h)\xBB\xA1\xA9\xFA\033[m\n" \
+			/*   ç·¨è™Ÿ   æ—¥ æœŸ ä½œ  è€…       ä¿¡  ä»¶  æ¨™  é¡Œ%*s                                    \033[m */ \
+			COLOR3 "  \xBD\x73\xB8\xB9   \xA4\xE9 \xB4\xC1 \xA7\x40  \xAA\xCC       \xAB\x48  \xA5\xF3  \xBC\xD0  \xC3\x44%*s                                    \033[m"
 
-#define NECKER_POST	"\033[30;46m¢«\033[37m¬ÝªO¢¨\033[30;47m¤å³¹\033[37;46m¢©ºëµØ\033[36;40m¢©\033[37m          S|a|/)·j´M|§@ªÌ|¼ÐÃD  ^P)µoªí  z)ºëµØ°Ï  h)»¡©ú\033[m\n" \
-			COLOR3 "  ½s¸¹    ¤é ´Á §@  ªÌ       ¤å  ³¹  ¼Ð  ÃD%*s                 µû:%s  ¤H®ð:%-4d  \033[m"
+/* \033[30;46mâ—¤\033[37mçœ‹æ¿â—¢\033[30;47mæ–‡ç« \033[37;46mâ—£ç²¾è¯\033[36;40mâ—£\033[37m          S|a|/)æœå°‹|ä½œè€…|æ¨™é¡Œ  ^P)ç™¼è¡¨  z)ç²¾è¯å€  h)èªªæ˜Ž\033[m\n */
+#define NECKER_POST	"\033[30;46m\xA2\xAB\033[37m\xAC\xDD\xAA\x4F\xA2\xA8\033[30;47m\xA4\xE5\xB3\xB9\033[37;46m\xA2\xA9\xBA\xEB\xB5\xD8\033[36;40m\xA2\xA9\033[37m          S|a|/)\xB7\x6A\xB4\x4D|\xA7\x40\xAA\xCC|\xBC\xD0\xC3\x44  ^P)\xB5\x6F\xAA\xED  z)\xBA\xEB\xB5\xD8\xB0\xCF  h)\xBB\xA1\xA9\xFA\033[m\n" \
+			/*   ç·¨è™Ÿ    æ—¥ æœŸ ä½œ  è€…       æ–‡  ç«   æ¨™  é¡Œ%*s                 è©•:%s  äººæ°£:%-4d  \033[m */ \
+			COLOR3 "  \xBD\x73\xB8\xB9    \xA4\xE9 \xB4\xC1 \xA7\x40  \xAA\xCC       \xA4\xE5  \xB3\xB9  \xBC\xD0  \xC3\x44%*s                 \xB5\xFB:%s  \xA4\x48\xAE\xF0:%-4d  \033[m"
 
-#define NECKER_GEM	"\033[30;46m¢«\033[37m¬ÝªO¢@¤å³¹¢¨\033[30;47mºëµØ\033[37;40m¢©   %21.21s   B)¼Ò¦¡  C)¼È¦s  F)Âà±H  h)»¡©ú\033[m\n" \
-			COLOR3 "  ½s¸¹     ¥D              ÃD%*s                            [½s      ¿ï] [¤é  ´Á]\033[m"
+/* \033[30;46mâ—¤\033[37mçœ‹æ¿ï¼¼æ–‡ç« â—¢\033[30;47mç²¾è¯\033[37;40mâ—£   %21.21s   B)æ¨¡å¼  C)æš«å­˜  F)è½‰å¯„  h)èªªæ˜Ž\033[m\n */
+#define NECKER_GEM	"\033[30;46m\xA2\xAB\033[37m\xAC\xDD\xAA\x4F\xA2\x40\xA4\xE5\xB3\xB9\xA2\xA8\033[30;47m\xBA\xEB\xB5\xD8\033[37;40m\xA2\xA9   %21.21s   B)\xBC\xD2\xA6\xA1  C)\xBC\xC8\xA6\x73  F)\xC2\xE0\xB1\x48  h)\xBB\xA1\xA9\xFA\033[m\n" \
+			/*   ç·¨è™Ÿ     ä¸»              é¡Œ%*s                            [ç·¨      é¸] [æ—¥  æœŸ]\033[m */ \
+			COLOR3 "  \xBD\x73\xB8\xB9     \xA5\x44              \xC3\x44%*s                            [\xBD\x73      \xBF\xEF] [\xA4\xE9  \xB4\xC1]\033[m"
 
-/* ¥H¤U³o¨Ç«h¬O¤@¨ÇÃþ XZ_* µ²ºcªº necker */
+/* ä»¥ä¸‹é€™äº›å‰‡æ˜¯ä¸€äº›é¡ž XZ_* çµæ§‹çš„ necker */
 
-#define NECKER_VOTEALL	"\033[30;46m¢«\033[37m§ë²¼¢¨\033[30;47m¤¤¤ß\033[37;46m¢©³s¸p\033[36;40m¢©\033[37m                                          ¡÷)§ë²¼  h)»¡©ú\033[m\n" \
-			COLOR3 "  ½s¸¹   ¬Ý  ªO       Ãþ§OÂà«H¤¤   ¤å   ±Ô   ­z%*s                  ªO    ¥D%*s     \033[m"
+/* \033[30;46mâ—¤\033[37mæŠ•ç¥¨â—¢\033[30;47mä¸­å¿ƒ\033[37;46mâ—£é€£ç½²\033[36;40mâ—£\033[37m                                          â†’)æŠ•ç¥¨  h)èªªæ˜Ž\033[m\n */
+#define NECKER_VOTEALL	"\033[30;46m\xA2\xAB\033[37m\xA7\xEB\xB2\xBC\xA2\xA8\033[30;47m\xA4\xA4\xA4\xDF\033[37;46m\xA2\xA9\xB3\x73\xB8\x70\033[36;40m\xA2\xA9\033[37m                                          \xA1\xF7)\xA7\xEB\xB2\xBC  h)\xBB\xA1\xA9\xFA\033[m\n" \
+			/*   ç·¨è™Ÿ   çœ‹  æ¿       é¡žåˆ¥è½‰ä¿¡ä¸­   æ–‡   æ•˜   è¿°%*s                  æ¿    ä¸»%*s     \033[m */ \
+			COLOR3 "  \xBD\x73\xB8\xB9   \xAC\xDD  \xAA\x4F       \xC3\xFE\xA7\x4F\xC2\xE0\xAB\x48\xA4\xA4   \xA4\xE5   \xB1\xD4   \xAD\x7A%*s                  \xAA\x4F    \xA5\x44%*s     \033[m"
 
-#define NECKER_CREDIT	"\033[30;46m¢«\033[37m¶l§½¢@»È¦æ¢¨\033[30;47m±b¤á\033[37;40m¢©\033[m\n" \
-			COLOR3 "  ½s¸¹   ¤é  ´Á   ¦¬¤ä  ª÷  ÃB  ¤ÀÃþ     »¡  ©ú%*s                               \033[m"
+/* \033[30;46mâ—¤\033[37méƒµå±€ï¼¼éŠ€è¡Œâ—¢\033[30;47må¸³æˆ¶\033[37;40mâ—£\033[m\n */
+#define NECKER_CREDIT	"\033[30;46m\xA2\xAB\033[37m\xB6\x6C\xA7\xBD\xA2\x40\xBB\xC8\xA6\xE6\xA2\xA8\033[30;47m\xB1\x62\xA4\xE1\033[37;40m\xA2\xA9\033[m\n" \
+			/*   ç·¨è™Ÿ   æ—¥  æœŸ   æ”¶æ”¯  é‡‘  é¡  åˆ†é¡ž     èªª  æ˜Ž%*s                               \033[m */ \
+			COLOR3 "  \xBD\x73\xB8\xB9   \xA4\xE9  \xB4\xC1   \xA6\xAC\xA4\xE4  \xAA\xF7  \xC3\x42  \xA4\xC0\xC3\xFE     \xBB\xA1  \xA9\xFA%*s                               \033[m"
 
-#define NECKER_HELP	"\033[30;46m¢«\033[37m»¡©ú¢¨\033[30;47mªA°È\033[37;46m¢©´©§U\033[36;40m¢©\033[37m                  T)¼ÐÃD  E)½s¿è  m)²¾°Ê  ^P)·s¼W  d)§R°£\033[m\n" \
-			COLOR3 "  ½s¸¹    ÀÉ ®×         ¼Ð       ÃD%*s                                           \033[m"
+/* \033[30;46mâ—¤\033[37mèªªæ˜Žâ—¢\033[30;47mæœå‹™\033[37;46mâ—£æ´åŠ©\033[36;40mâ—£\033[37m                  T)æ¨™é¡Œ  E)ç·¨è¼¯  m)ç§»å‹•  ^P)æ–°å¢ž  d)åˆªé™¤\033[m\n */
+#define NECKER_HELP	"\033[30;46m\xA2\xAB\033[37m\xBB\xA1\xA9\xFA\xA2\xA8\033[30;47m\xAA\x41\xB0\xC8\033[37;46m\xA2\xA9\xB4\xA9\xA7\x55\033[36;40m\xA2\xA9\033[37m                  T)\xBC\xD0\xC3\x44  E)\xBD\x73\xBF\xE8  m)\xB2\xBE\xB0\xCA  ^P)\xB7\x73\xBC\x57  d)\xA7\x52\xB0\xA3\033[m\n" \
+			/*   ç·¨è™Ÿ    æª” æ¡ˆ         æ¨™       é¡Œ%*s                                           \033[m */ \
+			COLOR3 "  \xBD\x73\xB8\xB9    \xC0\xC9 \xAE\xD7         \xBC\xD0       \xC3\x44%*s                                           \033[m"
 
-#define NECKER_INNBBS	"\033[30;46m¢«\033[37mÂà«H¢¨\033[30;47mÂà«H\033[37;46m¢©Âà«H\033[36;40m¢©\033[37m               ^P)·s¼W  d)§R°£  E½s¿è  /)·j´M  Enter)¸Ô²Ó\033[m\n" \
-			COLOR3 "  ½s¸¹            ¤º         ®e%*s                                               \033[m"
+/* \033[30;46mâ—¤\033[37mè½‰ä¿¡â—¢\033[30;47mè½‰ä¿¡\033[37;46mâ—£è½‰ä¿¡\033[36;40mâ—£\033[37m               ^P)æ–°å¢ž  d)åˆªé™¤  Eç·¨è¼¯  /)æœå°‹  Enter)è©³ç´°\033[m\n */
+#define NECKER_INNBBS	"\033[30;46m\xA2\xAB\033[37m\xC2\xE0\xAB\x48\xA2\xA8\033[30;47m\xC2\xE0\xAB\x48\033[37;46m\xA2\xA9\xC2\xE0\xAB\x48\033[36;40m\xA2\xA9\033[37m               ^P)\xB7\x73\xBC\x57  d)\xA7\x52\xB0\xA3  E\xBD\x73\xBF\xE8  /)\xB7\x6A\xB4\x4D  Enter)\xB8\xD4\xB2\xD3\033[m\n" \
+			/*   ç·¨è™Ÿ            å…§         å®¹%*s                                               \033[m */ \
+			COLOR3 "  \xBD\x73\xB8\xB9            \xA4\xBA         \xAE\x65%*s                                               \033[m"
 
 
 /* ----------------------------------------------------- */
-/* °T®§¦r¦ê¡Gmore() ®Éªº footer ³£§ì¥X¨Ó©w¸q¦b³o	 */
+/* è¨Šæ¯å­—ä¸²ï¼šmore() æ™‚çš„ footer éƒ½æŠ“å‡ºä¾†å®šç¾©åœ¨é€™	 */
 /* ----------------------------------------------------- */
 
-/* itoc.010914.µù¸Ñ: ³æ¤@½g¡A©Ò¥H¥s FOOTER¡A³£¬O 78 char */
+/* itoc.010914.è¨»è§£: å–®ä¸€ç¯‡ï¼Œæ‰€ä»¥å« FOOTERï¼Œéƒ½æ˜¯ 78 char */
 
-/* itoc.010821: ª`·N \\ ¬O \¡A³Ì«á§Oº|¤F¤@­ÓªÅ¥ÕÁä :p */
+/* itoc.010821: æ³¨æ„ \\ æ˜¯ \ï¼Œæœ€å¾Œåˆ¥æ¼äº†ä¸€å€‹ç©ºç™½éµ :p */
 
 #define FOOTER_POST	\
-COLOR1 "  ¤å³¹¿ïÅª  " COLOR2 " (ry)¦^À³ (=\\[]<>-+;'`)¥DÃD (|?QA)·j´M¼ÐÃD§@ªÌ (kj)¤W¤U½g (C)¼È¦s "
+/*   æ–‡ç« é¸è®€   */ \
+/*  (ry)å›žæ‡‰ (=\\[]<>-+;'`)ä¸»é¡Œ (|?QA)æœå°‹æ¨™é¡Œä½œè€… (kj)ä¸Šä¸‹ç¯‡ (C)æš«å­˜  */ \
+COLOR1 "  \xA4\xE5\xB3\xB9\xBF\xEF\xC5\xAA  " COLOR2 " (ry)\xA6\x5E\xC0\xB3 (=\\[]<>-+;'`)\xA5\x44\xC3\x44 (|?QA)\xB7\x6A\xB4\x4D\xBC\xD0\xC3\x44\xA7\x40\xAA\xCC (kj)\xA4\x57\xA4\x55\xBD\x67 (C)\xBC\xC8\xA6\x73 "
 
 #define FOOTER_MAILER	\
-COLOR1 "  ³½¶­©¹ªð  " COLOR2 " (ry)¸s²Õ/¦^«H (X)Âà¹F (d)§R°£ (m)¼Ð°O (C)¼È¦s (=\\[]<>-+;'`|?QAkj)"
+/*   é­šé›å¾€è¿”   */ \
+/*  (ry)ç¾¤çµ„/å›žä¿¡ (X)è½‰é” (d)åˆªé™¤ (m)æ¨™è¨˜ (C)æš«å­˜ (=\\[]<>-+;'`|?QAkj) */ \
+COLOR1 "  \xB3\xBD\xB6\xAD\xA9\xB9\xAA\xF0  " COLOR2 " (ry)\xB8\x73\xB2\xD5/\xA6\x5E\xAB\x48 (X)\xC2\xE0\xB9\x46 (d)\xA7\x52\xB0\xA3 (m)\xBC\xD0\xB0\x4F (C)\xBC\xC8\xA6\x73 (=\\[]<>-+;'`|?QAkj)"
 
 #define FOOTER_GEM	\
-COLOR1 "  ºëµØ¿ïÅª  " COLOR2 " (=\\[]<>-+;'`)¥DÃD (|?QA)·j´M¼ÐÃD§@ªÌ (kj)¤W¤U½g (¡ô¡õ¡ö)¤W¤UÂ÷¶} "
+/*   ç²¾è¯é¸è®€   */ \
+/*  (=\\[]<>-+;'`)ä¸»é¡Œ (|?QA)æœå°‹æ¨™é¡Œä½œè€… (kj)ä¸Šä¸‹ç¯‡ (â†‘â†“â†)ä¸Šä¸‹é›¢é–‹  */ \
+COLOR1 "  \xBA\xEB\xB5\xD8\xBF\xEF\xC5\xAA  " COLOR2 " (=\\[]<>-+;'`)\xA5\x44\xC3\x44 (|?QA)\xB7\x6A\xB4\x4D\xBC\xD0\xC3\x44\xA7\x40\xAA\xCC (kj)\xA4\x57\xA4\x55\xBD\x67 (\xA1\xF4\xA1\xF5\xA1\xF6)\xA4\x57\xA4\x55\xC2\xF7\xB6\x7D "
 
 #ifdef HAVE_GAME
 #define FOOTER_TALK	\
-COLOR1 "  ¥æ½Í¼Ò¦¡  " COLOR2 " (^O)¹ï«³ (^C,^D)µ²§ô¥æ½Í (^T)¤Á´«©I¥s¾¹ (^Z)§Ö±¶¦Cªí (^G)¹Í¹Í    "
+/*   äº¤è«‡æ¨¡å¼   */ \
+/*  (^O)å°å¥• (^C,^D)çµæŸäº¤è«‡ (^T)åˆ‡æ›å‘¼å«å™¨ (^Z)å¿«æ·åˆ—è¡¨ (^G)å—¶å—¶     */ \
+COLOR1 "  \xA5\xE6\xBD\xCD\xBC\xD2\xA6\xA1  " COLOR2 " (^O)\xB9\xEF\xAB\xB3 (^C,^D)\xB5\xB2\xA7\xF4\xA5\xE6\xBD\xCD (^T)\xA4\xC1\xB4\xAB\xA9\x49\xA5\x73\xBE\xB9 (^Z)\xA7\xD6\xB1\xB6\xA6\x43\xAA\xED (^G)\xB9\xCD\xB9\xCD    "
 #else
 #define FOOTER_TALK	\
-COLOR1 "  ¥æ½Í¼Ò¦¡  " COLOR2 " (^C,^D)µ²§ô¥æ½Í (^T)¤Á´«©I¥s¾¹ (^Z)§Ö±¶¦Cªí (^G)¹Í¹Í (^Y)²M°£    "
+/*   äº¤è«‡æ¨¡å¼   */ \
+/*  (^C,^D)çµæŸäº¤è«‡ (^T)åˆ‡æ›å‘¼å«å™¨ (^Z)å¿«æ·åˆ—è¡¨ (^G)å—¶å—¶ (^Y)æ¸…é™¤     */ \
+COLOR1 "  \xA5\xE6\xBD\xCD\xBC\xD2\xA6\xA1  " COLOR2 " (^C,^D)\xB5\xB2\xA7\xF4\xA5\xE6\xBD\xCD (^T)\xA4\xC1\xB4\xAB\xA9\x49\xA5\x73\xBE\xB9 (^Z)\xA7\xD6\xB1\xB6\xA6\x43\xAA\xED (^G)\xB9\xCD\xB9\xCD (^Y)\xB2\x4D\xB0\xA3    "
 #endif
 
 #define FOOTER_COSIGN	\
-COLOR1 "  ³s¸p¾÷¨î  " COLOR2 " (ry)¥[¤J³s¸p (kj)¤W¤U½g (¡ô¡õ¡ö)¤W¤UÂ÷¶} (h)»¡©ú                 " 
+/*   é€£ç½²æ©Ÿåˆ¶   */ \
+/*  (ry)åŠ å…¥é€£ç½² (kj)ä¸Šä¸‹ç¯‡ (â†‘â†“â†)ä¸Šä¸‹é›¢é–‹ (h)èªªæ˜Ž                  */ \
+COLOR1 "  \xB3\x73\xB8\x70\xBE\xF7\xA8\xEE  " COLOR2 " (ry)\xA5\x5B\xA4\x4A\xB3\x73\xB8\x70 (kj)\xA4\x57\xA4\x55\xBD\x67 (\xA1\xF4\xA1\xF5\xA1\xF6)\xA4\x57\xA4\x55\xC2\xF7\xB6\x7D (h)\xBB\xA1\xA9\xFA                 " 
 
 #define FOOTER_MORE	\
-COLOR1 " ÂsÄý P.%d (%d%%) " COLOR2 " (h)»¡©ú [PgUp][PgDn][0][$]²¾°Ê (/n)·j´M (C)¼È¦s (¡öq)µ²§ô "
+/*  ç€è¦½ P.%d (%d%%)  */ \
+/*  (h)èªªæ˜Ž [PgUp][PgDn][0][$]ç§»å‹• (/n)æœå°‹ (C)æš«å­˜ (â†q)çµæŸ  */ \
+COLOR1 " \xC2\x73\xC4\xFD P.%d (%d%%) " COLOR2 " (h)\xBB\xA1\xA9\xFA [PgUp][PgDn][0][$]\xB2\xBE\xB0\xCA (/n)\xB7\x6A\xB4\x4D (C)\xBC\xC8\xA6\x73 (\xA1\xF6q)\xB5\xB2\xA7\xF4 "
 
 #define FOOTER_VEDIT	\
-COLOR1 "  %s  " COLOR2 " (^Z)»¡©ú (^W)²Å¸¹ (^L)­«Ã¸ (^X)ÀÉ®×³B²z ùø%s¢x%sùø%5d:%3d  \033[m"
+/*  (^Z)èªªæ˜Ž (^W)ç¬¦è™Ÿ (^L)é‡ç¹ª (^X)æª”æ¡ˆè™•ç† â•‘%sâ”‚%sâ•‘%5d:%3d  \033[m */ \
+COLOR1 "  %s  " COLOR2 " (^Z)\xBB\xA1\xA9\xFA (^W)\xB2\xC5\xB8\xB9 (^L)\xAD\xAB\xC3\xB8 (^X)\xC0\xC9\xAE\xD7\xB3\x42\xB2\x7A \xF9\xF8%s\xA2\x78%s\xF9\xF8%5d:%3d  \033[m"
 
 
 /* ----------------------------------------------------- */
-/* °T®§¦r¦ê¡Gxo_foot() ®Éªº feeter ³£§ì¥X¨Ó©w¸q¦b³o      */
+/* è¨Šæ¯å­—ä¸²ï¼šxo_foot() æ™‚çš„ feeter éƒ½æŠ“å‡ºä¾†å®šç¾©åœ¨é€™      */
 /* ----------------------------------------------------- */
 
 
-/* itoc.010914.µù¸Ñ: ¦Cªí¦h½g¡A©Ò¥H¥s FEETER¡A³£¬O 78 char */
+/* itoc.010914.è¨»è§£: åˆ—è¡¨å¤šç¯‡ï¼Œæ‰€ä»¥å« FEETERï¼Œéƒ½æ˜¯ 78 char */
 
 #define FEETER_CLASS	\
-COLOR1 "  ¬ÝªO¿ï¾Ü  " COLOR2 " (c)·s¤å³¹ (vV)¤wÅª¥¼Åª (y)¥þ³¡¦C¥X (z)¿ï­q (A)¥þ°ì·j´M (S)±Æ§Ç   "
+/*   çœ‹æ¿é¸æ“‡   */ \
+/*  (c)æ–°æ–‡ç«  (vV)å·²è®€æœªè®€ (y)å…¨éƒ¨åˆ—å‡º (z)é¸è¨‚ (A)å…¨åŸŸæœå°‹ (S)æŽ’åº    */ \
+COLOR1 "  \xAC\xDD\xAA\x4F\xBF\xEF\xBE\xDC  " COLOR2 " (c)\xB7\x73\xA4\xE5\xB3\xB9 (vV)\xA4\x77\xC5\xAA\xA5\xBC\xC5\xAA (y)\xA5\xFE\xB3\xA1\xA6\x43\xA5\x58 (z)\xBF\xEF\xAD\x71 (A)\xA5\xFE\xB0\xEC\xB7\x6A\xB4\x4D (S)\xB1\xC6\xA7\xC7   "
 
 #define FEETER_ULIST	\
-COLOR1 "  ºô¤Í¦Cªí  " COLOR2 " (f)¦n¤Í (t)²á¤Ñ (q)¬d¸ß (ad)¥æ¤Í (w)¤ô²y (s)§ó·s (TAB)¤Á´«       "
+/*   ç¶²å‹åˆ—è¡¨   */ \
+/*  (f)å¥½å‹ (t)èŠå¤© (q)æŸ¥è©¢ (ad)äº¤å‹ (w)æ°´çƒ (s)æ›´æ–° (TAB)åˆ‡æ›        */ \
+COLOR1 "  \xBA\xF4\xA4\xCD\xA6\x43\xAA\xED  " COLOR2 " (f)\xA6\x6E\xA4\xCD (t)\xB2\xE1\xA4\xD1 (q)\xAC\x64\xB8\xDF (ad)\xA5\xE6\xA4\xCD (w)\xA4\xF4\xB2\x79 (s)\xA7\xF3\xB7\x73 (TAB)\xA4\xC1\xB4\xAB       "
 
 #define FEETER_PAL	\
-COLOR1 "  ©IªB¤Þ¦ñ  " COLOR2 " (a)·s¼W (d)§R°£ (c)¤Í½Ë (m)±H«H (f)¤Þ¤J¦n¤Í (r^Q)¬d¸ß (s)§ó·s    "
+/*   å‘¼æœ‹å¼•ä¼´   */ \
+/*  (a)æ–°å¢ž (d)åˆªé™¤ (c)å‹èª¼ (m)å¯„ä¿¡ (f)å¼•å…¥å¥½å‹ (r^Q)æŸ¥è©¢ (s)æ›´æ–°     */ \
+COLOR1 "  \xA9\x49\xAA\x42\xA4\xDE\xA6\xF1  " COLOR2 " (a)\xB7\x73\xBC\x57 (d)\xA7\x52\xB0\xA3 (c)\xA4\xCD\xBD\xCB (m)\xB1\x48\xAB\x48 (f)\xA4\xDE\xA4\x4A\xA6\x6E\xA4\xCD (r^Q)\xAC\x64\xB8\xDF (s)\xA7\xF3\xB7\x73    "
 
 #define FEETER_ALOHA	\
-COLOR1 "  ¤W¯¸³qª¾  " COLOR2 " (a)·s¼W (d)§R°£ (D)°Ï¬q§R°£ (f)¤Þ¤J¦n¤Í (r^Q)¬d¸ß (s)§ó·s        "
+/*   ä¸Šç«™é€šçŸ¥   */ \
+/*  (a)æ–°å¢ž (d)åˆªé™¤ (D)å€æ®µåˆªé™¤ (f)å¼•å…¥å¥½å‹ (r^Q)æŸ¥è©¢ (s)æ›´æ–°         */ \
+COLOR1 "  \xA4\x57\xAF\xB8\xB3\x71\xAA\xBE  " COLOR2 " (a)\xB7\x73\xBC\x57 (d)\xA7\x52\xB0\xA3 (D)\xB0\xCF\xAC\x71\xA7\x52\xB0\xA3 (f)\xA4\xDE\xA4\x4A\xA6\x6E\xA4\xCD (r^Q)\xAC\x64\xB8\xDF (s)\xA7\xF3\xB7\x73        "
 
 #define FEETER_VOTE	\
-COLOR1 " ¬ÝªO§ë²¼ " COLOR2 " (¡÷/r/v)§ë²¼ (R)µ²ªG (^P)·s¼W§ë²¼ (E)­×§ï (V)¹wÄý (b)¶}²¼ (o)¦W³æ  "
+/*  çœ‹æ¿æŠ•ç¥¨  */ \
+/*  (â†’/r/v)æŠ•ç¥¨ (R)çµæžœ (^P)æ–°å¢žæŠ•ç¥¨ (E)ä¿®æ”¹ (V)é è¦½ (b)é–‹ç¥¨ (o)åå–®   */ \
+COLOR1 " \xAC\xDD\xAA\x4F\xA7\xEB\xB2\xBC " COLOR2 " (\xA1\xF7/r/v)\xA7\xEB\xB2\xBC (R)\xB5\xB2\xAA\x47 (^P)\xB7\x73\xBC\x57\xA7\xEB\xB2\xBC (E)\xAD\xD7\xA7\xEF (V)\xB9\x77\xC4\xFD (b)\xB6\x7D\xB2\xBC (o)\xA6\x57\xB3\xE6  "
 
 #define FEETER_BMW	\
-COLOR1 "  ¤ô²y¦^ÅU  " COLOR2 " (d)§R°£ (D)°Ï¬q§R°£ (m)±H«H (w)¤ô²y (^R)¦^°T (^Q)¬d¸ß (s)§ó·s    "
+/*   æ°´çƒå›žé¡§   */ \
+/*  (d)åˆªé™¤ (D)å€æ®µåˆªé™¤ (m)å¯„ä¿¡ (w)æ°´çƒ (^R)å›žè¨Š (^Q)æŸ¥è©¢ (s)æ›´æ–°     */ \
+COLOR1 "  \xA4\xF4\xB2\x79\xA6\x5E\xC5\x55  " COLOR2 " (d)\xA7\x52\xB0\xA3 (D)\xB0\xCF\xAC\x71\xA7\x52\xB0\xA3 (m)\xB1\x48\xAB\x48 (w)\xA4\xF4\xB2\x79 (^R)\xA6\x5E\xB0\x54 (^Q)\xAC\x64\xB8\xDF (s)\xA7\xF3\xB7\x73    "
 
 #define FEETER_MF	\
-COLOR1 "  ³Ì·R¬ÝªO  " COLOR2 " (^P)·s¼W (Cg)½Æ»s (p^V)¶K¤W (d)§R°£ (c)·s¤å³¹ (vV)¼Ð°O¤wÅª/¥¼Åª  "
+/*   æœ€æ„›çœ‹æ¿   */ \
+/*  (^P)æ–°å¢ž (Cg)è¤‡è£½ (p^V)è²¼ä¸Š (d)åˆªé™¤ (c)æ–°æ–‡ç«  (vV)æ¨™è¨˜å·²è®€/æœªè®€   */ \
+COLOR1 "  \xB3\xCC\xB7\x52\xAC\xDD\xAA\x4F  " COLOR2 " (^P)\xB7\x73\xBC\x57 (Cg)\xBD\xC6\xBB\x73 (p^V)\xB6\x4B\xA4\x57 (d)\xA7\x52\xB0\xA3 (c)\xB7\x73\xA4\xE5\xB3\xB9 (vV)\xBC\xD0\xB0\x4F\xA4\x77\xC5\xAA/\xA5\xBC\xC5\xAA  "
 
 #define FEETER_COSIGN	\
-COLOR1 " ³s¸p¤p¯¸ " COLOR2 " (r)Åª¨ú (y)¦^À³ (^P)µoªí (d)§R°£ (o)¶}ªO (c)Ãö³¬ (E)½s¿è (B)³]©w   "
+/*  é€£ç½²å°ç«™  */ \
+/*  (r)è®€å– (y)å›žæ‡‰ (^P)ç™¼è¡¨ (d)åˆªé™¤ (o)é–‹æ¿ (c)é—œé–‰ (E)ç·¨è¼¯ (B)è¨­å®š    */ \
+COLOR1 " \xB3\x73\xB8\x70\xA4\x70\xAF\xB8 " COLOR2 " (r)\xC5\xAA\xA8\xFA (y)\xA6\x5E\xC0\xB3 (^P)\xB5\x6F\xAA\xED (d)\xA7\x52\xB0\xA3 (o)\xB6\x7D\xAA\x4F (c)\xC3\xF6\xB3\xAC (E)\xBD\x73\xBF\xE8 (B)\xB3\x5D\xA9\x77   "
 
 #define FEETER_SONG	\
-COLOR1 "  ÂIºq¨t²Î  " COLOR2 " (r)Åª¨ú (o)ÂIºq¨ì¬ÝªO (m)ÂIºq¨ì«H½c (E)½s¿èÀÉ®× (T)½s¿è¼ÐÃD      "
+/*   é»žæ­Œç³»çµ±   */ \
+/*  (r)è®€å– (o)é»žæ­Œåˆ°çœ‹æ¿ (m)é»žæ­Œåˆ°ä¿¡ç®± (E)ç·¨è¼¯æª”æ¡ˆ (T)ç·¨è¼¯æ¨™é¡Œ       */ \
+COLOR1 "  \xC2\x49\xBA\x71\xA8\x74\xB2\xCE  " COLOR2 " (r)\xC5\xAA\xA8\xFA (o)\xC2\x49\xBA\x71\xA8\xEC\xAC\xDD\xAA\x4F (m)\xC2\x49\xBA\x71\xA8\xEC\xAB\x48\xBD\x63 (E)\xBD\x73\xBF\xE8\xC0\xC9\xAE\xD7 (T)\xBD\x73\xBF\xE8\xBC\xD0\xC3\x44      "
 
 #define FEETER_NEWS	\
-COLOR1 "  ·s»DÂI¿ï  " COLOR2 " (¡ô/¡õ)¤W¤U (PgUp/PgDn)¤W¤U­¶ (Home/End)­º§À (¡÷r)¿ï¨ú (¡ö)Â÷¶}  "
+/*   æ–°èžé»žé¸   */ \
+/*  (â†‘/â†“)ä¸Šä¸‹ (PgUp/PgDn)ä¸Šä¸‹é  (Home/End)é¦–å°¾ (â†’r)é¸å– (â†)é›¢é–‹   */ \
+COLOR1 "  \xB7\x73\xBB\x44\xC2\x49\xBF\xEF  " COLOR2 " (\xA1\xF4/\xA1\xF5)\xA4\x57\xA4\x55 (PgUp/PgDn)\xA4\x57\xA4\x55\xAD\xB6 (Home/End)\xAD\xBA\xA7\xC0 (\xA1\xF7r)\xBF\xEF\xA8\xFA (\xA1\xF6)\xC2\xF7\xB6\x7D  "
 
 #define FEETER_XPOST	\
-COLOR1 "  ¦ê¦C·j´M  " COLOR2 " (y)¦^À³ (x)Âà¿ý (m)¼Ð°O (d)§R°£ (^P)µoªí (^Q)¬d¸ß§@ªÌ (t)¼ÐÅÒ    "
+/*   ä¸²åˆ—æœå°‹   */ \
+/*  (y)å›žæ‡‰ (x)è½‰éŒ„ (m)æ¨™è¨˜ (d)åˆªé™¤ (^P)ç™¼è¡¨ (^Q)æŸ¥è©¢ä½œè€… (t)æ¨™ç±¤     */ \
+COLOR1 "  \xA6\xEA\xA6\x43\xB7\x6A\xB4\x4D  " COLOR2 " (y)\xA6\x5E\xC0\xB3 (x)\xC2\xE0\xBF\xFD (m)\xBC\xD0\xB0\x4F (d)\xA7\x52\xB0\xA3 (^P)\xB5\x6F\xAA\xED (^Q)\xAC\x64\xB8\xDF\xA7\x40\xAA\xCC (t)\xBC\xD0\xC5\xD2    "
 
 #define FEETER_MBOX	\
-COLOR1 "  «H«H¬Û±¤  " COLOR2 " (y)¦^«H (F/X/x)Âà±H/Âà¹F/Âà¿ý (d)§R°£ (D)°Ï¬q§R°£ (m)¼Ð°O        "
+/*   ä¿¡ä¿¡ç›¸æƒœ   */ \
+/*  (y)å›žä¿¡ (F/X/x)è½‰å¯„/è½‰é”/è½‰éŒ„ (d)åˆªé™¤ (D)å€æ®µåˆªé™¤ (m)æ¨™è¨˜         */ \
+COLOR1 "  \xAB\x48\xAB\x48\xAC\xDB\xB1\xA4  " COLOR2 " (y)\xA6\x5E\xAB\x48 (F/X/x)\xC2\xE0\xB1\x48/\xC2\xE0\xB9\x46/\xC2\xE0\xBF\xFD (d)\xA7\x52\xB0\xA3 (D)\xB0\xCF\xAC\x71\xA7\x52\xB0\xA3 (m)\xBC\xD0\xB0\x4F        "
 
 #define FEETER_POST	\
-COLOR1 "  ¤å³¹¦Cªí  " COLOR2 " (ry)¦^«H (S/a)·j´M/¼ÐÃD/§@ªÌ (~G)¦ê¦C (x)Âà¿ý (V)§ë²¼ (u)·s»D    "
+/*   æ–‡ç« åˆ—è¡¨   */ \
+/*  (ry)å›žä¿¡ (S/a)æœå°‹/æ¨™é¡Œ/ä½œè€… (~G)ä¸²åˆ— (x)è½‰éŒ„ (V)æŠ•ç¥¨ (u)æ–°èž     */ \
+COLOR1 "  \xA4\xE5\xB3\xB9\xA6\x43\xAA\xED  " COLOR2 " (ry)\xA6\x5E\xAB\x48 (S/a)\xB7\x6A\xB4\x4D/\xBC\xD0\xC3\x44/\xA7\x40\xAA\xCC (~G)\xA6\xEA\xA6\x43 (x)\xC2\xE0\xBF\xFD (V)\xA7\xEB\xB2\xBC (u)\xB7\x73\xBB\x44    "
 
 #define FEETER_GEM	\
-COLOR1 "  ¬ÝªOºëµØ  " COLOR2 " (^P/a/f)·s¼W/¤å³¹/¥Ø¿ý (E)½s¿è (T)¼ÐÃD (m)²¾°Ê (c)½Æ»s (p^V)¶K¤W "
+/*   çœ‹æ¿ç²¾è¯   */ \
+/*  (^P/a/f)æ–°å¢ž/æ–‡ç« /ç›®éŒ„ (E)ç·¨è¼¯ (T)æ¨™é¡Œ (m)ç§»å‹• (c)è¤‡è£½ (p^V)è²¼ä¸Š  */ \
+COLOR1 "  \xAC\xDD\xAA\x4F\xBA\xEB\xB5\xD8  " COLOR2 " (^P/a/f)\xB7\x73\xBC\x57/\xA4\xE5\xB3\xB9/\xA5\xD8\xBF\xFD (E)\xBD\x73\xBF\xE8 (T)\xBC\xD0\xC3\x44 (m)\xB2\xBE\xB0\xCA (c)\xBD\xC6\xBB\x73 (p^V)\xB6\x4B\xA4\x57 "
 
 #define FEETER_VOTEALL	\
-COLOR1 "  §ë²¼¤¤¤ß  " COLOR2 " (¡ô/¡õ)¤W¤U (PgUp/PgDn)¤W¤U­¶ (Home/End)­º§À (¡÷)§ë²¼ (¡ö)Â÷¶}   "
+/*   æŠ•ç¥¨ä¸­å¿ƒ   */ \
+/*  (â†‘/â†“)ä¸Šä¸‹ (PgUp/PgDn)ä¸Šä¸‹é  (Home/End)é¦–å°¾ (â†’)æŠ•ç¥¨ (â†)é›¢é–‹    */ \
+COLOR1 "  \xA7\xEB\xB2\xBC\xA4\xA4\xA4\xDF  " COLOR2 " (\xA1\xF4/\xA1\xF5)\xA4\x57\xA4\x55 (PgUp/PgDn)\xA4\x57\xA4\x55\xAD\xB6 (Home/End)\xAD\xBA\xA7\xC0 (\xA1\xF7)\xA7\xEB\xB2\xBC (\xA1\xF6)\xC2\xF7\xB6\x7D   "
 
 #define FEETER_HELP	\
-COLOR1 "  »¡©ú¤å¥ó  " COLOR2 " (¡ô/¡õ)¤W¤U (PgUp/PgDn)¤W¤U­¶ (Home/End)­º§À (¡÷r)ÂsÄý (¡ö)Â÷¶}  "
+/*   èªªæ˜Žæ–‡ä»¶   */ \
+/*  (â†‘/â†“)ä¸Šä¸‹ (PgUp/PgDn)ä¸Šä¸‹é  (Home/End)é¦–å°¾ (â†’r)ç€è¦½ (â†)é›¢é–‹   */ \
+COLOR1 "  \xBB\xA1\xA9\xFA\xA4\xE5\xA5\xF3  " COLOR2 " (\xA1\xF4/\xA1\xF5)\xA4\x57\xA4\x55 (PgUp/PgDn)\xA4\x57\xA4\x55\xAD\xB6 (Home/End)\xAD\xBA\xA7\xC0 (\xA1\xF7r)\xC2\x73\xC4\xFD (\xA1\xF6)\xC2\xF7\xB6\x7D  "
 
 #define FEETER_INNBBS	\
-COLOR1 "  Âà«H³]©w  " COLOR2 " (¡ô/¡õ)¤W¤U (PgUp/PgDn)¤W¤U­¶ (Home/End)­º§À (¡ö)(q)Â÷¶}         "
+/*   è½‰ä¿¡è¨­å®š   */ \
+/*  (â†‘/â†“)ä¸Šä¸‹ (PgUp/PgDn)ä¸Šä¸‹é  (Home/End)é¦–å°¾ (â†)(q)é›¢é–‹          */ \
+COLOR1 "  \xC2\xE0\xAB\x48\xB3\x5D\xA9\x77  " COLOR2 " (\xA1\xF4/\xA1\xF5)\xA4\x57\xA4\x55 (PgUp/PgDn)\xA4\x57\xA4\x55\xAD\xB6 (Home/End)\xAD\xBA\xA7\xC0 (\xA1\xF6)(q)\xC2\xF7\xB6\x7D         "
 
 
 /* ----------------------------------------------------- */
-/* ¯¸¥x¨Ó·½Ã±¦W						 */
+/* ç«™å°ä¾†æºç°½å						 */
 /* ----------------------------------------------------- */
 
-/* itoc: «ØÄ³ banner ¤£­n¶W¹L¤T¦æ¡A¹Lªøªº¯¸Ã±¥i¯à·|³y¦¨¬Y¨Ç¨Ï¥ÎªÌªº¤Ï·P */
+/* itoc: å»ºè­° banner ä¸è¦è¶…éŽä¸‰è¡Œï¼ŒéŽé•·çš„ç«™ç°½å¯èƒ½æœƒé€ æˆæŸäº›ä½¿ç”¨è€…çš„åæ„Ÿ */
 
 #define EDIT_BANNER	"\n--\n" \
-			" \033[1;41m ¯¸ ¥x \033[40;33m "SCHOOLNAME"£»"BBSNAME" \033[35m¡m"MYHOSTNAME"¡n\033[m\n" \
-			" \033[1;42m ¨Ó ·½ \033[40;36m %.0s%s\033[m\n"
+			/*  \033[1;41m ç«™ å° \033[40;33m  */ \
+			/* Ë™ */ \
+			/*  \033[35mã€Š */ \
+			/* ã€‹\033[m\n */ \
+			" \033[1;41m \xAF\xB8 \xA5\x78 \033[40;33m "SCHOOLNAME"\xA3\xBB"BBSNAME" \033[35m\xA1\x6D"MYHOSTNAME"\xA1\x6E\033[m\n" \
+			/*  \033[1;42m ä¾† æº \033[40;36m %.0s%s\033[m\n */ \
+			" \033[1;42m \xA8\xD3 \xB7\xBD \033[40;36m %.0s%s\033[m\n"
 
-#define MODIFY_BANNER	" \033[1;44m ½s ¿è \033[40;37m %.0s%s\033[m\n"
+/*  \033[1;44m ç·¨ è¼¯ \033[40;37m %.0s%s\033[m\n */
+#define MODIFY_BANNER	" \033[1;44m \xBD\x73 \xBF\xE8 \033[40;37m %.0s%s\033[m\n"
 
 
 /* ----------------------------------------------------- */
-/* ¨ä¥L°T®§¦r¦ê						 */
+/* å…¶ä»–è¨Šæ¯å­—ä¸²						 */
 /* ----------------------------------------------------- */
 
-#define VMSG_NULL	"                                           \033[1;36m ¢j¢k¢l¢m¢n¢o¢p ½Ð«ö¥ô·NÁäÄ~Äò ¢p\033[m"
+/*                                            \033[1;36m â–â–Žâ–â–Œâ–‹â–Šâ–‰ è«‹æŒ‰ä»»æ„éµç¹¼çºŒ â–‰\033[m */
+#define VMSG_NULL	"                                           \033[1;36m \xA2\x6A\xA2\x6B\xA2\x6C\xA2\x6D\xA2\x6E\xA2\x6F\xA2\x70 \xBD\xD0\xAB\xF6\xA5\xF4\xB7\x4E\xC1\xE4\xC4\x7E\xC4\xF2 \xA2\x70\033[m"
 
-#define ICON_UNREAD_BRD		"\033[33m¡÷"		/* ¥¼Åª¬ÝªO */
-#define ICON_READ_BRD		"  "			/* ¤wÅª¬ÝªO */
+/* \033[33mâ†’ */
+#define ICON_UNREAD_BRD		"\033[33m\xA1\xF7"		/* æœªè®€çœ‹æ¿ */
+#define ICON_READ_BRD		"  "			/* å·²è®€çœ‹æ¿ */
 
-#define ICON_GAMBLED_BRD	"\033[1;31m½ä\033[m"	/* Á|¦æ½ä½L¤¤ªº¬ÝªO */
-#define ICON_VOTED_BRD		"\033[1;33m§ë\033[m"	/* Á|¦æ§ë²¼¤¤ªº¬ÝªO */
-#define ICON_NOTRAN_BRD		"¡¸"			/* ¤£Âà«HªO */
-#define ICON_TRAN_BRD		"¡¹"			/* Âà«HªO */
+/* \033[1;31mè³­\033[m */
+#define ICON_GAMBLED_BRD	"\033[1;31m\xBD\xE4\033[m"	/* èˆ‰è¡Œè³­ç›¤ä¸­çš„çœ‹æ¿ */
+/* \033[1;33mæŠ•\033[m */
+#define ICON_VOTED_BRD		"\033[1;33m\xA7\xEB\033[m"	/* èˆ‰è¡ŒæŠ•ç¥¨ä¸­çš„çœ‹æ¿ */
+/* â˜† */
+#define ICON_NOTRAN_BRD		"\xA1\xB8"			/* ä¸è½‰ä¿¡æ¿ */
+/* â˜… */
+#define ICON_TRAN_BRD		"\xA1\xB9"			/* è½‰ä¿¡æ¿ */
 
-#define TOKEN_ZAP_BRD		'-'			/* zap ªO */
-#define TOKEN_FRIEND_BRD	'.'			/* ¦n¤ÍªO */
-#define TOKEN_SECRET_BRD	')'			/* ¯µ±KªO */
+#define TOKEN_ZAP_BRD		'-'			/* zap æ¿ */
+#define TOKEN_FRIEND_BRD	'.'			/* å¥½å‹æ¿ */
+#define TOKEN_SECRET_BRD	')'			/* ç§˜å¯†æ¿ */
 
 #endif				/* _THEME_H_ */

@@ -1,14 +1,14 @@
 /*-------------------------------------------------------*/
 /* util/topusr.c	( NTHU CS MapleBBS Ver 3.00 )	 */
 /*-------------------------------------------------------*/
-/* target : ¨Ï¥ÎªÌ¸ê®Æ²Î­p¤Î±Æ¦W			 */
+/* target : ä½¿ç”¨è€…è³‡æ–™çµ±è¨ˆåŠæ’å			 */
 /* create : 99/03/29					 */
 /* update : 01/10/01					 */
 /* modify : itoc.bbs@bbs.tnfsh.tn.edu.tw		 */
 /*-------------------------------------------------------*/
 
 
-/* itoc.µù¸Ñ: ±N ¤W¯¸¦¸¼Æ/Äé¤ô¦¸¼Æ/»È¹ô/ª÷¹ô/¦~ÄÖ/¬P®y/©Ê§O/¹Ø¬P ¤@¨Ö²Î­p¡A§K±o±`±`¦b¶} .ACCT */
+/* itoc.è¨»è§£: å°‡ ä¸Šç«™æ¬¡æ•¸/çŒæ°´æ¬¡æ•¸/éŠ€å¹£/é‡‘å¹£/å¹´é½¡/æ˜Ÿåº§/æ€§åˆ¥/å£½æ˜Ÿ ä¸€ä½µçµ±è¨ˆï¼Œå…å¾—å¸¸å¸¸åœ¨é–‹ .ACCT */
 
 #include "bbs.h"
 
@@ -27,7 +27,7 @@
 /*-------------------------------------------------------*/
 /* author : mat.bbs@fall.twbbs.org			 */
 /* modify : gslin@abpe.org				 */
-/* target : ¤W¯¸¦¸¼Æ¡BÄé¤ô¦¸¼Æ¡Bª÷»È¹ô±Æ¦æº]		 */
+/* target : ä¸Šç«™æ¬¡æ•¸ã€çŒæ°´æ¬¡æ•¸ã€é‡‘éŠ€å¹£æ’è¡Œæ¦œ		 */
 /*-------------------------------------------------------*/
 
 
@@ -39,8 +39,8 @@ typedef struct
 {
   char userid[IDLEN + 1];
   char username[UNLEN + 1];
-  int num;			/* ¼Æ­È */
-  int rank;			/* ¦W¦¸ */
+  int num;			/* æ•¸å€¼ */
+  int rank;			/* åæ¬¡ */
 }      DATA;
 
 static DATA toplogins[TOPNUM], topposts[TOPNUM], topmoney[TOPNUM], topgold[TOPNUM];
@@ -80,8 +80,8 @@ findmin(src)
 
 
 static void
-sort_rank(data)		/* µ¹©w¦W¦¸ */
-  DATA *data;		/* ¤w¨Ì data->num ±Æ§Ç */
+sort_rank(data)		/* çµ¦å®šåæ¬¡ */
+  DATA *data;		/* å·²ä¾ data->num æ’åº */
 {
   int i, rank;
 
@@ -129,12 +129,15 @@ write_data(fpath, title, data)
     return;
 
   i = 12 - (strlen(title) >> 1);
-  sprintf(buf, " \033[1;33m¡³ ¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¡÷ \033[41m%%%ds%%s%%%ds\033[40m ¡ö¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w ¡³\033[m\n\n", i, i);
+  /*  \033[1;33mâ—‹ â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â†’ \033[41m%%%ds%%s%%%ds\033[40m â†â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â—‹\033[m\n\n */
+  sprintf(buf, " \033[1;33m\xA1\xB3 \xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA1\xF7 \033[41m%%%ds%%s%%%ds\033[40m \xA1\xF6\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77\xA2\x77 \xA1\xB3\033[m\n\n", i, i);
   fprintf(fp, buf, "", title, "");
 
   fprintf(fp, 
-    "\033[1;37m¦W¦¸  \033[33m¥N¸¹(¼ÊºÙ)                \033[36m¼Æ¶q\033[m   "
-    "\033[1;37m¦W¦¸  \033[33m¥N¸¹(¼ÊºÙ)                \033[36m¼Æ¶q\033[m\n"
+    /* \033[1;37måæ¬¡  \033[33mä»£è™Ÿ(æš±ç¨±)                \033[36mæ•¸é‡\033[m    */
+    "\033[1;37m\xA6\x57\xA6\xB8  \033[33m\xA5\x4E\xB8\xB9(\xBC\xCA\xBA\xD9)                \033[36m\xBC\xC6\xB6\x71\033[m   "
+    /* \033[1;37måæ¬¡  \033[33mä»£è™Ÿ(æš±ç¨±)                \033[36mæ•¸é‡\033[m\n */
+    "\033[1;37m\xA6\x57\xA6\xB8  \033[33m\xA5\x4E\xB8\xB9(\xBC\xCA\xBA\xD9)                \033[36m\xBC\xC6\xB6\x71\033[m\n"
     "\033[1;32m%s\033[m\n", MSG_SEPERATOR);
 
   for (i = 0; i < TOPNUM_HALF; i++)
@@ -145,10 +148,10 @@ write_data(fpath, title, data)
     merge_id_nick(buf2, data[i + TOPNUM_HALF].userid,
       data[i + TOPNUM_HALF].username);
 
-    /* itoc.010408: ¸Ñ¨M¿ú¤Ó¦h¡Aµe­±Ãz±¼ªº°İÃD */
+    /* itoc.010408: è§£æ±ºéŒ¢å¤ªå¤šï¼Œç•«é¢çˆ†æ‰çš„å•é¡Œ */
     num1 = data[i].num / 1000000;
     num2 = data[i + TOPNUM_HALF].num / 1000000;
-    if (num2)			/* ¨º»ò data[i].num ¤]¥²©w > 10^6 */
+    if (num2)			/* é‚£éº¼ data[i].num ä¹Ÿå¿…å®š > 10^6 */
     {
       fprintf(fp, "[%2d] %-25s %5dM  [%2d] %-25s %5dM\n", 
 	data[i].rank, buf1, num1,
@@ -211,13 +214,13 @@ topusr(acct)
 
 /*-------------------------------------------------------*/
 /* author : wsyfish.bbs@fpg.m4.ntu.edu.tw		 */
-/* target : ¯¸¤W¦~ÄÖ²Î­p				 */
+/* target : ç«™ä¸Šå¹´é½¡çµ±è¨ˆ				 */
 /*-------------------------------------------------------*/
 
 
 #define MAX_LINE	16
 
-static int act_age[25];		/* 24ºØ¦~ÄÖ¡BÁ`¦X */
+static int act_age[25];		/* 24ç¨®å¹´é½¡ã€ç¸½åˆ */
 
 
 static inline void
@@ -227,9 +230,9 @@ count_age(acct, year)
 {
   int age;
 
-  age = year - 11 - acct->year;	/* acct->year ¬O¥Á°ê¦~¥÷ */
+  age = year - 11 - acct->year;	/* acct->year æ˜¯æ°‘åœ‹å¹´ä»½ */
 
-  /* ¥u²Î­p 10~33 ·³ */
+  /* åªçµ±è¨ˆ 10~33 æ­² */
   if (age >= 10 && age <= 10 + 24 - 1)
   {
     act_age[age - 10]++;
@@ -284,7 +287,8 @@ write_age(fpath, year, month, day)
 
   item = max / MAX_LINE + 1;
 
-  fprintf(fp, "%26s\033[1;33;45m [%02d/%02d/%02d] ¦~ÄÖ²Î­p \033[m\n\n",
+  /* %26s\033[1;33;45m [%02d/%02d/%02d] å¹´é½¡çµ±è¨ˆ \033[m\n\n */
+  fprintf(fp, "%26s\033[1;33;45m [%02d/%02d/%02d] \xA6\x7E\xC4\xD6\xB2\xCE\xAD\x70 \033[m\n\n",
     "", year % 100, month, day);
 
   for (i = MAX_LINE + 1; i > 0; i--)
@@ -302,7 +306,8 @@ write_age(fpath, year, month, day)
       else if (max <= age)
       {
 	fouts(fp, buf, '4');
-	fprintf(fp, "¢i ");
+	/* â–ˆ  */
+	fprintf(fp, "\xA2\x69 ");
       }
       else
 	strcat(buf, "   ");
@@ -310,9 +315,11 @@ write_age(fpath, year, month, day)
     fprintf(fp, "\n");
   }
 
-  fprintf(fp, "  \033[1;35mùæùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùè \n"
+  /*   \033[1;35mâ•’â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•• \n */
+  fprintf(fp, "  \033[1;35m\xF9\xE6\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xF9\xE8 \n"
     "   \033[1;32m10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33\n"
-    "                      \033[36m¦³®Ä²Î­p¤H¦¸¡G\033[37m%-9d\033[36m¥­§¡¦~ÄÖ¡G\033[37m%d\033[m\n",
+    /*                       \033[36mæœ‰æ•ˆçµ±è¨ˆäººæ¬¡ï¼š\033[37m%-9d\033[36må¹³å‡å¹´é½¡ï¼š\033[37m%d\033[m\n */
+    "                      \033[36m\xA6\xB3\xAE\xC4\xB2\xCE\xAD\x70\xA4\x48\xA6\xB8\xA1\x47\033[37m%-9d\033[36m\xA5\xAD\xA7\xA1\xA6\x7E\xC4\xD6\xA1\x47\033[37m%d\033[m\n",
     act_age[24], (int) totalage / (act_age[24] ? act_age[24] : 1));
 
   fclose(fp);
@@ -321,11 +328,11 @@ write_age(fpath, year, month, day)
 
 /*-------------------------------------------------------*/
 /* author : wsyfish.bbs@fpg.m4.ntu.edu.tw		 */
-/* target : ¯¸¤W¬P®y²Î­p				 */
+/* target : ç«™ä¸Šæ˜Ÿåº§çµ±è¨ˆ				 */
 /*-------------------------------------------------------*/
 
 
-static int act_star[13];	/* ¤Q¤G¬P®y¡B¨ä¥L */
+static int act_star[13];	/* åäºŒæ˜Ÿåº§ã€å…¶ä»– */
 
 
 static inline void
@@ -423,25 +430,47 @@ write_star(fpath, year, month, day)
 
   char name[13][7] = 
   {
-    "¨d¦Ï®y",
-    "ª÷¤û®y",
-    "Âù¤l®y",
-    "¥¨ÃÉ®y",
-    "·à¤l®y",
-    "³B¤k®y",
-    "¤Ñ¯¯®y",
-    "¤ÑÃÈ®y",
-    "®g¤â®y",
-    "¼¯½~®y",
-    "¤ô²~®y",
-    "Âù³½®y",
-    "¤£¥i¦Ò"
+    /* ç‰¡ç¾Šåº§ */
+    "\xA8\x64\xA6\xCF\xAE\x79",
+    /* é‡‘ç‰›åº§ */
+    "\xAA\xF7\xA4\xFB\xAE\x79",
+    /* é›™å­åº§ */
+    "\xC2\xF9\xA4\x6C\xAE\x79",
+    /* å·¨èŸ¹åº§ */
+    "\xA5\xA8\xC3\xC9\xAE\x79",
+    /* ç…å­åº§ */
+    "\xB7\xE0\xA4\x6C\xAE\x79",
+    /* è™•å¥³åº§ */
+    "\xB3\x42\xA4\x6B\xAE\x79",
+    /* å¤©ç§¤åº§ */
+    "\xA4\xD1\xAF\xAF\xAE\x79",
+    /* å¤©è åº§ */
+    "\xA4\xD1\xC3\xC8\xAE\x79",
+    /* å°„æ‰‹åº§ */
+    "\xAE\x67\xA4\xE2\xAE\x79",
+    /* æ‘©ç¾¯åº§ */
+    "\xBC\xAF\xBD\x7E\xAE\x79",
+    /* æ°´ç“¶åº§ */
+    "\xA4\xF4\xB2\x7E\xAE\x79",
+    /* é›™é­šåº§ */
+    "\xC2\xF9\xB3\xBD\xAE\x79",
+    /* ä¸å¯è€ƒ */
+    "\xA4\xA3\xA5\x69\xA6\xD2"
   };
 
   char blk[10][3] =
   {
-    "  ", "¢j", "¢k", "¢l", "¢m",
-    "¢n", "¢o", "¢p", "¢i", "¢i",
+    /* â– */
+    /* â– */
+    /* â– */
+    /* â–Œ */
+    "  ", "\xA2\x6A", "\xA2\x6B", "\xA2\x6C", "\xA2\x6D",
+    /* â–‹ */
+    /* â–Š */
+    /* â–‰ */
+    /* â–ˆ */
+    /* â–ˆ */
+    "\xA2\x6E", "\xA2\x6F", "\xA2\x70", "\xA2\x69", "\xA2\x69",
   };
 
 
@@ -464,7 +493,8 @@ write_star(fpath, year, month, day)
 
   item = max / 30 + 1;
 
-  fprintf(fp, "%26s\033[1;33;45m [%02d/%02d/%02d] ¬P®y²Î­p \033[m\n\n",
+  /* %26s\033[1;33;45m [%02d/%02d/%02d] æ˜Ÿåº§çµ±è¨ˆ \033[m\n\n */
+  fprintf(fp, "%26s\033[1;33;45m [%02d/%02d/%02d] \xAC\x50\xAE\x79\xB2\xCE\xAD\x70 \033[m\n\n",
     "", year % 100, month, day);
 
   for (i = 0; i < 13; i++)
@@ -484,11 +514,11 @@ write_star(fpath, year, month, day)
 
 /*-------------------------------------------------------*/
 /* author : BioStar.bbs@micro.bio.ncue.edu.tw		 */
-/* target : ¯¸¤W©Ê§O²Î­p				 */
+/* target : ç«™ä¸Šæ€§åˆ¥çµ±è¨ˆ				 */
 /*-------------------------------------------------------*/
 
 
-static int act_sex[3];		/* ¤¤©Ê¡B¨k©Ê¡B¤k©Ê */
+static int act_sex[3];		/* ä¸­æ€§ã€ç”·æ€§ã€å¥³æ€§ */
 
 
 static inline void
@@ -518,15 +548,27 @@ write_sex(fpath, year, month, day)
 
   char name[3][7] = 
   {
-    "  ¤¤©Ê",
-    "  ¨k©Ê",
-    "  ¤k©Ê"
+    /*   ä¸­æ€§ */
+    "  \xA4\xA4\xA9\xCA",
+    /*   ç”·æ€§ */
+    "  \xA8\x6B\xA9\xCA",
+    /*   å¥³æ€§ */
+    "  \xA4\x6B\xA9\xCA"
   };
 
   char blk[10][3] =
   {
-    "  ", "¢j", "¢k", "¢l", "¢m",
-    "¢n", "¢o", "¢p", "¢i", "¢i",
+    /* â– */
+    /* â– */
+    /* â– */
+    /* â–Œ */
+    "  ", "\xA2\x6A", "\xA2\x6B", "\xA2\x6C", "\xA2\x6D",
+    /* â–‹ */
+    /* â–Š */
+    /* â–‰ */
+    /* â–ˆ */
+    /* â–ˆ */
+    "\xA2\x6E", "\xA2\x6F", "\xA2\x70", "\xA2\x69", "\xA2\x69",
   };
 
 
@@ -549,7 +591,8 @@ write_sex(fpath, year, month, day)
 
   item = max / 30 + 1;
 
-  fprintf(fp, "%26s\033[1;33;45m [%02d/%02d/%02d] ©Ê§O²Î­p \033[m\n\n",
+  /* %26s\033[1;33;45m [%02d/%02d/%02d] æ€§åˆ¥çµ±è¨ˆ \033[m\n\n */
+  fprintf(fp, "%26s\033[1;33;45m [%02d/%02d/%02d] \xA9\xCA\xA7\x4F\xB2\xCE\xAD\x70 \033[m\n\n",
     "", year % 100, month, day);
 
   for (i = 0; i < 3; i++)
@@ -568,7 +611,7 @@ write_sex(fpath, year, month, day)
 
 /*-------------------------------------------------------*/
 /* author : itoc.bbs@bbs.tnfsh.tn.edu.tw		 */
-/* target : ¯¸¤W¹Ø¬P²Î­p				 */
+/* target : ç«™ä¸Šå£½æ˜Ÿçµ±è¨ˆ				 */
 /*-------------------------------------------------------*/
 
 
@@ -582,7 +625,8 @@ write_birthday(fpath, year, month, day)
   if (!(fp = fopen(fpath, "w")))
     return;
 
-  fprintf(fp, "%26s\033[1;33;45m [%02d/%02d/%02d] ¥»¤é¹Ø¬P \033[m\n\n",
+  /* %26s\033[1;33;45m [%02d/%02d/%02d] æœ¬æ—¥å£½æ˜Ÿ \033[m\n\n */
+  fprintf(fp, "%26s\033[1;33;45m [%02d/%02d/%02d] \xA5\xBB\xA4\xE9\xB9\xD8\xAC\x50 \033[m\n\n",
     "", year % 100, month, day);
 
   fclose(fp);
@@ -596,14 +640,15 @@ write_birthmon(fpath, year, month, day)
 {
   FILE *fp;
 
-  /* §â¥»¤ë¹Ø¬P±µ¦b OUTFILE_BIRTHDAY «á­± */
+  /* æŠŠæœ¬æœˆå£½æ˜Ÿæ¥åœ¨ OUTFILE_BIRTHDAY å¾Œé¢ */
 
   if (!(fp = fopen(fpath, "a")))
     return;
 
   fprintf(fp, "\n\n");
 
-  fprintf(fp, "%26s\033[1;33;45m [%02d/%02d/%02d] ¥»¤ë¹Ø¬P \033[m\n\n",
+  /* %26s\033[1;33;45m [%02d/%02d/%02d] æœ¬æœˆå£½æ˜Ÿ \033[m\n\n */
+  fprintf(fp, "%26s\033[1;33;45m [%02d/%02d/%02d] \xA5\xBB\xA4\xEB\xB9\xD8\xAC\x50 \033[m\n\n",
     "", year % 100, month, day);
 
   f_suck(fp, TMPFILE_BIRTHMON);
@@ -617,17 +662,17 @@ static inline void
 check_birth(fpath, acct, year, month, day)
   char *fpath;
   ACCT *acct;
-  int year, month, day;		/* ¤µ¤Ñ¬O´X¦~´X¤ë´X¤é */
+  int year, month, day;		/* ä»Šå¤©æ˜¯å¹¾å¹´å¹¾æœˆå¹¾æ—¥ */
 {
-  static int birthday_num = 0;	/* ¦³´X­Ó¤H¤µ¤Ñ¥Í¤é */
-  static int birthmon_num = 0;	/* ¦³´X­Ó¤H¥»¤ë¥Í¤é */
+  static int birthday_num = 0;	/* æœ‰å¹¾å€‹äººä»Šå¤©ç”Ÿæ—¥ */
+  static int birthmon_num = 0;	/* æœ‰å¹¾å€‹äººæœ¬æœˆç”Ÿæ—¥ */
 
   if (acct->month == month)
   {
     FILE *fp;
     char buf[50];
 
-    if (acct->day == day)	/* ¥»¤é¹Ø¬P */
+    if (acct->day == day)	/* æœ¬æ—¥å£½æ˜Ÿ */
     {
       if (!(fp = fopen(fpath, "a")))
 	return;
@@ -635,12 +680,13 @@ check_birth(fpath, acct, year, month, day)
       birthday_num++;
       merge_id_nick(buf, acct->userid, acct->username);
 
-      fprintf(fp, "[%3d]  %-25s  ¤W¯¸¦¸¼Æ: %-5d  ¤å³¹½g¼Æ: %-5d  %2d ·³¥Í¤é\n", 
+      /* [%3d]  %-25s  ä¸Šç«™æ¬¡æ•¸: %-5d  æ–‡ç« ç¯‡æ•¸: %-5d  %2d æ­²ç”Ÿæ—¥\n */
+      fprintf(fp, "[%3d]  %-25s  \xA4\x57\xAF\xB8\xA6\xB8\xBC\xC6: %-5d  \xA4\xE5\xB3\xB9\xBD\x67\xBC\xC6: %-5d  %2d \xB7\xB3\xA5\xCD\xA4\xE9\n", 
 	birthday_num, buf, acct->numlogins, acct->numposts, year - 11 - acct->year);
 
       fclose(fp);    
     }
-    else			/* ¥»¤ë¹Ø¬P */
+    else			/* æœ¬æœˆå£½æ˜Ÿ */
     {
       if (!(fp = fopen(TMPFILE_BIRTHMON, "a")))
 	return;
@@ -648,7 +694,8 @@ check_birth(fpath, acct, year, month, day)
       birthmon_num++;
       merge_id_nick(buf, acct->userid, acct->username);
 
-      fprintf(fp, "[%3d]  %-25s  ¤W¯¸¦¸¼Æ: %-5d  ¤å³¹½g¼Æ: %-5d  ¥Í: %02d/%02d\n", 
+      /* [%3d]  %-25s  ä¸Šç«™æ¬¡æ•¸: %-5d  æ–‡ç« ç¯‡æ•¸: %-5d  ç”Ÿ: %02d/%02d\n */
+      fprintf(fp, "[%3d]  %-25s  \xA4\x57\xAF\xB8\xA6\xB8\xBC\xC6: %-5d  \xA4\xE5\xB3\xB9\xBD\x67\xBC\xC6: %-5d  \xA5\xCD: %02d/%02d\n", 
 	birthmon_num, buf, acct->numlogins, acct->numposts, month, acct->day);
 
       fclose(fp);
@@ -658,7 +705,7 @@ check_birth(fpath, acct, year, month, day)
 
 
 /*-------------------------------------------------------*/
-/* ¥Dµ{¦¡						 */
+/* ä¸»ç¨‹å¼						 */
 /*-------------------------------------------------------*/
 
 
@@ -730,16 +777,20 @@ main()
   write_birthmon(OUTFILE_BIRTHDAY, year, month, day);
 
   qsort(toplogins, TOPNUM, sizeof(DATA), sort_compare);
-  write_data(OUTFILE_TOPLOGIN, "¤W¯¸¦¸¼Æ±Æ¦æº]", &toplogins);
+  /* ä¸Šç«™æ¬¡æ•¸æ’è¡Œæ¦œ */
+  write_data(OUTFILE_TOPLOGIN, "\xA4\x57\xAF\xB8\xA6\xB8\xBC\xC6\xB1\xC6\xA6\xE6\xBA\x5D", &toplogins);
 
   qsort(topposts, TOPNUM, sizeof(DATA), sort_compare);
-  write_data(OUTFILE_TOPPOST, "Äé¤ô½g¼Æ­^¶¯º]", &topposts);
+  /* çŒæ°´ç¯‡æ•¸è‹±é›„æ¦œ */
+  write_data(OUTFILE_TOPPOST, "\xC4\xE9\xA4\xF4\xBD\x67\xBC\xC6\xAD\x5E\xB6\xAF\xBA\x5D", &topposts);
 
   qsort(topmoney, TOPNUM, sizeof(DATA), sort_compare);
-  write_data(OUTFILE_TOPMONEY, "»È¹ô´I¯Î«Ê¯«º]", &topmoney);
+  /* éŠ€å¹£å¯Œç¿å°ç¥æ¦œ */
+  write_data(OUTFILE_TOPMONEY, "\xBB\xC8\xB9\xF4\xB4\x49\xAF\xCE\xAB\xCA\xAF\xAB\xBA\x5D", &topmoney);
 
   qsort(topgold, TOPNUM, sizeof(DATA), sort_compare);
-  write_data(OUTFILE_TOPGOLD, "ª÷¹ô´I»¨§ì¨gº]", &topgold);
+  /* é‡‘å¹£å¯Œè±ªæŠ“ç‹‚æ¦œ */
+  write_data(OUTFILE_TOPGOLD, "\xAA\xF7\xB9\xF4\xB4\x49\xBB\xA8\xA7\xEC\xA8\x67\xBA\x5D", &topgold);
 
   write_age(OUTFILE_AGE, year, month, day);
 

@@ -1,7 +1,7 @@
 /*-------------------------------------------------------*/
 /* manage.c	( NTHU CS MapleBBS Ver 3.10 )		 */
 /*-------------------------------------------------------*/
-/* target : ¬İªOºŞ²z				 	 */
+/* target : çœ‹æ¿ç®¡ç†				 	 */
 /* create : 95/03/29				 	 */
 /* update : 96/04/05				 	 */
 /*-------------------------------------------------------*/
@@ -15,17 +15,18 @@ extern BCACHE *bshm;
 
 #ifdef HAVE_TERMINATOR
 /* ----------------------------------------------------- */
-/* ¯¸ªø¥\¯à : ©Ø·¬¸¨¸­±Ù				 */
+/* ç«™é•·åŠŸèƒ½ : æ‹‚æ¥“è½è‘‰æ–¬				 */
 /* ----------------------------------------------------- */
 
 
 extern char xo_pool[];
 
 
-#define MSG_TERMINATOR	"¡m©Ø·¬¸¨¸­±Ù¡n"
+/* ã€Šæ‹‚æ¥“è½è‘‰æ–¬ã€‹ */
+#define MSG_TERMINATOR	"\xA1\x6D\xA9\xD8\xB7\xAC\xB8\xA8\xB8\xAD\xB1\xD9\xA1\x6E"
 
 int
-post_terminator(xo)		/* Thor.980521: ²×·¥¤å³¹§R°£¤jªk */
+post_terminator(xo)		/* Thor.980521: çµ‚æ¥µæ–‡ç« åˆªé™¤å¤§æ³• */
   XO *xo;
 {
   int mode, type;
@@ -35,7 +36,8 @@ post_terminator(xo)		/* Thor.980521: ²×·¥¤å³¹§R°£¤jªk */
   if (!HAS_PERM(PERM_ALLBOARD))
     return XO_FOOT;
 
-  mode = vans(MSG_TERMINATOR "§R°£ (1)¥»¤å§@ªÌ (2)¥»¤å¼ĞÃD (3)¦Û©w¡H[Q] ") - '0';
+  /* åˆªé™¤ (1)æœ¬æ–‡ä½œè€… (2)æœ¬æ–‡æ¨™é¡Œ (3)è‡ªå®šï¼Ÿ[Q]  */
+  mode = vans(MSG_TERMINATOR "\xA7\x52\xB0\xA3 (1)\xA5\xBB\xA4\xE5\xA7\x40\xAA\xCC (2)\xA5\xBB\xA4\xE5\xBC\xD0\xC3\x44 (3)\xA6\xDB\xA9\x77\xA1\x48[Q] ") - '0';
 
   if (mode == 1)
   {
@@ -45,13 +47,15 @@ post_terminator(xo)		/* Thor.980521: ²×·¥¤å³¹§R°£¤jªk */
   else if (mode == 2)
   {
     hdr = (HDR *) xo_pool + (xo->pos - xo->top);
-    strcpy(keyTitle, str_ttl(hdr->title));		/* ®³±¼ Re: */
+    strcpy(keyTitle, str_ttl(hdr->title));		/* æ‹¿æ‰ Re: */
   }
   else if (mode == 3)
   {
-    if (!vget(b_lines, 0, "§@ªÌ¡G", keyOwner, 73, DOECHO))
+    /* ä½œè€…ï¼š */
+    if (!vget(b_lines, 0, "\xA7\x40\xAA\xCC\xA1\x47", keyOwner, 73, DOECHO))
       mode ^= 1;
-    if (!vget(b_lines, 0, "¼ĞÃD¡G", keyTitle, TTLEN + 1, DOECHO))
+    /* æ¨™é¡Œï¼š */
+    if (!vget(b_lines, 0, "\xBC\xD0\xC3\x44\xA1\x47", keyTitle, TTLEN + 1, DOECHO))
       mode ^= 2;
   }
   else
@@ -59,26 +63,35 @@ post_terminator(xo)		/* Thor.980521: ²×·¥¤å³¹§R°£¤jªk */
     return XO_FOOT;
   }
 
-  type = vans(MSG_TERMINATOR "§R°£ (1)Âà«HªO (2)«DÂà«HªO (3)©Ò¦³¬İªO¡H[Q] ");
+  /* åˆªé™¤ (1)è½‰ä¿¡æ¿ (2)éè½‰ä¿¡æ¿ (3)æ‰€æœ‰çœ‹æ¿ï¼Ÿ[Q]  */
+  type = vans(MSG_TERMINATOR "\xA7\x52\xB0\xA3 (1)\xC2\xE0\xAB\x48\xAA\x4F (2)\xAB\x44\xC2\xE0\xAB\x48\xAA\x4F (3)\xA9\xD2\xA6\xB3\xAC\xDD\xAA\x4F\xA1\x48[Q] ");
   if (type < '1' || type > '3')
     return XO_FOOT;
 
-  sprintf(buf, "§R°£%s¡G%.35s ©ó%sªO¡A½T©w¶Ü(Y/N)¡H[N] ", 
-    mode == 1 ? "§@ªÌ" : mode == 2 ? "¼ĞÃD" : "±ø¥ó", 
-    mode == 1 ? keyOwner : mode == 2 ? keyTitle : "¦Û©w", 
-    type == '1' ? "Âà«H" : type == '2' ? "«DÂà«H" : "©Ò¦³¬İ");
+  /* åˆªé™¤%sï¼š%.35s æ–¼%sæ¿ï¼Œç¢ºå®šå—(Y/N)ï¼Ÿ[N]  */
+  sprintf(buf, "\xA7\x52\xB0\xA3%s\xA1\x47%.35s \xA9\xF3%s\xAA\x4F\xA1\x41\xBD\x54\xA9\x77\xB6\xDC(Y/N)\xA1\x48[N] ", 
+    /* ä½œè€… */
+    /* æ¨™é¡Œ */
+    /* æ¢ä»¶ */
+    mode == 1 ? "\xA7\x40\xAA\xCC" : mode == 2 ? "\xBC\xD0\xC3\x44" : "\xB1\xF8\xA5\xF3", 
+    /* è‡ªå®š */
+    mode == 1 ? keyOwner : mode == 2 ? keyTitle : "\xA6\xDB\xA9\x77", 
+    /* è½‰ä¿¡ */
+    /* éè½‰ä¿¡ */
+    /* æ‰€æœ‰çœ‹ */
+    type == '1' ? "\xC2\xE0\xAB\x48" : type == '2' ? "\xAB\x44\xC2\xE0\xAB\x48" : "\xA9\xD2\xA6\xB3\xAC\xDD");
 
   if (vans(buf) == 'y')
   {
     BRD *bhdr, *head, *tail;
     char tmpboard[BNLEN + 1];
 
-    /* Thor.980616: °O¤U currboard¡A¥H«K´_­ì */
+    /* Thor.980616: è¨˜ä¸‹ currboardï¼Œä»¥ä¾¿å¾©åŸ */
     strcpy(tmpboard, currboard);
 
     head = bhdr = bshm->bcache;
     tail = bhdr + bshm->number;
-    do				/* ¦Ü¤Ö¦³ note ¤@ªO */
+    do				/* è‡³å°‘æœ‰ note ä¸€æ¿ */
     {
       int fdr, fsize, xmode;
       FILE *fpw;
@@ -89,10 +102,11 @@ post_terminator(xo)		/* Thor.980521: ²×·¥¤å³¹§R°£¤jªk */
       if ((type == '1' && (xmode & BRD_NOTRAN)) || (type == '2' && !(xmode & BRD_NOTRAN)))
 	continue;
 
-      /* Thor.980616: §ó§ï currboard¡A¥H cancel post */
+      /* Thor.980616: æ›´æ”¹ currboardï¼Œä»¥ cancel post */
       strcpy(currboard, head->brdname);
 
-      sprintf(buf, MSG_TERMINATOR "¬İªO¡G%s \033[5m...\033[m", currboard);
+      /* çœ‹æ¿ï¼š%s \033[5m...\033[m */
+      sprintf(buf, MSG_TERMINATOR "\xAC\xDD\xAA\x4F\xA1\x47%s \033[5m...\033[m", currboard);
       outz(buf);
       refresh();
 
@@ -127,7 +141,7 @@ post_terminator(xo)		/* Thor.980521: ²×·¥¤å³¹§R°£¤jªk */
 	}
 	else
 	{
-	  /* ¬å¤å¨Ã³s½u¬å«H */
+	  /* ç æ–‡ä¸¦é€£ç·šç ä¿¡ */
 
 	  cancel_post(hdr);
 	  hdr_fpath(fold, fpath, hdr);
@@ -148,7 +162,7 @@ post_terminator(xo)		/* Thor.980521: ²×·¥¤å³¹§R°£¤jªk */
       btime_update(brd_bno(currboard));
     } while (++head < tail);
 
-    /* ÁÙ­ì currboard */
+    /* é‚„åŸ currboard */
     strcpy(currboard, tmpboard);
     return XO_LOAD;
   }
@@ -159,7 +173,7 @@ post_terminator(xo)		/* Thor.980521: ²×·¥¤å³¹§R°£¤jªk */
 
 
 /* ----------------------------------------------------- */
-/* ªO¥D¥\¯à : ­×§ïªO¦W					 */
+/* æ¿ä¸»åŠŸèƒ½ : ä¿®æ”¹æ¿å					 */
 /* ----------------------------------------------------- */
 
 
@@ -172,10 +186,12 @@ post_brdtitle(xo)
   oldbrd = bshm->bcache + currbno;
   memcpy(&newbrd, oldbrd, sizeof(BRD));
 
-  /* itoc.µù¸Ñ: ¨ä¹ê©I¥s brd_title(bno) ´N¥i¥H¤F¡A¨S®t¡AÆZ·F¤@¤U¦n¤F :p */
-  if (vans("¬O§_­×§ï¤¤¤åªO¦W±Ô­z(Y/N)¡H[N] ") == 'y')
+  /* itoc.è¨»è§£: å…¶å¯¦å‘¼å« brd_title(bno) å°±å¯ä»¥äº†ï¼Œæ²’å·®ï¼Œè »å¹¹ä¸€ä¸‹å¥½äº† :p */
+  /* æ˜¯å¦ä¿®æ”¹ä¸­æ–‡æ¿åæ•˜è¿°(Y/N)ï¼Ÿ[N]  */
+  if (vans("\xAC\x4F\xA7\x5F\xAD\xD7\xA7\xEF\xA4\xA4\xA4\xE5\xAA\x4F\xA6\x57\xB1\xD4\xAD\x7A(Y/N)\xA1\x48[N] ") == 'y')
   {
-    vget(b_lines, 0, "¬İªO¥DÃD¡G", newbrd.title, BTLEN + 1, GCARRY);
+    /* çœ‹æ¿ä¸»é¡Œï¼š */
+    vget(b_lines, 0, "\xAC\xDD\xAA\x4F\xA5\x44\xC3\x44\xA1\x47", newbrd.title, BTLEN + 1, GCARRY);
 
     if (memcmp(&newbrd, oldbrd, sizeof(BRD)) && vans(msg_sure_ny) == 'y')
     {
@@ -189,7 +205,7 @@ post_brdtitle(xo)
 
 
 /* ----------------------------------------------------- */
-/* ªO¥D¥\¯à : ­×§ï¶iªOµe­±				 */
+/* æ¿ä¸»åŠŸèƒ½ : ä¿®æ”¹é€²æ¿ç•«é¢				 */
 /* ----------------------------------------------------- */
 
 
@@ -200,7 +216,8 @@ post_memo_edit(xo)
   int mode;
   char fpath[64];
 
-  mode = vans("¶iªOµe­± (D)§R°£ (E)­×§ï (Q)¨ú®ø¡H[E] ");
+  /* é€²æ¿ç•«é¢ (D)åˆªé™¤ (E)ä¿®æ”¹ (Q)å–æ¶ˆï¼Ÿ[E]  */
+  mode = vans("\xB6\x69\xAA\x4F\xB5\x65\xAD\xB1 (D)\xA7\x52\xB0\xA3 (E)\xAD\xD7\xA7\xEF (Q)\xA8\xFA\xAE\xF8\xA1\x48[E] ");
 
   if (mode != 'q')
   {
@@ -212,7 +229,7 @@ post_memo_edit(xo)
     }
     else
     {
-      if (vedit(fpath, 0))	/* Thor.981020: ª`·N³Qtalkªº°İÃD */
+      if (vedit(fpath, 0))	/* Thor.981020: æ³¨æ„è¢«talkçš„å•é¡Œ */
 	vmsg(msg_cancel);
     }
   }
@@ -221,7 +238,7 @@ post_memo_edit(xo)
 
 
 /* ----------------------------------------------------- */
-/* ªO¥D¥\¯à : ¬İªOÄİ©Ê					 */
+/* æ¿ä¸»åŠŸèƒ½ : çœ‹æ¿å±¬æ€§					 */
 /* ----------------------------------------------------- */
 
 
@@ -235,7 +252,8 @@ post_battr_noscore(xo)
   oldbrd = bshm->bcache + currbno;
   memcpy(&newbrd, oldbrd, sizeof(BRD));
 
-  switch (vans("¶}©ñµû¤À (1)¤¹³\\ (2)¤£³\\ (Q)¨ú®ø¡H[Q] "))
+  /* é–‹æ”¾è©•åˆ† (1)å…è¨± (2)ä¸è¨± (Q)å–æ¶ˆï¼Ÿ[Q]  */
+  switch (vans("\xB6\x7D\xA9\xF1\xB5\xFB\xA4\xC0 (1)\xA4\xB9\xB3\x5C (2)\xA4\xA3\xB3\x5C (Q)\xA8\xFA\xAE\xF8\xA1\x48[Q] "))
   {
   case '1':
     newbrd.battr &= ~BRD_NOSCORE;
@@ -259,7 +277,7 @@ post_battr_noscore(xo)
 
 
 /* ----------------------------------------------------- */
-/* ªO¥D¥\¯à : ­×§ïªO¥D¦W³æ				 */
+/* æ¿ä¸»åŠŸèƒ½ : ä¿®æ”¹æ¿ä¸»åå–®				 */
 /* ----------------------------------------------------- */
 
 
@@ -275,7 +293,7 @@ post_changeBM(xo)
   oldbrd = bshm->bcache + currbno;
 
   blist = oldbrd->BM;
-  if (is_bm(blist, cuser.userid) != 1)	/* ¥u¦³¥¿ªO¥D¥i¥H³]©wªO¥D¦W³æ */
+  if (is_bm(blist, cuser.userid) != 1)	/* åªæœ‰æ­£æ¿ä¸»å¯ä»¥è¨­å®šæ¿ä¸»åå–® */
     return XO_HEAD;
 
   memcpy(&newbrd, oldbrd, sizeof(BRD));
@@ -284,32 +302,36 @@ post_changeBM(xo)
   clrtobot();
 
   move(8, 0);
-  prints("¥Ø«eªO¥D¬° %s\n½Ğ¿é¤J·sªºªO¥D¦W³æ¡A©Î«ö [Return] ¤£§ï", oldbrd->BM);
+  /* ç›®å‰æ¿ä¸»ç‚º %s\nè«‹è¼¸å…¥æ–°çš„æ¿ä¸»åå–®ï¼Œæˆ–æŒ‰ [Return] ä¸æ”¹ */
+  prints("\xA5\xD8\xAB\x65\xAA\x4F\xA5\x44\xAC\xB0 %s\n\xBD\xD0\xBF\xE9\xA4\x4A\xB7\x73\xAA\xBA\xAA\x4F\xA5\x44\xA6\x57\xB3\xE6\xA1\x41\xA9\xCE\xAB\xF6 [Return] \xA4\xA3\xA7\xEF", oldbrd->BM);
 
   strcpy(buf, oldbrd->BM);
   BMlen = strlen(buf);
 
-  while (vget(10, 0, "½Ğ¿é¤J°ÆªO¥D¡Aµ²§ô½Ğ«ö Enter¡A²M±¼©Ò¦³°ÆªO¥D½Ğ¥´¡uµL¡v¡G", userid, IDLEN + 1, DOECHO))
+  /* è«‹è¼¸å…¥å‰¯æ¿ä¸»ï¼ŒçµæŸè«‹æŒ‰ Enterï¼Œæ¸…æ‰æ‰€æœ‰å‰¯æ¿ä¸»è«‹æ‰“ã€Œç„¡ã€ï¼š */
+  while (vget(10, 0, "\xBD\xD0\xBF\xE9\xA4\x4A\xB0\xC6\xAA\x4F\xA5\x44\xA1\x41\xB5\xB2\xA7\xF4\xBD\xD0\xAB\xF6 Enter\xA1\x41\xB2\x4D\xB1\xBC\xA9\xD2\xA6\xB3\xB0\xC6\xAA\x4F\xA5\x44\xBD\xD0\xA5\xB4\xA1\x75\xB5\x4C\xA1\x76\xA1\x47", userid, IDLEN + 1, DOECHO))
   {
-    if (!strcmp(userid, "µL"))
+    /* ç„¡ */
+    if (!strcmp(userid, "\xB5\x4C"))
     {
       strcpy(buf, cuser.userid);
       BMlen = strlen(buf);
     }
-    else if (is_bm(buf, userid))	/* §R°£ÂÂ¦³ªºªO¥D */
+    else if (is_bm(buf, userid))	/* åˆªé™¤èˆŠæœ‰çš„æ¿ä¸» */
     {
       len = strlen(userid);
       if (!str_cmp(cuser.userid, userid))
       {
-	vmsg("¤£¥i¥H±N¦Û¤v²¾¥XªO¥D¦W³æ");
+	/* ä¸å¯ä»¥å°‡è‡ªå·±ç§»å‡ºæ¿ä¸»åå–® */
+	vmsg("\xA4\xA3\xA5\x69\xA5\x48\xB1\x4E\xA6\xDB\xA4\x76\xB2\xBE\xA5\x58\xAA\x4F\xA5\x44\xA6\x57\xB3\xE6");
 	continue;
       }
-      else if (!str_cmp(buf + BMlen - len, userid) && buf[BMlen - len - 1] == '/')	/* ¦W³æ¤W³Ì«á¤@¦ì¡AID «á­±¤£±µ '/' */
+      else if (!str_cmp(buf + BMlen - len, userid) && buf[BMlen - len - 1] == '/')	/* åå–®ä¸Šæœ€å¾Œä¸€ä½ï¼ŒID å¾Œé¢ä¸æ¥ '/' */
       {
-	buf[BMlen - len - 1] = '\0';			/* §R°£ ID ¤Î«e­±ªº '/' */
+	buf[BMlen - len - 1] = '\0';			/* åˆªé™¤ ID åŠå‰é¢çš„ '/' */
 	len++;
       }
-      else						/* ID «á­±·|±µ '/' */
+      else						/* ID å¾Œé¢æœƒæ¥ '/' */
       {
 	str_lower(userid, userid);
 	strcat(userid, "/");
@@ -319,12 +341,13 @@ post_changeBM(xo)
       }
       BMlen -= len;
     }
-    else if (acct_load(&acct, userid) >= 0 && !is_bm(buf, userid))	/* ¿é¤J·sªO¥D */
+    else if (acct_load(&acct, userid) >= 0 && !is_bm(buf, userid))	/* è¼¸å…¥æ–°æ¿ä¸» */
     {
       len = strlen(userid) + 1;	/* '/' + userid */
       if (BMlen + len > BMLEN)
       {
-	vmsg("ªO¥D¦W³æ¹Lªø¡AµLªk±N³o ID ³]¬°ªO¥D");
+	/* æ¿ä¸»åå–®éé•·ï¼Œç„¡æ³•å°‡é€™ ID è¨­ç‚ºæ¿ä¸» */
+	vmsg("\xAA\x4F\xA5\x44\xA6\x57\xB3\xE6\xB9\x4C\xAA\xF8\xA1\x41\xB5\x4C\xAA\x6B\xB1\x4E\xB3\x6F ID \xB3\x5D\xAC\xB0\xAA\x4F\xA5\x44");
 	continue;
       }
       sprintf(buf + BMlen, "/%s", acct.userid);
@@ -336,7 +359,8 @@ post_changeBM(xo)
       continue;
 
     move(8, 0);
-    prints("¥Ø«eªO¥D¬° %s", buf);
+    /* ç›®å‰æ¿ä¸»ç‚º %s */
+    prints("\xA5\xD8\xAB\x65\xAA\x4F\xA5\x44\xAC\xB0 %s", buf);
     clrtoeol();
   }
   strcpy(newbrd.BM, buf);
@@ -346,7 +370,8 @@ post_changeBM(xo)
     memcpy(oldbrd, &newbrd, sizeof(BRD));
     rec_put(FN_BRD, &newbrd, sizeof(BRD), currbno, NULL);
 
-    sprintf(currBM, "ªO¥D¡G%s", newbrd.BM);	/* ­n­«Ã¸ÀÉÀYªºªO¥D */
+    /* æ¿ä¸»ï¼š%s */
+    sprintf(currBM, "\xAA\x4F\xA5\x44\xA1\x47%s", newbrd.BM);	/* è¦é‡ç¹ªæª”é ­çš„æ¿ä¸» */
   }
 
   return XO_HEAD;
@@ -355,7 +380,7 @@ post_changeBM(xo)
 
 #ifdef HAVE_MODERATED_BOARD
 /* ----------------------------------------------------- */
-/* ªO¥D¥\¯à : ¬İªOÅv­­					 */
+/* æ¿ä¸»åŠŸèƒ½ : çœ‹æ¿æ¬Šé™					 */
 /* ----------------------------------------------------- */
 
 
@@ -368,21 +393,22 @@ post_brdlevel(xo)
   oldbrd = bshm->bcache + currbno;
   memcpy(&newbrd, oldbrd, sizeof(BRD));
 
-  switch (vans("1)¤½¶}¬İªO 2)¯µ±K¬İªO 3)¦n¤Í¬İªO¡H[Q] "))
+  /* 1)å…¬é–‹çœ‹æ¿ 2)ç§˜å¯†çœ‹æ¿ 3)å¥½å‹çœ‹æ¿ï¼Ÿ[Q]  */
+  switch (vans("1)\xA4\xBD\xB6\x7D\xAC\xDD\xAA\x4F 2)\xAF\xB5\xB1\x4B\xAC\xDD\xAA\x4F 3)\xA6\x6E\xA4\xCD\xAC\xDD\xAA\x4F\xA1\x48[Q] "))
   {
-  case '1':				/* ¤½¶}¬İªO */
+  case '1':				/* å…¬é–‹çœ‹æ¿ */
     newbrd.readlevel = 0;
     newbrd.postlevel = PERM_POST;
     newbrd.battr &= ~(BRD_NOSTAT | BRD_NOVOTE);
     break;
 
-  case '2':				/* ¯µ±K¬İªO */
+  case '2':				/* ç§˜å¯†çœ‹æ¿ */
     newbrd.readlevel = PERM_SYSOP;
     newbrd.postlevel = 0;
     newbrd.battr |= (BRD_NOSTAT | BRD_NOVOTE);
     break;
 
-  case '3':				/* ¦n¤Í¬İªO */
+  case '3':				/* å¥½å‹çœ‹æ¿ */
     newbrd.readlevel = PERM_BOARD;
     newbrd.postlevel = 0;
     newbrd.battr |= (BRD_NOSTAT | BRD_NOVOTE);
@@ -405,7 +431,7 @@ post_brdlevel(xo)
 
 #ifdef HAVE_MODERATED_BOARD
 /* ----------------------------------------------------- */
-/* ªO¤Í¦W³æ¡Gmoderated board				 */
+/* æ¿å‹åå–®ï¼šmoderated board				 */
 /* ----------------------------------------------------- */
 
 
@@ -433,7 +459,7 @@ XoBM(xo)
   brd_fpath(fpath, currboard, fn_pal);
   xz[XZ_PAL - XO_ZONE].xo = xt = xo_new(fpath);
   xt->key = PALTYPE_BPAL;
-  xover(XZ_PAL);		/* Thor: ¶ixover«e, pal_xo ¤@©w­n ready */
+  xover(XZ_PAL);		/* Thor: é€²xoverå‰, pal_xo ä¸€å®šè¦ ready */
 
   /* build userno image to speed up, maybe upgreade to shm */
 
@@ -447,7 +473,7 @@ XoBM(xo)
 
 
 /* ----------------------------------------------------- */
-/* ªO¥D¿ï³æ						 */
+/* æ¿ä¸»é¸å–®						 */
 /* ----------------------------------------------------- */
 
 
@@ -461,36 +487,53 @@ post_manage(xo)
   char *menu[] = 
   {
     "BQ",
-    "BTitle  ­×§ï¬İªO¥DÃD",
-    "WMemo   ½s¿è¶iªOµe­±",
-    "Manager ¼W´î°ÆªO¥D",
+    /* BTitle  ä¿®æ”¹çœ‹æ¿ä¸»é¡Œ */
+    "BTitle  \xAD\xD7\xA7\xEF\xAC\xDD\xAA\x4F\xA5\x44\xC3\x44",
+    /* WMemo   ç·¨è¼¯é€²æ¿ç•«é¢ */
+    "WMemo   \xBD\x73\xBF\xE8\xB6\x69\xAA\x4F\xB5\x65\xAD\xB1",
+    /* Manager å¢æ¸›å‰¯æ¿ä¸» */
+    "Manager \xBC\x57\xB4\xEE\xB0\xC6\xAA\x4F\xA5\x44",
 #  ifdef HAVE_SCORE
-    "Score   ³]©w¥i§_µû¤À",
+    /* Score   è¨­å®šå¯å¦è©•åˆ† */
+    "Score   \xB3\x5D\xA9\x77\xA5\x69\xA7\x5F\xB5\xFB\xA4\xC0",
 #  endif
 #  ifdef HAVE_MODERATED_BOARD
-    "Level   ¤½¶}/¦n¤Í/¯µ±K",
-    "OPal    ªO¤Í¦W³æ",
+    /* Level   å…¬é–‹/å¥½å‹/ç§˜å¯† */
+    "Level   \xA4\xBD\xB6\x7D/\xA6\x6E\xA4\xCD/\xAF\xB5\xB1\x4B",
+    /* OPal    æ¿å‹åå–® */
+    "OPal    \xAA\x4F\xA4\xCD\xA6\x57\xB3\xE6",
 #  endif
     NULL
   };
 #else
-  char *menu = "¡· ªO¥D¿ï³æ (B)¥DÃD (W)¶iªO (M)°ÆªO"
+  /* â— æ¿ä¸»é¸å–® (B)ä¸»é¡Œ (W)é€²æ¿ (M)å‰¯æ¿ */
+  char *menu = "\xA1\xB7 \xAA\x4F\xA5\x44\xBF\xEF\xB3\xE6 (B)\xA5\x44\xC3\x44 (W)\xB6\x69\xAA\x4F (M)\xB0\xC6\xAA\x4F"
 #  ifdef HAVE_SCORE
-    " (S)µû¤À"
+    /*  (S)è©•åˆ† */
+    " (S)\xB5\xFB\xA4\xC0"
 #  endif
 #  ifdef HAVE_MODERATED_BOARD
-    " (L)Åv­­ (O)ªO¤Í"
+    /*  (L)æ¬Šé™ (O)æ¿å‹ */
+    " (L)\xC5\x76\xAD\xAD (O)\xAA\x4F\xA4\xCD"
 #  endif
-    "¡H[Q] ";
+    /* ï¼Ÿ[Q]  */
+    "\xA1\x48[Q] ";
 #endif
 
-  vs_bar("ªO¥DºŞ²z");
+  /* æ¿ä¸»ç®¡ç† */
+  vs_bar("\xAA\x4F\xA5\x44\xBA\xDE\xB2\x7A");
   brd = bshm->bcache + currbno;
-  prints("¬İªO¦WºÙ¡G%s\n¬İªO»¡©ú¡G[%s] %s\nªO¥D¦W³æ¡G%s\n",
+  /* çœ‹æ¿åç¨±ï¼š%s\nçœ‹æ¿èªªæ˜ï¼š[%s] %s\næ¿ä¸»åå–®ï¼š%s\n */
+  prints("\xAC\xDD\xAA\x4F\xA6\x57\xBA\xD9\xA1\x47%s\n\xAC\xDD\xAA\x4F\xBB\xA1\xA9\xFA\xA1\x47[%s] %s\n\xAA\x4F\xA5\x44\xA6\x57\xB3\xE6\xA1\x47%s\n",
     brd->brdname, brd->class, brd->title, brd->BM);
-  prints("¤¤¤å±Ô­z¡G%s\n", brd->title);
+  /* ä¸­æ–‡æ•˜è¿°ï¼š%s\n */
+  prints("\xA4\xA4\xA4\xE5\xB1\xD4\xAD\x7A\xA1\x47%s\n", brd->title);
 #ifdef HAVE_MODERATED_BOARD
-  prints("¬İªOÅv­­¡G%s¬İªO\n", brd->readlevel == PERM_SYSOP ? "¯µ±K" : brd->readlevel == PERM_BOARD ? "¦n¤Í" : "¤½¶}");
+  /* çœ‹æ¿æ¬Šé™ï¼š%sçœ‹æ¿\n */
+  /* ç§˜å¯† */
+  /* å¥½å‹ */
+  /* å…¬é–‹ */
+  prints("\xAC\xDD\xAA\x4F\xC5\x76\xAD\xAD\xA1\x47%s\xAC\xDD\xAA\x4F\n", brd->readlevel == PERM_SYSOP ? "\xAF\xB5\xB1\x4B" : brd->readlevel == PERM_BOARD ? "\xA6\x6E\xA4\xCD" : "\xA4\xBD\xB6\x7D");
 #endif
 
   if (!(bbstate & STAT_BOARD))
@@ -500,7 +543,8 @@ post_manage(xo)
   }
 
 #ifdef POPUP_ANSWER
-  switch (pans(3, 20, "ªO¥D¿ï³æ", menu))
+  /* æ¿ä¸»é¸å–® */
+  switch (pans(3, 20, "\xAA\x4F\xA5\x44\xBF\xEF\xB3\xE6", menu))
 #else
   switch (vans(menu))
 #endif

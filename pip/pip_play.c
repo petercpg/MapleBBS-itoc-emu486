@@ -1,7 +1,7 @@
 /*-------------------------------------------------------*/
 /* pip_play.c         ( NTHU CS MapleBBS Ver 3.10 )      */
 /*-------------------------------------------------------*/
-/* target : ª±¼Ö¿ï³æ                                     */
+/* target : ç©æ¨‚é¸å–®                                     */
 /* create :   /  /                                       */
 /* update : 01/08/15                                     */
 /* author : dsyan.bbs@forever.twbbs.org                  */
@@ -17,15 +17,15 @@
 
 
 /*-------------------------------------------------------*/
-/* ª±¼Ö¿ï³æ:´²¨B ®È¹C ¹B°Ê ¬ù·| ²q®±			 */
+/* ç©æ¨‚é¸å–®:æ•£æ­¥ æ—…éŠ é‹å‹• ç´„æœƒ çŒœæ‹³			 */
 /*-------------------------------------------------------*/
 
 
 int
-pip_play_stroll()		/* ´²¨B */
+pip_play_stroll()		/* æ•£æ­¥ */
 {
-  /* ¹w³]§ïÅÜ­È¡A­Y¦³°¸µo¨Æ¥ó¡A¥t¥~¥[¦¨©ó¤U */
-  count_tired(3, 3, 1, 100, 0);	/* ¼W¥[¯h³Ò */
+  /* é è¨­æ”¹è®Šå€¼ï¼Œè‹¥æœ‰å¶ç™¼äº‹ä»¶ï¼Œå¦å¤–åŠ æˆæ–¼ä¸‹ */
+  count_tired(3, 3, 1, 100, 0);	/* å¢åŠ ç–²å‹ */
   d.happy += rand() % 3 + 3;
   d.satisfy += rand() % 2 + 1;
   d.shit += rand() % 3 + 2;
@@ -37,21 +37,25 @@ pip_play_stroll()		/* ´²¨B */
     d.happy += 6;
     d.satisfy += 6;
     show_play_pic(1);
-    vmsg("¹J¨ìªB¤ÍÅo  ¯u¦n.... ^_^");
+    /* é‡åˆ°æœ‹å‹å›‰  çœŸå¥½.... ^_^ */
+    vmsg("\xB9\x4A\xA8\xEC\xAA\x42\xA4\xCD\xC5\x6F  \xAF\x75\xA6\x6E.... ^_^");
     break;
 
   case 1:
     d.happy += 4;
     d.satisfy += 8;
     show_play_pic(2);
-    vmsg(d.sex == 1 ? "¬İ¨ìº}«Gªº¤k¥ÍÅo  ¯u¦n.... ^_^" : "¬İ¨ì­^«Tªº¨k¥ÍÅo  ¯u¦n.... ^_^");
+    /* çœ‹åˆ°æ¼‚äº®çš„å¥³ç”Ÿå›‰  çœŸå¥½.... ^_^ */
+    /* çœ‹åˆ°è‹±ä¿Šçš„ç”·ç”Ÿå›‰  çœŸå¥½.... ^_^ */
+    vmsg(d.sex == 1 ? "\xAC\xDD\xA8\xEC\xBA\x7D\xAB\x47\xAA\xBA\xA4\x6B\xA5\xCD\xC5\x6F  \xAF\x75\xA6\x6E.... ^_^" : "\xAC\xDD\xA8\xEC\xAD\x5E\xAB\x54\xAA\xBA\xA8\x6B\xA5\xCD\xC5\x6F  \xAF\x75\xA6\x6E.... ^_^");
     break;
 
   case 2:
     d.money += 100;
     d.happy += 4;
     show_play_pic(3);
-    vmsg("¾ß¨ì¤F100¤¸¤F..­C­C­C....");
+    /* æ’¿åˆ°äº†100å…ƒäº†..è€¶è€¶è€¶.... */
+    vmsg("\xBE\xDF\xA8\xEC\xA4\x46""100\xA4\xB8\xA4\x46..\xAD\x43\xAD\x43\xAD\x43....");
     break;
 
   case 3:
@@ -61,12 +65,14 @@ pip_play_stroll()		/* ´²¨B */
     if (d.money > 50)
     {
       d.money -= 50;
-      vmsg("±¼¤F50¤¸¤F..¶ã¶ã¶ã....");
+      /* æ‰äº†50å…ƒäº†..å—šå—šå—š.... */
+      vmsg("\xB1\xBC\xA4\x46""50\xA4\xB8\xA4\x46..\xB6\xE3\xB6\xE3\xB6\xE3....");
     }
     else
     {
       d.money = 0;
-      vmsg("¿ú±¼¥ú¥ú¤F..¶ã¶ã¶ã....");
+      /* éŒ¢æ‰å…‰å…‰äº†..å—šå—šå—š.... */
+      vmsg("\xBF\xFA\xB1\xBC\xA5\xFA\xA5\xFA\xA4\x46..\xB6\xE3\xB6\xE3\xB6\xE3....");
     }
     break;
 
@@ -76,37 +82,43 @@ pip_play_stroll()		/* ´²¨B */
     if (d.money > 50)
     {
       d.money -= 50;
-      vmsg("¥Î¤F50¤¸¤F..¤£¥i¥H½|§Ú³á....");
+      /* ç”¨äº†50å…ƒäº†..ä¸å¯ä»¥ç½µæˆ‘å–”.... */
+      vmsg("\xA5\xCE\xA4\x46""50\xA4\xB8\xA4\x46..\xA4\xA3\xA5\x69\xA5\x48\xBD\x7C\xA7\xDA\xB3\xE1....");
     }
     else
     {
       d.money = 0;
-      vmsg("¿ú³Q§Ú°½¥Î¥ú¥ú¤F..:p");
+      /* éŒ¢è¢«æˆ‘å·ç”¨å…‰å…‰äº†..:p */
+      vmsg("\xBF\xFA\xB3\x51\xA7\xDA\xB0\xBD\xA5\xCE\xA5\xFA\xA5\xFA\xA4\x46..:p");
     }
     break;
 
   case 5:
     d.toy++;
     show_play_pic(6);
-    vmsg("¦n´Î³á¡A¾ß¨ìª±¨ã¤F»¡.....");
+    /* å¥½æ£’å–”ï¼Œæ’¿åˆ°ç©å…·äº†èªª..... */
+    vmsg("\xA6\x6E\xB4\xCE\xB3\xE1\xA1\x41\xBE\xDF\xA8\xEC\xAA\xB1\xA8\xE3\xA4\x46\xBB\xA1.....");
     break;
 
   case 6:
     d.cookie++;
     show_play_pic(7);
-    vmsg("¦n´Î³á¡A¾ß¨ì»æ°®¤F»¡.....");
+    /* å¥½æ£’å–”ï¼Œæ’¿åˆ°é¤…ä¹¾äº†èªª..... */
+    vmsg("\xA6\x6E\xB4\xCE\xB3\xE1\xA1\x41\xBE\xDF\xA8\xEC\xBB\xE6\xB0\xAE\xA4\x46\xBB\xA1.....");
     break;
 
   case 7:
     d.satisfy -= 5;
     d.shit += 5;
     show_play_pic(9);
-    vmsg("¯u¬O­Ë·°  ¥i¥H¥h¶R·R°ê¼ú¨é");
+    /* çœŸæ˜¯å€’æ¥£  å¯ä»¥å»è²·æ„›åœ‹çåˆ¸ */
+    vmsg("\xAF\x75\xAC\x4F\xAD\xCB\xB7\xB0  \xA5\x69\xA5\x48\xA5\x68\xB6\x52\xB7\x52\xB0\xEA\xBC\xFA\xA8\xE9");
     break;
 
   default:
     show_play_pic(8);
-    vmsg("¨S¦³¯S§Oªº¨Æµo¥Í°Õ.....");
+    /* æ²’æœ‰ç‰¹åˆ¥çš„äº‹ç™¼ç”Ÿå•¦..... */
+    vmsg("\xA8\x53\xA6\xB3\xAF\x53\xA7\x4F\xAA\xBA\xA8\xC6\xB5\x6F\xA5\xCD\xB0\xD5.....");
     break;
   }
 
@@ -120,7 +132,7 @@ pip_play_stroll()		/* ´²¨B */
 
 
 int
-pip_play_sport()		/* ¹B°Ê */
+pip_play_sport()		/* é‹å‹• */
 {
   count_tired(3, 8, 1, 100, 1);
   d.speed += 2 + rand() % 3;
@@ -132,18 +144,20 @@ pip_play_sport()		/* ¹B°Ê */
     d.satisfy = 100;
 
   show_play_pic(10);
-  vmsg("¹B°Ê¦n³B¦h¦h°Õ...");
+  /* é‹å‹•å¥½è™•å¤šå¤šå•¦... */
+  vmsg("\xB9\x42\xB0\xCA\xA6\x6E\xB3\x42\xA6\x68\xA6\x68\xB0\xD5...");
 
   return 0;
 }
 
 
 int
-pip_play_date()			/* ¬ù·| */
+pip_play_date()			/* ç´„æœƒ */
 {
   if (d.money < 150)
   {
-    vmsg("¿ú¤£°÷¦h°Õ¡I¬ù·|Á`±oªáÂI¿ú¿ú");
+    /* éŒ¢ä¸å¤ å¤šå•¦ï¼ç´„æœƒç¸½å¾—èŠ±é»éŒ¢éŒ¢ */
+    vmsg("\xBF\xFA\xA4\xA3\xB0\xF7\xA6\x68\xB0\xD5\xA1\x49\xAC\xF9\xB7\x7C\xC1\x60\xB1\x6F\xAA\xE1\xC2\x49\xBF\xFA\xBF\xFA");
   }
   else
   {
@@ -161,18 +175,20 @@ pip_play_date()			/* ¬ù·| */
       d.satisfy = 100;
 
     show_play_pic(11);
-    vmsg("¬ù·|¥h  ©I©I");
+    /* ç´„æœƒå»  å‘¼å‘¼ */
+    vmsg("\xAC\xF9\xB7\x7C\xA5\x68  \xA9\x49\xA9\x49");
   }
   return 0;
 }
 
 
 int
-pip_play_outing()		/* ­¥¹C */
+pip_play_outing()		/* éƒŠéŠ */
 {
   if (d.money < 250)
   {
-    vmsg("¿ú¤£°÷¦h°Õ¡I®È¹CÁ`±oªáÂI¿ú¿ú");
+    /* éŒ¢ä¸å¤ å¤šå•¦ï¼æ—…éŠç¸½å¾—èŠ±é»éŒ¢éŒ¢ */
+    vmsg("\xBF\xFA\xA4\xA3\xB0\xF7\xA6\x68\xB0\xD5\xA1\x49\xAE\xC8\xB9\x43\xC1\x60\xB1\x6F\xAA\xE1\xC2\x49\xBF\xFA\xBF\xFA");
   }
   else
   {
@@ -194,28 +210,36 @@ pip_play_outing()		/* ­¥¹C */
     case 0:
       d.art += rand() % 2;
       show_play_pic(12);
-      vmsg(rand() % 2 ? "¤ß¤¤¦³¤@ªÑ²H²Hªº·PÄ±  ¦nµÎªA³á...." : "¶³¤ô ¶~±¡ ¤ß±¡¦n¦h¤F.....");
+      /* å¿ƒä¸­æœ‰ä¸€è‚¡æ·¡æ·¡çš„æ„Ÿè¦º  å¥½èˆ’æœå–”.... */
+      /* é›²æ°´ é–‘æƒ… å¿ƒæƒ…å¥½å¤šäº†..... */
+      vmsg(rand() % 2 ? "\xA4\xDF\xA4\xA4\xA6\xB3\xA4\x40\xAA\xD1\xB2\x48\xB2\x48\xAA\xBA\xB7\x50\xC4\xB1  \xA6\x6E\xB5\xCE\xAA\x41\xB3\xE1...." : "\xB6\xB3\xA4\xF4 \xB6\x7E\xB1\xA1 \xA4\xDF\xB1\xA1\xA6\x6E\xA6\x68\xA4\x46.....");
       break;
 
     case 1:
       d.art += rand() % 3;
       show_play_pic(13);
-      vmsg(rand() % 2 ? "¦³¤s¦³¤ô¦³¸¨¤é  §Î¦¨¤@´T¬üÄRªºµe.." : "¬İµÛ¬İµÛ  ¥ş¨­¯h¾Î³£¤£¨£Åo..");
+      /* æœ‰å±±æœ‰æ°´æœ‰è½æ—¥  å½¢æˆä¸€å¹…ç¾éº—çš„ç•«.. */
+      /* çœ‹è‘—çœ‹è‘—  å…¨èº«ç–²æ†Šéƒ½ä¸è¦‹å›‰.. */
+      vmsg(rand() % 2 ? "\xA6\xB3\xA4\x73\xA6\xB3\xA4\xF4\xA6\xB3\xB8\xA8\xA4\xE9  \xA7\xCE\xA6\xA8\xA4\x40\xB4\x54\xAC\xFC\xC4\x52\xAA\xBA\xB5\x65.." : "\xAC\xDD\xB5\xDB\xAC\xDD\xB5\xDB  \xA5\xFE\xA8\xAD\xAF\x68\xBE\xCE\xB3\xA3\xA4\xA3\xA8\xA3\xC5\x6F..");
       break;
 
     case 2:
       d.love += rand() % 3;
       show_play_pic(14);
-      vmsg(rand() % 2 ? "¬İ  ¤Ó¶§§Ö¨S¤J¤ô¤¤Åo..." : "¯u¬O¤@´T¬ü´º");
+      /* çœ‹  å¤ªé™½å¿«æ²’å…¥æ°´ä¸­å›‰... */
+      /* çœŸæ˜¯ä¸€å¹…ç¾æ™¯ */
+      vmsg(rand() % 2 ? "\xAC\xDD  \xA4\xD3\xB6\xA7\xA7\xD6\xA8\x53\xA4\x4A\xA4\xF4\xA4\xA4\xC5\x6F..." : "\xAF\x75\xAC\x4F\xA4\x40\xB4\x54\xAC\xFC\xB4\xBA");
       break;
 
     case 3:
       d.hp += d.maxhp;
       show_play_pic(15);
-      vmsg(rand() % 2 ? "Åı§Ú­ÌºÆ¨g¦b©]¸Ìªº®üÅy§a....©I©I.." : "²D²nªº®ü­·ªï­±Å§¨Ó  ³Ì³ßÅw³oºØ·PÄ±¤F....");
+      /* è®“æˆ‘å€‘ç˜‹ç‹‚åœ¨å¤œè£¡çš„æµ·ç˜å§....å‘¼å‘¼.. */
+      /* æ¶¼çˆ½çš„æµ·é¢¨è¿é¢è¥²ä¾†  æœ€å–œæ­¡é€™ç¨®æ„Ÿè¦ºäº†.... */
+      vmsg(rand() % 2 ? "\xC5\xFD\xA7\xDA\xAD\xCC\xBA\xC6\xA8\x67\xA6\x62\xA9\x5D\xB8\xCC\xAA\xBA\xAE\xFC\xC5\x79\xA7\x61....\xA9\x49\xA9\x49.." : "\xB2\x44\xB2\x6E\xAA\xBA\xAE\xFC\xAD\xB7\xAA\xEF\xAD\xB1\xC5\xA7\xA8\xD3  \xB3\xCC\xB3\xDF\xC5\x77\xB3\x6F\xBA\xD8\xB7\x50\xC4\xB1\xA4\x46....");
     }
 
-    /* ÀH¾÷¹J¨ì¤Ñ¨Ï */
+    /* éš¨æ©Ÿé‡åˆ°å¤©ä½¿ */
     if (rand() % 301 == 0)
       pip_meet_angel();
   }
@@ -225,7 +249,7 @@ pip_play_outing()		/* ­¥¹C */
 
 
 int
-pip_play_kite()			/* ­·ºå */
+pip_play_kite()			/* é¢¨ç® */
 {
   count_tired(4, 4, 1, 100, 0);
   d.weight += (rand() % 2 + 2);
@@ -241,7 +265,8 @@ pip_play_kite()			/* ­·ºå */
     d.satisfy = 100;
 
   show_play_pic(16);
-  vmsg("©ñ­·ºå¯u¦nª±°Õ...");
+  /* æ”¾é¢¨ç®çœŸå¥½ç©å•¦... */
+  vmsg("\xA9\xF1\xAD\xB7\xBA\xE5\xAF\x75\xA6\x6E\xAA\xB1\xB0\xD5...");
   return 0;
 }
 
@@ -251,7 +276,8 @@ pip_play_KTV()			/* KTV */
 {
   if (d.money < 250)
   {
-    vmsg("¿ú¤£°÷¦h°Õ¡I°ÛºqÁ`±oªáÂI¿ú¿ú");
+    /* éŒ¢ä¸å¤ å¤šå•¦ï¼å”±æ­Œç¸½å¾—èŠ±é»éŒ¢éŒ¢ */
+    vmsg("\xBF\xFA\xA4\xA3\xB0\xF7\xA6\x68\xB0\xD5\xA1\x49\xB0\xDB\xBA\x71\xC1\x60\xB1\x6F\xAA\xE1\xC2\x49\xBF\xFA\xBF\xFA");
   }
   else
   {
@@ -269,7 +295,8 @@ pip_play_KTV()			/* KTV */
       d.satisfy = 100;
 
     show_play_pic(17);
-    vmsg("¤G°¦¦Ñªê..¤G°¦¦Ñªê..¶]±o§Ö..¶]±o§Ö..");
+    /* äºŒéš»è€è™..äºŒéš»è€è™..è·‘å¾—å¿«..è·‘å¾—å¿«.. */
+    vmsg("\xA4\x47\xB0\xA6\xA6\xD1\xAA\xEA..\xA4\x47\xB0\xA6\xA6\xD1\xAA\xEA..\xB6\x5D\xB1\x6F\xA7\xD6..\xB6\x5D\xB1\x6F\xA7\xD6..");
   }
   return 0;
 }
@@ -283,7 +310,8 @@ guess_pip_lose()
   d.hp -= rand() % 2 + 3;
   d.satisfy--;
   d.happy -= 2;
-  outs("¤pÂû¿é¤F....~>_<~");
+  /* å°é›è¼¸äº†....~>_<~ */
+  outs("\xA4\x70\xC2\xFB\xBF\xE9\xA4\x46....~>_<~");
   show_guess_pic(2);
 }
 
@@ -297,7 +325,8 @@ guess_pip_tie()
   d.hp -= rand() % 2 + 3;
   d.satisfy++;
   d.happy++;
-  outs("¥­¤â........-_-");
+  /* å¹³æ‰‹........-_- */
+  outs("\xA5\xAD\xA4\xE2........-_-");
   show_guess_pic(3);
 }
 
@@ -311,41 +340,48 @@ guess_pip_win()
   d.hp -= rand() % 2 + 3;
   d.satisfy += rand() % 3 + 2;
   d.happy += rand() % 3 + 5;
-  outs("¤pÂûÄ¹Åo....*^_^*");
+  /* å°é›è´å›‰....*^_^* */
+  outs("\xA4\x70\xC2\xFB\xC4\xB9\xC5\x6F....*^_^*");
   show_guess_pic(1);
 }
 
 
 int
-pip_play_guess()		/* ²q®±µ{¦¡ */
+pip_play_guess()		/* çŒœæ‹³ç¨‹å¼ */
 {
-  int mankey;		/* §Ú¥Xªº¤â */
-  int pipkey;		/* ¤pÂû¥Xªº¤â */
-  char msg[3][5] = {"°Å¤M", "¥ÛÀY", "¥¬  "};
+  int mankey;		/* æˆ‘å‡ºçš„æ‰‹ */
+  int pipkey;		/* å°é›å‡ºçš„æ‰‹ */
+  /* å‰ªåˆ€ */
+  /* çŸ³é ­ */
+  /* å¸ƒ   */
+  char msg[3][5] = {"\xB0\xC5\xA4\x4D", "\xA5\xDB\xC0\x59", "\xA5\xAC  "};
 
-  out_cmd("", COLOR1 " ²q®± " COLOR2 " [1]§Ú¥X°Å¤M [2]§Ú¥X¥ÛÀY [3]§Ú¥X¥¬°Õ [Q]¸õ¥X                            \033[m");
+  /*  çŒœæ‹³  */
+  /*  [1]æˆ‘å‡ºå‰ªåˆ€ [2]æˆ‘å‡ºçŸ³é ­ [3]æˆ‘å‡ºå¸ƒå•¦ [Q]è·³å‡º                            \033[m */
+  out_cmd("", COLOR1 " \xB2\x71\xAE\xB1 " COLOR2 " [1]\xA7\xDA\xA5\x58\xB0\xC5\xA4\x4D [2]\xA7\xDA\xA5\x58\xA5\xDB\xC0\x59 [3]\xA7\xDA\xA5\x58\xA5\xAC\xB0\xD5 [Q]\xB8\xF5\xA5\x58                            \033[m");
 
-  /* itoc.010814: ¥i¥H¤@ª½²q®± */
+  /* itoc.010814: å¯ä»¥ä¸€ç›´çŒœæ‹³ */
   while (1)
   {
-    /* §Ú¥ı¥X */
+    /* æˆ‘å…ˆå‡º */
     mankey = vkey() - '1';
     if (mankey < 0 || mankey > 2)
       return 0;
 
-    /* ¤pÂû¦A¥X */
+    /* å°é›å†å‡º */
     pipkey = rand() % 3;
 
-    /* ¦b b_lines - 2 ¨q¥ş³¡ªº³Ó­t°T®§ */
+    /* åœ¨ b_lines - 2 ç§€å…¨éƒ¨çš„å‹è² è¨Šæ¯ */
     move(b_lines - 2, 0);
-    prints("±z¡G%s   ¤pÂû¡G%s    ", msg[mankey], msg[pipkey]);
+    /* æ‚¨ï¼š%s   å°é›ï¼š%s     */
+    prints("\xB1\x7A\xA1\x47%s   \xA4\x70\xC2\xFB\xA1\x47%s    ", msg[mankey], msg[pipkey]);
 
-    /* §P©w³Ó­t */
-    if (mankey == pipkey)	/* ¥­¤â */
+    /* åˆ¤å®šå‹è²  */
+    if (mankey == pipkey)	/* å¹³æ‰‹ */
       guess_pip_tie();
-    else if (pipkey == mankey + 1 || pipkey == mankey - 2)	/* ¤pÂû³Ó */
+    else if (pipkey == mankey + 1 || pipkey == mankey - 2)	/* å°é›å‹ */
       guess_pip_win();
-    else			/* ¤pÂû±Ñ */
+    else			/* å°é›æ•— */
       guess_pip_lose();
   }
 }
