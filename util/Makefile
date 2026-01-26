@@ -12,7 +12,7 @@
 # ------------------------------------------------------ #
 
 
-EXE =	account acl-sort bbsmail bquota brdmail camera counter expire \
+EXE =	account acl-sort bbsmail bquota brdmail camera counter expire fixbs2dir \
 	gem-index hdr-dump mailpost outgo poststat reaper redir setperm setusr \
 	showACCT showBRD showDIR showUSR topgem topsong topusr
 
