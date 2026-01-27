@@ -120,7 +120,7 @@ verify_user(str)
 	  {
 	    /* 提升權限 */
 	    acct.userlevel |= PERM_VALID;
-	    time(&acct.tvalid);
+	    { time_t __now; time(&__now); acct.tvalid = __now; }
 	    lseek(fd, (off_t) 0, SEEK_SET);
 	    write(fd, &acct, sizeof(ACCT));
 

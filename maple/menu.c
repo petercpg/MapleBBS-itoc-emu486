@@ -30,7 +30,7 @@ extern time_t brd_visit[];
 
 typedef struct
 {
-  time_t tpad;
+  time32_t tpad;
   char msg[400];
 }      Pad;
 
@@ -120,7 +120,10 @@ pad_draw()
       return 0;
   } while (cc == 'e');
 
-  time(&pad.tpad);
+  /* time(&pad.tpad); */
+  time_t now;
+  time(&now);
+  pad.tpad = (time32_t)now;
 
   /* itoc.020812.註解: 改版面的時候要注意 struct Pad.msg[] 是否夠大 */
   str = pad.msg;

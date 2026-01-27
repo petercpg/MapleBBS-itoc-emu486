@@ -384,7 +384,10 @@ more_slideshow()
 
     refresh();
     ch = 1;
-    if (select(1, (fd_set *) &ch, NULL, NULL, tv + slideshow - 1) > 0)
+    fd_set readfds;
+    FD_ZERO(&readfds);
+    FD_SET(0, &readfds);
+    if (select(1, &readfds, NULL, NULL, tv + slideshow - 1) > 0)
     {
       /* 若播放中按任意鍵，則停止播放 */
       slideshow = 0;

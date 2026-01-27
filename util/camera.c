@@ -101,7 +101,7 @@ mirror(fpath, line)
   int line;		/* 0:系統文件，不限制列數  !=0:動態看板，line 列 */
 {
   int size, i;
-  char buf[FILM_SIZ];
+  char buf[FILM_SIZ + 1];
   char tmp[ANSILINELEN];
   struct stat st;
   FILE *fp;
@@ -122,8 +122,13 @@ mirror(fpath, line)
     {
       str_strip(tmp, ANSILINELEN);
 
+      int tmp_len = strlen(tmp);
+      /* 檢查是否會超過緩衝區 */
+      if (size + tmp_len >= FILM_SIZ + 1) {
+        break;  /* 避免溢出，停止讀取 */
+      }
       strcpy(buf + size, tmp);
-      size += strlen(tmp);
+      size += tmp_len;
 
       if (line)
       {
@@ -153,7 +158,7 @@ mirror(fpath, line)
 
     /* 如果是系統文件出錯的話，要補上去 */
     /* 請告訴站長檔案 %s 遺失或是過大 */
-    sprintf(buf, "\xBD\xD0\xA7\x69\xB6\x44\xAF\xB8\xAA\xF8\xC0\xC9\xAE\xD7 %s \xBF\xF2\xA5\xA2\xA9\xCE\xAC\x4F\xB9\x4C\xA4\x6A", fpath);
+    snprintf(buf, sizeof(buf) - 1, "\xBD\xD0\xA7\x69\xB6\x44\xAF\xB8\xAA\xF8\xC0\xC9\xAE\xD7 %s \xBF\xF2\xA5\xA2\xA9\xCE\xAC\x4F\xB9\x4C\xA4\x6A", fpath);
     size = strlen(buf);
   }
 
@@ -288,7 +293,7 @@ lunar_calendar(key, now, ptime)	/* itoc.050528: 由陽曆算農曆日期 */
     }
   }
 
-  sprintf(key, "%02d:%02d", Mon, Day);
+  snprintf(key, sizeof(key), "%02d:%02d", Mon, Day);
 }
 
 
@@ -297,17 +302,17 @@ do_today()
 {
   FILE *fp;
   char buf[80], *ptr1, *ptr2, *ptr3, *today;
-  char key1[6];			/* mm/dd: 陽曆 mm月dd日 */
-  char key2[6];			/* mm/#A: 陽曆 mm月的第#個星期A */
-  char key3[6];			/* MM\DD: 農曆 MM月DD日 */
+  char key1[32];			/* mm/dd: 陽曆 mm月dd日 */
+  char key2[32];			/* mm/#A: 陽曆 mm月的第#個星期A */
+  char key3[32];			/* MM\DD: 農曆 MM月DD日 */
   time_t now;
   struct tm *ptime;
   static char feast[64];
 
   time(&now);
   ptime = localtime(&now);
-  sprintf(key1, "%02d/%02d", ptime->tm_mon + 1, ptime->tm_mday);
-  sprintf(key2, "%02d/%d%c", ptime->tm_mon + 1, (ptime->tm_mday - 1) / 7 + 1, ptime->tm_wday + 'A');
+  snprintf(key1, sizeof(key1), "%02d/%02d", ptime->tm_mon + 1, ptime->tm_mday);
+  snprintf(key2, sizeof(key2), "%02d/%d%c", ptime->tm_mon + 1, (ptime->tm_mday - 1) / 7 + 1, ptime->tm_wday + 'A');
   lunar_calendar(key3, &now, ptime);
 
   today = image.today;
@@ -328,7 +333,7 @@ do_today()
 	  str_ncpy(today, ptr2, sizeof(image.today));
 
 	  if (ptr3 = strtok(NULL, " \t\n"))
-	    sprintf(feast, "etc/feasts/%s", ptr3);
+	    snprintf(feast, sizeof(feast), "etc/feasts/%s", ptr3);
 	  if (!dashf(feast))
 	    feast[0] = '\0';
 
@@ -390,7 +395,7 @@ main()
 
   /* itoc.註解: 動態看板及點歌本合計只有 MOVIE_MAX - FILM_MOVIE - 1 篇才會被收進 movie */
 
-  sprintf(fpath, "gem/brd/%s/@/@note", BN_CAMERA);	/* 動態看板的群組檔案名稱應命名為 @note */
+  snprintf(fpath, sizeof(fpath), "gem/brd/%s/@/@note", BN_CAMERA);	/* 動態看板的群組檔案名稱應命名為 @note */
   do_gem(fpath);					/* 把 [note] 精華區收進 movie */
 
 #ifdef HAVE_SONG_CAMERA

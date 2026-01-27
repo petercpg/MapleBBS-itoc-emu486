@@ -1408,9 +1408,14 @@ servo_daemon(inetd)
    * children, once per connection --- and it does add up.
    */
 
-  time((time_t *)&value);
-  gmtime((time_t *)&value);
-  strftime(buf, 80, "%d/%b/%Y:%H:%M:%S", localtime((time_t *)&value));
+  /* time((time_t *)&value); */
+  time_t now;
+  time(&now);
+  value = (int)now;
+
+  /* gmtime((time_t *)&value); */
+  gmtime(&now);
+  strftime(buf, 80, "%d/%b/%Y:%H:%M:%S", localtime(&now));
 
 #ifdef HAVE_RLIMIT
   /* --------------------------------------------------- */

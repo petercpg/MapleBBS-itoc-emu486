@@ -61,7 +61,7 @@ dns_name(addr, name)
     {
       if ((n = dn_expand((u_char *) &ans, eom, cp, hostbuf, MAXDNAME)) >= 0)
       {
-	strcpy(name, hostbuf);
+	snprintf(name, 48, "%s", hostbuf);
 	return 0;
       }
     }
@@ -69,7 +69,7 @@ dns_name(addr, name)
 #if 0
     if (type == T_CNAME)
     {
-      strcpy(name, hostbuf);
+      snprintf(name, 48, "%s", hostbuf);
       return 0;
     }
 #endif

@@ -235,7 +235,7 @@ initial_bbs()
   if (read_newsfeeds() < 0)
   {
     /* 請檢查 newsfeeds.bbs，無法讀檔\n */
-    printf("\xBD\xD0\xC0\xCB\xAC\x64 newsfeeds.bbs\xA1\x41\xB5\x4C\xAA\x6B\xC5\xAA\xC0\xC9\n");
+    printf("請檢查 newsfeeds.bbs，無法讀檔\n");
     return 0;
   }
 

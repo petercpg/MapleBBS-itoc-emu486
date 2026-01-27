@@ -145,7 +145,7 @@ main(argc, argv)
 	acct.userlevel |= PERM_VALID;
       else
 	acct.userlevel &= ~PERM_VALID;
-      time(&acct.tvalid);
+      { time_t __now; time(&__now); acct.tvalid = __now; }
       break;
 
     case 'p':		/* userlevel */

@@ -465,7 +465,10 @@ filter_full(head, hdr)
 
   /* 使用者可以中斷搜尋 */
   fsize = 1;
-  if (select(1, (fd_set *) &fsize, NULL, NULL, &tv) > 0)
+  fd_set readfds;
+  FD_ZERO(&readfds);
+  FD_SET(0, &readfds);
+  if (select(1, &readfds, NULL, NULL, &tv) > 0)
   {
     vkey();
     search_fit = -1;

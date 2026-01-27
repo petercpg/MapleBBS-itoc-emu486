@@ -1105,7 +1105,10 @@ zkey()				/* press any key or timeout */
   int rset;
 
   rset = 1;
-  select(1, (fd_set *) &rset, NULL, NULL, &tv);
+  fd_set readfds;
+  FD_ZERO(&readfds);
+  FD_SET(0, &readfds);
+  select(1, &readfds, NULL, NULL, &tv);
 
 #if 0
   if (select(1, &rset, NULL, NULL, &tv) > 0)
@@ -1311,10 +1314,15 @@ igetch()
       for (;;)
       {
 	struct timeval tv = vio_to;
+        fd_set readfds;
 	/* Thor.980806: man page 假設 timeval 是會改變的 */
 
-	rset = 1 | fd;
-	cc = select(nfds, (fd_set *) & rset, NULL, NULL, &tv /*&vio_to*/);
+	/* rset = 1 | fd; */
+        FD_ZERO(&readfds);
+        FD_SET(0, &readfds);
+        if (fd) FD_SET(vio_fd, &readfds);
+
+	cc = select(nfds, &readfds, NULL, NULL, &tv /*&vio_to*/);
 			/* Thor.980806: man page 假設 timeval 是會改變的 */
 
 	if (cc > 0)
@@ -1339,7 +1347,7 @@ igetch()
 	      idle = 0;
 
 #ifdef DETAIL_IDLETIME
-	      time(&cutmp->idle_time);	/* 若 #define DETAIL_IDLETIME，則 idle_time 表示開始閒置的時間(秒) */
+	      { time_t __now; time(&__now); cutmp->idle_time = __now; }	/* 若 #define DETAIL_IDLETIME，則 idle_time 表示開始閒置的時間(秒) */
 #else
 	      cutmp->idle_time = 0;	/* 若 #undef DETAIL_IDLETIME，則 idle_time 表示已經閒置了多久(分) */
 #endif

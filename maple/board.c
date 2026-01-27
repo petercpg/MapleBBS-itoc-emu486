@@ -102,7 +102,10 @@ brh_put()
 
     n = *++list;   /* Thor.980904: 正讀時是bhno */
     brd_bits[n] |= BRD_H_BIT;
-    time((time_t *) list);    /* Thor.980904.註解: bvisit time */
+    /* time((time_t *) list); */
+    time_t now;
+    time(&now);
+    *list = (int)now;
 
     item = *++list;
     head = ++list;
@@ -245,7 +248,10 @@ brh_visit(mode)
   }
   else
   {
-    time((time_t *)list);
+    /* *list = time(0); */
+    time_t now;
+    time(&now);
+    *list = (int)now;
   }
   /* *++list = mode; */
   *++list = 0;	/* itoc.010207: 強定為 0, for 部分 visit */
@@ -1939,7 +1945,10 @@ XoAuthor(xo)
 
     /* 使用者可以中斷搜尋 */
     value = 1;
-    if (select(1, (fd_set *) &value, NULL, NULL, &tv) > 0)
+    fd_set readfds;
+    FD_ZERO(&readfds);
+    FD_SET(0, &readfds);
+    if (select(1, &readfds, NULL, NULL, &tv) > 0)
     {
       vkey();
       break;

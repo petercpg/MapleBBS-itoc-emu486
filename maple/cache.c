@@ -382,8 +382,8 @@ bshm_init()
   i = 0;
   while (bshm->uptime <= 0)	/* bshm 未設定完成，也許是未跑 account，也許是站長正好在開板 */
   {
-    sleep(5);
-    if (++i >= 6)		/* 若 30 秒以後還沒好，斷線離開 */
+    usleep(100000);  /* 0.1 秒，避免長時間阻塞 */
+    if (++i >= 300)		/* 重試 300 次 = 30 秒總等待時間 */
       abort_bbs();
   }
 }
@@ -401,7 +401,7 @@ bshm_reload()		/* 開板以後，重新載入 bshm */
   while (*uptime <= 0)
   {
     /* 其他站長也剛好在開板，等待 30 秒 */
-    sleep(30);
+    sleep(5);  /* 從 30 秒減至 5 秒 */
   }
 
   *uptime = -1;		/* 開始設定 */
@@ -535,8 +535,8 @@ film_out(tag, row)
 
   while (!(fmax = *shot))	/* util/camera.c 正在換片 */
   {
-    sleep(5);
-    if (++len >= 6)		/* 若 30 秒以後還沒換好片，可能是沒跑 camera，直接離開 */
+    usleep(100000);  /* 0.1 秒，避免長時間阻塞 */
+    if (++len >= 300)		/* 重試 300 次 = 30 秒總等待時間 */
       return;
   }
 

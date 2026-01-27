@@ -83,7 +83,10 @@ blog(mode, msg)		/* BBS 一般記錄 */
 void
 log_modes()
 {
-  time(&modelog.logtime);
+  /* time(&modelog.logtime); */
+  time_t now;
+  time(&now);
+  modelog.logtime = (time32_t)now;
   rec_add(FN_RUN_MODE_CUR, &modelog, sizeof(UMODELOG));
 }
 #endif
@@ -101,7 +104,11 @@ u_exit(mode)
 
   utmp_free(cutmp);		/* 釋放 UTMP shm */
 
-  diff = (time(&cuser.lastlogin) - ap_start) / 60;
+  /* diff = (time(&cuser.lastlogin) - ap_start) / 60; */
+  time_t now;
+  time(&now);
+  cuser.lastlogin = (time32_t)now;
+  diff = (now - ap_start) / 60;
   sprintf(fpath, "Stay: %d (%d)", diff, currpid);
   blog(mode, fpath);
 
@@ -1237,7 +1244,10 @@ telnet_init()
     /* Thor.981221: for future reservation bug */
     to.tv_sec = 1;
     to.tv_usec = 1;
-    if (select(1, (fd_set *) & rset, NULL, NULL, &to) > 0)
+    fd_set readfds;
+    FD_ZERO(&readfds);
+    FD_SET(0, &readfds);
+    if (select(1, &readfds, NULL, NULL, &to) > 0)
       recv(0, buf, sizeof(buf), 0);
   }
 }
@@ -1275,7 +1285,10 @@ term_init()
   rset = 1;
   to.tv_sec = 1;
   to.tv_usec = 1;
-  if (select(1, (fd_set *) & rset, NULL, NULL, &to) > 0)
+  fd_set readfds;
+  FD_ZERO(&readfds);
+  FD_SET(0, &readfds);
+  if (select(1, &readfds, NULL, NULL, &to) > 0)
     recv(0, buf, sizeof(buf), 0);
 
   rcv = NULL;
@@ -1293,7 +1306,9 @@ term_init()
 	rset = 1;
 	to.tv_sec = 1;
 	to.tv_usec = 1;
-	if (select(1, (fd_set *) & rset, NULL, NULL, &to) > 0)
+        FD_ZERO(&readfds);
+        FD_SET(0, &readfds);
+	if (select(1, &readfds, NULL, NULL, &to) > 0)
 	  recv(0, buf + 3, sizeof(buf) - 3, 0);
       }
       if ((uschar) buf[3] == IAC && (uschar) buf[4] == SB && buf[5] == TELOPT_NAWS)
@@ -1609,8 +1624,10 @@ main(argc, argv)
 
   for (;;)
   {
-    value = 1;
-    if (select(1, (fd_set *) & value, NULL, NULL, NULL) < 0)
+    fd_set readfds;
+    FD_ZERO(&readfds);
+    FD_SET(0, &readfds);
+    if (select(1, &readfds, NULL, NULL, NULL) < 0)
       continue;
 
     value = sizeof(sin);
