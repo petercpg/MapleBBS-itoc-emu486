@@ -130,7 +130,7 @@ u_exit(mode)
     usr_fpath(fpath, cuser.userid, fn_acct);
     fd = open(fpath, O_RDWR);
     if (fd >= 0)
-    {  
+    {
       if (read(fd, &tuser, sizeof(ACCT)) == sizeof(ACCT))
       {
 	if (diff >= 1)
@@ -441,7 +441,7 @@ logattempt(type, content)
   char buf[128], fpath[64];
 
   sprintf(buf, "%s %c %s\n", Btime(ap_start), type, content);
-    
+
   usr_fpath(fpath, cuser.userid, FN_LOG);
   f_cat(fpath, buf);
 
@@ -510,7 +510,7 @@ utmp_setup(mode)
 {
   UTMP utmp;
   uschar *addr;
-  
+
   memset(&utmp, 0, sizeof(utmp));
 
   utmp.pid = currpid;
@@ -522,7 +522,7 @@ utmp_setup(mode)
   utmp.userlevel = cuser.userlevel;	/* itoc.010309: 把 userlevel 也放入 cache */
   utmp.ufo = cuser.ufo;
   utmp.status = 0;
-  
+
   strcpy(utmp.userid, cuser.userid);
 #ifdef DETAIL_IDLETIME
   utmp.idle_time = ap_start;
@@ -547,7 +547,7 @@ utmp_setup(mode)
 #endif	/* GUEST_NICK */
 
   strcpy(utmp.username, cuser.username);
-  
+
 #ifdef HAVE_WHERE
 
 #  ifdef GUEST_WHERE
@@ -598,7 +598,7 @@ utmp_setup(mode)
 #else
   str_ncpy(utmp.from, fromhost, sizeof(utmp.from));
 #endif	/* HAVE_WHERE */
-  
+
   /* Thor: 告訴User已經滿了放不下... */
   if (!utmp_new(&utmp))
     /* \n您剛剛選的位子已經被人捷足先登了，請下次再來吧 */
@@ -662,7 +662,7 @@ login_user(content)
       }
       /* [保人密碼]  */
       else if (!vget(b_lines - 2, 40, "[\xAB\x4F\xA4\x48\xB1\x4B\xBD\x58] ", passbuf, PSWDLEN + 1, NOECHO))
-      {       
+      {
 	continue;
       }
       else
@@ -750,7 +750,7 @@ login_user(content)
 	    for (;;)
 	    {
 	      /*    [變更帳號]  */
-	      if (vget(b_lines - 2, 0, "   [\xC5\xDC\xA7\xF3\xB1\x62\xB8\xB9] ", uid, IDLEN + 1, DOECHO) && 
+	      if (vget(b_lines - 2, 0, "   [\xC5\xDC\xA7\xF3\xB1\x62\xB8\xB9] ", uid, IDLEN + 1, DOECHO) &&
 		acct_load(&cuser, uid) >= 0)
 		break;
 	      vmsg(err_uid);
@@ -762,7 +762,7 @@ login_user(content)
 	    /* SYSOP gets all permission bits */
 	    /* itoc.010902: DENY perm 排外 */
 	    cuser.userlevel = ~0 ^ (PERM_DENYMAIL | PERM_DENYTALK | PERM_DENYCHAT | PERM_DENYPOST | PERM_DENYLOGIN | PERM_PURGE);
-	  }   
+	  }
 	}
 
 	if (cuser.ufo & UFO_ACL)
@@ -1179,7 +1179,7 @@ tn_main()
     str_host, str_site, ushm->count);
 
   film_out((ap_start % 3) + FILM_OPENING0, 3);	/* 亂數顯示開頭畫面 */
-  
+
   currpid = getpid();
 
   tn_signals();	/* Thor.980806: 放於 tn_login前, 以便 call in不會被踢 */
@@ -1207,7 +1207,7 @@ tn_main()
 static void
 telnet_init()
 {
-  static char svr[] = 
+  static char svr[] =
   {
     IAC, DO, TELOPT_TTYPE,
     IAC, SB, TELOPT_TTYPE, TELQUAL_SEND, IAC, SE,
@@ -1551,7 +1551,7 @@ main_signals()
   struct sigaction act;
 
   /* act.sa_mask = 0; */ /* Thor.981105: 標準用法 */
-  sigemptyset(&act.sa_mask);      
+  sigemptyset(&act.sa_mask);
   act.sa_flags = 0;
 
   act.sa_handler = reaper;

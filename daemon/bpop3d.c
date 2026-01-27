@@ -330,7 +330,7 @@ mbox_read(cn, phdr, lmax)
 
   /* mytm = localtime(&phdr->chrono);
   strftime(buf, 46, "%a, %e %h %Y %T +0800 (%Z)", mytm); */
-  
+
 
   pool = cn->pool;
   sprintf(pool, "+OK %d octets\r\nFrom: %s\r\nTo: %s%s\r\n"
@@ -616,7 +616,7 @@ mbox_file(cn)
 :         但是實際用 Netscape Messager 去試試看,
 :         得到總共信件數目之後,
 :         當要去 retreive 第一封信就當住了....-_-
-:         ps. Solaris 2.5.1, Maple 3.02 
+:         ps. Solaris 2.5.1, Maple 3.02
   */
   *head++ = '\r';
   *head++ = '\n';
@@ -750,10 +750,10 @@ cmd_user(cn)
     *ptr = '\0';
   }
 
-  /* Thor.981122: chc@gaisnews.iis.sinica.edu.tw patch: 
+  /* Thor.981122: chc@gaisnews.iis.sinica.edu.tw patch:
      可能發生的問題:
-     當 connect 到 bpop3d 時, 如果輸入 userid 太長, 就會造成 overflow, 
-     狀況輕時會 disconnect, 嚴重時會使 bpop3d segmentation fault. 
+     當 connect 到 bpop3d 時, 如果輸入 userid 太長, 就會造成 overflow,
+     狀況輕時會 disconnect, 嚴重時會使 bpop3d segmentation fault.
      有心人士可能會以此破壞系統的安全性. */
   /* Thor.990122: check 完 *.bbs 再看 idlen */
   if (strlen(userid) > IDLEN)
@@ -867,7 +867,7 @@ cmd_stat(cn)
   Client *cn;
 {
   char *ptr;
-  
+
   if (cn->mode < CM_LOGIN)
   {
     cmd_xxxx(cn);
@@ -1146,12 +1146,12 @@ client_flush(cn, msg)
 
 #if 0	/* itoc.010606: 如果 client 是以換行字元來判別訊息結束的話，就會卡死了 */
   while (*head++ = *msg++)
-    ; 
+    ;
 #endif
   while (*head = *msg++)
     head++;
-  
-  
+
+
   /* SoC: Previous trick causes the output msg ending with "00 0D 0A" */
   head--;
 
@@ -1277,7 +1277,7 @@ client_serve(cn)
     /* Thor.990222: 怕 str找不到cmd時 為 NULL */
     /* sprintf(buf, "%s-", str); */
     sprintf(buf, "%s-", cmd);
-    logit(buf, cn->userid); 
+    logit(buf, cn->userid);
   }
 #endif
 }
@@ -1558,7 +1558,7 @@ main_signals()
   /* sigblock(sigmask(SIGPIPE)); */ /* Thor.981206: 統一 POSIX 標準用法  */
 
   /* act.sa_mask = 0; */ /* Thor.981105: 標準用法 */
-  sigemptyset(&act.sa_mask);      
+  sigemptyset(&act.sa_mask);
   act.sa_flags = 0;
 
   act.sa_handler = sig_trap;
@@ -1809,7 +1809,7 @@ main(argc, argv)
 	/* csock = accept(0, NULL, NULL); */
         /* Thor.990222: 查出對方 ip */
 	csock = accept(0, (struct sockaddr *)&csin, &len);
- 
+
 	if (csock > 0)
 	  break;
 

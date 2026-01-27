@@ -814,10 +814,10 @@ servo_signal()
 {
   struct sigaction act;
 
-  /* sigblock(sigmask(SIGPIPE)); */ /* Thor.981206: 統一 POSIX 標準用法  */ 
+  /* sigblock(sigmask(SIGPIPE)); */ /* Thor.981206: 統一 POSIX 標準用法  */
 
   /* act.sa_mask = 0; */ /* Thor.981105: 標準用法 */
-  sigemptyset(&act.sa_mask);      
+  sigemptyset(&act.sa_mask);
   act.sa_flags = 0;
 
   act.sa_handler = sig_trap;
@@ -875,7 +875,7 @@ main(argc, argv)
         argv[0]);
       exit(0);
     }
-  }        
+  }
 
   servo_daemon(state);
 
@@ -962,7 +962,7 @@ main(argc, argv)
     tv.tv_usec = 0;
 
     nfds = select(nfds + 1, &rset, &wset, &xset, &tv);
-        
+
     if (nfds == 0)
     {
       continue;

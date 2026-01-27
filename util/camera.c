@@ -124,7 +124,7 @@ mirror(fpath, line)
 
       strcpy(buf + size, tmp);
       size += strlen(tmp);
-  
+
       if (line)
       {
 	/* 動態看板，最多 line 列 */
@@ -134,7 +134,7 @@ mirror(fpath, line)
     }
     fclose(fp);
 
-    if (i != line)	
+    if (i != line)
     {
       /* 動態看板，若不到 line 列，要填滿 line 列 */
       for (; i < line; i++)
@@ -221,7 +221,7 @@ lunar_calendar(key, now, ptime)	/* itoc.050528: 由陽曆算農曆日期 */
   #define TABLE_FINAL_YEAR	2016
 
   /* 參考 http://sean.tw.googlepages.com/calendar.htm 而得 */
-  char Table[TABLE_FINAL_YEAR - TABLE_INITAIL_YEAR + 1][21] = 
+  char Table[TABLE_FINAL_YEAR - TABLE_INITAIL_YEAR + 1][21] =
   {
     "-L-L-LL-L-L-,X,02/09",	/* 2005 雞年 */
     "L-L-L-L-LL-L,7,01/29",	/* 2006 狗年 */

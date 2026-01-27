@@ -17,9 +17,9 @@
 #endif
 
 
-#ifdef MODE_STAT 
-UMODELOG modelog; 
-time_t mode_lastchange; 
+#ifdef MODE_STAT
+UMODELOG modelog;
+time_t mode_lastchange;
 #endif
 
 
@@ -268,7 +268,7 @@ utmp_seek(hdr)		/* itoc.010306: 檢查使用者是否在站上 */
 }
 
 
-void  
+void
 utmp_admset(userno, status)	/* itoc.010811: 動態設定線上使用者 */
   int userno;
   usint status;

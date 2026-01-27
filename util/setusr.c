@@ -37,12 +37,12 @@ usage(msg)
   char buf[80];
   char *usies[MAXUSIES] =
   {
-    "r realname", "n username", "m money", "g gold", "# userno", 
+    "r realname", "n username", "m money", "g gold", "# userno",
     "e email", "j 1/0(justify)", "p userlevel", "f ufo"
   };
 
 
-  printf("Usage: %s [-%s] [-%s] [-%s] ... [-%s] UserID\n", 
+  printf("Usage: %s [-%s] [-%s] [-%s] ... [-%s] UserID\n",
     msg, usies[0], usies[1], usies[2], usies[MAXUSIES - 1]);
   len = strlen(msg);
   sprintf(buf, "%%%ds-%%s\n", len + MAXUSIES);
@@ -132,7 +132,7 @@ main(argc, argv)
       acct.gold = atoi(optarg);
       break;
 
-    case '#':		/* userno */ 
+    case '#':		/* userno */
       acct.userno = atoi(optarg);
       break;
 

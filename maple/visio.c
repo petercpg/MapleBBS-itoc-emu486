@@ -914,7 +914,7 @@ void		/* Thor.981028: 為了讓 talk.c 有人呼叫時會show字 */
 cursor_restore()
 {
   move(old_row, old_col);
-  
+
   cur_pos = old_pos; /* Thor.990401: 多還原一個 */
 }
 
@@ -982,7 +982,7 @@ imsg(msg)			/* itoc.010827: 重要訊息顯示 important message */
   int i;
   time_t now;
   char scroller[128], spacebar[60], buf[80];
-  char alphabet[26][3] = 
+  char alphabet[26][3] =
   {
     /* ａ */
     /* ｂ */
@@ -993,7 +993,7 @@ imsg(msg)			/* itoc.010827: 重要訊息顯示 important message */
     /* ｇ */
     /* ｈ */
     /* ｉ */
-    "\xA2\xE9", "\xA2\xEA", "\xA2\xEB", "\xA2\xEC", "\xA2\xED", "\xA2\xEE", "\xA2\xEF", "\xA2\xF0", "\xA2\xF1", 
+    "\xA2\xE9", "\xA2\xEA", "\xA2\xEB", "\xA2\xEC", "\xA2\xED", "\xA2\xEE", "\xA2\xEF", "\xA2\xF0", "\xA2\xF1",
     /* ｊ */
     /* ｋ */
     /* ｌ */
@@ -1003,7 +1003,7 @@ imsg(msg)			/* itoc.010827: 重要訊息顯示 important message */
     /* ｐ */
     /* ｑ */
     /* ｒ */
-    "\xA2\xF2", "\xA2\xF3", "\xA2\xF4", "\xA2\xF5", "\xA2\xF6", "\xA2\xF7", "\xA2\xF8", "\xA2\xF9", "\xA2\xFA", 
+    "\xA2\xF2", "\xA2\xF3", "\xA2\xF4", "\xA2\xF5", "\xA2\xF6", "\xA2\xF7", "\xA2\xF8", "\xA2\xF9", "\xA2\xFA",
     /* ｓ */
     /* ｔ */
     /* ｕ */
@@ -1099,7 +1099,7 @@ vmsg(msg)
 static inline void
 zkey()				/* press any key or timeout */
 {
-  /* static */ struct timeval tv = {1, 100};  
+  /* static */ struct timeval tv = {1, 100};
   /* Thor.980806: man page 假設 timeval struct是會改變的 */
 
   int rset;
@@ -1378,7 +1378,7 @@ igetch()
 	    /* \033[1;5;31m警告\033[m您已經閒置過久，系統將在 %d 分鐘後把您踢除！ */
 	    prints("\033[1;5;31m\xC4\xB5\xA7\x69\033[m\xB1\x7A\xA4\x77\xB8\x67\xB6\xA2\xB8\x6D\xB9\x4C\xA4\x5B\xA1\x41\xA8\x74\xB2\xCE\xB1\x4E\xA6\x62 %d \xA4\xC0\xC4\xC1\xAB\xE1\xA7\xE2\xB1\x7A\xBD\xF0\xB0\xA3\xA1\x49", IDLE_WARNOUT);
 	    refresh();
-	  }	  
+	  }
 #endif
 
 #ifndef DETAIL_IDLETIME
@@ -1724,7 +1724,7 @@ vget(line, col, prompt, data, max, echo)
   int i, next;
   int vlen, hlen;
 
-  /* itoc.010312: 先紀錄位置 因為後面 line 和 prompt 都被更改了 */ 
+  /* itoc.010312: 先紀錄位置 因為後面 line 和 prompt 都被更改了 */
   vlen = line;
   hlen = col + strlen(prompt);
 

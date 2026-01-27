@@ -1526,7 +1526,7 @@ acl_load(fpath, root)
 
 static int
 acl_match(root, ruser, rhost)
-  ACL_t *root;  
+  ACL_t *root;
   unsigned char *ruser;
   unsigned char *rhost;
 {
@@ -1537,7 +1537,7 @@ acl_match(root, ruser, rhost)
   if (!(ax = root))
     return 0;
 
-  /* lkchu.990511: rhost 和 ruser 都沒有先檢查長度就 copy, 
+  /* lkchu.990511: rhost 和 ruser 都沒有先檢查長度就 copy,
                    很可能發生 segmentation fault */
   luser = str_cpy(xuser, ruser, sizeof(xuser));
   lhost = str_cpy(xhost, rhost, sizeof(xhost));
@@ -1685,7 +1685,7 @@ mta_from(ap, str)
     if (tail = strchr(head, '@'))	/* Thor.000911.註解: 正常的addr的話 */
     {
       *tail++ = '\0';
-      
+
       if (is_forge(tail))	/* Thor.990811: 假造的, 想都別想 */
 	return NULL;
 
@@ -2172,7 +2172,7 @@ mta_mail_body:
       hx->score += nrcpt;
       if (hx->score >= SPAM_TITLE_LIMIT)
 	fprintf(flog, "TITLE\t[%d] %s\n", ap->sno, ap->title);
- 
+
       /* 如果這次來信和上次同標題的來信檔案差不多大，那麼這次來信很可能是廣告信 */
       score = nrcpt;
       delta = hx->fsize - ap->used;
@@ -2184,7 +2184,7 @@ mta_mail_body:
     {
       score = 1;
     }
-    
+
     /* ------------------------------------------------- */
     /* 檢查這個 from 寄進來的信有無超過 SPAM_MFROM_LIMIT */
     /* ------------------------------------------------- */

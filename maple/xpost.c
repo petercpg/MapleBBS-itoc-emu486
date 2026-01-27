@@ -56,7 +56,7 @@ extern char xo_pool[];
   要禁止進入 XZ_XPOST 二次。
 
   已知問題是：當使用者還在 XZ_XPOST 裡面時，若 xo->dir 的順序有異動時 (例如刪除)，
-  而使用者要求 xpick_pick() 時 (例如翻頁、二次搜尋)，由於 xpostIndex[] 記錄的是在 
+  而使用者要求 xpick_pick() 時 (例如翻頁、二次搜尋)，由於 xpostIndex[] 記錄的是在
   xo->dir 的位置，此時結果會出錯。
 
 #endif
@@ -100,7 +100,7 @@ XoXpost(xo, hdr, on, off, fchk)		/* Thor: eXtended post : call from post_cb */
 
   if (xo->max <= 0)	/* Thor.980911.註解: 以防萬一 */
     return XO_FOOT;
-  
+
   /* build index according to input condition */
 
   fimage = f_map(xo->dir, &fsize);
@@ -286,7 +286,7 @@ XoXselect(xo)
     HintAuthor[0] = '\0';
     hdr.xid = 0;
   }
-  
+
   if (!hdr.title[0] && !hdr.xid)
     return XO_FOOT;
 
@@ -441,7 +441,7 @@ filter_full(head, hdr)
   if (search_all % 100 == 0)	/* 每 100 篇才報告一次進度 */
   {
     /* 目前找到 \033[1;33m%d / %d\033[m 篇，全文搜尋中\033[5m...\033[m按任意鍵中斷 */
-    sprintf(buf, "\xA5\xD8\xAB\x65\xA7\xE4\xA8\xEC \033[1;33m%d / %d\033[m \xBD\x67\xA1\x41\xA5\xFE\xA4\xE5\xB7\x6A\xB4\x4D\xA4\xA4\033[5m...\033[m\xAB\xF6\xA5\xF4\xB7\x4E\xC1\xE4\xA4\xA4\xC2\x5F", 
+    sprintf(buf, "\xA5\xD8\xAB\x65\xA7\xE4\xA8\xEC \033[1;33m%d / %d\033[m \xBD\x67\xA1\x41\xA5\xFE\xA4\xE5\xB7\x6A\xB4\x4D\xA4\xA4\033[5m...\033[m\xAB\xF6\xA5\xF4\xB7\x4E\xC1\xE4\xA4\xA4\xC2\x5F",
       search_fit, search_all);
     outz(buf);
     refresh();
@@ -501,7 +501,7 @@ XoXfull(xo)
   /* [設定搜尋範圍] 起點：(Enter)從頭開始  */
   vget(b_lines, 0, "[\xB3\x5D\xA9\x77\xB7\x6A\xB4\x4D\xBD\x64\xB3\xF2] \xB0\x5F\xC2\x49\xA1\x47(Enter)\xB1\x71\xC0\x59\xB6\x7D\xA9\x6C ", ans, 6, DOECHO);
   if ((head = atoi(ans)) <= 0)
-    head = 1; 
+    head = 1;
 
   /* 終點：(Enter)找到最後  */
   vget(b_lines, 44, "\xB2\xD7\xC2\x49\xA1\x47(Enter)\xA7\xE4\xA8\xEC\xB3\xCC\xAB\xE1 ", ans, 6, DOECHO);
@@ -742,18 +742,18 @@ xpost_browse(xo)
 
     hdr_fpath(fpath, dir, hdr);
 
-    /* Thor.990204: 為考慮more 傳回值 */   
+    /* Thor.990204: 為考慮more 傳回值 */
     if ((key = more(fpath, FOOTER_POST)) < 0)
       break;
 
-    comebackPos = hdr->xid; 
+    comebackPos = hdr->xid;
     /* Thor.980911: 從串接模式回來時要回到看過的那篇文章位置 */
 
     xpost_history(xo, hdr);
     strcpy(currtitle, str_ttl(hdr->title));
 
 re_key:
-    /* Thor.990204: 為考慮more 傳回值 */   
+    /* Thor.990204: 為考慮more 傳回值 */
     if (!key)
       key = vkey();
 
@@ -774,7 +774,7 @@ re_key:
 
 	if (pos <= xo->top)
 	  xpost_pick(xo);
-  
+
 	continue;
       }
 
@@ -808,18 +808,18 @@ re_key:
       }
       break;
 
-    case 'm': 
+    case 'm':
       if ((bbstate & STAT_BOARD) && !(hdr->xmode & POST_MARKED))
       {
 	/* 在 xpost_browse 時看不到 m 記號，所以限制只能 mark */
 	hdr->xmode ^= POST_MARKED;
 	currchrono = hdr->chrono;
 	rec_put(dir, hdr, sizeof(HDR), hdr->xid, cmpchrono);
-      } 
+      }
       break;
 
 #ifdef HAVE_SCORE
-    case '%': 
+    case '%':
       post_score(xo);
       return xpost_init(xo);
 #endif
@@ -875,17 +875,17 @@ xmbox_browse(xo)
 
     hdr_fpath(fpath, dir, hdr);
 
-    /* Thor.990204: 為考慮more 傳回值 */   
+    /* Thor.990204: 為考慮more 傳回值 */
     if ((key = more(fpath, FOOTER_MAILER)) < 0)
       break;
 
-    comebackPos = hdr->xid; 
+    comebackPos = hdr->xid;
     /* Thor.980911: 從串接模式回來時要回到看過的那篇文章位置 */
 
     strcpy(currtitle, str_ttl(hdr->title));
 
 re_key:
-    /* Thor.990204: 為考慮more 傳回值 */   
+    /* Thor.990204: 為考慮more 傳回值 */
     if (!key)
       key = vkey();
 
@@ -906,7 +906,7 @@ re_key:
 
 	if (pos <= xo->top)
 	  xpost_pick(xo);
-  
+
 	continue;
       }
 
@@ -937,14 +937,14 @@ re_key:
       do_mreply(hdr, 1);
       break;
 
-    case 'm': 
+    case 'm':
       if (!(hdr->xmode & POST_MARKED))
       {
 	/* 在 xmbox_browse 時看不到 m 記號，所以限制只能 mark */
 	hdr->xmode ^= POST_MARKED;
 	currchrono = hdr->chrono;
 	rec_put(dir, hdr, sizeof(HDR), hdr->xid, cmpchrono);
-      } 
+      }
       break;
 
     case '/':

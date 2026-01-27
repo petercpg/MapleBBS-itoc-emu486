@@ -439,7 +439,7 @@ u_verify()
 {
   char buf[80], key[10];
   ACCT acct;
-  
+
   if (HAS_PERM(PERM_VALID))
   {
     /* 您的身分確認已經完成，不需填寫認證碼 */
@@ -455,7 +455,7 @@ u_verify()
       if (str_ncmp(key, buf, 7))
       {
 	/* 抱歉，您的認證碼錯誤 */
-	zmsg("\xA9\xEA\xBA\x70\xA1\x41\xB1\x7A\xAA\xBA\xBB\x7B\xC3\xD2\xBD\x58\xBF\xF9\xBB\x7E");      
+	zmsg("\xA9\xEA\xBA\x70\xA1\x41\xB1\x7A\xAA\xBA\xBB\x7B\xC3\xD2\xBD\x58\xBF\xF9\xBB\x7E");
       }
       else
       {
@@ -547,7 +547,7 @@ u_info()
     return XEASY;
   }
 
-  move(1, 0); 
+  move(1, 0);
   strcpy(username, str = cuser.username);
   acct_setup(&cuser, 0);
   if (strcmp(username, str))
@@ -714,7 +714,7 @@ u_xfile()
 {
   int i;
 
-  static char *desc[] = 
+  static char *desc[] =
   {
     /* 上站地點設定檔 */
     "\xA4\x57\xAF\xB8\xA6\x61\xC2\x49\xB3\x5D\xA9\x77\xC0\xC9",
@@ -739,7 +739,7 @@ u_xfile()
     NULL
   };
 
-  static char *path[] = 
+  static char *path[] =
   {
     "acl",
     "plans",

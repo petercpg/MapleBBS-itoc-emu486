@@ -3212,8 +3212,8 @@ cmd_robots(ap)
   fprintf(fpw, "Last-Modified: Sat, 01 Jan 2000 00:02:21 GMT\r\n\r\n");	/* 隨便給個時間 */
 
   fprintf(fpw, "User-agent: *\r\nDisallow: /\r\n");
-      
-  return HS_OK;        
+
+  return HS_OK;
 }
 #endif
 

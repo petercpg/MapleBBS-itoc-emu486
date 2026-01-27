@@ -969,7 +969,7 @@ chat_version(cu, msg)
 {
   char buf[80];
 
-  sprintf(buf, "[Version] MapleBBS-3.10-20040726-PACK.itoc + Xchat-%d.%d", 
+  sprintf(buf, "[Version] MapleBBS-3.10-20040726-PACK.itoc + Xchat-%d.%d",
     XCHAT_VERSION_MAJOR, XCHAT_VERSION_MINOR);
   send_to_user(cu, buf, 0, MSG_MESSAGE);
 }
@@ -1129,7 +1129,7 @@ chat_do_user_list(cu, msg, theroom)
       continue;
 #endif
 
-    if (!user->userno) 
+    if (!user->userno)
       continue;
 
     room = user->room;
@@ -1434,7 +1434,7 @@ static char *chat_msg[] =
   /* 查詢網友 */
   "[/q]uery <user>", "\xAC\x64\xB8\xDF\xBA\xF4\xA4\xCD",
   /* 道別 */
-  "[/qui]t [msg]", "\xB9\x44\xA7\x4F",  
+  "[/qui]t [msg]", "\xB9\x44\xA7\x4F",
   /* 列出一般談天室 */
   "[/r]oom", "\xA6\x43\xA5\x58\xA4\x40\xAF\xEB\xBD\xCD\xA4\xD1\xAB\xC7",
   /* 開關錄音機 */
@@ -1895,7 +1895,7 @@ login_user(cu, msg)
 
 #ifndef STAND_ALONE
   /* Thor.980629: 暫時借用 invalid_chatid 濾除 沒有PERM_CHAT的人 */
-               
+
   if (!valid_chatid(chatid) || !(level & PERM_CHAT) || (level & PERM_DENYCHAT))
   { /* Thor.981012: 徹底一些, 連 denychat也BAN掉, 免得 client作怪 */
 
@@ -2151,7 +2151,7 @@ chat_kick(cu, msg)
   {                       /* Thor.980604: 用 userid也嘛通 */
     xuser = cuser_by_userid(twit);
   }
-               
+
   if (xuser == NULL)
   {
     sprintf(buf, msg_no_such_id, twit);
@@ -2180,7 +2180,7 @@ chat_kick(cu, msg)
   if (room == &mainroom)
     xuser->uptime = 0;		/* logout_user(xuser); */
   else
-    enter_room(xuser, MAIN_NAME, (char *) NULL);  
+    enter_room(xuser, MAIN_NAME, (char *) NULL);
     /* Thor.980602: 其實踢就踢,不要show出xxx離開了的訊息比較好 */
 }
 
@@ -2214,7 +2214,7 @@ chat_makeop(cu, msg)
                              : "\xA1\xB0 \xA4\xD1\xA8\xCF \xB1\x4E %s \xAA\xBA Op \xC5\x76\xA4\x4F\xA6\xAC\xA6\x5E", cu->chatid);
       send_to_room(room, buf, 0, MSG_MESSAGE);
     }
-    
+
     return;
   }
 
@@ -2299,7 +2299,7 @@ chat_invite(cu, msg)
     xuser = cuser_by_userid(invitee);
   }
 #endif
-               
+
   if (xuser == NULL)
   {
     sprintf(buf, msg_no_such_id, invitee);
@@ -4129,7 +4129,7 @@ cuser_serve(cu)
 
 
 static int
-/* start_daemon(mode) 
+/* start_daemon(mode)
   int mode; */
 servo_daemon(inetd)
   int inetd;
@@ -4177,7 +4177,7 @@ servo_daemon(inetd)
 
 #ifdef SOLARIS
 #define RLIMIT_RSS RLIMIT_AS	/* Thor.981206: port for solaris 2.6 */
-#endif  
+#endif
 
   setrlimit(RLIMIT_RSS, &limit);
 
@@ -4340,7 +4340,7 @@ main_signals()
   /* Thor.981206: 統一 POSIX 標準用法  */
 
   /* act.sa_mask = 0; */ /* Thor.981105: 標準用法 */
-  sigemptyset(&act.sa_mask);      
+  sigemptyset(&act.sa_mask);
   act.sa_flags = 0;
 
   act.sa_handler = sig_trap;
@@ -4401,10 +4401,10 @@ main(argc, argv)
         "\t-h  help\n",
         argv[0]);
       exit(0);
-    }       
+    }
   }
 
-  servo_daemon(sock); 
+  servo_daemon(sock);
   /* start_daemon(argc); */
 
   setgid(BBSGID);
@@ -4479,7 +4479,7 @@ main(argc, argv)
     rset = mainfset;
     xset = mainfset;
 
-    /* Thor.981206: for future reservation bug */   
+    /* Thor.981206: for future reservation bug */
     tv_tmp = tv;
     nfds = select(maxfds, &rset, NULL, &xset, &tv_tmp);
 

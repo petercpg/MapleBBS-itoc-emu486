@@ -191,7 +191,7 @@ goodbye()
   /* lkchu.990428: 內定改為不離站 */
   case 'g':
   case 'y':
-    break;    
+    break;
 
   case 'm':
     m_sysop();
@@ -214,7 +214,7 @@ goodbye()
 #endif
 
   if (!(cuser.ufo & UFO_MOTD))	/* itoc.000407: 離站畫面一併簡化 */
-  {  
+  {
     clear();
     /* 親愛的 \033[32m%s(%s)\033[m，別忘了再度光臨【 %s 】\n */
     prints("\xBF\xCB\xB7\x52\xAA\xBA \033[32m%s(%s)\033[m\xA1\x41\xA7\x4F\xA7\xD1\xA4\x46\xA6\x41\xAB\xD7\xA5\xFA\xC1\x7B\xA1\x69 %s \xA1\x6A\n"
@@ -224,7 +224,7 @@ goodbye()
     acct_show(&cuser, 0);
     vmsg(NULL);
   }
-  
+
   u_exit("EXIT ");
   exit(0);
 }
@@ -371,8 +371,8 @@ status_foot()
   {
     orig_money = cuser.money;
     /* 銀%4d%c */
-    sprintf(coinmsg, "\xBB\xC8%4d%c", 
-      (orig_money & 0x7FF00000) ? (orig_money >> 20) : (orig_money & 0x7FFFFC00) ? (orig_money >> 10) : orig_money, 
+    sprintf(coinmsg, "\xBB\xC8%4d%c",
+      (orig_money & 0x7FF00000) ? (orig_money >> 20) : (orig_money & 0x7FFFFC00) ? (orig_money >> 10) : orig_money,
       (orig_money & 0x7FF00000) ? 'M' : (orig_money & 0x7FFFFC00) ? 'K' : ' ');
     coinmsg[7] = ' ';
   }
@@ -380,8 +380,8 @@ status_foot()
   {
     orig_gold = cuser.gold;
     /* 金%4d%c  */
-    sprintf(coinmsg + 8, "\xAA\xF7%4d%c ", 
-      (orig_gold & 0x7FF00000) ? (orig_gold >> 20) : (orig_gold & 0x7FFFFC00) ? (orig_gold >> 10) : orig_gold, 
+    sprintf(coinmsg + 8, "\xAA\xF7%4d%c ",
+      (orig_gold & 0x7FF00000) ? (orig_gold >> 20) : (orig_gold & 0x7FFFFC00) ? (orig_gold >> 10) : orig_gold,
       (orig_gold & 0x7FF00000) ? 'M' : (orig_gold & 0x7FFFFC00) ? 'K' : ' ');
   }
 
@@ -468,7 +468,7 @@ static MENU menu_admin[] =
   "bin/admutil.so:a_xfile", PERM_ALLADMIN, - M_XFILES,
   /* Xfile      ◤ 系統檔案 ◢ */
   "Xfile      \xA2\xAB \xA8\x74\xB2\xCE\xC0\xC9\xAE\xD7 \xA2\xA8",
-  
+
   "bin/admutil.so:a_resetsys", PERM_ALLADMIN, - M_SYSTEM,
   /* BBSreset   ◤ 重置系統 ◢ */
   "BBSreset   \xA2\xAB \xAD\xAB\xB8\x6D\xA8\x74\xB2\xCE \xA2\xA8",
@@ -531,11 +531,11 @@ static MENU menu_mail[] =
   m_sysop, 0, M_SMAIL,
   /* Yes Sir!   ├ 投書站長 ┤ */
   "Yes Sir!   \xA2\x75 \xA7\xEB\xAE\xD1\xAF\xB8\xAA\xF8 \xA2\x74",
-  
+
   "bin/admutil.so:m_bm", PERM_ALLADMIN, - M_SMAIL,
   /* BM All     ├ 板主通告 ┤ */
   "BM All     \xA2\x75 \xAA\x4F\xA5\x44\xB3\x71\xA7\x69 \xA2\x74",	/* itoc.000512: 新增 m_bm */
-  
+
   "bin/admutil.so:m_all", PERM_ALLADMIN, - M_SMAIL,
   /* User All   ├ 全站通告 ┤ */
   "User All   \xA2\x75 \xA5\xFE\xAF\xB8\xB3\x71\xA7\x69 \xA2\x74",	/* itoc.000512: 新增 m_all */
@@ -810,7 +810,7 @@ static MENU menu_game1[] =
   /* 5Mine      ♂ 亂踩地雷 ♀ */
   "5Mine      \xA1\xF1 \xB6\xC3\xBD\xF2\xA6\x61\xB9\x70 \xA1\xF0",
 
-  "bin/fantan.so:main_fantan", 0, - M_GAME, 
+  "bin/fantan.so:main_fantan", 0, - M_GAME,
   /* 6Fantan    ♂ 番攤接龍 ♀ */
   "6Fantan    \xA1\xF1 \xB5\x66\xC5\x75\xB1\xB5\xC0\x73 \xA1\xF0",
 
@@ -848,7 +848,7 @@ static MENU menu_game2[] =
   "bin/seven.so:main_seven", 0, - M_GAME,
   /* 4Seven     ♂ 賭城七張 ♀ */
   "4Seven     \xA1\xF1 \xBD\xE4\xAB\xB0\xA4\x43\xB1\x69 \xA1\xF0",
- 
+
   "bin/race.so:main_race", 0, - M_GAME,
   /* 5Race      ♂ 進賽馬場 ♀ */
   "5Race      \xA1\xF1 \xB6\x69\xC1\xC9\xB0\xA8\xB3\xF5 \xA1\xF0",
@@ -1079,7 +1079,7 @@ static MENU menu_main[] =
   "Favorite  \xA3\x62 \xA7\xDA\xAA\xBA\xB3\xCC\xB7\x52\xB8\x73 \xA3\x62",
 #endif
 
-  menu_mail, 0, M_MMENU, 
+  menu_mail, 0, M_MMENU,
   /* Mail      μ 信件典藏盒 μ */
   "Mail      \xA3\x67 \xAB\x48\xA5\xF3\xA8\xE5\xC2\xC3\xB2\xB0 \xA3\x67",
 

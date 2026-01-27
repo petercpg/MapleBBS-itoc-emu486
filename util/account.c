@@ -111,7 +111,7 @@ init_allbrd()
 
   do
   {
-    /* itoc.040314: 板主更改看板敘述或是站長更改看板時才會把 bpost/blast 寫進 .BRD 中 
+    /* itoc.040314: 板主更改看板敘述或是站長更改看板時才會把 bpost/blast 寫進 .BRD 中
        所以 .BRD 裡的 bpost/blast 未必是對的，要重新 initial。
        initial 的方法是將 btime 設成 -1，讓 class_item() 去更新 */
     head->btime = -1;
@@ -153,7 +153,7 @@ init_allbrd()
     bpal++;
 #endif
 
-  } while (++head < tail);     
+  } while (++head < tail);
 }
 
 

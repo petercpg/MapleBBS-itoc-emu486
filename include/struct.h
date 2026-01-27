@@ -139,7 +139,7 @@ typedef struct VoteControlHeader
 
   char xname[32];		/* 主檔名 */		/* Thor: match HDR 的 xname */
   char date[9];			/* 開始日期 */		/* Thor: match HDR 的 date */
-  char cdate[9];		/* 結束日期 */		/* Thor: 只供顯示，不做比較 */  
+  char cdate[9];		/* 結束日期 */		/* Thor: 只供顯示，不做比較 */
   char owner[IDLEN + 1];	/* 舉辦人 */
   char title[TTLEN + 1];	/* 投票主題 */
 
