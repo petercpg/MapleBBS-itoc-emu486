@@ -30,6 +30,7 @@ util/brdmail
 util/camera
 util/counter
 util/expire
+util/fixbs2dir
 util/gem-index
 util/hdr-dump
 util/mailpost
