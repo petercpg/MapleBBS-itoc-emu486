@@ -1,5 +1,5 @@
 /*-------------------------------------------------------*/
-/* util/snap2usr.c	( NTHU CS MapleBBS Ver 3.10 )	 */
+/* util/tran/snap2usr.c ( NTHU CS MapleBBS Ver 3.10 )    */
 /*-------------------------------------------------------*/
 /* target : M3 ACCT 轉換程式				 */
 /* create : 98/12/15					 */

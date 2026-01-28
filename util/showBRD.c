@@ -1,5 +1,5 @@
 /*-------------------------------------------------------*/
-/* util/showBRD.c	( NTHU CS MapleBBS Ver 3.10 )	 */
+/* util/showBRD.c       ( NTHU CS MapleBBS Ver 3.10 )    */
 /*-------------------------------------------------------*/
 /* target : show board info				 */
 /* create : 01/10/05                                     */

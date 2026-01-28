@@ -1,5 +1,5 @@
 /*-------------------------------------------------------*/
-/* lib/hdr.h            ( NTHU CS MapleBBS Ver 3.00 )    */
+/* include/hdr.h        ( NTHU CS MapleBBS Ver 3.00 )    */
 /*-------------------------------------------------------*/
 /* target : header file for HDR routines                 */
 /* create : 96/11/20                                     */

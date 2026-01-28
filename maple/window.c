@@ -1,5 +1,5 @@
 /*-------------------------------------------------------*/
-/* window.c	( NTHU CS MapleBBS Ver 3.10 )		 */
+/* maple/window.c       ( NTHU CS MapleBBS Ver 3.10 )    */
 /*-------------------------------------------------------*/
 /* target : popup window menu				 */
 /* create : 03/02/12					 */

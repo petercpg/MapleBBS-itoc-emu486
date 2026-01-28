@@ -1,5 +1,5 @@
 /*-------------------------------------------------------*/
-/* config.h	( NTHU CS MapleBBS Ver 3.10 )		 */
+/* include/config.h     ( NTHU CS MapleBBS Ver 3.10 )    */
 /*-------------------------------------------------------*/
 /* target : site-configurable settings		 	 */
 /* create : 95/03/29				 	 */

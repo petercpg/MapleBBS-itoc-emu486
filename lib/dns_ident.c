@@ -1,5 +1,5 @@
 /*-------------------------------------------------------*/
-/* lib/dns_ident.c	( NTHU CS MapleBBS Ver 3.00 )	 */
+/* lib/dns_ident.c      ( NTHU CS MapleBBS Ver 3.00 )    */
 /*-------------------------------------------------------*/
 /* target : included C file for DNS routines		 */
 /* create : 96/11/20					 */

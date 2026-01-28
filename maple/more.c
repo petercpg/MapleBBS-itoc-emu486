@@ -1,5 +1,5 @@
 /*-------------------------------------------------------*/
-/* more.c	( NTHU CS MapleBBS Ver 3.00 )		 */
+/* maple/more.c         ( NTHU CS MapleBBS Ver 3.00 )    */
 /*-------------------------------------------------------*/
 /* target : simple & beautiful ANSI/Chinese browser	 */
 /* create : 95/03/29				 	 */

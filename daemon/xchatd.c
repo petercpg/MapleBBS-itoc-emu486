@@ -1,5 +1,5 @@
 /*-------------------------------------------------------*/
-/* xchatd.c     ( NTHU CS MapleBBS Ver 3.00 )            */
+/* daemon/xchatd.c      ( NTHU CS MapleBBS Ver 3.00 )    */
 /*-------------------------------------------------------*/
 /* target : super KTV daemon for chat server             */
 /* create : 95/03/29                                     */

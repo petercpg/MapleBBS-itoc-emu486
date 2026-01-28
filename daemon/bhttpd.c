@@ -1,5 +1,5 @@
 /*-------------------------------------------------------*/
-/* bhttpd.c		( NTHU CS MapleBBS Ver 3.10 )	 */
+/* daemon/bhttpd.c      ( NTHU CS MapleBBS Ver 3.10 )    */
 /*-------------------------------------------------------*/
 /* target : BBS's HTTP daemon				 */
 /* create : 05/07/11					 */

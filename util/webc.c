@@ -1,5 +1,5 @@
 /*-------------------------------------------------------*/
-/* util/webc.c		( NTHU CS MapleBBS Ver 3.00 )	 */
+/* util/webc.c          ( NTHU CS MapleBBS Ver 3.00 )    */
 /*-------------------------------------------------------*/
 /* target : WEB client (command-line mode)		 */
 /* create : 95/03/29				 	 */

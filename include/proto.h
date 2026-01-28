@@ -1,5 +1,5 @@
 /*-------------------------------------------------------*/
-/* proto.h	( NTHU CS MapleBBS Ver 2.36 )		 */
+/* include/proto.h      ( NTHU CS MapleBBS Ver 2.36 )    */
 /*-------------------------------------------------------*/
 /* target : prototype and macros			 */
 /* create : 95/03/29				 	 */

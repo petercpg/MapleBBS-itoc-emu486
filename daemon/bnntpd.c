@@ -1,5 +1,5 @@
 /*-------------------------------------------------------*/
-/* bnntpd.c		( NTHU CS MapleBBS Ver 3.10 )	 */
+/* daemon/bnntpd.c      ( NTHU CS MapleBBS Ver 3.10 )    */
 /*-------------------------------------------------------*/
 /* target : BBS's NNTP daemon				 */
 /* create : 03/12/14					 */

@@ -1,5 +1,5 @@
 /*-------------------------------------------------------*/
-/* util/brdmail.c	( NTHU CS MapleBBS Ver 3.00 )	 */
+/* util/brdmail.c       ( NTHU CS MapleBBS Ver 3.00 )    */
 /*-------------------------------------------------------*/
 /* target : 由 Internet 寄信給 BBS 站內看板，視為 post	 */
 /* create : 95/03/29					 */

@@ -1,5 +1,5 @@
 /*-------------------------------------------------------*/
-/* visio.c	( NTHU CS MapleBBS Ver 3.00 )		 */
+/* maple/visio.c        ( NTHU CS MapleBBS Ver 3.00 )    */
 /*-------------------------------------------------------*/
 /* target : VIrtual Screen Input Output routines 	 */
 /* create : 95/03/29				 	 */

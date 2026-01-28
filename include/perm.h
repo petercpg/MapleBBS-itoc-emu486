@@ -1,5 +1,5 @@
 /*-------------------------------------------------------*/
-/* perm.h	( NTHU CS MapleBBS Ver 2.36 )		 */
+/* include/perm.h       ( NTHU CS MapleBBS Ver 2.36 )    */
 /*-------------------------------------------------------*/
 /* target : permission levels of user & board		 */
 /* create : 95/03/29				 	 */

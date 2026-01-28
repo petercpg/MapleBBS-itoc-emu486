@@ -1,5 +1,5 @@
 /* ----------------------------------------------------- */
-/* pip_struct.h     ( NTHU CS MapleBBS Ver 3.10 )        */
+/* pip/pip_struct.h     ( NTHU CS MapleBBS Ver 3.10 )    */
 /* ----------------------------------------------------- */
 /* target : 小雞 data structure                          */
 /* create :   /  /                                       */

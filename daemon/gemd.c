@@ -1,5 +1,5 @@
 /*-------------------------------------------------------*/
-/* util/gemd.c		( NTHU CS MapleBBS Ver 3.00 )	 */
+/* daemon/gemd.c        ( NTHU CS MapleBBS Ver 3.00 )    */
 /*-------------------------------------------------------*/
 /* target : BBS gopher daemon				 */
 /* create : 96/11/20				 	 */

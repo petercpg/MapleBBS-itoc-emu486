@@ -1,5 +1,5 @@
 /*-------------------------------------------------------*/
-/* util/cola2gem.c	( NTHU CS MapleBBS Ver 3.10 )	 */
+/* util/tran/cola2gem.c ( NTHU CS MapleBBS Ver 3.10 )    */
 /*-------------------------------------------------------*/
 /* target : Cola 至 Maple 3.02 精華區轉換		 */
 /* create : 03/02/11					 */

@@ -1,5 +1,5 @@
 /*-------------------------------------------------------*/
-/* inntobbs.c	( NTHU CS MapleBBS Ver 3.10 )		 */
+/* innbbsd/inntobbs.c   ( NTHU CS MapleBBS Ver 3.10 )    */
 /*-------------------------------------------------------*/
 /* target : innbbsd INN to BBS				 */
 /* create : 95/04/27					 */

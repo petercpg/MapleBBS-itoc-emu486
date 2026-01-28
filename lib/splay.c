@@ -1,5 +1,5 @@
 /*-------------------------------------------------------*/
-/* lib/splay.c		( NTHU CS MapleBBS Ver 3.00 )	 */
+/* lib/splay.c          ( NTHU CS MapleBBS Ver 3.00 )    */
 /*-------------------------------------------------------*/
 /* author : opus.bbs@bbs.cs.nthu.edu.tw		 	 */
 /* target : splay-tree sort routines		 	 */

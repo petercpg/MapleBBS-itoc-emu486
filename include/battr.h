@@ -1,5 +1,5 @@
 /*-------------------------------------------------------*/
-/* battr.h	( NTHU CS MapleBBS Ver 2.36 )		 */
+/* include/battr.h      ( NTHU CS MapleBBS Ver 2.36 )    */
 /*-------------------------------------------------------*/
 /* target : Board Attribution				 */
 /* create : 95/03/29				 	 */

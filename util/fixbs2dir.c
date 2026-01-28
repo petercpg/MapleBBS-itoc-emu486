@@ -1,5 +1,5 @@
 /*-------------------------------------------------------*/
-/* util/fixbs2dir.c	( NTHU CS MapleBBS Ver 3.10 )	 */
+/* util/fixbs2dir.c     ( NTHU CS MapleBBS Ver 3.10 )    */
 /*-------------------------------------------------------*/
 /* target : 修正 BS2 .DIR 中 未同步的 chrono 與 xname	 */
 /* create : 16/07/21					 */

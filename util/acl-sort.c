@@ -1,5 +1,5 @@
 /*-------------------------------------------------------*/
-/* util/acl-sort.c	( NTHU CS MapleBBS Ver 3.00 )	 */
+/* util/acl-sort.c      ( NTHU CS MapleBBS Ver 3.00 )    */
 /*-------------------------------------------------------*/
 /* target : sort [Access Control List]			 */
 /* create : 98/03/29				 	 */

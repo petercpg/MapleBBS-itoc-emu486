@@ -1,5 +1,5 @@
 /*-------------------------------------------------------*/
-/* util/bbsmail.c	( NTHU CS MapleBBS Ver 3.00 )	 */
+/* util/bbsmail.c       ( NTHU CS MapleBBS Ver 3.00 )    */
 /*-------------------------------------------------------*/
 /* target : 由 Internet 寄信給 BBS 站內使用者		 */
 /* create : 95/03/29					 */

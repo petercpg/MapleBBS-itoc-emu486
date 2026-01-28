@@ -1,5 +1,5 @@
 /*-------------------------------------------------------*/
-/* util/gem-index.c	( NTHU CS MapleBBS Ver 2.39 )	 */
+/* util/gem-index.c     ( NTHU CS MapleBBS Ver 2.39 )    */
 /*-------------------------------------------------------*/
 /* target : 精華區索引程式 (man index)			 */
 /* create : 95/03/29				 	 */

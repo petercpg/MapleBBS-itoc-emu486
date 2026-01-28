@@ -1,5 +1,5 @@
 /*-------------------------------------------------------*/
-/* theme.h	( NTHU CS MapleBBS Ver 3.10 )		 */
+/* include/theme.h      ( NTHU CS MapleBBS Ver 3.10 )    */
 /*-------------------------------------------------------*/
 /* target : custom theme				 */
 /* create : 02/08/17				 	 */

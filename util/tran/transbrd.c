@@ -1,5 +1,5 @@
 /*-------------------------------------------------------*/
-/* util/transacct.c	( NTHU CS MapleBBS Ver 3.10 )	 */
+/* util/tran/transbrd.c ( NTHU CS MapleBBS Ver 3.10 )    */
 /*-------------------------------------------------------*/
 /* target : M3 BRD 轉換程式				 */
 /* create : 05/05/19					 */

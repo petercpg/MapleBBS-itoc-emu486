@@ -1,5 +1,5 @@
 /*-------------------------------------------------------*/
-/* bbs.h	( NTHU CS MapleBBS Ver 2.36 )		 */
+/* include/bbs.h        ( NTHU CS MapleBBS Ver 2.36 )    */
 /*-------------------------------------------------------*/
 /* target : all header files			 	 */
 /* create : 95/03/29				 	 */

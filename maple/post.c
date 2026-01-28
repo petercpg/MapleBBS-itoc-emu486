@@ -1,5 +1,5 @@
 /*-------------------------------------------------------*/
-/* post.c       ( NTHU CS MapleBBS Ver 2.39 )		 */
+/* maple/post.c         ( NTHU CS MapleBBS Ver 2.39 )    */
 /*-------------------------------------------------------*/
 /* target : bulletin boards' routines		 	 */
 /* create : 95/03/29				 	 */

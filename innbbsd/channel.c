@@ -1,5 +1,5 @@
 /*-------------------------------------------------------*/
-/* channel.c	( NTHU CS MapleBBS Ver 3.10 )		 */
+/* innbbsd/channel.c    ( NTHU CS MapleBBS Ver 3.10 )    */
 /*-------------------------------------------------------*/
 /* target : innbbsd main program			 */
 /* create : 95/04/27					 */

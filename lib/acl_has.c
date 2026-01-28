@@ -1,5 +1,5 @@
 /*-------------------------------------------------------*/
-/* lib/acl_has.c	( NTHU CS MapleBBS Ver 3.00 )	 */
+/* lib/acl_has.c        ( NTHU CS MapleBBS Ver 3.00 )    */
 /*-------------------------------------------------------*/
 /* target : Access Control List				 */
 /* create : 98/03/20					 */

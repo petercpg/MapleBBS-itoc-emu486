@@ -1,5 +1,5 @@
 /*-------------------------------------------------------*/
-/* util/bpop3d.c	( NTHU CS MapleBBS Ver 3.00 )	 */
+/* daemon/bpop3d.c      ( NTHU CS MapleBBS Ver 3.00 )    */
 /*-------------------------------------------------------*/
 /* target : Simple POP3 server for BBS user		 */
 /* create : 96/05/10				 	 */

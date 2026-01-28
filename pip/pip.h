@@ -46,8 +46,8 @@
 #endif
 
 /* include 檔均命名為 pipxxx.h   C 檔均命名為 pip_xxx.c */
-#include "pipglobal.h"
-#include "pipstruct.h"
+#include "pip_global.h"
+#include "pip_struct.h"
 
 
 #define PIP_PICHOME	"etc/game/pip/"

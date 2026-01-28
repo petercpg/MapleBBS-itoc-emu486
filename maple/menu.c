@@ -1,5 +1,5 @@
 /*-------------------------------------------------------*/
-/* menu.c	( NTHU CS MapleBBS Ver 3.00 )		 */
+/* maple/menu.c         ( NTHU CS MapleBBS Ver 3.00 )    */
 /*-------------------------------------------------------*/
 /* target : menu/help/movie routines		 	 */
 /* create : 95/03/29				 	 */

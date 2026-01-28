@@ -1,5 +1,5 @@
 /*-------------------------------------------------------*/
-/* ulist.c	( NTHU CS MapleBBS Ver 3.00 )		 */
+/* maple/ulist.c        ( NTHU CS MapleBBS Ver 3.00 )    */
 /*-------------------------------------------------------*/
 /* target : ulist routines	 			 */
 /* create : 95/03/29				 	 */

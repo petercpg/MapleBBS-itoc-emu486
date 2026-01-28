@@ -1,5 +1,5 @@
 /*-------------------------------------------------------*/
-/* history.c	( NTHU CS MapleBBS Ver 3.10 )		 */
+/* innbbsd/history.c    ( NTHU CS MapleBBS Ver 3.10 )    */
 /*-------------------------------------------------------*/
 /* target : innbbsd history				 */
 /* create : 04/04/01					 */

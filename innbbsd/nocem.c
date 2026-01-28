@@ -1,5 +1,5 @@
 /*-------------------------------------------------------*/
-/* nocem.c	( NTHU CS MapleBBS Ver 3.10 )		 */
+/* innbbsd/nocem.c      ( NTHU CS MapleBBS Ver 3.10 )    */
 /*-------------------------------------------------------*/
 /* target : NoCeM-INNBBSD				 */
 /* create : 99/02/25					 */

@@ -1,5 +1,5 @@
 /*-------------------------------------------------------*/
-/* lib/dao.h	( NTHU CS MapleBBS Ver 3.10 )		 */
+/* include/dao.h        ( NTHU CS MapleBBS Ver 3.10 )    */
 /*-------------------------------------------------------*/
 /* target : data abstract object			 */
 /* create : 96/11/20					 */

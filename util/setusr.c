@@ -1,5 +1,5 @@
 /*-------------------------------------------------------*/
-/* util/setusr.c	( NTHU CS MapleBBS Ver 3.10 )    */
+/* util/setusr.c        ( NTHU CS MapleBBS Ver 3.10 )    */
 /*-------------------------------------------------------*/
 /* target : 設定使用者資料                               */
 /* author : itoc.bbs@bbs.tnfsh.tn.edu.tw                 */

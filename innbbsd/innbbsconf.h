@@ -1,5 +1,5 @@
 /*-------------------------------------------------------*/
-/* innbbsconf.h	( NTHU CS MapleBBS Ver 3.10 )		 */
+/* innbbsd/innbbsconf.h ( NTHU CS MapleBBS Ver 3.10 )    */
 /*-------------------------------------------------------*/
 /* target : innbbsd configurable settings		 */
 /* create : 95/04/27					 */

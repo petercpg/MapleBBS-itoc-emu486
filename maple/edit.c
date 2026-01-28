@@ -1,5 +1,5 @@
 /*-------------------------------------------------------*/
-/* edit.c	( NTHU CS MapleBBS Ver 2.36 )		 */
+/* maple/edit.c         ( NTHU CS MapleBBS Ver 2.36 )    */
 /*-------------------------------------------------------*/
 /* target : simple ANSI/Chinese editor			 */
 /* create : 95/03/29					 */

@@ -1,5 +1,5 @@
 /*-------------------------------------------------------*/
-/* util/bguard.c	( NTHU CS MapleBBS Ver 3.00 )	 */
+/* daemon/bguard.c      ( NTHU CS MapleBBS Ver 3.00 )    */
 /*-------------------------------------------------------*/
 /* target : BBS finger daemon 列出站內使用者資料	 */
 /* create : 96/11/20				 	 */

@@ -1,5 +1,5 @@
 /*-------------------------------------------------------*/
-/* lib/dns_aton.c	( NTHU CS MapleBBS Ver 3.10 )	 */
+/* lib/dns_aton.c       ( NTHU CS MapleBBS Ver 3.10 )    */
 /*-------------------------------------------------------*/
 /* target : included C file for DNS routines		 */
 /* create : 96/11/20					 */

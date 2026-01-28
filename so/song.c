@@ -1,5 +1,5 @@
 /*-------------------------------------------------------*/
-/* song.c	( YZU_CSE WindTop BBS )			 */
+/* so/song.c                  ( YZU_CSE WindTop BBS )    */
 /*-------------------------------------------------------*/
 /* target : song ordering routines			 */
 /* create :   /  /  					 */

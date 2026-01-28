@@ -1,5 +1,5 @@
 /*-------------------------------------------------------*/
-/* bbsd.c	( NTHU CS MapleBBS Ver 3.00 )		 */
+/* maple/bbsd.c         ( NTHU CS MapleBBS Ver 3.00 )    */
 /*-------------------------------------------------------*/
 /* author : opus.bbs@bbs.cs.nthu.edu.tw		 	 */
 /* target : BBS daemon/main/login/top-menu routines 	 */

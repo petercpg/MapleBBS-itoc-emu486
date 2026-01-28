@@ -1,5 +1,5 @@
 /*-------------------------------------------------------*/
-/* bbslink.c	( NTHU CS MapleBBS Ver 3.10 )		 */
+/* innbbsd/bbslink.c    ( NTHU CS MapleBBS Ver 3.10 )    */
 /*-------------------------------------------------------*/
 /* target : innbbsd NNTP and NNRP			 */
 /* create : 95/04/27					 */

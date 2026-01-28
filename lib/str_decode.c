@@ -1,5 +1,5 @@
 /*-------------------------------------------------------*/
-/* lib/str_decode.c	( NTHU CS MapleBBS Ver 3.00 )	 */
+/* lib/str_decode.c     ( NTHU CS MapleBBS Ver 3.00 )    */
 /*-------------------------------------------------------*/
 /* target : included C for QP/BASE64 decoding		 */
 /* create : 95/03/29				 	 */

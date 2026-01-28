@@ -1,5 +1,5 @@
 /*-------------------------------------------------------*/
-/* bwboard.c	( NTHU CS MapleBBS Ver 3.10 )		 */
+/* game/bwboard.c       ( NTHU CS MapleBBS Ver 3.10 )    */
 /*-------------------------------------------------------*/
 /* target : B/W & Chinese Chess Board			 */
 /* create : 02/08/05					 */

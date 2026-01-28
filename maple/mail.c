@@ -1,5 +1,5 @@
 /*-------------------------------------------------------*/
-/* mail.c	( NTHU CS MapleBBS Ver 2.36 )		 */
+/* maple/mail.c         ( NTHU CS MapleBBS Ver 2.36 )    */
 /*-------------------------------------------------------*/
 /* target : local/internet mail routines	 	 */
 /* create : 95/03/29				 	 */

@@ -1,5 +1,5 @@
 /*-------------------------------------------------------*/
-/* util/setperm.c	( NTHU CS MapleBBS Ver 3.00 )    */
+/* util/setperm.c       ( NTHU CS MapleBBS Ver 3.00 )    */
 /*-------------------------------------------------------*/
 /* target : 設定使用者權限                               */
 /* author : gslin@abpe.org                               */

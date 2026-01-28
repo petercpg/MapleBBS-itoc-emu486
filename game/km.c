@@ -1,5 +1,5 @@
 /*-------------------------------------------------------*/
-/* km.c         ( NTHU CS MapleBBS Ver 3.10 )            */
+/* game/km.c            ( NTHU CS MapleBBS Ver 3.10 )    */
 /*-------------------------------------------------------*/
 /* target : KongMing Chess routines                      */
 /* create : 01/02/08                                     */

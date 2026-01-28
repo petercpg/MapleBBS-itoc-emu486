@@ -1,5 +1,5 @@
 /*-------------------------------------------------------*/
-/* util/bmtad.c	( NTHU CS MapleBBS Ver 3.00 )		 */
+/* daemon/bmtad.c       ( NTHU CS MapleBBS Ver 3.00 )    */
 /*-------------------------------------------------------*/
 /* target : Mail Transport Agent for BBS		 */
 /* create : 96/11/20					 */

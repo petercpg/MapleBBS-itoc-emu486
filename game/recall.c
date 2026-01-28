@@ -1,5 +1,5 @@
 /*-------------------------------------------------------*/
-/* recall.c     ( NTHU CS MapleBBS Ver 3.10 )            */
+/* game/recall.c        ( NTHU CS MapleBBS Ver 3.10 )    */
 /*-------------------------------------------------------*/
 /* target : Memory Game routines                         */
 /* create : 01/07/19                                     */

@@ -1,5 +1,5 @@
 /*-------------------------------------------------------*/
-/* acct.c	( NTHU CS MapleBBS Ver 3.00 )		 */
+/* maple/acct.c         ( NTHU CS MapleBBS Ver 3.00 )    */
 /*-------------------------------------------------------*/
 /* target : account / administration routines	 	 */
 /* create : 95/03/29				 	 */

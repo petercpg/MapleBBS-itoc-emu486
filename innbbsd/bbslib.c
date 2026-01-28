@@ -1,5 +1,5 @@
 /*-------------------------------------------------------*/
-/* bbslib.c	( NTHU CS MapleBBS Ver 3.10 )		 */
+/* innbbsd/bbslib.c     ( NTHU CS MapleBBS Ver 3.10 )    */
 /*-------------------------------------------------------*/
 /* target : innbbsd library				 */
 /* create : 95/04/27					 */

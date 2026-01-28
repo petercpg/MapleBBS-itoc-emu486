@@ -1,5 +1,5 @@
 /*-------------------------------------------------------*/
-/* guessnum.c   ( NTHU CS MapleBBS Ver 3.10 )            */
+/* game/guessnum.c      ( NTHU CS MapleBBS Ver 3.10 )    */
 /*-------------------------------------------------------*/
 /* author : thor.bbs@bbs.cs.nthu.edu.tw			 */
 /* target : Guess Number tool dynamic link module        */

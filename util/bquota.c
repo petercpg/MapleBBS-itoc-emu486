@@ -1,5 +1,5 @@
 /*-------------------------------------------------------*/
-/* util/bquota.c	( NTHU CS MapleBBS Ver 3.00 )	 */
+/* util/bquota.c        ( NTHU CS MapleBBS Ver 3.00 )    */
 /*-------------------------------------------------------*/
 /* target : BBS user quota maintain & mail expire	 */
 /* create : 95/03/29				 	 */

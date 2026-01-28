@@ -1,5 +1,5 @@
 /*-------------------------------------------------------*/
-/* xchat.h	( NTHU CS MapleBBS Ver 3.00 )		 */
+/* include/xchat.h      ( NTHU CS MapleBBS Ver 3.00 )    */
 /*-------------------------------------------------------*/
 /* target : definitions that xchat client/server used	 */
 /* create : 97/09/19				 	 */

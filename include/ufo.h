@@ -1,5 +1,5 @@
 /*-------------------------------------------------------*/
-/* ufo.h	( NTHU CS MapleBBS Ver 2.36 )		 */
+/* include/ufo.h        ( NTHU CS MapleBBS Ver 2.36 )    */
 /*-------------------------------------------------------*/
 /* target : User Flag Option				 */
 /* create : 95/03/29				 	 */

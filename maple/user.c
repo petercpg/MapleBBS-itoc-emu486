@@ -1,5 +1,5 @@
 /*-------------------------------------------------------*/
-/* user.c	( NTHU CS MapleBBS Ver 3.00 )		 */
+/* maple/user.c         ( NTHU CS MapleBBS Ver 3.00 )    */
 /*-------------------------------------------------------*/
 /* target : account / user routines		 	 */
 /* create : 95/03/29				 	 */

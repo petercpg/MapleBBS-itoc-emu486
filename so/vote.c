@@ -1,5 +1,5 @@
 /*-------------------------------------------------------*/
-/* vote.c	( NTHU CS MapleBBS Ver 2.36 )		 */
+/* so/vote.c            ( NTHU CS MapleBBS Ver 2.36 )    */
 /*-------------------------------------------------------*/
 /* target : boards' vote routines		 	 */
 /* create : 95/03/29				 	 */

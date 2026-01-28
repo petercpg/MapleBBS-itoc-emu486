@@ -1,5 +1,5 @@
 /*-------------------------------------------------------*/
-/* pip_global.h	( NTHU CS MapleBBS Ver 3.10 )		 */
+/* pip/pip_global.h     ( NTHU CS MapleBBS Ver 3.10 )    */
 /*-------------------------------------------------------*/
 /* target : global definitions & variables		 */
 /* create : 01/07/25				 	 */

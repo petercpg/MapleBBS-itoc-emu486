@@ -1,5 +1,5 @@
 /*-------------------------------------------------------*/
-/* util/cola2usr.c  ( NTHU CS MapleBBS Ver 3.10 )	 */
+/* util/tran/cola2usr.c ( NTHU CS MapleBBS Ver 3.10 )    */
 /*-------------------------------------------------------*/
 /* target : Cola 至 Maple 3.02 使用者轉換		 */
 /* create : 03/02/11					 */

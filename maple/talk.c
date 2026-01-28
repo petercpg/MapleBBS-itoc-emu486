@@ -1,5 +1,5 @@
 /*-------------------------------------------------------*/
-/* talk.c	( NTHU CS MapleBBS Ver 3.00 )		 */
+/* maple/talk.c         ( NTHU CS MapleBBS Ver 3.00 )    */
 /*-------------------------------------------------------*/
 /* target : talk/query routines		 		 */
 /* create : 95/03/29				 	 */

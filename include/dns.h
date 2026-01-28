@@ -1,5 +1,5 @@
 /*-------------------------------------------------------*/
-/* lib/dns.h		( NTHU CS MapleBBS Ver 3.00 )	 */
+/* include/dns.h        ( NTHU CS MapleBBS Ver 3.00 )    */
 /*-------------------------------------------------------*/
 /* target : header file for DNS routines		 */
 /* create : 96/11/20					 */
