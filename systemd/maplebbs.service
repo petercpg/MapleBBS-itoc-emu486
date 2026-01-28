@@ -1,0 +1,35 @@
+[Unit]
+Description=MapleBBS Telnet Server
+After=network.target syslog.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+User=root
+Group=root
+WorkingDirectory=/home/bbs
+
+# Core Daemons (Root)
+# Start sequence based on rc.local
+ExecStart=/home/bbs/bin/bbsd
+ExecStart=/home/bbs/bin/bmtad
+ExecStart=/home/bbs/bin/gemd
+ExecStart=/home/bbs/bin/bguard
+ExecStart=/home/bbs/bin/bpop3d
+ExecStart=/home/bbs/bin/bnntpd
+ExecStart=/home/bbs/bin/xchatd
+ExecStart=/home/bbs/innd/innbbsd
+
+# Maintenance Utilities (Run as user 'bbs')
+ExecStart=/usr/sbin/runuser -u bbs -- /home/bbs/bin/camera
+ExecStart=/usr/sbin/runuser -u bbs -- /home/bbs/bin/account
+
+# Cleanup
+# Systemd implicitly kills processes in the cgroup on stop.
+# We explicitly clean up shared memory segments AND semaphores owned by 'bbs'.
+ExecStopPost=/bin/sh -c 'user="bbs"; for id in $(/usr/bin/ipcs -m | grep $user | awk "{print $2}"); do /usr/bin/ipcrm -m $id; done; for id in $(/usr/bin/ipcs -s | grep $user | awk "{print $2}"); do /usr/bin/ipcrm -s $id; done'
+
+LimitNOFILE=65535
+
+[Install]
+WantedBy=multi-user.target
