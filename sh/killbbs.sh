@@ -1,13 +1,18 @@
 #!/bin/sh
 # 清除站上使用者與shared memory
-kill `ps -auxwww | grep bbsd | awk '{print $2}'`
+# Use portable ps flags common to both Linux and BSD
+kill `ps -ax | grep -w bbsd | grep -v grep | awk '{print $1}'` 2>/dev/null
 
-# for freebsd only
-for i in `ipcs | grep bbs | awk '{print $3}'`
+# Identify OS
+OS=`uname -s`
+
+# Standardize IPC removal logic
+# Linux/FreeBSD support ipcs -m and ipcrm -m/-M
+for i in `ipcs -m | grep bbs | awk '{print $2}'`
 do
-  if [ $OSTYPE = "FreeBSD" ]; then
-         ipcrm -M $i
-  fi
+    if [ "$OS" = "FreeBSD" ]; then
+        ipcrm -m "$i"
+    elif [ "$OS" = "Linux" ]; then
+        ipcrm -m "$i"
+    fi
 done
-
-# Linux 請用 ipcs 及 ipcrm shm
