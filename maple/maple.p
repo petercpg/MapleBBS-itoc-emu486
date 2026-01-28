@@ -20,11 +20,10 @@ int m_trace(void);
 void alog(char *mode, char *msg);
 void blog(char *mode, char *msg);
 void u_exit(char *mode);
-void abort_bbs(void);
-
-/* bmw.c */
-int can_override(UTMP *up);
-int can_see(UTMP *my, UTMP *up);
+void abort_bbs(int sig);
+void sem_init(void);
+void dns_init(void);
+int dns_name(unsigned char *addr, char *name);
 int bmw_send(UTMP *callee, BMW *bmw);
 void bmw_edit(UTMP *up, char *hint, BMW *bmw);
 int bmw_reply_CtrlRT(int ch);

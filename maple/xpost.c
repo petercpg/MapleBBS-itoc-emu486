@@ -514,7 +514,7 @@ XoXfull(xo)
   head--;
 
   /* [全文搜尋] %s */
-  sprintf(HintWord, "[\xA5\xFE\xA4\xE5\xB7\x6A\xB4\x4D] %s", key);
+  snprintf(HintWord, sizeof(HintWord), "[\xA5\xFE\xA4\xE5\xB7\x6A\xB4\x4D] %s", key);
   HintAuthor[0] = '\0';
   str_lowest(key, key);
 

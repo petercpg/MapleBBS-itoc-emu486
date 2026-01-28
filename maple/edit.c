@@ -195,7 +195,7 @@ ve_alloc()
   }
 
   ve_abort(13);			/* 記憶體用光了 */
-  abort_bbs();
+  abort_bbs(0);
 }
 
 
@@ -432,7 +432,7 @@ join_up(line)
     if (line == NULL)
     {
       ve_abort(2);
-      abort_bbs();
+      abort_bbs(0);
     }
   }
 }
@@ -1724,7 +1724,7 @@ ve_filer(fpath, ve_op)
     if ((fp = fopen(fpath, "w")) == NULL)
     {
       ve_abort(5);
-      abort_bbs();
+      abort_bbs(0);
     }
 
 #ifndef ANTI_PHONETIC
@@ -1864,7 +1864,7 @@ vedit(fpath, ve_op)
       if (cc < 0)
       {
 	ve_abort(4);
-	abort_bbs();
+	abort_bbs(0);
       }
     }
     close(cc);

@@ -311,7 +311,7 @@ rel_move(new_col, new_row)
   int new_col, new_row;
 {
   int was_col, was_row;
-  char buf[16];
+  char buf[64];
 
   if (new_row > b_lines || new_col > b_cols)
     return;
@@ -351,7 +351,7 @@ rel_move(new_col, new_row)
     }
   }
 
-  sprintf(buf, "\033[%d;%dH", new_row + 1, new_col + 1);
+  snprintf(buf, sizeof(buf), "\033[%d;%dH", new_row + 1, new_col + 1);
   output(buf, strlen(buf));
 }
 
@@ -858,11 +858,11 @@ void
 prints(char *fmt, ...)
 {
   va_list args;
-  uschar buf[512], *str;	/* 最長只能印 512 字 */
+  uschar buf[VO_MAX], *str;	/* 最長只能印 VO_MAX 字 */
   int cc;
 
   va_start(args, fmt);
-  vsprintf(buf, fmt, args);
+  vsnprintf(buf, sizeof(buf), fmt, args);
   va_end(args);
   for (str = buf; cc = *str; str++)
     outc(cc);
@@ -1019,14 +1019,25 @@ imsg(msg)			/* itoc.010827: 重要訊息顯示 important message */
 
 #if 1	/* 利用跑馬燈效果來提示重要訊息 */
   i = now % 6 + 1;			/* 顏色碼 */
-  sprintf(spacebar, "\033[%d;H", b_lines + 1);	/* 移位碼 */
-  /* \033[3%dm▏▎▍▌▋▊\033[1;37;4%dm   重要訊息請注意   \033[m */
-  sprintf(buf, "\033[3%dm\xA2\x6A\xA2\x6B\xA2\x6C\xA2\x6D\xA2\x6E\xA2\x6F\033[1;37;4%dm   \xAD\xAB\xAD\x6E\xB0\x54\xAE\xA7\xBD\xD0\xAA\x60\xB7\x4E   \033[m", i, i);
+  char scroller[256], spacebar[64], buf[128];
 
+  if (cuser.ufo & UFO_SCROLLER)
+  {
+    /* 隨機取一個顏色 */
+    i = (time(0) % 6) + 1;
+
+    snprintf(spacebar, sizeof(spacebar), "\033[%d;H", b_lines + 1);	/* 移位碼 */
+
+    snprintf(buf, sizeof(buf), "\033[3%dm\xA2\x6A\xA2\x6B\xA2\x6C\xA2\x6D\xA2\x6E\xA2\x6F\033[1;37;4%dm   \xAD\xAB\xAD\x6E\xB0\x54\xAE\xA7\xBD\xD0\xAA\x60\xB7\x4E   \033[m", i, i);
+
+    snprintf(scroller, sizeof(scroller), "%s%s", spacebar, buf);		/* scroller 跑馬燈 */
+
+    telnet_flush(scroller, strlen(scroller) + 1);	/* 即時輸出，跑馬燈效果 */
+  }
   /* 不清除 b_lines，使有淡出的效果 */
   for (i = 1; i <= 47; i += 2)
   {
-    sprintf(scroller, "%s%s", spacebar, buf);		/* scroller 跑馬燈 */
+    snprintf(scroller, sizeof(scroller), "%s%s", spacebar, buf);		/* scroller 跑馬燈 */
     strcat(spacebar, "  ");				/* 一次跳二格，增加速度 */
     telnet_flush(scroller, strlen(scroller) + 1);	/* 即時輸出，跑馬燈效果 */
     usleep(1000);
@@ -1234,10 +1245,18 @@ add_io(fd, timeout)
 
 
 static inline int
-iac_count(current)
+iac_count(current, len)
   uschar *current;
+  int len;
 {
-  switch (*(current + 1))
+  int cmd;
+
+  if (len < 2)
+    return len;
+
+  cmd = current[1];
+
+  switch (cmd)
   {
   case DO:
   case DONT:
@@ -1245,19 +1264,25 @@ iac_count(current)
   case WONT:
     return 3;
 
-  case SB:			/* loop forever looking for the SE */
+  case SB:			/* loop safe looking for the SE */
     {
       uschar *look = current + 2;
+      uschar *end = current + len;
 
       /* fuse.030518: 線上調整畫面大小，重抓 b_lines */
-      if ((*look) == TELOPT_NAWS)
+      if (len >= 9 && (*look) == TELOPT_NAWS)
       {
-	b_lines = ntohs(* (short *) (look + 3)) - 1;
-	b_cols = ntohs(* (short *) (look + 1)) - 1;
+	/* Use safe byte-by-byte read for 64-bit/alignment safety */
+	b_cols = (look[1] << 8) | look[2];
+	b_lines = (look[3] << 8) | look[4];
+	b_lines--;
+	b_cols--;
+
 	if (b_lines >= T_LINES)
 	  b_lines = T_LINES - 1;
 	else if (b_lines < 23)
 	  b_lines = 23;
+
 	if (b_cols >= T_COLS)
 	  b_cols = T_COLS - 1;
 	else if (b_cols < 79)
@@ -1265,19 +1290,20 @@ iac_count(current)
 	d_cols = b_cols - 79;
       }
 
-      for (;;)
+      while (look < end - 1)
       {
-	if ((*look++) == IAC)
+	if (*look == IAC && *(look + 1) == SE)
 	{
-	  if ((*look++) == SE)
-	  {
-	    return look - current;
-	  }
+	  return (look + 2) - current;
 	}
+	look++;
       }
+      return len;
     }
+
+  default:
+    return 2;
   }
-  return 1;
 }
 
 
@@ -1292,48 +1318,37 @@ igetch()
   static int imode = 0;
   static int idle = 0;
 
-  int cc, fd, nfds, rset;
+  int cc, fd;
   uschar *data;
 
   data = vi_pool;
-  nfds = 0;
 
   for (;;)
   {
     if (vi_size <= vi_head)
     {
-      if (nfds == 0)
-      {
-	refresh();
-	fd = (imode & IM_REPLY) ? 0 : vio_fd;
-	nfds = fd + 1;
-	if (fd)
-	  fd = 1 << fd;
-      }
+      refresh();
+      fd = (imode & IM_REPLY) ? 0 : vio_fd;
 
       for (;;)
       {
 	struct timeval tv = vio_to;
         fd_set readfds;
-	/* Thor.980806: man page 假設 timeval 是會改變的 */
-
-	/* rset = 1 | fd; */
         FD_ZERO(&readfds);
         FD_SET(0, &readfds);
-        if (fd) FD_SET(vio_fd, &readfds);
+        if (fd > 0) FD_SET(fd, &readfds);
 
-	cc = select(nfds, &readfds, NULL, NULL, &tv /*&vio_to*/);
-			/* Thor.980806: man page 假設 timeval 是會改變的 */
+	cc = select((fd > 0 ? fd : 0) + 1, &readfds, NULL, NULL, &tv);
 
 	if (cc > 0)
 	{
-	  if (fd & rset)
+	  if (fd > 0 && FD_ISSET(fd, &readfds))
 	    return I_OTHERDATA;
 
 	  cc = recv(0, data, VI_MAX, 0);
 	  if (cc > 0)
 	  {
-	    vi_head = (*data) == IAC ? iac_count(data) : 0;
+	    vi_head = (*data) == IAC ? iac_count(data, cc) : 0;
 	    if (vi_head >= cc)
 	      continue;
 	    vi_size = cc;
@@ -1360,7 +1375,7 @@ igetch()
 	    break;
 	  }
 	  if ((cc == 0) || (errno != EINTR))
-	    abort_bbs();
+	    abort_bbs(0);
 	}
 	else if (cc == 0)
 	{
@@ -1370,7 +1385,6 @@ igetch()
 
 	  idle += cc / 60;
 	  vio_to.tv_sec = cc + 60;	/* Thor.980806: 每次timeout都增加60秒，所以片子愈換愈慢，好懶:p */
-	  /* Thor.990201.註解: 除了talk_rqst、chat之外，需要在動一動之後，重設tv_sec為60秒嗎? (預設值) */
 
 #ifdef TIME_KICKER
 	  if (idle > IDLE_TIMEOUT)
@@ -1378,7 +1392,7 @@ igetch()
 	    /* ★ 超過閒置時間！ */
 	    outs("\xA1\xB9 \xB6\x57\xB9\x4C\xB6\xA2\xB8\x6D\xAE\xC9\xB6\xA1\xA1\x49");
 	    refresh();
-	    abort_bbs();
+	    abort_bbs(0);
   	  }
 	  else if (idle >= IDLE_TIMEOUT - IDLE_WARNOUT)	/* itoc.001222: 閒置過久警告 */
 	  {
@@ -1402,7 +1416,7 @@ igetch()
 	else
 	{
 	  if (errno != EINTR)
-	    abort_bbs();
+	    abort_bbs(0);
 	}
       }
     }

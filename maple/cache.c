@@ -200,6 +200,15 @@ utmp_find(userno)
 {
   UTMP *uentp, *uceil;
 
+  {
+    FILE *fp = fopen("/tmp/bbs_debug.log", "a");
+    if (fp) {
+        fprintf(fp, "[%d] utmp_find: Start. userno=%d. ushm=%p\n", getpid(), userno, ushm);
+        if (ushm) fprintf(fp, "[%d] ushm->offset=%d uslot=%p\n", getpid(), ushm->offset, ushm->uslot);
+        fclose(fp);
+    }
+  }
+
   uentp = ushm->uslot;
   uceil = (void *) uentp + ushm->offset;
   do
@@ -297,6 +306,14 @@ utmp_count(userno, show)
   int userno;
   int show;
 {
+  {
+    FILE *fp = fopen("/tmp/bbs_debug.log", "a");
+    if (fp) {
+        fprintf(fp, "[%d] utmp_count: Start. userno=%d. ushm=%p\n", getpid(), userno, ushm);
+        if (ushm) fprintf(fp, "[%d] ushm->offset=%d uslot=%p\n", getpid(), ushm->offset, ushm->uslot);
+        fclose(fp);
+    }
+  }
   UTMP *uentp, *uceil;
   int count;
 
@@ -384,7 +401,7 @@ bshm_init()
   {
     usleep(100000);  /* 0.1 秒，避免長時間阻塞 */
     if (++i >= 300)		/* 重試 300 次 = 30 秒總等待時間 */
-      abort_bbs();
+      abort_bbs(0);
   }
 }
 

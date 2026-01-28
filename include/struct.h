@@ -307,7 +307,7 @@ struct UTMP
   usint status;			/* status */
 
   time32_t idle_time;		/* active time for last event */
-  u_long in_addr;		/* Internet address */
+  unsigned int in_addr;		/* Internet address (Fixed to 4 bytes) */
   int sockport;			/* socket port for talk */
   UTMP *talker;			/* who talk-to me ? */
 
@@ -318,7 +318,10 @@ struct UTMP
   char username[UNLEN + 1];	/* user's nickname */
   char from[34];		/* remote host */
 #ifdef HAVE_BRDMATE
-  char reading[BNLEN + 1];	/* reading board */
+  char reading[BNLEN + 1];
+  char nouse2[50];
+#else
+  char nouse2[63];
 #endif
 
   int pal_max;			/* 有幾個朋友 */

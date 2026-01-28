@@ -371,7 +371,7 @@ brd2gem(brd, gem)
   HDR *gem;
 {
   memset(gem, 0, sizeof(HDR));
-  time(&gem->chrono);
+  { time_t __now; time(&__now); gem->chrono = __now; }
   str_stamp(gem->date, gem->chrono);
   strcpy(gem->xname, brd->brdname);
   sprintf(gem->title, "%-13s%-5s%s", brd->brdname, brd->class, brd->title);
@@ -511,7 +511,7 @@ gem_add(xo, gtype)
       }
 
       memset(&hdr, 0, sizeof(HDR));
-      time(&hdr.chrono);
+      { time_t __now; time(&__now); hdr.chrono = __now; }
       str_stamp(hdr.date, hdr.chrono);
       sprintf(hdr.xname, "@%s", fpath);
       if (gtype == 'c')

@@ -163,7 +163,10 @@ bmw_send(callee, bmw)
 
   /* find available BMW slot in pool */
 
-  texpire = time(&bmw->btime) - BMW_EXPIRE;
+  time_t now;
+  time(&now);
+  bmw->btime = (time32_t)now;
+  texpire = now - BMW_EXPIRE;
 
   mpool = ushm->mpool;
   mhead = ushm->mbase;
@@ -179,7 +182,7 @@ bmw_send(callee, bmw)
 
   *mhead = *bmw;
   ushm->mbase = mslot[i] = mhead;
-  /* Thor.981206: 需注意, 若ushm mapping不同, 
+  /* Thor.981206: 需注意, 若ushm mapping不同,
                   則不同隻 bbsd 互call會core dump,
                   除非這也用offset, 不過除了 -i, 應該是非必要 */
 
@@ -189,7 +192,7 @@ bmw_send(callee, bmw)
 }
 
 
-#ifdef BMW_DISPLAY		
+#ifdef BMW_DISPLAY
 static void
 bmw_display(max)	/* itoc.010313: display 以前的水球 */
   int max;
@@ -317,8 +320,10 @@ bmw_edit(up, hint, bmw)
       /* itoc.000213: 加 "> " 為了與一般水球區分 */
       sprintf(bmw->userid, "%s> ", cuser.userid);
     }
-      
-    time(&bmw->btime);
+
+    time_t now;
+    time(&now);
+    bmw->btime = (time32_t)now;
     usr_fpath(fpath, userid, fn_bmw);
     rec_add(fpath, bmw, sizeof(BMW));
 
@@ -556,7 +561,7 @@ bmw_reply()
     cursor_restore();
     vs_restore(slt);	/* itoc.010313: 還原 bmw_display 之前的 screen */
   }
-  else  
+  else
 #endif
   {
     restore_foot(slt, 3);	/* 已 bmw_outz，要還原三列 */
@@ -634,7 +639,7 @@ bmw_rqst()
       bmw_request = 1;		/* 要求更新 */
 
     /* Thor.980827: 為了防止列印一半(more)時水球而後列印超過範圍踢人, 故存下游標位置 */
-    cursor_save(); 
+    cursor_save();
 
     sprintf(buf, BMW_FORMAT, mptr->userid, mptr->msg);
     outz(buf);
@@ -679,7 +684,8 @@ bmw_item(num, bmw)
   int num;
   BMW *bmw;
 {
-  struct tm *ptime = localtime(&bmw->btime);
+  time_t now = (time_t)bmw->btime;
+  struct tm *ptime = localtime(&now);
 
   if (bmw->sender == cuser.userno)	/* 送出的水球 */
   {
@@ -876,7 +882,7 @@ bmw_store(fpath)
     /*               == 水球記錄 %s ==\n\n */
     fprintf(fp, "              == \xA4\xF4\xB2\x79\xB0\x4F\xBF\xFD %s ==\n\n", Now());
 
-    while (read(fd, &bmw, sizeof(BMW)) == sizeof(BMW)) 
+    while (read(fd, &bmw, sizeof(BMW)) == sizeof(BMW))
     {
       fprintf(fp, bmw.sender == cuser.userno ? BMW_FORMAT2 " %s\n" : BMW_FORMAT " %s\n",
 	bmw.userid, bmw.msg, Btime(bmw.btime));
@@ -937,7 +943,7 @@ bmw_save_user(xo)
 	/*        == 與 %s 丟的水球紀錄 %s ==\n\n */
 	fprintf(fp, "       == \xBB\x50 %s \xA5\xE1\xAA\xBA\xA4\xF4\xB2\x79\xAC\xF6\xBF\xFD %s ==\n\n", acct.userid, Now());
 
-	while (read(fd, &bmw, sizeof(BMW)) == sizeof(BMW)) 
+	while (read(fd, &bmw, sizeof(BMW)) == sizeof(BMW))
 	{
 	  if (bmw.sender == acct.userno || bmw.recver == acct.userno)
 	  {
@@ -1020,7 +1026,7 @@ KeyFunc bmw_cb[] =
   XO_LOAD, bmw_load,
   XO_HEAD, bmw_head,
   XO_BODY, bmw_body,
-  
+
   'd', bmw_delete,
   'D', bmw_rangedel,
   'm', bmw_mail,
@@ -1033,7 +1039,7 @@ KeyFunc bmw_cb[] =
   't', bmw_tag,
   Ctrl('D'), bmw_prune,
   'C', bmw_clear,
-  
+
   'h', bmw_help
 };
 
@@ -1093,7 +1099,7 @@ bmw_log()
   char fpath[64], buf[64];
   struct stat st;
 
-  /* lkchu.981201: 放進私人信箱內/清除/保留 */  
+  /* lkchu.981201: 放進私人信箱內/清除/保留 */
   usr_fpath(fpath, cuser.userid, fn_bmw);
 
   if (!stat(fpath, &st) && S_ISREG(st.st_mode))
@@ -1115,7 +1121,7 @@ bmw_log()
       op = vans("\xA5\xBB\xA6\xB8\xA4\x57\xAF\xB8\xA4\xF4\xB2\x79\xB3\x42\xB2\x7A (M)\xB2\xBE\xA6\xDC\xB3\xC6\xA7\xD1\xBF\xFD (R)\xAB\x4F\xAF\x64 (C)\xB2\x4D\xB0\xA3\xA1\x48[R] ");
 #endif
     }
-      
+
     switch (op)
     {
     case 'm':

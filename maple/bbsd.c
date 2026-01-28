@@ -63,7 +63,7 @@ alog(mode, msg)		/* Admin 行為記錄 */
 {
   char buf[512];
 
-  sprintf(buf, "%s %s %-13s%s\n", Now(), mode, cuser.userid, msg);
+  snprintf(buf, sizeof(buf), "%s %s %-13s%s\n", Now(), mode, cuser.userid, msg);
   f_cat(FN_RUN_ADMIN, buf);
 }
 
@@ -72,9 +72,9 @@ void
 blog(mode, msg)		/* BBS 一般記錄 */
   char *mode, *msg;
 {
-  char buf[512];
+  char buf[1024];
 
-  sprintf(buf, "%s %s %-13s%s\n", Now(), mode, cuser.userid, msg);
+  snprintf(buf, sizeof(buf), "%s %s %-13s%s\n", Now(), mode, cuser.userid, msg);
   f_cat(FN_RUN_USIES, buf);
 }
 
@@ -169,7 +169,7 @@ u_exit(mode)
 
 
 void
-abort_bbs()
+abort_bbs(int sig)
 {
   if (bbstate)
     u_exit("AXXED");
@@ -383,7 +383,7 @@ acct_apply()
   {
     /* 此代號剛被註冊走，請重新申請 */
     vmsg("\xA6\xB9\xA5\x4E\xB8\xB9\xAD\xE8\xB3\x51\xB5\xF9\xA5\x55\xA8\xAB\xA1\x41\xBD\xD0\xAD\xAB\xB7\x73\xA5\xD3\xBD\xD0");
-    abort_bbs();
+    abort_bbs(0);
   }
 
   /* dispatch unique userno */
@@ -445,7 +445,7 @@ logattempt(type, content)
   int type;			/* '-' login failure   ' ' success */
   char *content;
 {
-  char buf[128], fpath[64];
+  char buf[256], fpath[64];
 
   sprintf(buf, "%s %c %s\n", Btime(ap_start), type, content);
 
@@ -576,7 +576,7 @@ utmp_setup(mode)
 			/* 千甲站 */
 			/* 關東站 */
 			/* 六家站 */
-			"\xA6\x58\xBF\xB3\xAF\xB8", "\xB4\x49\xB6\x51\xAF\xB8", "\xA4\xBA\xC6\x57\xAF\xB8", "\xA4\x64\xA5\xD2\xAF\xB8", "\xC3\xF6\xAA\x46\xAF\xB8", "\xA4\xBB\xAE\x61\xAF\xB8",};
+			"\xA6\x58\xBF\xB3\xAF\xB8", "\xB4\x49\xB6\x51\xAF\xB8", "\xA4\xBA\xC6\x57\xAF\xB8", "\xA4\x64\xA5\xD2\xAF\xB8", "\xC3\xF6\xAA\x46\xAF\xB8", "\xA4\xBB\AE\x61\xAF\xB8",};
     strcpy(utmp.from, from[ap_start % 14]);
   }
   else
@@ -1008,7 +1008,7 @@ static void
 tn_login()
 {
   int multi;
-  char buf[128];
+  char buf[256];
 
   bbsmode = M_LOGIN;	/* itoc.020828: 以免過久未輸入時 igetch 會出現 movie */
 
@@ -1017,7 +1017,7 @@ tn_login()
   /* --------------------------------------------------- */
 
   /* Thor.990415: 記錄ip, 怕正查不到 */
-  sprintf(buf, "%s ip:%08x (%d)", fromhost, tn_addr, currpid);
+  snprintf(buf, sizeof(buf), "%s ip:%08x (%d)", fromhost, tn_addr, currpid);
 
   multi = login_user(buf);
 
@@ -1202,7 +1202,7 @@ tn_main()
   tn_motd();
 
   menu();
-  abort_bbs();	/* to make sure it will terminate */
+  abort_bbs(0);	/* to make sure it will terminate */
 }
 
 
@@ -1357,7 +1357,7 @@ start_daemon(port)
 #ifdef HAVE_RLIMIT
   struct rlimit limit;
 #endif
-  char buf[80], data[80];
+  char buf[80], fpath[64], data[256];
   time_t val;
 
   /*
@@ -1427,7 +1427,7 @@ start_daemon(port)
 #endif
     /* mport = port; */ /* Thor.990325: 不需要了:P */
 
-    sprintf(data, "%d\t%s\t%d\tinetd -i\n", getpid(), buf, port);
+    snprintf(data, sizeof(data), "%d\t%s\t%d\tinetd -i\n", getpid(), buf, port);
     f_cat(PID_FILE, data);
     return;
   }
@@ -1484,7 +1484,7 @@ start_daemon(port)
   setuid(BBSUID);
 
   /* standalone */
-  sprintf(data, "%d\t%s\t%d\n", getpid(), buf, port);
+  snprintf(data, sizeof(data), "%d\t%s\t%d\n", getpid(), buf, port);
   f_cat(PID_FILE, data);
 }
 
@@ -1657,6 +1657,8 @@ main(argc, argv)
     }
 
     dup2(csock, 0);
+    dup2(csock, 1);
+    dup2(csock, 2);
     close(csock);
 
     /* ------------------------------------------------- */

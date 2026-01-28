@@ -33,12 +33,12 @@ static XO board_xo;
 
 typedef struct BoardReadingHistory
 {
-  time_t bstamp;		/* 建立看板的時間, unique */	/* Thor.brh_tail */
-  time_t bvisit;		/* 上次閱讀時間 */		/* Thor.980904: 沒在讀時放上次讀的時間, 正在讀時放 bhno */
-  int bcount;			/* Thor.980902: 沒用到 */
+  time32_t bstamp;		/* 建立看板的時間, unique */	/* Thor.brh_tail */
+  time32_t bvisit;		/* 上次閱讀時間 */		        /* Thor.980904: 沒在讀時放上次讀的時間, 正在讀時放 bhno */
+  int bcount;                                     /* Thor.980902: 沒用到 */
 
   /* --------------------------------------------------- */
-  /* time_t {final, begin} / {final | BRH_SIGN}		 */
+  /* time32_t {final, begin} / {final | BRH_SIGN}	 */
   /* --------------------------------------------------- */
                            /* Thor.980904.註解: BRH_SIGN代表final begin 相同 */
                            /* Thor.980904.註解: 由大到小排列,存放已讀interval */
@@ -76,7 +76,7 @@ brh_alloc(tail, size)
     base = (int *) realloc((char *) base, size);
 
     if (base == NULL)
-      abort_bbs();
+      abort_bbs(0);
 
     brh_base = base;
     brh_size = size;
@@ -644,7 +644,7 @@ brh_save()
   while (head < tail)
   {
     bhno = bstamp2bno(*head);
-    size = head[2] * sizeof(time_t) + sizeof(BRH);
+    size = head[2] * sizeof(time32_t) + sizeof(BRH);
     if (bhno >= 0 && !(bits[bhno] & BRD_Z_BIT))
     {
       if (base != head)
@@ -656,7 +656,7 @@ brh_save()
 
   /* save zap record */
 
-  tail = brh_alloc(base, sizeof(time_t) * MAXBOARD);
+  tail = brh_alloc(base, sizeof(time32_t) * MAXBOARD);
 
   bhdr = bshm->bcache;
   bend = bhdr + bshm->number;
@@ -697,7 +697,7 @@ typedef struct ClassZapHistory
 }                   CZH;
 
 
-static char class_bits[CH_MAX + 3];
+static char class_bits[MAXBOARD];
 
 
 static int			/* >=0:pos  -1:不在 .CZH */
@@ -771,7 +771,8 @@ czh_load()
 	chx = (short *) img + (CH_END - chn);
 	if (!strncmp(czh->brdname, img + *chx, BNLEN))
 	{
-	  class_bits[-chn] |= BRD_Z_BIT;
+	  if (-chn < MAXBOARD)
+	    class_bits[-chn] |= BRD_Z_BIT;
 	  break;
 	}
 	if (chn <= min_chn)	/* 如果找不到，表示該分類已消失，從 .CZH 刪除 */

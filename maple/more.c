@@ -422,6 +422,7 @@ more(fpath, footer)
   char *footer;
 {
   char buf[ANSILINELEN];
+  { FILE *fp = fopen("/tmp/bbs_debug.log", "a"); if (fp) { fprintf(fp, "[%d] more: Start. fpath=%s\n", getpid(), fpath); fclose(fp); } }
   int i;
 
   uschar *headend;		/* 檔頭結束 */
@@ -581,6 +582,7 @@ re_key:
 #ifdef SLIDE_SHOW
     key = more_slideshow();
 #else
+    { FILE *fp = fopen("/tmp/bbs_debug.log", "a"); if (fp) { fprintf(fp, "[%d] more: Reached vkey loop. mode=%p footer=%s\n", getpid(), mode, footer); fclose(fp); } }
     key = vkey();
 #endif
 

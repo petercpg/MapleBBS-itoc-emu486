@@ -84,13 +84,13 @@ mf_item(num, mf)
   else if (mftype & MF_GEM)
   {
     prints("%6d%c  %s %s\n",
-      brdpost ? 0 : num, 
+      brdpost ? 0 : num,
       /* ■ */
       mftype & MF_MARK ? ')' : ' ', "\xA1\xBD", mf->title);
   }
   else  if (mftype & MF_LINE)		/* qazq.040721: 分隔線 */
   {
-    prints("%6d   %s\n", 
+    prints("%6d   %s\n",
       brdpost ? 0 : num, mf->title);
   }
   else /* if (mftype & MF_CLASS) */	/* LHD.051007: 分類群組 */
@@ -134,7 +134,7 @@ mf_body(xo)
       mf_paste(xo);
       return mf_load(xo);
     }
- 
+
     return XO_QUIT;
   }
 
@@ -189,7 +189,7 @@ mf_body(xo)
     {
       if (max < rec_num(xo->dir, sizeof(MF)))	/* 再去下頁找 */
 	return num + XO_TALL + XO_MOVE;
- 
+
       /* 已經是最後一頁了還是找不到未讀看板 */
       mf_jumpnext = 0;
       tail = originpos;
@@ -226,10 +226,10 @@ mf_head(xo)
 {
   /* 我的最愛 */
   vs_head("\xA7\xDA\xAA\xBA\xB3\xCC\xB7\x52", str_site);
-  prints(NECKER_MF, 
+  prints(NECKER_MF,
     /* 總數 */
     /* 編號 */
-    cuser.ufo & UFO_BRDPOST ? "\xC1\x60\xBC\xC6" : "\xBD\x73\xB8\xB9", 
+    cuser.ufo & UFO_BRDPOST ? "\xC1\x60\xBC\xC6" : "\xBD\x73\xB8\xB9",
     d_cols >> 1, "", d_cols - (d_cols >> 1), "");
   return mf_body(xo);
 }
@@ -285,7 +285,7 @@ mf_add(xo)
   if (ans != 'b' && ans != 'f' && ans != 'g' && ans != 'l')
     return XO_FOOT;
 
-  time(&mf.chrono);
+  { time_t __now; time(&__now); mf.chrono = __now; }
 
   if (ans == 'b' || ans == 'g')
   {
@@ -319,7 +319,7 @@ mf_add(xo)
   ans = vans("\xA6\x73\xA9\xF1\xA6\xEC\xB8\x6D A)\xB7\x73\xBC\x57 I)\xB4\xA1\xA4\x4A N)\xA4\x55\xA4\x40\xAD\xD3 Q)\xC2\xF7\xB6\x7D [A] ");
   switch (ans)
   {
-  case 'q':  
+  case 'q':
     break;
 
   case 'i':
@@ -616,7 +616,7 @@ mf_paste(xo)
   }
 
   memcpy(&mf, &mftmp, sizeof(MF));
-  time(&mf.chrono);			/* 造一個新的 chrono */
+  { time_t __now; time(&__now); mf.chrono = __now; }			/* 造一個新的 chrono */
 
   /* itoc.010726.註解: 若是 MF_FOLDER，則換個檔名再貼上，一個卷宗一個檔案 */
   /* itoc.010726.註解: 卷宗複製貼上，裡面的東西並沒有貼上，懶得寫 recursive 的程式 :p */
@@ -681,7 +681,7 @@ mf_edit(xo)		/* itoc.010110: 我的最愛中看板修改 */
       if (!HAS_PERM(PERM_ALLBOARD))
 	brd_title(bno);
       else
-	brd_edit(bno);  
+	brd_edit(bno);
       return mf_init(xo);
     }
   }
