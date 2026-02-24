@@ -53,7 +53,7 @@ typedef struct UTMP UTMP;
 
 
 /* ----------------------------------------------------- */
-/* 使用者帳號 .ACCT struct : 512 bytes			 */
+/* 使用者帳號 .ACCT struct : 220 bytes			 */
 /* ----------------------------------------------------- */
 
 
@@ -90,7 +90,6 @@ typedef struct
 
   char lasthost[30];		/* 上次登入來源 */
   char email[60];		/* 目前登記的電子信箱 */
-  char reserved[512 - 220]; /* Pad to 512 bytes for legacy compatibility */
 }      ACCT;
 
 
@@ -354,7 +353,6 @@ typedef struct BoardHeader
   time32_t btime;			/* -1:bpost/blast 需要更新 */
   int bpost;			/* 共有幾篇 post */
   time32_t blast;			/* 最後一篇 post 的時間 */
-  char reserved[256 - 128]; /* Pad to 256 bytes for legacy compatibility */
 }           BRD;
 
 
