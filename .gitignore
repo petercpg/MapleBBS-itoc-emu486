@@ -1,3 +1,6 @@
+# Config files (should have sample files along with them)
+include/config.h
+
 # Compiled Object files
 *.slo
 *.lo
