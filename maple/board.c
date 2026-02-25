@@ -50,7 +50,7 @@ typedef struct BoardReadingHistory
 #define BRH_PAGE	2048		/* Thor.980902.註解: 每次多配量, 用不到了 */
 #define	BRH_MASK	0x7fffffff	/* Thor.980902.註解: 最大量為2038年1月中*/
 #define	BRH_SIGN	0x80000000	/* Thor.980902.註解: zap及壓final專用 */
-#define	BRH_WINDOW	(sizeof(BRH) + sizeof(time_t) * BRH_MAX * 2)
+#define	BRH_WINDOW	(sizeof(BRH) + sizeof(time32_t) * BRH_MAX * 2)
 
 
 static int *brh_base;		/* allocated memory */
@@ -136,7 +136,7 @@ brh_put()
 
 void
 brh_get(bstamp, bhno)
-  time_t bstamp;		/* board stamp */
+  time32_t bstamp;		/* board stamp */
   int bhno;
 {
   int *head, *tail;
@@ -157,7 +157,7 @@ brh_get(bstamp, bhno)
     while (head < tail)
     {
       item = head[2];
-      size = item * sizeof(time_t) + sizeof(BRH);
+      size = item * sizeof(time32_t) + sizeof(BRH);
 
       if (bstamp == *head)
       {
@@ -204,7 +204,7 @@ brh_get(bstamp, bhno)
 
 int
 brh_unread(chrono)
-  time_t chrono;
+  time32_t chrono;
 {
   int *head, *tail, item;
 
@@ -260,7 +260,7 @@ brh_visit(mode)
 
 int
 brh_add(prev, chrono, next)
-  time_t prev, chrono, next;
+  time32_t prev, chrono, next;
 {
   int *base, *head, *tail, item, final, begin;
 
@@ -455,7 +455,7 @@ Ben_Perm(bno, ulevel)
 
 int
 bstamp2bno(stamp)
-  time_t stamp;
+  time32_t stamp;
 {
   BRD *brd;
   int bno, max;
@@ -609,7 +609,7 @@ brh_load()
 	  head[2] = n;
 	}
 
-	n = n * sizeof(time_t) + sizeof(BRH);
+	n = n * sizeof(time32_t) + sizeof(BRH);
 	if (base != head)
 	  memcpy(base, head, n);
 	base = (int *) ((char *) base + n);
@@ -1061,7 +1061,7 @@ btime_refresh(brd)
 #else
 	brd->bpost = fsize / sizeof(HDR);
 	lseek(fd, fsize - sizeof(HDR), SEEK_SET);
-	read(fd, &brd->blast, sizeof(time_t));
+	read(fd, &brd->blast, sizeof(time32_t));
 #endif
       }
       else
@@ -1796,7 +1796,11 @@ class_addMF(xo)
     if (!in_favor(bhdr->brdname))
     {
       memset(&mf, 0, sizeof(MF));
-      time(&mf.chrono);
+    {
+      time_t now;
+      time(&now);
+      mf.chrono = now;
+    }
       mf.mftype = MF_BOARD;
       strcpy(mf.xname, bhdr->brdname);
 
@@ -1821,7 +1825,11 @@ class_addMF(xo)
     str = img + *chx;
 
     memset(&mf, 0, sizeof(MF));
-    time(&mf.chrono);
+    {
+      time_t now;
+      time(&now);
+      mf.chrono = now;
+    }
     mf.mftype = MF_CLASS;
     ptr = strchr(str, '/');
     strncpy(mf.xname, str, ptr - str);

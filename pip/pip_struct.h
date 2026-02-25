@@ -4,7 +4,7 @@
 /* target : 小雞 data structure                          */
 /* create :   /  /                                       */
 /* update : 01/08/14                                     */
-/* author : dsyan.bbs@@forever.twbbs.org                 */  
+/* author : dsyan.bbs@@forever.twbbs.org                 */
 /* modify : itoc.bbs@bbs.tnfsh.tn.edu.tw                 */
 /* ----------------------------------------------------- */
 
@@ -24,8 +24,8 @@ struct CHICKEN
   char name[IDLEN + 1];		/* 姓    名 */
   char birth[9];		/* 生    日 */
 
-  /* ---小雞的時間--- */        
-  time_t bbtime;		/* 玩小雞的總時間(秒) */
+  /* ---小雞的時間--- */
+  time32_t bbtime;		/* 玩小雞的總時間(秒) */
   				/* itoc.010804: 目前的設定是 30 分(即30*60秒) 為一歲 */
 
   /* 以下全是 integer */
@@ -56,7 +56,7 @@ struct CHICKEN
   int state7;
   int state8;
   int state9;
-  
+
   /* ---健康指數--- */
   /* itoc.010730: 這些指數在工作/學習/遊玩中改變 */
   int weight;			/* 體    重 */
@@ -157,7 +157,7 @@ struct CHICKEN
 
   /* ---吃的東西--- */
   int food;			/* 食    物 */
-  int cookie;			/* 零    食 */  
+  int cookie;			/* 零    食 */
   int eat2;
   int pill;			/* 大 還 丹 : 補血 */
   int medicine;			/* 靈    芝 : 補法力 */
@@ -168,16 +168,16 @@ struct CHICKEN
   int eat9;
 
   /* ---擁有的東西--- */
-  int money;			/* 金    錢 */  
+  int money;			/* 金    錢 */
   int book;			/* 書    本 */
-  int toy;			/* 玩    具 */  
+  int toy;			/* 玩    具 */
   int playboy;			/* 課外讀物 */
   int thing4;
   int thing5;
   int thing6;
   int thing7;
   int thing8;
-  int thing9;  
+  int thing9;
 
   /* ---參見王臣-- */
   int royalA;			/* 和 守衛 的好感 */
@@ -315,7 +315,7 @@ struct skillset
   int addtired;			/* 疲勞值的改變 */
   int effect;			/* 效果/強弱 */
   int pic;			/* 圖檔 */
-  char msg[41];			/* 使用技能的說明，限制20個中文字 */  
+  char msg[41];			/* 使用技能的說明，限制20個中文字 */
 };
 typedef struct skillset skillset;
 
@@ -346,7 +346,7 @@ struct playrule
      attack/spirit/magic/armor/dodge = 10*n
      money = 10*n
      exp = 5*n (原則上打20隻怪物升一級) */
-               
+
   char name[13];		/* 名字，限制六個中文字 */
   int attribute;		/* 愛用的攻擊技能  0:無  >0:武功  <0:魔法 */
   int hp;			/* 血 */
@@ -393,7 +393,7 @@ typedef struct weapon weapon;
 struct PTMP
 {
   char inuse;			/* 0:未使用 1:蓄勢待發 2:下挑戰書 -1:戰鬥中 */
-  char done;			/* 0:未行動 1:已行動 */ 
+  char done;			/* 0:未行動 1:已行動 */
   char name[IDLEN + 1];		/* 姓名 */
   char userid[IDLEN + 1];	/* 自己的 ID */
   char mateid[IDLEN + 1];	/* 對手的 ID */

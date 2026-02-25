@@ -72,7 +72,7 @@ xo_get_post(path, brd)		/* itoc.010910: 參考 xover.c xo_get()，為 XoPost 量
   BRD *brd;
 {
   XO *xo;
-  time_t chrono;
+  time32_t chrono;
   int fd;
   int pos, locus, mid;	/* locus:左指標 mid:中指標 pos:右指標 */
 
@@ -81,14 +81,14 @@ xo_get_post(path, brd)		/* itoc.010910: 參考 xover.c xo_get()，為 XoPost 量
     if (!strcmp(xo->dir, path))
       return xo;
   }
-   
+
   xo = xo_new(path);
   xo->nxt = xo_root;
   xo_root = xo;
   xo->xyz = NULL;
 
   /* 尚未更新 brd->blast 或 最後一篇已讀 或 只有一篇，則游標直接放最後 */
-  if (brd->btime < 0 || !brh_unread(brd->blast) || 
+  if (brd->btime < 0 || !brh_unread(brd->blast) ||
     (pos = rec_num(path, sizeof(HDR))) <= 1 || (fd = open(path, O_RDONLY)) < 0)
   {
     xo->pos = XO_TAIL;	/* 游標放在最後面 */
@@ -105,7 +105,7 @@ xo_get_post(path, brd)		/* itoc.010910: 參考 xover.c xo_get()，為 XoPost 量
 
     mid = locus + ((pos - locus) >> 1);
     lseek(fd, (off_t) (sizeof(HDR) * mid), SEEK_SET);
-    if (read(fd, &chrono, sizeof(time_t)) == sizeof(time_t))
+    if (read(fd, &chrono, sizeof(time32_t)) == sizeof(time32_t))
     {
       if (brh_unread(chrono))
 	pos = mid;
@@ -123,7 +123,7 @@ xo_get_post(path, brd)		/* itoc.010910: 參考 xover.c xo_get()，為 XoPost 量
   {
     /* 檢查第一篇是否已讀 */
     lseek(fd, (off_t) 0, SEEK_SET);
-    if (read(fd, &chrono, sizeof(time_t)) == sizeof(time_t))
+    if (read(fd, &chrono, sizeof(time32_t)) == sizeof(time32_t))
     {
       if (brh_unread(chrono))	/* 若連第一篇也未讀，pos 調回去第一篇 */
 	pos = 0;
@@ -305,7 +305,7 @@ TagItem TagList[TAG_MAX];	/* ascending list */
 
 int
 Tagger(chrono, recno, op)
-  time_t chrono;
+  time32_t chrono;
   int recno;
   int op;			/* op : TAG_NIN / TOGGLE / INSERT */
 /* ----------------------------------------------------- */
@@ -402,7 +402,7 @@ AskTag(msg)
   num = TagNum;
 
   if (num)	/* itoc.020130: 有 TagNum 才問 */
-  {  
+  {
     /* ◆ %s A)單篇文章 T)標記文章 Q)離開？[%c]  */
     sprintf(buf, "\xA1\xBB %s A)\xB3\xE6\xBD\x67\xA4\xE5\xB3\xB9 T)\xBC\xD0\xB0\x4F\xA4\xE5\xB3\xB9 Q)\xC2\xF7\xB6\x7D\xA1\x48[%c] ", msg, num ? 'T' : 'A');
     switch (vans(buf))
@@ -525,7 +525,7 @@ xo_prune(xo, size, fvfy, fdel)		/* itoc.031003: 標籤刪除 */
   free(data);
 
   TagNum = 0;
-  
+
   return XO_LOAD;
 }
 
@@ -678,7 +678,7 @@ xo_forward(xo)
     /* itoc.000319: 修正限制級文章不得轉寄 */
     /* itoc.010602: GEM_RESTRICT 和 POST_RESTRICT 匹配，所以加密文章也不得轉寄 */
     if (xmode & (GEM_RESTRICT | GEM_RESERVED))
-      continue;     
+      continue;
 
     if (!(xmode & GEM_FOLDER))		/* 查 hdr 是否 plain text */
     {
@@ -1110,7 +1110,7 @@ xo_thread(xo, op)
   /* 如果 RS_FIRST && near >= 0 表示找到了，而 near, neartop = 要去的地方 */
 
 #define CLEAR_FOOT()	(!(op & RS_RELATED) && ((op & RS_UNREAD) || !(op & (RS_THREAD | RS_SEQUENT | RS_MARKED))))
-  
+
   if (match < 0)			/* 找到了 */
   {
     xo->pos = pos;			/* 把要去的位置填進去 */
@@ -1147,8 +1147,8 @@ xo_thread(xo, op)
 }
 
 
-/* Thor.990204: 為考慮more 傳回值, 以便看一半可以用 []... 
-                ch 為先前more()中所按的key */   
+/* Thor.990204: 為考慮more 傳回值, 以便看一半可以用 []...
+                ch 為先前more()中所按的key */
 int
 xo_getch(xo, ch)
   XO *xo;
@@ -1347,7 +1347,7 @@ xover(cmd)
 	if (pos == num)
 	{
 	  void *p = DL_get((char *) cb->func);
-	  if (p) 
+	  if (p)
 	  {
 	    cb->func = p;
 	    pos = cb->key = cmd;
@@ -1368,7 +1368,7 @@ xover(cmd)
 
 	  break;
 	}
-	
+
 	if (pos == 'h')		/* itoc.001029: 'h' 是一特例，代表 *_cb 的結束 */
 	{
 	  cmd = XO_NONE;	/* itoc.001029: 代表找不到 call-back, 不作了! */
@@ -1380,7 +1380,7 @@ xover(cmd)
 
     } /* Thor.990220.註解: end of while (cmd!=XO_NONE) */
 
-    utmp_mode(sysmode); 
+    utmp_mode(sysmode);
     /* Thor.990220:註解:用來回復 event handle routine 回來後的模式 */
 
     pos = xo->pos;
@@ -1394,7 +1394,7 @@ xover(cmd)
 
     cmd = vkey();
 
-    /* itoc.註解: 以下定義了基本按鍵，所謂基本按鍵，就是移動的之類的，通用於所有 XZ_ 的地方 */  
+    /* itoc.註解: 以下定義了基本按鍵，所謂基本按鍵，就是移動的之類的，通用於所有 XZ_ 的地方 */
 
     /* ------------------------------------------------- */
     /* 基本的游標移動 routines				 */
@@ -1502,7 +1502,7 @@ xover(cmd)
 	pos = xo_keymap(cmd);
 	if (pos >= 0)			/* 如果不是按方向鍵 */
 	{
-	  cmd = xo_thread(xo, pos);	/* 去查查是哪一種 thread 搜尋 */	  
+	  cmd = xo_thread(xo, pos);	/* 去查查是哪一種 thread 搜尋 */
 
 	  if (cmd < 0)		/* 在本頁找到 match */
 	  {

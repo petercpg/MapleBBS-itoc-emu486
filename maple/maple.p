@@ -35,11 +35,11 @@ int t_bmw(void);
 int t_display(void);
 
 /* board.c */
-void brh_get(time_t bstamp, int bhno);
-int brh_unread(time_t chrono);
+void brh_get(time32_t bstamp, int bhno);
+int brh_unread(time32_t chrono);
 void brh_visit(int mode);
-int brh_add(time_t prev, time_t chrono, time_t next);
-int bstamp2bno(time_t stamp);
+int brh_add(time32_t prev, time32_t chrono, time32_t next);
+int bstamp2bno(time32_t stamp);
 void brh_save(void);
 void brd_force(void);
 void class_item(int num, int bno, int brdpost);
@@ -236,7 +236,7 @@ XO *xo_get(char *path);
 XO *xo_get_post(char *path, BRD *brd);
 void xo_load(XO *xo, int recsiz);
 int xo_rangedel(XO *xo, int size, int (*fchk) (), void (*fdel) ());
-int Tagger(time_t chrono, int recno, int op);
+int Tagger(time32_t chrono, int recno, int op);
 void EnumTag(void *data, char *dir, int locus, int size);
 int AskTag(char *msg);
 int xo_prune(XO *xo, int size, int (*fvfy) (), void (*fdel) ());
