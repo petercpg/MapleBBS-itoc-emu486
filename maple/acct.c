@@ -99,7 +99,7 @@ acct_get(msg, acct)
 {
   /* ★ 輸入首字母後，可以按空白鍵自動搜尋 */
   outz("\xA1\xB9 \xBF\xE9\xA4\x4A\xAD\xBA\xA6\x72\xA5\xC0\xAB\xE1\xA1\x41\xA5\x69\xA5\x48\xAB\xF6\xAA\xC5\xA5\xD5\xC1\xE4\xA6\xDB\xB0\xCA\xB7\x6A\xB4\x4D");
-  
+
   if (!vget(1, 0, msg, acct->userid, IDLEN + 1, GET_USER))
     return 0;
 
@@ -861,7 +861,7 @@ brd_set(brd, row)
       {
 	strcpy(buf, acct.userid);
 	BMlen = len;
-      }      
+      }
 
       acct_setperm(&acct, PERM_BM, 0);
     }
