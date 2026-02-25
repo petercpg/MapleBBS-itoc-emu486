@@ -11,6 +11,10 @@ WorkingDirectory=/home/bbs
 
 # Core Daemons (Root)
 # Start sequence based on rc.local
+# Clean up orphaned IPC resources before starting
+ExecStartPre=/bin/sh -c 'for id in $$(/usr/bin/ipcs -m | grep bbs | awk '\''{print $$2}'\''); do /usr/bin/ipcrm -m $$id 2>/dev/null; done; true'
+ExecStartPre=/bin/sh -c 'for id in $$(/usr/bin/ipcs -s | grep bbs | awk '\''{print $$2}'\''); do /usr/bin/ipcrm -s $$id 2>/dev/null; done; true'
+ExecStartPre=/bin/sh -c 'for id in $$(/usr/bin/ipcs -q | grep bbs | awk '\''{print $$2}'\''); do /usr/bin/ipcrm -q $$id 2>/dev/null; done; true'
 ExecStart=/home/bbs/bin/bbsd
 ExecStart=/home/bbs/bin/bmtad
 ExecStart=/home/bbs/bin/gemd
@@ -26,8 +30,10 @@ ExecStart=/usr/sbin/runuser -u bbs -- /home/bbs/bin/account
 
 # Cleanup
 # Systemd implicitly kills processes in the cgroup on stop.
-# We explicitly clean up shared memory segments AND semaphores owned by 'bbs'.
-ExecStopPost=/bin/sh -c 'user="bbs"; for id in $(/usr/bin/ipcs -m | grep $user | awk "{print $2}"); do /usr/bin/ipcrm -m $id; done; for id in $(/usr/bin/ipcs -s | grep $user | awk "{print $2}"); do /usr/bin/ipcrm -s $id; done'
+# We explicitly clean up shared memory segments, semaphores, and message queues owned by 'bbs'.
+ExecStopPost=/bin/sh -c 'for id in $$(/usr/bin/ipcs -m | grep bbs | awk '\''{print $$2}'\''); do /usr/bin/ipcrm -m $$id 2>/dev/null; done; true'
+ExecStopPost=/bin/sh -c 'for id in $$(/usr/bin/ipcs -s | grep bbs | awk '\''{print $$2}'\''); do /usr/bin/ipcrm -s $$id 2>/dev/null; done; true'
+ExecStopPost=/bin/sh -c 'for id in $$(/usr/bin/ipcs -q | grep bbs | awk '\''{print $$2}'\''); do /usr/bin/ipcrm -q $$id 2>/dev/null; done; true'
 
 LimitNOFILE=65535
 
