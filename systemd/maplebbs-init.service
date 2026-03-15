@@ -7,19 +7,19 @@ PartOf=maplebbs.target
 Type=oneshot
 User=bbs
 Group=bbs
-WorkingDirectory=/home/bbs
-# Use '+' to run directory setup as root once, ensuring /home/bbs/run belongs to bbs
-ExecStartPre=+/usr/bin/mkdir -p /home/bbs/run
-ExecStartPre=+/usr/bin/chown -R bbs:bbs /home/bbs/run
-# Clean up orphaned IPC resources (as bbs)
-ExecStart=/bin/sh -c 'for id in $$(/usr/bin/ipcs -m | grep bbs | awk '\''{print $$2}'\''); do /usr/bin/ipcrm -m $$id 2>/dev/null; done; true'
-ExecStart=/bin/sh -c 'for id in $$(/usr/bin/ipcs -s | grep bbs | awk '\''{print $$2}'\''); do /usr/bin/ipcrm -s $$id 2>/dev/null; done; true'
-ExecStart=/bin/sh -c 'for id in $$(/usr/bin/ipcs -q | grep bbs | awk '\''{print $$2}'\''); do /usr/bin/ipcrm -q $$id 2>/dev/null; done; true'
+WorkingDirectory=%h
+# Use '+' to run directory setup as root once, ensuring path belongs to user/group defined above
+ExecStartPre=+/usr/bin/mkdir -p %h/run
+ExecStartPre=+/usr/bin/chown -R %u:%g %h/run
+# Clean up orphaned IPC resources (as %u)
+ExecStart=/bin/sh -c 'for id in $$(/usr/bin/ipcs -m | grep %u | awk '\''{print $$2}'\''); do /usr/bin/ipcrm -m $$id 2>/dev/null; done; true'
+ExecStart=/bin/sh -c 'for id in $$(/usr/bin/ipcs -s | grep %u | awk '\''{print $$2}'\''); do /usr/bin/ipcrm -s $$id 2>/dev/null; done; true'
+ExecStart=/bin/sh -c 'for id in $$(/usr/bin/ipcs -q | grep %u | awk '\''{print $$2}'\''); do /usr/bin/ipcrm -q $$id 2>/dev/null; done; true'
 
 # Also clean up when the service stops (or restarts)
-ExecStopPost=/bin/sh -c 'for id in $$(/usr/bin/ipcs -m | grep bbs | awk '\''{print $$2}'\''); do /usr/bin/ipcrm -m $$id 2>/dev/null; done; true'
-ExecStopPost=/bin/sh -c 'for id in $$(/usr/bin/ipcs -s | grep bbs | awk '\''{print $$2}'\''); do /usr/bin/ipcrm -s $$id 2>/dev/null; done; true'
-ExecStopPost=/bin/sh -c 'for id in $$(/usr/bin/ipcs -q | grep bbs | awk '\''{print $$2}'\''); do /usr/bin/ipcrm -q $$id 2>/dev/null; done; true'
+ExecStopPost=/bin/sh -c 'for id in $$(/usr/bin/ipcs -m | grep %u | awk '\''{print $$2}'\''); do /usr/bin/ipcrm -m $$id 2>/dev/null; done; true'
+ExecStopPost=/bin/sh -c 'for id in $$(/usr/bin/ipcs -s | grep %u | awk '\''{print $$2}'\''); do /usr/bin/ipcrm -s $$id 2>/dev/null; done; true'
+ExecStopPost=/bin/sh -c 'for id in $$(/usr/bin/ipcs -q | grep %u | awk '\''{print $$2}'\''); do /usr/bin/ipcrm -q $$id 2>/dev/null; done; true'
 
 RemainAfterExit=yes
 

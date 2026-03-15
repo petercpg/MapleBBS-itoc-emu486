@@ -9,8 +9,8 @@ Type=simple
 Environment=MAPLE_FOREGROUND=1
 User=bbs
 Group=bbs
-WorkingDirectory=/home/bbs
-ExecStart=/home/bbs/bin/xchatd
+WorkingDirectory=%h
+ExecStart=%h/bin/xchatd
 Restart=always
 RestartSec=5
 

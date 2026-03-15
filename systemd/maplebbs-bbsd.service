@@ -9,8 +9,8 @@ Type=simple
 Environment=MAPLE_FOREGROUND=1
 User=bbs
 Group=bbs
-WorkingDirectory=/home/bbs
-ExecStart=/home/bbs/bin/bbsd
+WorkingDirectory=%h
+ExecStart=%h/bin/bbsd
 Restart=always
 RestartSec=5
 LimitNOFILE=65535
