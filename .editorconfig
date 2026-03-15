@@ -10,3 +10,11 @@ indent_size = 2
 
 [Makefile]
 indent_style = tab
+
+[*.{c,h}]
+indent_style = space
+indent_size = 2
+
+[*.{js,json,md,html,css}]
+indent_style = space
+indent_size = 2

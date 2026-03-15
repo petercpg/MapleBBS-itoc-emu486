@@ -100,3 +100,16 @@ util/tran/windtop2usr
 util/uno/collect_uno
 util/uno/conflict_uno
 util/uno/fix_uno
+
+# Node.js
+node_modules/
+websocket/node_modules/
+
+# Logs
+*.log
+run/*.log
+
+# Binaries/OObjects
+*.o
+*.a
+*.so
