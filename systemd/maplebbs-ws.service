@@ -8,9 +8,9 @@ Type=exec
 User=bbs
 Group=bbs
 WorkingDirectory=/home/bbs/src/websocket
-# Support NVM: Load shell profile to get the correct node path
-# Alternatively, you can use the absolute path to node in the nvm folder
-ExecStart=/bin/bash -l -c 'node wsd.js'
+# Dynamically use the default Node.js version via nvm-exec
+Environment=NODE_VERSION=default
+ExecStart=/home/bbs/.nvm/nvm-exec node wsd.js
 Restart=always
 RestartSec=5
 Environment=BBS_HOST=127.0.0.1
