@@ -822,7 +822,7 @@ standaloneinit()
   FILE *fp;
 
   ndescriptors = getdtablesize();
-  if (!inetdstart)
+  if (!inetdstart && !getenv("MAPLE_FOREGROUND"))
   {
     if (fork())
       exit(0);

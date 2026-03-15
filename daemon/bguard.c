@@ -366,10 +366,10 @@ chkload_init()
 {
 #include <nlist.h>
 #define VMUNIX  "/dev/ksyms"
-#define KMEM    "/dev/kmem" 
+#define KMEM    "/dev/kmem"
    /* Thor.981207: 記得check permission 要bbs readable */
 
-  static struct nlist nlst[] = 
+  static struct nlist nlst[] =
   {
     {"avenrun"},
     {0}
@@ -512,7 +512,7 @@ serve_finger(ap)
 
   /* Thor.980726: pool內容不會超過 idlen */
   head[IDLEN] = '\0';
-  
+
 
   sprintf(fpath, "usr/%c/%s/.ACCT", *head, head);
 
@@ -618,7 +618,7 @@ serve_userlist(ap)
 
   for (;;)
   {
-    if (uentp->pid && uentp->userno && 
+    if (uentp->pid && uentp->userno &&
 #ifdef HAVE_SUPERCLOAK
       !(uentp->ufo & UFO_SUPERCLOAK) &&
 #endif
@@ -761,7 +761,7 @@ agent_read(ap)
 
   pos = ap->locus;
   str = &ap->pool[pos];
-  len = recv(ap->sock, str, BMIN(TCP_RCVSIZ, sizeof(ap->pool)-pos), 0);  
+  len = recv(ap->sock, str, BMIN(TCP_RCVSIZ, sizeof(ap->pool)-pos), 0);
   /* Thor.980726: 避免 pool overflow */
 
   if (len <= 0)
@@ -836,41 +836,49 @@ servo_daemon(inetd)
   limit.rlim_cur = limit.rlim_max;
   setrlimit(RLIMIT_NOFILE, &limit);
 
-  limit.rlim_cur = limit.rlim_max = 16 * 1024 * 1024;
-  setrlimit(RLIMIT_FSIZE, &limit);
+  /* 不再於程式碼當中寫死 rlimit 而是讓 Systemd 或 OS 本身來限制 */
+  /* limit.rlim_cur = limit.rlim_max = 16 * 1024 * 1024; */
+  /* setrlimit(RLIMIT_FSIZE, &limit); */
 
-  limit.rlim_cur = limit.rlim_max = 4 * 1024 * 1024;
-  setrlimit(RLIMIT_DATA, &limit);
+  /* limit.rlim_cur = limit.rlim_max = 4 * 1024 * 1024; */
+  /* setrlimit(RLIMIT_DATA, &limit); */
 
 #ifdef SOLARIS
 #define RLIMIT_RSS RLIMIT_AS	/* Thor.981206: port for solaris 2.6 */
 #endif
 
-  setrlimit(RLIMIT_RSS, &limit);
+  /* setrlimit(RLIMIT_RSS, &limit); */
 
-  limit.rlim_cur = limit.rlim_max = 0;
-  setrlimit(RLIMIT_CORE, &limit);
+  /* limit.rlim_cur = limit.rlim_max = 0; */
+  /* setrlimit(RLIMIT_CORE, &limit); */
 #endif
 
   /* --------------------------------------------------- */
   /* detatch & daemonize				 */
   /* --------------------------------------------------- */
 
-  close(1);
-  close(2);
+  if (!getenv("MAPLE_FOREGROUND"))
+  {
+    close(1);
+    close(2);
+  }
 
+  /* if (mode > 1) */
   if (inetd)
-    return;
+    return 0;
 
-  close(0);
+  if (!getenv("MAPLE_FOREGROUND"))
+  {
+    close(0);
 
-  if (fork())
-    exit(0);
-  
-  setsid();
+    if (fork())
+      exit(0);
 
-  if (fork())
-    exit(0);
+    setsid();
+
+    if (fork())
+      exit(0);
+  }
 
   /* --------------------------------------------------- */
   /* setup socket					 */
@@ -890,9 +898,14 @@ servo_daemon(inetd)
   sin.sin_addr.s_addr = htonl(INADDR_ANY);
   memset(sin.sin_zero, 0, sizeof(sin.sin_zero));
 
-  if (bind(fd, (struct sockaddr *) & sin, sizeof(sin)) ||
-    listen(fd, TCP_QLEN))
+  if ((bind(fd, (struct sockaddr *) &sin, sizeof(sin)) < 0) || (listen(fd, TCP_QLEN) < 0))
     exit(1);
+
+  if (fd != 0)
+  {
+    dup2(fd, 0);
+    close(fd);
+  }
 }
 
 
@@ -971,7 +984,7 @@ main_signals()
   /* Thor.981206: 統一 POSIX 標準用法  */
 
   /* act.sa_mask = 0; */ /* Thor.981105: 標準用法 */
-  sigemptyset(&act.sa_mask);      
+  sigemptyset(&act.sa_mask);
   act.sa_flags = 0;
 
   act.sa_handler = reaper;
@@ -1120,7 +1133,7 @@ main(argc, argv)
 
       FD_SET(csock, &xset);
     }
- 
+
     /* Thor.981221: for future reservation bug */
     tv.tv_sec = LOAD_INTERVAL;
     tv.tv_usec = 0;

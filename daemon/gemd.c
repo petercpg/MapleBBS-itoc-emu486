@@ -681,39 +681,47 @@ servo_daemon(inetd)
   /* adjust the resource limit				 */
   /* --------------------------------------------------- */
 
-  limit.rlim_cur = limit.rlim_max = 4 * 1024 * 1024;
-  setrlimit(RLIMIT_FSIZE, &limit);
-  setrlimit(RLIMIT_DATA, &limit);
+  /* 不再於程式碼當中寫死 rlimit 而是讓 Systemd 或 OS 本身來限制 */
+
+  /* limit.rlim_cur = limit.rlim_max = 4 * 1024 * 1024; */
+  /* setrlimit(RLIMIT_FSIZE, &limit); */
+  /* setrlimit(RLIMIT_DATA, &limit); */
 
 #ifdef SOLARIS
 #define RLIMIT_RSS RLIMIT_AS	/* Thor.981206: port for solaris 2.6 */
 #endif
 
-  setrlimit(RLIMIT_RSS, &limit);
+  /* setrlimit(RLIMIT_RSS, &limit); */
 
-  limit.rlim_cur = limit.rlim_max = 0;
-  setrlimit(RLIMIT_CORE, &limit);
+  /* limit.rlim_cur = limit.rlim_max = 0; */
+  /* setrlimit(RLIMIT_CORE, &limit); */
 #endif
 
   /* --------------------------------------------------- */
   /* detach process					 */
   /* --------------------------------------------------- */
 
-  close(1);
-  close(2);
+  if (!getenv("MAPLE_FOREGROUND"))
+  {
+    close(1);
+    close(2);
+  }
 
   if (inetd)
-    return;
+    return 0;
 
-  close(0);
+  if (!getenv("MAPLE_FOREGROUND"))
+  {
+    close(0);
 
-  if (fork())
-    exit(0);
+    if (fork())
+      exit(0);
 
-  setsid();
+    setsid();
 
-  if (fork())
-    exit(0);
+    if (fork())
+      exit(0);
+  }
 
   /* --------------------------------------------------- */
   /* setup socket                                        */
@@ -736,9 +744,14 @@ servo_daemon(inetd)
   fsin.sin_port = htons(GEMD_PORT);
   fsin.sin_addr.s_addr = htonl(INADDR_ANY);
 
-  if (bind(fd, (struct sockaddr *) & fsin, sizeof(fsin)) ||
-    listen(fd, TCP_QLEN))
+  if ((bind(fd, (struct sockaddr *) &fsin, sizeof(fsin)) < 0) || (listen(fd, TCP_QLEN) < 0))
     exit(1);
+
+  if (fd != 0)
+  {
+    dup2(fd, 0);
+    close(fd);
+  }
 }
 
 

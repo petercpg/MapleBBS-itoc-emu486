@@ -22,6 +22,7 @@
 #include <netinet/tcp.h>
 #include <arpa/telnet.h>
 #include <sys/resource.h>
+#include <arpa/inet.h>
 
 
 #define	QLEN		3
@@ -1375,21 +1376,23 @@ start_daemon(port)
   /* adjust resource : 16 mega is enough		 */
   /* --------------------------------------------------- */
 
-  limit.rlim_cur = limit.rlim_max = 16 * 1024 * 1024;
+  /* 不再於程式碼當中寫死 rlimit 而是讓 Systemd 或 OS 本身來限制 */
+
+  /* limit.rlim_cur = limit.rlim_max = 16 * 1024 * 1024; */
   /* setrlimit(RLIMIT_FSIZE, &limit); */
-  setrlimit(RLIMIT_DATA, &limit);
+  /* setrlimit(RLIMIT_DATA, &limit); */
 
 #ifdef SOLARIS
 #define RLIMIT_RSS RLIMIT_AS	/* Thor.981206: port for solaris 2.6 */
 #endif
 
-  setrlimit(RLIMIT_RSS, &limit);
+  /* setrlimit(RLIMIT_RSS, &limit); */
 
-  limit.rlim_cur = limit.rlim_max = 0;
-  setrlimit(RLIMIT_CORE, &limit);
+  /* limit.rlim_cur = limit.rlim_max = 0; */
+  /* setrlimit(RLIMIT_CORE, &limit); */
 
-  limit.rlim_cur = limit.rlim_max = 60 * 20;
-  setrlimit(RLIMIT_CPU, &limit);
+  /* limit.rlim_cur = limit.rlim_max = 60 * 20; */
+  /* setrlimit(RLIMIT_CPU, &limit); */
 #endif
 
   /* --------------------------------------------------- */
@@ -1412,8 +1415,11 @@ start_daemon(port)
   /* The integer file descriptors associated with the streams
      stdin, stdout, and stderr are 0,1, and 2, respectively. */
 
-  close(1);
-  close(2);
+  if (!getenv("MAPLE_FOREGROUND"))
+  {
+    close(1);
+    close(2);
+  }
 
   if (port == -1) /* Thor.981206: inetd -i */
   {
@@ -1432,15 +1438,18 @@ start_daemon(port)
     return;
   }
 
-  close(0);
+  if (!getenv("MAPLE_FOREGROUND"))
+  {
+    close(0);
 
-  if (fork())
-    exit(0);
+    if (fork())
+      exit(0);
 
-  setsid();
+    setsid();
 
-  if (fork())
-    exit(0);
+    if (fork())
+      exit(0);
+  }
 
   /* --------------------------------------------------- */
   /* fork daemon process				 */
@@ -1475,6 +1484,12 @@ start_daemon(port)
   sin.sin_port = htons(port);
   if ((bind(n, (struct sockaddr *) &sin, sizeof(sin)) < 0) || (listen(n, QLEN) < 0))
     exit(1);
+
+  if (n != 0)
+  {
+    dup2(n, 0);
+    close(n);
+  }
 
   /* --------------------------------------------------- */
   /* Give up root privileges: no way back from here	 */
@@ -1667,7 +1682,33 @@ main(argc, argv)
 
     tn_addr = sin.sin_addr.s_addr;
     dns_name((char *) &sin.sin_addr, fromhost);
-    /* str_ncpy(fromhost, (char *)inet_ntoa(sin.sin_addr), sizeof(fromhost)); */
+
+    /* Original: dns_name((char *) &sin.sin_addr, fromhost); */
+
+    #ifdef USE_PROXY_PROTOCOL
+    /* PROXY Protocol Support */
+    /* Security: Only allow PROXY protocol from localhost (127.0.0.1) */
+    if (sin.sin_addr.s_addr == inet_addr("127.0.0.1"))
+    {
+      char proxy_buf[128];
+      if (recv(0, proxy_buf, 13, MSG_PEEK) >= 13)
+      {
+        if (!strncmp(proxy_buf, "PROXY TCP4 ", 11))
+        {
+          char src_ip[64], dst_ip[64];
+          int src_port, dst_port;
+          if (fgets(proxy_buf, sizeof(proxy_buf), stdin))
+          {
+            if (sscanf(proxy_buf, "PROXY TCP4 %s %s %d %d", src_ip, dst_ip, &src_port, &dst_port) == 4)
+            {
+              tn_addr = inet_addr(src_ip);
+              dns_name((char *)&tn_addr, fromhost);
+            }
+          }
+        }
+      }
+    }
+    #endif
 
     telnet_init();
     term_init();

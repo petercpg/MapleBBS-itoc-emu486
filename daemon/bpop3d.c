@@ -1422,38 +1422,47 @@ servo_daemon(inetd)
   /* adjust the resource limit				 */
   /* --------------------------------------------------- */
 
-  limit.rlim_cur = limit.rlim_max = 8 * 1024 * 1024;
-  setrlimit(RLIMIT_DATA, &limit);
+  /* 不再於程式碼當中寫死 rlimit 而是讓 Systemd 或 OS 本身來限制 */
+
+  /* limit.rlim_cur = limit.rlim_max = 4 * 1024 * 1024; */
+  /* setrlimit(RLIMIT_DATA, &limit); */
 
 #ifdef SOLARIS
 #define RLIMIT_RSS RLIMIT_AS	/* Thor.981206: port for solaris 2.6 */
 #endif
 
-  setrlimit(RLIMIT_RSS, &limit);
+  /* setrlimit(RLIMIT_RSS, &limit); */
 
-  limit.rlim_cur = limit.rlim_max = 0;
-  setrlimit(RLIMIT_CORE, &limit);
+  /* limit.rlim_cur = limit.rlim_max = 0; */
+  /* setrlimit(RLIMIT_CORE, &limit); */
 #endif
 
   /* --------------------------------------------------- */
   /* detach daemon process				 */
   /* --------------------------------------------------- */
 
-  close(2);
-  close(1);
+  if (!getenv("MAPLE_FOREGROUND"))
+  {
+    close(2);
+    close(1);
+  }
 
+  /* if (mode > 1) */
   if (inetd)
-    return;
+    return 0;
 
-  close(0);
+  if (!getenv("MAPLE_FOREGROUND"))
+  {
+    close(0);
 
-  if (fork())
-    exit(0);
+    if (fork())
+      exit(0);
 
-  setsid();
+    setsid();
 
-  if (fork())
-    exit(0);
+    if (fork())
+      exit(0);
+  }
 
   /* --------------------------------------------------- */
   /* setup socket					 */
@@ -1472,9 +1481,14 @@ servo_daemon(inetd)
   sin.sin_addr.s_addr = INADDR_ANY;
   memset(sin.sin_zero, 0, sizeof(sin.sin_zero));
 
-  if (bind(fd, (struct sockaddr *) & sin, sizeof(sin)) ||
-    listen(fd, SOCK_BACKLOG))
+  if ((bind(fd, (struct sockaddr *) & sin, sizeof(sin)) < 0) || (listen(fd, SOCK_BACKLOG) < 0))
     exit(1);
+
+  if (fd != 0)
+  {
+    dup2(fd, 0);
+    close(fd);
+  }
 }
 
 

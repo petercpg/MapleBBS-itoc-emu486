@@ -4173,21 +4173,23 @@ servo_daemon(inetd)
   /* adjust the resource limit                           */
   /* --------------------------------------------------- */
 
-  getrlimit(RLIMIT_NOFILE, &limit);
-  limit.rlim_cur = limit.rlim_max;
-  setrlimit(RLIMIT_NOFILE, &limit);
+  /* 不再於程式碼當中寫死 rlimit 而是讓 Systemd 或 OS 本身來限制 */
 
-  limit.rlim_cur = limit.rlim_max = 4 * 1024 * 1024;
-  setrlimit(RLIMIT_DATA, &limit);
+  /* getrlimit(RLIMIT_NOFILE, &limit); */
+  /* limit.rlim_cur = limit.rlim_max; */
+  /* setrlimit(RLIMIT_NOFILE, &limit); */
+
+  /* limit.rlim_cur = limit.rlim_max = 4 * 1024 * 1024; */
+  /* setrlimit(RLIMIT_DATA, &limit); */
 
 #ifdef SOLARIS
 #define RLIMIT_RSS RLIMIT_AS	/* Thor.981206: port for solaris 2.6 */
 #endif
 
-  setrlimit(RLIMIT_RSS, &limit);
+  /* setrlimit(RLIMIT_RSS, &limit); */
 
-  limit.rlim_cur = limit.rlim_max = 0;
-  setrlimit(RLIMIT_CORE, &limit);
+  /* limit.rlim_cur = limit.rlim_max = 0; */
+  /* setrlimit(RLIMIT_CORE, &limit); */
 
 #if 0
   limit.rlim_cur = limit.rlim_max = 60 * 20;
@@ -4199,22 +4201,28 @@ servo_daemon(inetd)
   /* detach daemon process                               */
   /* --------------------------------------------------- */
 
-  close(2);
-  close(1);
+  if (!getenv("MAPLE_FOREGROUND"))
+  {
+    close(2);
+    close(1);
+  }
 
   /* if (mode > 1) */
   if (inetd)
     return 0;
 
-  close(0);
+  if (!getenv("MAPLE_FOREGROUND"))
+  {
+    close(0);
 
-  if (fork())
-    exit(0);
+    if (fork())
+      exit(0);
 
-  setsid();
+    setsid();
 
-  if (fork())
-    exit(0);
+    if (fork())
+      exit(0);
+  }
 
   /* --------------------------------------------------- */
   /* bind the service port				 */
@@ -4249,6 +4257,13 @@ servo_daemon(inetd)
   if ((bind(fd, (struct sockaddr *) & sin, sizeof(sin)) < 0) ||
     (listen(fd, SOCK_QLEN) < 0))
     exit(1);
+
+  if (fd != 0)
+  {
+    dup2(fd, 0);
+    close(fd);
+    fd = 0;
+  }
 
   return fd;
 }

@@ -3974,24 +3974,25 @@ servo_daemon(inetd)
   /* adjust the resource limit				 */
   /* --------------------------------------------------- */
 
-  getrlimit(RLIMIT_NOFILE, &limit);
-  limit.rlim_cur = limit.rlim_max;
-  setrlimit(RLIMIT_NOFILE, &limit);
+  /* 不再於程式碼當中寫死 rlimit 而是讓 Systemd 或 OS 本身來限制 */
+  /* getrlimit(RLIMIT_NOFILE, &limit); */
+  /* limit.rlim_cur = limit.rlim_max; */
+  /* setrlimit(RLIMIT_NOFILE, &limit); */
 
-  limit.rlim_cur = limit.rlim_max = 16 * 1024 * 1024;
-  setrlimit(RLIMIT_FSIZE, &limit);
+  /* limit.rlim_cur = limit.rlim_max = 16 * 1024 * 1024; */
+  /* setrlimit(RLIMIT_FSIZE, &limit); */
 
-  limit.rlim_cur = limit.rlim_max = 16 * 1024 * 1024;
-  setrlimit(RLIMIT_DATA, &limit);
+  /* limit.rlim_cur = limit.rlim_max = 16 * 1024 * 1024; */
+  /* setrlimit(RLIMIT_DATA, &limit); */
 
 #ifdef SOLARIS
 #define RLIMIT_RSS RLIMIT_AS	/* Thor.981206: port for solaris 2.6 */
 #endif
 
-  setrlimit(RLIMIT_RSS, &limit);
+  /* setrlimit(RLIMIT_RSS, &limit); */
 
-  limit.rlim_cur = limit.rlim_max = 0;
-  setrlimit(RLIMIT_CORE, &limit);
+  /* limit.rlim_cur = limit.rlim_max = 0; */
+  /* setrlimit(RLIMIT_CORE, &limit); */
 #endif
 
   /* --------------------------------------------------- */
