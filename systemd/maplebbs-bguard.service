@@ -1,0 +1,20 @@
+[Unit]
+Description=MapleBBS Guardian Daemon (BGUARD)
+After=network.target maplebbs-init.service
+Requires=maplebbs-init.service
+PartOf=maplebbs.target
+
+[Service]
+Type=simple
+Environment=MAPLE_FOREGROUND=1
+User=bbs
+Group=bbs
+WorkingDirectory=/home/bbs
+ExecStart=/home/bbs/bin/bguard
+Restart=always
+RestartSec=5
+CapabilityBoundingSet=CAP_NET_BIND_SERVICE
+AmbientCapabilities=CAP_NET_BIND_SERVICE
+
+[Install]
+WantedBy=maplebbs.target

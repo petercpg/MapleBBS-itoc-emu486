@@ -1,0 +1,21 @@
+[Unit]
+Description=MapleBBS WebSocket Bridge
+After=network.target maplebbs-bbsd.service
+PartOf=maplebbs.target
+
+[Service]
+Type=exec
+User=bbs
+Group=bbs
+WorkingDirectory=/home/bbs/websocket
+# Support NVM: Load shell profile to get the correct node path
+# Alternatively, you can use the absolute path to node in the nvm folder
+ExecStart=/bin/bash -l -c 'node wsd.js'
+Restart=always
+RestartSec=5
+Environment=BBS_HOST=127.0.0.1
+Environment=BBS_PORT=23
+Environment=WS_PORT=8888
+
+[Install]
+WantedBy=maplebbs.target

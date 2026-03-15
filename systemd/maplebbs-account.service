@@ -1,0 +1,16 @@
+[Unit]
+Description=MapleBBS Account Maintenance (ACCOUNT)
+After=network.target maplebbs-init.service
+Requires=maplebbs-init.service
+PartOf=maplebbs.target
+
+[Service]
+Type=oneshot
+User=bbs
+Group=bbs
+WorkingDirectory=/home/bbs
+ExecStart=/home/bbs/bin/account
+RemainAfterExit=yes
+
+[Install]
+WantedBy=maplebbs.target

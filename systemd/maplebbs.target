@@ -1,0 +1,7 @@
+[Unit]
+Description=MapleBBS Full Service Suite
+Requires=maplebbs-init.service maplebbs-bbsd.service maplebbs-gemd.service maplebbs-bguard.service maplebbs-xchatd.service maplebbs-camera.service maplebbs-account.service
+After=maplebbs-init.service
+
+[Install]
+WantedBy=multi-user.target

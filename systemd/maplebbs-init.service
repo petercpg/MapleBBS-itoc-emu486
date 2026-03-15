@@ -1,0 +1,27 @@
+[Unit]
+Description=MapleBBS IPC Initialization and Cleanup
+After=network.target syslog.target
+PartOf=maplebbs.target
+
+[Service]
+Type=oneshot
+User=bbs
+Group=bbs
+WorkingDirectory=/home/bbs
+# Use '+' to run directory setup as root once, ensuring /home/bbs/run belongs to bbs
+ExecStartPre=+/usr/bin/mkdir -p /home/bbs/run
+ExecStartPre=+/usr/bin/chown -R bbs:bbs /home/bbs/run
+# Clean up orphaned IPC resources (as bbs)
+ExecStart=/bin/sh -c 'for id in $$(/usr/bin/ipcs -m | grep bbs | awk '\''{print $$2}'\''); do /usr/bin/ipcrm -m $$id 2>/dev/null; done; true'
+ExecStart=/bin/sh -c 'for id in $$(/usr/bin/ipcs -s | grep bbs | awk '\''{print $$2}'\''); do /usr/bin/ipcrm -s $$id 2>/dev/null; done; true'
+ExecStart=/bin/sh -c 'for id in $$(/usr/bin/ipcs -q | grep bbs | awk '\''{print $$2}'\''); do /usr/bin/ipcrm -q $$id 2>/dev/null; done; true'
+
+# Also clean up when the service stops (or restarts)
+ExecStopPost=/bin/sh -c 'for id in $$(/usr/bin/ipcs -m | grep bbs | awk '\''{print $$2}'\''); do /usr/bin/ipcrm -m $$id 2>/dev/null; done; true'
+ExecStopPost=/bin/sh -c 'for id in $$(/usr/bin/ipcs -s | grep bbs | awk '\''{print $$2}'\''); do /usr/bin/ipcrm -s $$id 2>/dev/null; done; true'
+ExecStopPost=/bin/sh -c 'for id in $$(/usr/bin/ipcs -q | grep bbs | awk '\''{print $$2}'\''); do /usr/bin/ipcrm -q $$id 2>/dev/null; done; true'
+
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
