@@ -6,26 +6,47 @@ This document explains how to set up and run the WebSocket interface for MapleBB
 
 The WebSocket interface is provided by a Node.js bridge (`websocket/wsd.js`) that:
 1. Listens for WebSocket connections on port 8888.
-2. Spawns a BBS process for each connection.
-3. Pipes data between the WebSocket and the BBS process.
+2. Connects to the local BBS Telnet service (port 23).
+3. Pipes data between the WebSocket and the Telnet session, passing the original client IP via the PROXY protocol.
 
 ## Prerequisites
 
 - Node.js (v24+ recommended)
 - `ws` library (`npm install ws`)
-- `script` command (usually available on Linux/BSD)
+
+## Configuration
+
+The bridge is configured via environment variables. If you are using Systemd, you should modify the service file:
+
+### Modifying Ports and IP
+1. Edit `/etc/systemd/system/maplebbs-ws.service`:
+   - `WS_PORT`: The port the WebSocket server listens on (default: `8888`).
+   - `BBS_HOST`: The IP of the BBS Telnet service (default: `127.0.0.1`).
+   - `BBS_PORT`: The port of the BBS Telnet service (default: `23`).
+2. Reload and restart:
+   ```bash
+   sudo systemctl daemon-reload
+   sudo systemctl restart maplebbs-ws
+   ```
 
 ## Running the WebSocket Bridge
 
-To set up and start the bridge:
-
+### Manual Start
 ```bash
 cd websocket
-npm install  # Install dependencies
-node wsd.js  # Start the bridge
+npm install
+node wsd.js
 ```
 
-You can change the port and the path to the BBS binary in `websocket/wsd.js`.
+### Systemd Service (Recommended)
+A service file is provided at `systemd/maplebbs-ws.service`. To install it:
+```bash
+# Edit the WorkingDirectory path in the file first!
+sudo cp systemd/maplebbs-ws.service /etc/systemd/system/
+sudo systemctl daemon-reload
+sudo systemctl enable maplebbs-ws
+sudo systemctl start maplebbs-ws
+```
 
 ## Nginx Configuration (WSS)
 

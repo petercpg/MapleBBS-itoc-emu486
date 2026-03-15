@@ -429,4 +429,12 @@ typedef int time32_t;
 #define BSEM_LEAVE      1	/* leave semaphore */
 #define BSEM_RESET	0	/* reset semaphore */
 
+/* ----------------------------------------------------- */
+/* WebSocket / Proxy Protocol                            */
+/* ----------------------------------------------------- */
+
+#define USE_PROXY_PROTOCOL     /* Enable PROXY v1 support for real IP transparency */
+                               /* Security: Only connections from localhost are allowed 
+                                  to use this protocol to prevent IP spoofing. */
+
 #endif				/* _CONFIG_H_ */
