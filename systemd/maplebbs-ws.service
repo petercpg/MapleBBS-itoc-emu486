@@ -7,7 +7,7 @@ PartOf=maplebbs.target
 Type=exec
 User=bbs
 Group=bbs
-WorkingDirectory=%h/src/websocket
+WorkingDirectory=/home/bbs/src/websocket
 # Support NVM: Load shell profile to get the correct node path
 # Alternatively, you can use the absolute path to node in the nvm folder
 ExecStart=/bin/bash -l -c 'node wsd.js'

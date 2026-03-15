@@ -8,8 +8,8 @@ PartOf=maplebbs.target
 Type=oneshot
 User=bbs
 Group=bbs
-WorkingDirectory=%h
-ExecStart=%h/bin/account
+WorkingDirectory=/home/bbs
+ExecStart=/home/bbs/bin/account
 RemainAfterExit=yes
 
 [Install]
