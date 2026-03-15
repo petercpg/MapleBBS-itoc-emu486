@@ -133,11 +133,12 @@ levelmsg(str, level)
 static void
 datemsg(str, chrono)
   char *str;
-  time_t *chrono;
+  time32_t chrono;
 {
   struct tm *t;
+  time_t val = chrono;
 
-  t = localtime(chrono);
+  t = localtime(&val);
   /* Thor.990329: y2k */
   sprintf(str, "%02d/%02d/%02d%3d:%02d:%02d ",
     t->tm_year % 100, t->tm_mon + 1, t->tm_mday,
@@ -348,7 +349,7 @@ report_eaddr_group()
 	  }
 	  close(fd);
 
-	  datemsg(buf, &acct.lastlogin);
+	  datemsg(buf, acct.lastlogin);
 	  fprintf(faddr, "%5d) %-13s%s[%d]\t%s\n", acct.userno, acct.userid, buf, acct.numlogins, acct.email);
 	}
       }
@@ -420,7 +421,7 @@ reaper(fpath, lowid)
 
   if (ulevel & (PERM_XEMPT | PERM_BM | PERM_ALLADMIN))	/* 有這些權限者不砍 */
   {
-    datemsg(buf, &acct.lastlogin);
+    datemsg(buf, acct.lastlogin);
     levelmsg(data, ulevel);
     fprintf(flst, "%5d) %-13s%s[%s] %d\n", userno, acct.userid, buf, data, login);
     manager++;
@@ -466,7 +467,7 @@ reaper(fpath, lowid)
         f_rm(fpath);
 
       userno_free(userno);
-      datemsg(buf, &acct.lastlogin);
+      datemsg(buf, acct.lastlogin);
       fprintf(flog, "%5d) %-13s%s%d\n", userno, acct.userid, buf, login);
       prune++;
     }
@@ -617,9 +618,9 @@ main()
 
   time(&end);
   /* # 開始時間：%s\n */
-  fprintf(flog, "# \xB6\x7D\xA9\x6C\xAE\xC9\xB6\xA1\xA1\x47%s\n", Btime(start));
+  fprintf(flog, "# \xB6\x7D\xA9\x6C\xAE\xC9\xB6\xA1\xA1\x47%s\n", Btime((time32_t)start));
   /* # 結束時間：%s\n */
-  fprintf(flog, "# \xB5\xB2\xA7\xF4\xAE\xC9\xB6\xA1\xA1\x47%s\n", Btime(end));
+  fprintf(flog, "# \xB5\xB2\xA7\xF4\xAE\xC9\xB6\xA1\xA1\x47%s\n", Btime((time32_t)end));
   end -= start;
   start = end % 60;
   end /= 60;

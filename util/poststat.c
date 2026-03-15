@@ -39,7 +39,7 @@ struct postrec
   char author[IDLEN + 1];	/* author name */
   char board[BNLEN + 1];	/* board name */
   char title[66];		/* title name */
-  time_t date;			/* last post's date */
+  time32_t date;			/* last post's date */
   int number;			/* post number */
   struct postrec *next;		/* next rec */
 }      *bucket[HASHSIZE];
@@ -97,7 +97,13 @@ search(t)
   else
   {
     s = (struct postrec *) malloc(sizeof(struct postrec));
-    memcpy(s, t, sizeof(POSTLOG));
+    /* 64-bit migration: Do not use memcpy(s, t, sizeof(POSTLOG)) because 
+       padding/alignment differences between structs cause data corruption. */
+    strcpy(s->author, t->author);
+    strcpy(s->board, t->board);
+    strcpy(s->title, t->title);
+    s->date = t->date;
+    s->number = t->number;
     s->next = NULL;
     if (q == NULL)
       bucket[i] = s;
@@ -122,7 +128,12 @@ sort(pp, count)
       for (j = count - 1; j >= i; j--)
 	memcpy(&top[j + 1], &top[j], sizeof(POSTLOG));
 
-      memcpy(&top[i], pp, sizeof(POSTLOG));
+      /* 64-bit migration: Explicitly assign fields as struct layout differs from POSTLOG */
+      strcpy(top[i].author, pp->author);
+      strcpy(top[i].board, pp->board);
+      strcpy(top[i].title, pp->title);
+      top[i].date = pp->date;
+      top[i].number = pp->number;
       break;
     }
   }
@@ -165,12 +176,20 @@ poststat(mytype)
     /* --------------------------------------- */
 
     unlink(FN_RUN_POST_OLD);
-    rename(FN_RUN_POST, FN_RUN_POST_OLD);
-    if (!(fp = fopen(FN_RUN_POST_OLD, "r")))
+    if (rename(FN_RUN_POST, FN_RUN_POST_OLD) < 0)
+    {
+      perror("rename run/post to run/var/post.old");
       return;
+    }
+    if (!(fp = fopen(FN_RUN_POST_OLD, "r")))
+    {
+      perror("fopen run/var/post.old");
+      return;
+    }
 
     if (!(fpw = fopen(FN_RUN_POST_AUTHOR, "a")))
     {
+      perror("fopen run/var/post.author");
       fclose(fp);
       return;
     }
@@ -199,7 +218,8 @@ poststat(mytype)
       sprintf(buf, "run/var/%s.%d", p, i);
       sprintf(curfile, "run/var/%s.%d", p, --i);
       load_stat(curfile);
-      rename(curfile, buf);
+      if (rename(curfile, buf) < 0)
+        perror("rename historical stat file");
     }
     mytype++;
   }
@@ -230,6 +250,10 @@ poststat(mytype)
     fwrite(top, sizeof(POSTLOG), j, fp);
     fclose(fp);
   }
+  else
+  {
+    perror("fopen curfile for writing");
+  }
 
   /* --------------------------------------------------- */
   /* report file : gem/@/@-				 */
@@ -249,7 +273,10 @@ poststat(mytype)
     for (i = cnt = 0; (cnt < max) && (i < j); i++)
     {
       tp = &top[i];
-      strcpy(buf, Btime((tp->date)));
+      {
+        time_t val = tp->date;
+        strcpy(buf, Btime((time32_t)val));
+      }
       buf[23] = '\0';
       fprintf(fp,
 	/* \033[1;31m%3d. \033[33m看板 : \033[32m%-16s\033[35m《%s》\033[36m%4d 篇\033[33m%+16s\n */
@@ -351,9 +378,16 @@ post_author()
   SplayNode *patop;
 
   unlink(FN_RUN_POST_OLD);
-  rename(FN_RUN_POST_AUTHOR, FN_RUN_POST_OLD);
-  if (!(fp = fopen(FN_RUN_POST_OLD, "r")))
+  if (rename(FN_RUN_POST_AUTHOR, FN_RUN_POST_OLD) < 0)
+  {
+    perror("rename run/var/post.author to run/var/post.old");
     return;
+  }
+  if (!(fp = fopen(FN_RUN_POST_OLD, "r")))
+  {
+    perror("fopen run/var/post.old");
+    return;
+  }
 
   paht = (PostAuthor **) calloc(sizeof(PostAuthor *), HASHSIZE);
 
@@ -443,7 +477,10 @@ main(argc, argv)
   time_t now;
   struct tm *ptime;
 
-  chdir(BBSHOME);
+  if (chdir(BBSHOME) < 0)
+  {
+    fprintf(stderr, "Failed to chdir to %s: %s\n", BBSHOME, strerror(errno));
+  }
   umask(077);
 
   if (argc == 2)
@@ -451,8 +488,10 @@ main(argc, argv)
     argc = atoi(argv[1]);
     if (argc == 100)
       post_author();
-    else
+    else if (argc >= 0 && argc < 4)
       poststat(argc);
+    else
+      fprintf(stderr, "Invalid parameter: %d. Use 0, 1, 2, 3 or 100.\n", argc);
     exit(0);
   }
 
